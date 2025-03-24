@@ -1,0 +1,38 @@
+typedef enum e_token
+{
+	CMD,
+	ARG,
+	PIPE,
+	RE_IN,
+	RE_OUT
+	//näitä tarvii varmaa lisää mut täs nää perus
+} t_token;
+
+typedef struct s_lex
+{
+	int				token;
+	int				start_index;
+	struct s_lexing	*next;
+}	t_lex;
+
+Tallennetaan tähän linked listiin tietoja (node per inputin elementti (eli tokeni)):
+- Eli onko:
+	CMD (esim: ls tai echo tms.)
+	ARG (esim -l tai "Hola! tms.")
+	PIPE
+	RE_IN (eli <)
+	RE_OUT (eli >)
+- Tokenin alotusindex
+
+Eli t_lex on linked list node, joka pitää sisällään tokenin alotusindexin, ja token tyypin.
+
++------------------+--------------------+-------------------+
+| Token Type       | Sisälmykset        | Indexi            |
++------------------+--------------------+-------------------+
+| CMD              | "echo"             | 0                 |
+| ARG              | "Hello World"      | 6                 |
+| RE_OUT           | ">"                | 19                |
+| FILE             | "output.txt"       | 21                |
++------------------+--------------------+-------------------+
+
+Tai sitten
