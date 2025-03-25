@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/25 11:56:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 14:24:39 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_list	*ft_lstnew(void *content)
 	element = malloc(sizeof(t_list));
 	if (!element)
 		return (NULL);
-	element->content = content;
+	element->value = content;
 	element->next = NULL;
 	return (element);
 }
@@ -58,9 +58,32 @@ static int	ft_add_node(t_list **list, char *content)
 	}
 	return (1);
 }
+
+static void	add_type(t_list **linked_list)
+{
+	t_list	*temp;
+
+	temp = *linked_list;
+	while (temp)
+	{
+		if (temp->value[0] == '|')
+			temp->type = PIPE;
+		else if (temp->value[0] == '<')
+			temp->type = RE_IN;
+		else if (temp->value[0] == '>')
+			temp->type = RE_OUT;
+		else if (temp->value[0] == '"' || temp->value[0] == '\'')
+			temp->type = ARG;
+		else
+			temp->type = CMD;
+		temp = temp->next;
+	}
+}
+
 //makes a linked list, input must be array of strings
 int	ft_make_list(t_list **linked_list, char **content)
 {
+	t_list	*temp;
 	//char	*parsed_str; <- maybe this could be the cleaned up *content, to input as a second argument to ft_add_node
 
 	while (*content)
@@ -68,8 +91,15 @@ int	ft_make_list(t_list **linked_list, char **content)
 		//maybe parse the content per node here?
 		if (!ft_add_node(linked_list, *content))
 			return (0);
+		add_type(linked_list);
 		//maybe add the type of the token here?
 		content++;
+	}
+	temp = *linked_list;
+	while (temp)
+	{
+		printf("value: %s, type: %d\n", temp->value, temp->type);
+		temp = temp->next;
 	}
 	return (1);
 }

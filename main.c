@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/25 11:50:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 14:25:04 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	make_list(t_data *data)
 {
-	data->new_str_arr = ft_split(data->str, ' ');
+	data->new_str_arr = ft_special_split(data->str, ' ');
 	if (!ft_make_list(data->linked_list, data->new_str_arr))
 	{
 		printf("MALLOC!\n");

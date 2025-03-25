@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_special_split.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/07 09:40:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 14:08:07 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,46 @@ static char	**free_malloc(char **array_of_strings, int y)
 
 static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 {
-	int	i;
-	int	j;
-	int	y;
+	int		i;
+	int		j;
+	int		y;
+	int		in_quote;
+	char	quote;
 
 	i = 0;
 	y = 0;
+	in_quote = 0;
 	while (s[i])
 	{
 		while (s[i] == c)
 			i++;
 		if (!s[i])
 			break ;
+		if (s[i] == '"' || s[i] == '\'')
+		{
+			quote = s[i];
+			in_quote = 1;
+		}
 		j = i;
-		while (s[i] && s[i] != c)
+		if (in_quote)
+		{
 			i++;
+			while (s[i])
+			{
+				if (s[i] == quote)
+				{
+					i++;
+					break ;
+				}
+				i++;
+			}
+			in_quote = 0;
+		}
+		else
+		{
+			while (s[i] && s[i] != c)
+				i++;
+		}
 		array_of_strings[y] = ft_substr(s, j, i - j);
 		if (!array_of_strings[y])
 		{
@@ -73,7 +98,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 	return (array_of_strings);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_special_split(char const *s, char c)
 {
 	char	**array_of_strings;
 	int		amount_of_strings;
