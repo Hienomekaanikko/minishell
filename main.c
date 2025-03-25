@@ -1,30 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
+/*   Updated: 2025/03/25 11:50:35 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-//just a simple main to get building stuff!
-
-int main(int argc, char **argv, char **envp)
+static int	make_list(t_data *data)
 {
-	char	*input;
+	data->new_str_arr = ft_split(data->str, ' ');
+	if (!ft_make_list(data->linked_list, data->new_str_arr))
+	{
+		printf("MALLOC!\n");
+		return (0);
+	}
+	return (1);
+}
+
+static void init_data(t_data *data)
+{
+	data->linked_list = malloc(sizeof(t_list *));
+	if (!data->linked_list)
+	{
+		printf("MALLOC\n");
+		return;
+	}
+	*data->linked_list = NULL;
+}
+
+int	main(int argc, char **argv, char **envp)
+{
 	t_data	data;
 
+	init_data(&data);
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
 	(void)envp; //need this later for finding command paths etc.
 	while (1)
 	{
-		input = readline("minishell$ ");
-		if (input == NULL)
+		data.str = readline("minishell$ ");
+		if (data.str == NULL)
 			break;
-		if (ft_strncmp(input, "exit", 4) == 0)
+		if (ft_strncmp(data.str, "exit", 4) == 0)
+			break;
+		if (!make_list(&data))
 		{
-			free(input);
-			break;
+			printf("MALLOC!\n");
+			return (1);
 		}
-		data.input = &input;
-
 		// replace this with the lexing, parsing etc.
-		printf("input: %s\n", *data.input);
-		free(input);
 	}
 	return (0);
 }

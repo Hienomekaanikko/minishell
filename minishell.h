@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
+/*   Updated: 2025/03/25 11:49:14 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -8,19 +20,31 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_lexing
+typedef enum e_token
 {
-	int				token;
-	int				i_split;
-	struct s_lexing	*next;
-}	t_lexing;
+	CMD,
+	ARG,
+	PIPE,
+	RE_IN,
+	RE_OUT
+	//näitä tarvii varmaa lisää mut täs nää perus
+} t_token;
+
+typedef struct s_list
+{
+	char			*content;
+	t_token			token;
+	struct s_list	*next;
+}	t_list;
 
 typedef struct s_data
 {
-	char	**input;
-	char	**new_str;
+	char	*str;
+	char	**new_str_arr;
+	t_list	**linked_list;
 	int		exit_status;
 }	t_data;
 
-#endif
+int	ft_make_list(t_list **a, char **content);
 
+#endif
