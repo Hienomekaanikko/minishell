@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/25 16:39:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:46:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,18 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	init_data(&data);
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
 	(void)envp; //need this later for finding command paths etc.
 	while (1)
 	{
+		init_data(&data);
 		rl_on_new_line();
 		data.str = readline("minishell$ ");
 		if (data.str == NULL)
 			break;
 		if (ft_strncmp(data.str, "exit", 4) == 0)
 			break;
-		add_history(data.str);
 		if (!ft_lexer(&data))
 		{
 			printf("MALLOC!\n");
