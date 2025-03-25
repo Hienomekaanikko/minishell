@@ -6,17 +6,17 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/25 14:24:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:39:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_list	*ft_lstnew(void *content)
+static t_lexer	*ft_lstnew(void *content)
 {
-	t_list	*element;
+	t_lexer	*element;
 
-	element = malloc(sizeof(t_list));
+	element = malloc(sizeof(t_lexer));
 	if (!element)
 		return (NULL);
 	element->value = content;
@@ -24,10 +24,10 @@ static t_list	*ft_lstnew(void *content)
 	return (element);
 }
 
-static int	ft_add_node(t_list **list, char *content)
+static int	ft_add_node(t_lexer **list, char *content)
 {
-	t_list		*new_node;
-	t_list		*temp;
+	t_lexer		*new_node;
+	t_lexer		*temp;
 	char		*content_copy;
 	int			i;
 
@@ -59,42 +59,48 @@ static int	ft_add_node(t_list **list, char *content)
 	return (1);
 }
 
-static void	add_type(t_list **linked_list)
+//add the type of token to the node 'type', according to the enum struct.
+static void	add_token_type(t_lexer **linked_list)
 {
-	t_list	*temp;
+	t_lexer	*curr;
+	t_lexer	*prev;
 
-	temp = *linked_list;
-	while (temp)
+	curr = *linked_list;
+	prev = curr;
+	prev->type = EMPTY;
+	while (curr)
 	{
-		if (temp->value[0] == '|')
-			temp->type = PIPE;
-		else if (temp->value[0] == '<')
-			temp->type = RE_IN;
-		else if (temp->value[0] == '>')
-			temp->type = RE_OUT;
-		else if (temp->value[0] == '"' || temp->value[0] == '\'')
-			temp->type = ARG;
-		else
-			temp->type = CMD;
-		temp = temp->next;
+		if (prev->type == EMPTY)
+			curr->type = CMD;
+		else if (curr->value[0] == '|')
+			curr->type = PIPE;
+		else if (curr->value[0] == '<')
+			curr->type = RE_IN;
+		else if (curr->value[0] == '>')
+			curr->type = RE_OUT;
+		else if (prev->type == PIPE)
+			curr->type = CMD;
+		else if (prev->type == RE_IN || prev->type == RE_OUT)
+			curr->type = ARG;
+		else if (prev->type == CMD || prev->type == ARG)
+			curr->type = ARG;
+		prev = curr;
+		curr = curr->next;
 	}
 }
 
-//makes a linked list, input must be array of strings
-int	ft_make_list(t_list **linked_list, char **content)
+//makes a linked list, input must be array of strings (currently made with the special split that can handle " and ')
+int	ft_make_list(t_lexer **linked_list, char **content)
 {
-	t_list	*temp;
-	//char	*parsed_str; <- maybe this could be the cleaned up *content, to input as a second argument to ft_add_node
-
 	while (*content)
 	{
-		//maybe parse the content per node here?
 		if (!ft_add_node(linked_list, *content))
 			return (0);
-		add_type(linked_list);
-		//maybe add the type of the token here?
+		add_token_type(linked_list);
 		content++;
 	}
+	// for testing to see what is inside each node:
+	t_lexer	*temp;
 	temp = *linked_list;
 	while (temp)
 	{

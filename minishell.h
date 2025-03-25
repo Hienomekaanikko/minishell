@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/03/25 14:25:00 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:34:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,34 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+//token tyypit
 typedef enum e_token
 {
+	EMPTY,
 	CMD,
 	ARG,
 	PIPE,
 	RE_IN,
 	RE_OUT
-	//näitä tarvii varmaa lisää mut täs nää perus
+	//näitä tarvii varmaa lisää mut täs nää perushommat
 } t_token;
 
-typedef struct s_list
+//linked list structure
+typedef struct s_lexer
 {
 	char			*value;
 	t_token			type;
-	struct s_list	*next;
-}	t_list;
+	struct s_lexer	*next;
+}	t_lexer;
 
+//structure for the main data stuff
 typedef struct s_data
 {
 	char	*str;
 	char	**new_str_arr;
-	t_list	**linked_list;
+	t_lexer	**lexed_list;
 }	t_data;
 
-int	ft_make_list(t_list **a, char **content);
+int	ft_make_list(t_lexer **a, char **content);
 
 #endif
