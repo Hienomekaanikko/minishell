@@ -70,4 +70,35 @@ Redirect *create_redirection(const char *operator, const char *target) {
     return redirect;
 }
 
+int main() {
+    // Create arguments for "cat"
+    char *cat_args[] = {"file.txt", NULL};
+
+    // Create the "cat" command node
+    ASTNode *cat_node = create_command_node("cat", cat_args, 1, NULL);
+
+    // Create arguments for "grep"
+    char *grep_args[] = {"hello", NULL};
+
+    // Create redirection for "grep"
+    Redirect *grep_redirect = create_redirection(">", "output.txt");
+
+    // Create the "grep" command node with redirection
+    ASTNode *grep_node = create_command_node("grep", grep_args, 1, grep_redirect);
+
+    // Create the pipeline connecting "cat" and "grep"
+    ASTNode *pipeline_node = create_pipeline_node(cat_node, grep_node);
+
+    // Print structure (for demonstration)
+    printf("Pipeline:\n");
+    printf("  Left: %s %s\n", pipeline_node->data.pipeline.left->data.command.name,
+           pipeline_node->data.pipeline.left->data.command.arguments[0]);
+    printf("  Right: %s %s > %s\n", pipeline_node->data.pipeline.right->data.command.name,
+           pipeline_node->data.pipeline.right->data.command.arguments[0],
+           pipeline_node->data.pipeline.right->data.command.redirect->target);
+
+    return 0;
+}
+
+
 // Function to free the AST (not shown here for brevity)
