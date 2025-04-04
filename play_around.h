@@ -101,4 +101,42 @@ int main() {
 }
 
 
-// Function to free the AST (not shown here for brevity)
+// PROPER EXAMPLE OF SIMPLE AST
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Node {
+    char *value;
+    struct Node *left;
+    struct Node *right;
+} Node;
+
+Node* createNode(char *value) {
+    Node *newNode = (Node*)malloc(sizeof(Node));
+    newNode->value = strdup(value);
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+void printAST(Node *node, int level) {
+    if (node == NULL) return;
+    printAST(node->right, level + 1);
+    for (int i = 0; i < level; i++) printf("    ");
+    printf("%s\n", node->value);
+    printAST(node->left, level + 1);
+}
+
+int main() {
+    Node *root = createNode("root");
+    root->left = createNode("left");
+    root->right = createNode("right");
+    root->left->left = createNode("left.left");
+    root->left->right = createNode("left.right");
+
+    printf("Abstract Syntax Tree:\n");
+    printAST(root, 0);
+    return 0;
+}
