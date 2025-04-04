@@ -1,0 +1,75 @@
+
+
+
+priority order:
+
+1. < > << >>
+2. |
+3. && or ||
+
+echo "hello"
+
+    echo
+      |
+   "hello"
+
+ls | grep foo
+
+        |
+       / \
+     ls   grep
+            |
+           foo
+
+grep foo > output.txt
+
+         >
+        / \
+     grep output.txt
+       |
+      foo
+
+ls | grep foo > result.txt
+
+         >
+        / \
+       |  result.txt
+      / \
+    ls   grep
+          |
+         foo
+
+(echo "foo" && echo "bar") > output.txt
+
+         >
+        / \
+      &&  output.txt
+     /  \
+  echo   echo
+    |      |
+ "foo"   "bar"
+
+ls -l | wc -l > output.txt | cat > final.txt
+
+              >
+             / \
+           |   final.txt
+          / \
+         >   cat
+        / \
+       |  output.txt
+      / \
+    ls   wc
+     |    |
+    -l   -l
+
+mkdir test && cd test || echo "failed"
+
+          ||
+         /  \
+       &&   echo
+      /  \     |
+ mkdir  cd   "failed"
+       |
+     test
+

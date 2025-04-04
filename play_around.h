@@ -148,53 +148,52 @@ int main() {
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Node {
-    char *value;
-    struct Node *left;
-    struct Node *right;
+typedef struct Node
+{
+	char *value;
+	struct Node *left;
+	struct Node *right;
 } Node;
 
 Node* createNode(char *value) {
-    Node *newNode = (Node*)malloc(sizeof(Node));
-    newNode->value = strdup(value);
-    newNode->left = NULL;
-    newNode->right = NULL;
-    return newNode;
+	Node *newNode = (Node*)malloc(sizeof(Node));
+	newNode->value = strdup(value);
+	newNode->left = NULL;
+	newNode->right = NULL;
+	return (newNode);
 }
 
 // Manually construct an AST for testing
-Node* createTestAST() {
-    // Example: ls | grep foo > output.txt
-    Node *pipeNode = createNode("|");               // Root: Pipe operator
-    pipeNode->left = createNode("ls");              // Left child: ls command
+Node* createTestAST()
+{
+	// Example: ls | grep foo > output.txt
+	Node *pipeNode = createNode("|");               // Root: Pipe operator
+	pipeNode->left = createNode("ls");              // Left child: ls command
 
-    Node *redirectNode = createNode(">");           // Right child: Redirection operator
-    redirectNode->left = createNode("grep");        // Left child of redirection: grep command
-    redirectNode->left->left = createNode("foo");   // Argument to grep: foo
-    redirectNode->right = createNode("output.txt"); // Target file for redirection
-
-    pipeNode->right = redirectNode;                // Attach redirection node to pipe
-
-    return pipeNode;                               // Return root of the tree
+	Node *redirectNode = createNode(">");           // Right child: Redirection operator
+	redirectNode->left = createNode("grep");        // Left child of redirection: grep command
+	redirectNode->left->left = createNode("foo");   // Argument to grep: foo
+	redirectNode->right = createNode("output.txt"); // Target file for redirection
+	pipeNode->right = redirectNode;                // Attach redirection node to pipe
+	return (pipeNode);                               // Return root of the tree
 }
 
-void printAST(Node *node, int level) {
-    if (node == NULL) return;
-    printAST(node->right, level + 1);
-    for (int i = 0; i < level; i++) printf("    ");
-    printf("%s\n", node->value);
-    printAST(node->left, level + 1);
+void printAST(Node *node, int level)
+{
+	if (node == NULL) return;
+	printAST(node->right, level + 1);
+	for (int i = 0; i < level; i++) printf("    ");
+	printf("%s\n", node->value);
+	printAST(node->left, level + 1);
 }
 
-int main() {
-    printf("Testing manually constructed AST:\n");
-
-    Node *testAST = createTestAST();  // Create a test AST manually
-    printAST(testAST, 0);            // Print the tree structure
-
+int main()
+{
+	printf("Testing manually constructed AST:\n");
+	Node *testAST = createTestAST();
+	printAST(testAST, 0);
     // Pass this testAST to your teammate's execution function
     // executeAST(testAST);
-
     return 0;
 }
 
