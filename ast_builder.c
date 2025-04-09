@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/09 15:29:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:12:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	set_pipe_tree(t_lexer **current, t_ast **node)
 	t_ast	*new_node;
 	t_lexer	*lexer_temp;
 
-	if (*node == NULL)
+	if (!(*node))
 		*node = create_node("|", PIPE);
 	lexer_temp = *current;
 	curr_node = *node;
@@ -93,14 +93,32 @@ void print_ast(t_ast *node, int level)
 		print_ast(node->right, level + 1);
 }
 
+int	count_pipes(t_data *data)
+{
+	int		i;
+	t_lexer	*temp;
+
+	i = 0;
+	temp = *data->lexed_list;
+	while (temp)
+	{
+		if (temp->type == PIPE)
+			i++;
+		temp = temp->next;
+	}
+	return (i);
+}
+
 
 void	make_ast(t_data *data)
 {
 	t_ast	*root;
 	t_lexer	*current;
+	int		pipe_count;
 
 	root = NULL;
 	current = *data->lexed_list;
+	pipe_count = count_pipes(data);
 	set_pipe_tree(&current, &root);
 	print_ast(root, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/09 14:13:43 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/09 15:50:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_lexer
 {
 	char			*value;
 	t_token			type;
-	int				pipe_nbr;
 	struct s_lexer	*next;
 }	t_lexer;
 
