@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/04 14:02:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/09 13:00:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("MALLOC!\n");
 			return (1);
 		}
+		make_ast(&data);
 		// replace this with the lexing, parsing etc.
 	}
 	return (0);

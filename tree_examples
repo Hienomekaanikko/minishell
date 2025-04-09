@@ -73,3 +73,27 @@ mkdir test && cd test || echo "failed"
        |
      test
 
+ls -l | grep foo | echo "hello
+
+        |
+       / \
+     ls  grep
+    /      \
+  -l      foo
+             \
+              |
+               \
+               echo
+                |
+              "hello"
+
+
+cmd1 | cmd2 | cmd3 | cmd4
+
+          PIPE
+         /    \
+      PIPE     cmd4
+     /    \
+  PIPE     cmd3
+ /    \
+cmd1   cmd2
