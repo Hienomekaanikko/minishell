@@ -70,28 +70,36 @@ void	set_pipe_tree(t_lexer **current, t_ast **node)
 	}
 }
 
-void print_ast(t_ast *node, int level)
+void print_ast(t_ast *node, int indent)
 {
-	int	i;
+    if (node == NULL)
+        return;
 
-	i = 0;
-	if (node == NULL)
-		return;
+    // Print the current node value
+    for (int i = 0; i < indent; i++)
+        printf("   "); // Indentation for tree structure
+    printf("%s\n", node->value);
 
-	// Print spaces to indicate the depth level
-	while (i < level)
-	{
-		printf("	");
-		i++;
-	}
-	// Print the current node's value
-	printf("%s\n", node->value);
-	// Recursively print left and right children
-	if (node->left)
-		print_ast(node->left, level + 1);
-	if (node->right)
-		print_ast(node->right, level + 1);
+    // Print left subtree (command or pipe)
+    if (node->left)
+    {
+        for (int i = 0; i < indent; i++)
+            printf("   ");
+        printf("Left:\n");
+        print_ast(node->left, indent + 1);
+    }
+
+    // Print right subtree (command or pipe)
+    if (node->right)
+    {
+        for (int i = 0; i < indent; i++)
+            printf("   ");
+        printf("Right:\n");
+        print_ast(node->right, indent + 1);
+    }
 }
+
+
 
 int	count_pipes(t_data *data)
 {
@@ -114,11 +122,9 @@ void	make_ast(t_data *data)
 {
 	t_ast	*root;
 	t_lexer	*current;
-	int		pipe_count;
 
 	root = NULL;
 	current = *data->lexed_list;
-	pipe_count = count_pipes(data);
 	set_pipe_tree(&current, &root);
 	print_ast(root, 0);
 }
