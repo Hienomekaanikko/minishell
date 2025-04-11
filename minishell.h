@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/10 13:18:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 11:22:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ typedef enum e_token
 	ARG,
 	PIPE,
 	RE_IN,
-	RE_OUT
+	RE_OUT,
+	HERE_DOC,
+	APPEND_OUT
 	//näitä tarvii varmaa lisää mut täs nää perushommat
 } t_token;
 

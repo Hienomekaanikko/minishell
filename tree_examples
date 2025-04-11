@@ -97,3 +97,10 @@ cmd1 | cmd2 | cmd3 | cmd4
   PIPE     cmd3
  /    \
 cmd1   cmd2
+
+
+      PIPE
+     /    \
+   <<     ls
+ /    \
+cmd1   EOF
