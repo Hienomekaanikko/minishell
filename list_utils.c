@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/11 10:24:57 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 11:30:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,17 @@ static void	add_token_type(t_lexer **linked_list)
 			curr->type = CMD;
 		else if (curr->value[0] == '|')
 			curr->type = PIPE;
+		else if (curr->value[0] == '<' && curr->value[1] == '<')
+			curr->type = HERE_DOC;
 		else if (curr->value[0] == '<')
 			curr->type = RE_IN;
+		else if (curr->value[0] == '>' && curr->value[1] == '>')
+			curr->type = APPEND_OUT;
 		else if (curr->value[0] == '>')
 			curr->type = RE_OUT;
 		else if (prev->type == PIPE)
 			curr->type = CMD;
-		else if (prev->type == RE_IN || prev->type == RE_OUT)
+		else if (prev->type == RE_IN || prev->type == RE_OUT || prev->type == HERE_DOC || prev->type == APPEND_OUT)
 			curr->type = ARG;
 		else if (prev->type == CMD || prev->type == ARG)
 			curr->type = ARG;
