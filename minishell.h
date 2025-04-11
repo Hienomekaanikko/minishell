@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/11 11:22:31 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:30:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct	s_ast
 	t_token			type;
 	char			*cmd;
 	char			**args;
-	char			env;
+	char			**env;
 	char			*infile;
 	char			*outfile;
 	struct s_ast	*left;
@@ -58,12 +58,13 @@ typedef struct	s_ast
 //structure for the main data stuff
 typedef struct s_data
 {
-	char	*input;
 	t_lexer	**lexed_list;
 	t_ast	*root;
+	char	**temp_array;
+	char	*input;
 }	t_data;
 
-int		ft_make_list(t_lexer **a, char **content);
+int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
 
