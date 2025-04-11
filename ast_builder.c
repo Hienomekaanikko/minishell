@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/11 10:38:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 11:36:04 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	set_complex_tree(t_data *data)
 			}
 			data->root = new_node;
 		}
-		else if (current->type == RE_OUT && data->root == NULL)
+		else if ((current->type == RE_OUT || current->type == RE_IN || current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
 		{
 			data->root = create_node(current->value, current->type);
 			current = current->next;
@@ -107,7 +107,7 @@ void	set_complex_tree(t_data *data)
 					add_arguments(data->root->right, current->next);
 			}
 		}
-		else if (current->type == RE_OUT && data->root != NULL)
+		else if ((current->type == RE_OUT || current->type == RE_IN || current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
 		{
 			new_node = create_node(current->value, current->type);
 			new_node->left = data->root;
