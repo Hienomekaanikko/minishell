@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/11 11:36:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:36:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 	free(temp_str);
 }
 
+void	add_right_child(t_ast **position, t_lexer *current)
+{
+	*position = create_node(current->value, current->type);
+	if (current->next && current->next->type == ARG)
+		add_arguments(*position, current->next);
+}
+
+void	add_left_child(t_ast **position, t_lexer *prev_cmd)
+{
+	*position = create_node(prev_cmd->value, prev_cmd->type);
+	if (*position && prev_cmd->next->type == ARG)
+		add_arguments(*position, prev_cmd->next);
+}
+
 void	set_complex_tree(t_data *data)
 {
 	t_lexer	*current;
@@ -64,17 +78,11 @@ void	set_complex_tree(t_data *data)
 			current = current->next;
 			if (prev_cmd != NULL)
 			{
-				data->root->left = create_node(prev_cmd->value, prev_cmd->type);
-				if (data->root->left && prev_cmd->next->type == ARG)
-					add_arguments(data->root->left, prev_cmd->next);
+				add_left_child(&data->root->left, prev_cmd);
 				prev_cmd = NULL;
 			}
 			if (current->type == CMD)
-			{
-				data->root->right = create_node(current->value, current->type);
-				if (current->next && current->next->type == ARG)
-					add_arguments(data->root->right, current->next);
-			}
+				add_right_child(&data->root->right, current);
 		}
 		else if (current->type == PIPE && data->root != NULL)
 		{
@@ -82,11 +90,7 @@ void	set_complex_tree(t_data *data)
 			new_node->left = data->root;
 			current = current->next;
 			if (current->type == CMD)
-			{
-				new_node->right = create_node(current->value, current->type);
-				if (current->next && current->next->type == ARG)
-					add_arguments(new_node->right, current->next);
-			}
+				add_right_child(&new_node->right, current);
 			data->root = new_node;
 		}
 		else if ((current->type == RE_OUT || current->type == RE_IN || current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
@@ -95,17 +99,11 @@ void	set_complex_tree(t_data *data)
 			current = current->next;
 			if (prev_cmd != NULL)
 			{
-				data->root->left = create_node(prev_cmd->value, prev_cmd->type);
-				if (data->root->left && prev_cmd->next->type == ARG)
-					add_arguments(data->root->left, prev_cmd->next);
+				add_left_child(&data->root->left, prev_cmd);
 				prev_cmd = NULL;
 			}
 			if (current->type == ARG)
-			{
-				data->root->right = create_node(current->value, current->type);
-				if (current->next && current->next->type == ARG)
-					add_arguments(data->root->right, current->next);
-			}
+				add_right_child(&data->root->right, current);
 		}
 		else if ((current->type == RE_OUT || current->type == RE_IN || current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
 		{
@@ -113,11 +111,7 @@ void	set_complex_tree(t_data *data)
 			new_node->left = data->root;
 			current = current->next;
 			if (current->type == ARG)
-			{
-				new_node->right = create_node(current->value, current->type);
-				if (current->next && current->next->type == ARG)
-					add_arguments(new_node->right, current->next);
-			}
+				add_right_child(&new_node->right, current);
 			data->root = new_node;
 		}
 		if (current)
