@@ -1,0 +1,4 @@
+ps aux | grep minishell	- see process states
+strace ./minishell 		- trace system calls
+lsof -p <pid>			- check open files
+pstree					- see process hierarchy

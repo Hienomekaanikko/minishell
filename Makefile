@@ -5,7 +5,7 @@ LIBS	= ${LIBFT}/libft.a
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
-SRC = main.c list_utils.c ast_builder.c TEST_stuff.c
+SRC = main.c list_utils.c ast_builder.c TEST_stuff.c execution.c builtins.c
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)
@@ -29,4 +29,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined -Wunused -Wunreachable-code
+debug: all
+
+.PHONY: all clean fclean re debug

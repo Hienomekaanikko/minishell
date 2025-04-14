@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 11:14:22 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:30:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "expansions.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+#define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
 //token types
 typedef enum e_token
@@ -56,6 +57,15 @@ typedef struct	s_ast
 	struct s_ast	*right;
 } t_ast;
 
+typedef struct s_exec_status
+{
+	int			exit_code;		// return status, 0 = success, non-zero = failure
+	int			signal;			//0 for built-ins
+	char		*error_msg;		//Error message or NULL = success
+	pid_t		pid;			 //0 for built-ins
+//	void		(*cleanup)(void*); // Cleanup function? need to research more
+} t_exec_status;
+
 //structure for the main data stuff
 typedef struct s_data
 {
@@ -68,5 +78,13 @@ typedef struct s_data
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
+int		execute_command(t_ast *node, char **env); //MB, ajetaan niitä commandeja
+//builtins
+void	builtin_echo();
+void	builtin_cd();
+void	builtin_pwd();
+void	builtin_export();
+void	builtin_unset();
+void	builtin_env();
 
 #endif

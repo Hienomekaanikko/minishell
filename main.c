@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 10:12:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/11 14:03:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
-	(void)envp; //need this later for finding command paths etc.
 	while (1)
 	{
 		init_data(&data);
@@ -53,6 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			make_tree(&data);
 		// replace this with the lexing, parsing etc.
+		execute_command(data.root, envp);
 	}
 	return (0);
 }
