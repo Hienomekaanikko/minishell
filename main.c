@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 10:12:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:08:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ static int	ft_lexer(t_data *data)
 
 static void init_data(t_data *data)
 {
+	data->root = NULL;
 	data->lexed_list = malloc(sizeof(t_lexer *));
+	data->exp_map = NULL;
 	if (!data->lexed_list)
 	{
 		printf("MALLOC\n");
@@ -30,29 +32,45 @@ static void init_data(t_data *data)
 	}
 	*data->lexed_list = NULL;
 }
-//perus maini toistaseks etta voidaan rakennella
 
+static int	is_var_declaration(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (i > 0 && input[i] == '=' && (ft_isalnum(input[i - 1]) || input[i - 1] == '$'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+//apr15 run through list before the lexer to find $, and if there is any, replace it with the data that comes from the hashmap
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
-	(void)envp; //need this later for finding command paths etc.
 	while (1)
 	{
 		init_data(&data);
 		rl_on_new_line();
 		data.input = readline("minishell$: ");
 		if (data.input == NULL)
-			break;
+			continue;
 		if (ft_strncmp(data.input, "exit", 4) == 0)
 			break;
-		if (!ft_lexer(&data))
+		if (is_var_declaration(data.input))
+			add_var_declaration(&data);
+		else if (!ft_lexer(&data))
 			continue ;
 		else
 			make_tree(&data);
-		// replace this with the lexing, parsing etc.
+		if (data.root)
+			execute_command(data.root, envp);
 	}
 	return (0);
 }

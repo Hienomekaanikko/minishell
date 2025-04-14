@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 11:43:08 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:10:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,30 +139,53 @@ void	free_hashmap(t_hashmap *hashmap)
 	free(hashmap);
 }
 
-void	handle_expansion(t_data *data, t_hashmap *hashmap) //OR likely better to save the hashmap inside data structure.
+//add variable declaration to hashmap so that its easy to find
+void	add_var_declaration(t_data *data)
 {
-	//when variables are declared in the program like name="mikko", save the stuff inside the hashmap.
-	//then there will be access into that all the way through the program if $name is called.
-	//so if '$' inside the input, fetch it via "lookup" when excecuting the program
+	int		i;
+	int		j;
+	char	*key;
+	char	*value;
+
+	i = 0;
+	j = 0;
+	key = ft_strdup("");
+	value = ft_strdup("");
+	if (!data->exp_map)
+		data->exp_map = create_hashmap(1);
+	while (data->input[i] && data->input[i] != '=')
+		i++;
+	ft_strlcpy(key, data->input, i + 1);
+	printf("key: %s\n", key);
+	j = i;
+	i = 0;
+	while (data->input[i])
+		i++;
+	ft_strlcpy(value, data->input + j + 1, i);
+	printf("value: %s\n", value);
+	insert(data->exp_map, key, value);
+	printf("found %s\n", lookup(data->exp_map, key));
+	free(key);
+	free(value);
 }
 
-int main()
-{
-	// Create a new hashmap with an initial size of 4
-	t_hashmap *hashmap = create_hashmap(4);
+// int main()
+// {
+// 	// Create a new hashmap with an initial size of 4
+// 	t_hashmap *hashmap = create_hashmap(4);
 
-	// Insert some key-value pairs
-	insert(hashmap, "name", "Mikko");
-	insert(hashmap, "age", "31");
-	insert(hashmap, "school", "hive");
+// 	// Insert some key-value pairs
+// 	insert(hashmap, "name", "Mikko");
+// 	insert(hashmap, "age", "31");
+// 	insert(hashmap, "school", "hive");
 
-	// Lookup some values
-	printf("name = %s\n", lookup(hashmap, "name"));  // Should print "tree = three"
-	printf("age = %s\n", lookup(hashmap, "age"));  // Should print "apple = fruit"
-	printf("school = %s\n", lookup(hashmap, "school"));  // Should print "car = vehicle"
+// 	// Lookup some values
+// 	printf("name = %s\n", lookup(hashmap, "name"));  // Should print "tree = three"
+// 	printf("age = %s\n", lookup(hashmap, "age"));  // Should print "apple = fruit"
+// 	printf("school = %s\n", lookup(hashmap, "school"));  // Should print "car = vehicle"
 
-	// Clean up memory
-	free_hashmap(hashmap);
+// 	// Clean up memory
+// 	free_hashmap(hashmap);
 
-	return 0;
-}
+// 	return 0;
+// }

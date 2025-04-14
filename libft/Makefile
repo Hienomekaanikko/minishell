@@ -28,6 +28,7 @@ SRC = ft_calloc.c \
 			ft_strmapi.c \
 			ft_substr.c \
 			ft_strjoin.c \
+			ft_strlcpy.c \
 			ft_strtrim.c \
 			ft_putendl_fd.c \
 			ft_split.c \

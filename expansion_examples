@@ -1,20 +1,27 @@
-#!/bin/bash
+🔹 $ can indicate variable expansion:
 
-name="Sam"
-day=$(date +%A)
-count=5
-files=(report1.txt report2.txt report3.txt)
-pid=$$
+name="world"
+echo "Hello, $name"  # → Hello, world
+🔹 $() is for command substitution:
+This is one of the most powerful uses of $!
 
-echo "Hi $name, today is $day."
-echo "There are $count files to process."
-echo "The files are: ${files[*]}"
-echo "The first file is: ${files[0]}"
-echo "Script is running with PID: $pid"
-echo "2 + 3 = $((2 + 3))"
-echo "Length of your name is ${#name} characters."
-echo "Default value test (unset var): ${not_set:-default_value}"
-echo "This won't expand: '\$name'"
+date_output=$(date)
+echo "Current date is: $date_output"
+Or inline:
 
-last_cmd_status=$?
-echo "Exit status of last command: $last_cmd_status"
+echo "Today is $(date +%A)"
+That runs the command inside $(...) and substitutes the output into the line.
+
+🔹 $ can also be part of positional parameters and special variables:
+$1, $2, etc. → script arguments
+
+$# → number of arguments
+
+$? → exit status of last command
+
+$$ → PID of the script
+
+$! → PID of the last backgrounded process
+
+🔹 $ can be used with arithmetic expansion:
+echo $((2 + 3))  # → 5
