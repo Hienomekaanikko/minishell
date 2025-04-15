@@ -80,11 +80,11 @@ void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
 void    execute_command(t_ast *node, char **env, t_exec_status *exec_status); //MB, ajetaan niitä commandeja
 //builtins
-int	builtin_echo(char **args);
-int	builtin_cd();
-int	builtin_pwd();
-int	builtin_export();
-int	builtin_unset();
-int	builtin_env();
+int		builtin_echo(char **args, t_exec_status *status);
+int		builtin_cd();
+int		builtin_pwd();
+int		builtin_export();
+int		builtin_unset();
+int		builtin_env();
 
 #endif

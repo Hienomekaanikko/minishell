@@ -65,10 +65,10 @@ char *find_executable(t_ast *node)
 	return (NULL);
 }
 
-int	built_ins(t_ast *node)
+int	built_ins(t_ast *node, t_exec_status *status)
 { 
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
-		return (builtin_echo(node->args));
+		return (builtin_echo(node->args, status));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
 		return (builtin_cd());
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
@@ -114,7 +114,7 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
 {
 	node->env = env;
-	if (built_ins(node) == -1)
+	if (built_ins(node, exec_status) == -1)
 		if(executables(node, env, exec_status) == -1)
 			printf("command not found");
 }
