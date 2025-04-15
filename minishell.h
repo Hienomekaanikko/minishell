@@ -63,7 +63,7 @@ typedef struct s_exec_status
 	int			signal;			//0 for built-ins
 	char		*error_msg;		//Error message or NULL = success
 	pid_t		pid;			 //0 for built-ins
-//	void		(*cleanup)(void*); // Cleanup function? need to research more
+	void		(*cleanup)(void*); // Cleanup function? need to research more
 } t_exec_status;
 
 //structure for the main data stuff
@@ -78,13 +78,13 @@ typedef struct s_data
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
-int		execute_command(t_ast *node, char **env); //MB, ajetaan niitä commandeja
+void    execute_command(t_ast *node, char **env, t_exec_status *exec_status); //MB, ajetaan niitä commandeja
 //builtins
-void	builtin_echo();
-void	builtin_cd();
-void	builtin_pwd();
-void	builtin_export();
-void	builtin_unset();
-void	builtin_env();
+int	builtin_echo(char **args);
+int	builtin_cd();
+int	builtin_pwd();
+int	builtin_export();
+int	builtin_unset();
+int	builtin_env();
 
 #endif

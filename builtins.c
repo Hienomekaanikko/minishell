@@ -1,8 +1,19 @@
 #include "minishell.h"
 
-void	builtin_echo()
+int	builtin_echo(char **args)
 {
-	printf("PLACEHOLDER: echo\n");
+	int	i;
+
+	i = 0;
+	while(args[i])
+	{	
+		printf("%s", args[i]);
+		if (args[i + 1])
+			printf(" ");
+		i++;
+	}
+	printf("\n");
+	return (0);
 	/*
 	Skip the first argument (which is "echo" itself)
 	no args "\n"
@@ -11,23 +22,28 @@ void	builtin_echo()
 	Add a newline at the end (unless -n flag is used)
 	*/
 }
-void	builtin_cd()
+int	builtin_cd()
 {
 	printf("PLACEHOLDER: cd\n");
+	return (0);
 }
-void	builtin_pwd()
+int	builtin_pwd()
 {
 	printf("PLACEHOLDER: pwd\n");	
+	return (0);
 }
-void	builtin_export()
+int	builtin_export()
 {
 	printf("PLACEHOLDER: export\n");
+	return (0);
 }
-void	builtin_unset()
+int	builtin_unset()
 {
 	printf("PLACEHOLDER: unset\n");
+	return (0);
 }
-void	builtin_env()
+int	builtin_env()
 {
 	printf("PLACEHOLDER: env\n");
+	return (0);
 }

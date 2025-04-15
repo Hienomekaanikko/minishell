@@ -62,32 +62,33 @@ char *find_executable(t_ast *node)
 	executable = try_path(node->cmd, getenv("PATH"));
    if (executable)
 		return (executable);
-	return (NULL);		//Error here
+	return (NULL);
 }
 
-void	is_built_in(t_ast *node)
+int	built_ins(t_ast *node)
 { 
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
-			builtin_echo();
+		return (builtin_echo(node->args));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
-		builtin_cd();
+		return (builtin_cd());
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
-		builtin_pwd();
+		return (builtin_pwd());
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
-		builtin_export();
+		return (builtin_export());
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
-		builtin_unset();
+		return (builtin_unset());
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
-		builtin_env();
+		return (builtin_env());
+	return (-1);
 }
 
-int	execute_command(t_ast *node, char **env)
+int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 {
 	pid_t	pid;
 	char	*path;
-	node->env = env;
+	int		status;
 	
-	is_built_in(node);
+	node->env = env;
 	debug_print("After built-ins, before fork.");
 	pid = fork();
 	if (pid == 0)
@@ -102,13 +103,20 @@ int	execute_command(t_ast *node, char **env)
 	}
 	else if (pid > 0)
 	{
-		int status;
 		debug_print("In parent. Waiting for child.");
 		waitpid(pid, &status, 0);
 		debug_print("Child finished.");
-		return WEXITSTATUS(status);
+		exec_status->exit_code = WEXITSTATUS(status);
 	}
-	return (1);
+	return (0);
+}
+
+void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
+{
+	node->env = env;
+	if (built_ins(node) == -1)
+		if(executables(node, env, exec_status) == -1)
+			printf("command not found");
 }
 
 

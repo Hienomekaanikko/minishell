@@ -34,7 +34,8 @@ static void init_data(t_data *data)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
+	t_data			data;
+	t_exec_status	status;
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
@@ -52,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			make_tree(&data);
 		// replace this with the lexing, parsing etc.
-		execute_command(data.root, envp);
+		execute_command(data.root, envp, &status);
 	}
 	return (0);
 }
