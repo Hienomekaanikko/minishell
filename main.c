@@ -17,6 +17,8 @@ static int	ft_lexer(t_data *data)
 	data->temp_array = ft_special_split(data->input, ' ');
 	if (!ft_make_list(data))
 		return (0);
+	if (data->exp_map)
+		check_for_expansions(data);
 	return (1);
 }
 
@@ -24,7 +26,6 @@ static void init_data(t_data *data)
 {
 	data->root = NULL;
 	data->lexed_list = malloc(sizeof(t_lexer *));
-	data->exp_map = NULL;
 	if (!data->lexed_list)
 	{
 		printf("MALLOC\n");
@@ -33,13 +34,13 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 }
 
-//apr15 run through list before the lexer to find $, and if there is any, replace it with the data that comes from the hashmap
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
+	data.exp_map = NULL;
 	while (1)
 	{
 		init_data(&data);
