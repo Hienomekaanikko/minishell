@@ -24,7 +24,7 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->outfile = NULL;
 	return (new_node);
 }
-
+//incorrectly adds strings with more than one word
 void	add_arguments(t_ast *curr_node, t_lexer *current)
 {
 	char	*temp_str;
