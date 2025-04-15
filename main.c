@@ -19,6 +19,7 @@ static int	ft_lexer(t_data *data)
 		return (0);
 	if (data->exp_map)
 		check_for_expansions(data);
+	ft_free_split(data->temp_array);
 	return (1);
 }
 
