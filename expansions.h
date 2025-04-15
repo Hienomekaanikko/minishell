@@ -29,6 +29,7 @@ typedef struct s_hashmap
 	int		item_count;
 } t_hashmap;
 
+int				is_var_declaration(char *input);
 void			insert(t_hashmap *hashmap, const char *key, const char *value);
 char*			lookup(t_hashmap *hashmap, const char *key);
 void			resize_hashmap(t_hashmap *hashmap);

@@ -15,7 +15,54 @@
 #include <string.h>
 #include "minishell.h"
 
-static int	is_var_declaration(char *input)
+char	*expand(char	*value)
+{
+	int		i;
+	int		j;
+	char	*key;
+
+	i = 0;
+	key = NULL;
+	while (value[i])
+	{
+		if (value[i] == '$')
+		{
+			i++;
+			j = i;
+			while (value[j] && value[j] != 32 && value[j] != '$')
+				j++;
+			key = malloc((j - i + 1) * sizeof(char));
+			if (!key)
+				return (NULL);
+			ft_strlcpy(key, value + i, j);
+		}
+		i++;
+	}
+	return (key);
+}
+
+void	check_for_expansions(t_data *data)
+{
+	t_lexer	*temp;
+	char	*key;
+
+	key = NULL;
+	temp = *data->lexed_list;
+	while(temp)
+	{
+		key = expand(temp->value);
+		if (key)
+		{
+			free(temp->value);
+			temp->value = NULL;
+			temp->value = lookup(data->exp_map, key);
+			key = NULL;
+		}
+		temp = temp->next;
+	}
+}
+
+int	is_var_declaration(char *input)
 {
 	int	i;
 
@@ -29,15 +76,15 @@ static int	is_var_declaration(char *input)
 	return (0);
 }
 
-unsigned int	hash(const char* str, int table_size)
+unsigned int	hash(const char *key, int table_size)
 {
 	unsigned int	hash;
 
 	hash = 0;
-	while (*str)
+	while (*key)
 	{
-		hash = hash * 31 + *str;
-		str++;
+		hash = hash * 31 + *key;
+		key++;
 	}
 	return (hash % table_size);
 }
@@ -166,7 +213,7 @@ void	add_var_declaration(t_data *data)
 	key = ft_strdup("");
 	value = ft_strdup("");
 	if (!data->exp_map)
-		data->exp_map = create_hashmap(1);
+		data->exp_map = create_hashmap(5);
 	while (data->input[i] && data->input[i] != '=')
 		i++;
 	ft_strlcpy(key, data->input, i + 1);
@@ -176,9 +223,7 @@ void	add_var_declaration(t_data *data)
 	while (data->input[i])
 		i++;
 	ft_strlcpy(value, data->input + j + 1, i);
-	printf("value: %s\n", value);
 	insert(data->exp_map, key, value);
-	printf("found %s\n", lookup(data->exp_map, key));
 	free(key);
 	free(value);
 }
