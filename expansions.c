@@ -15,26 +15,58 @@
 #include <string.h>
 #include "minishell.h"
 
+//work this around
+
 char	*expand(char	*value)
 {
 	int		i;
 	int		j;
+	int		y;
+	int		brace_in;
+	int		brace_out;
 	char	*key;
 
 	i = 0;
+	brace_in = 0;
+	brace_out = 0;
 	key = NULL;
 	while (value[i])
 	{
 		if (value[i] == '$')
 		{
 			i++;
-			j = i;
-			while (value[j] && value[j] != 32 && value[j] != '$')
-				j++;
-			key = malloc((j - i + 1) * sizeof(char));
-			if (!key)
-				return (NULL);
-			ft_strlcpy(key, value + i, j);
+			if (value[i] == '{')
+			{
+				i++;
+				brace_in = 1;
+				j = i;
+				while (value[j] && value[j] != 32 && value[j] != '$')
+				{
+					if (brace_in == 1 && value[j] == '}')
+					{
+						brace_out = 1;
+						break;
+					}
+					j++;
+				}
+			}
+			if (brace_in && brace_out)
+			{
+				y = j;
+				while (value[y] && value[y] != 32 && value[y] != '$')
+					y++;
+				key = malloc(sizeof(char) * ((j - i) + (y - j)));
+				ft_strlcpy(key, value + i, j - i + 1);
+				ft_strlcpy(key + j - i, value + j + 1, y - j);
+
+			}
+			else
+			{
+				key = malloc((j - i + 1) * sizeof(char));
+				if (!key)
+					return (NULL);
+				ft_strlcpy(key, value + i, j - i);
+			}
 		}
 		i++;
 	}
