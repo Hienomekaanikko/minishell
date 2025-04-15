@@ -31,14 +31,19 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 }
 //perus maini toistaseks etta voidaan rakennella
+void	init_exec_status(t_exec_status *status)
+{
+	ft_memset(status, 0, sizeof(t_exec_status));
+}
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
-	t_exec_status	status;
+	t_exec_status	exec_status;
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
+	init_exec_status(&exec_status);
 	while (1)
 	{
 		init_data(&data);
@@ -53,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			make_tree(&data);
 		// replace this with the lexing, parsing etc.
-		execute_command(data.root, envp, &status);
+		execute_command(data.root, envp, &exec_status);
 	}
 	return (0);
 }

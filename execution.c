@@ -9,7 +9,7 @@ void	debug_print(char *msg)
 
 void	error_command_not_found(t_ast *node)
 {
-	ft_putstr_fd("Minishell: Command not found: ", 2);
+	ft_putstr_fd("Command not found: ", 2);
 	ft_putstr_fd(node->cmd, 2);
 	ft_putstr_fd("\n", 2);
 	exit(127);
@@ -58,7 +58,7 @@ char *find_executable(t_ast *node)
     executable = try_path(node->cmd, SECURE_PATH);
     if (executable)
         return (executable);
-	printf("Command not found in secure path. Searching through environment. Risky, right?");
+	printf("Command not found in secure path. Searching through environment. Risky, right?\n");
 	executable = try_path(node->cmd, getenv("PATH"));
    if (executable)
 		return (executable);
@@ -103,10 +103,14 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 	}
 	else if (pid > 0)
 	{
+		exec_status->pid = pid;
 		debug_print("In parent. Waiting for child.");
 		waitpid(pid, &status, 0);
 		debug_print("Child finished.");
-		exec_status->exit_code = WEXITSTATUS(status);
+		if(WIFSIGNALED(status))
+			exec_status->exit_code = 128 + WTERMSIG(status);
+		else
+			exec_status->exit_code = WEXITSTATUS(status);
 	}
 	return (0);
 }
