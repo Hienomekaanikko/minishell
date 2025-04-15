@@ -42,7 +42,7 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 	}
 	if (joined == NULL)
 		return ;
-	curr_node->args = ft_special_split(temp_str, ' ');
+	curr_node->args = ft_no_quotes_split(temp_str, ' ');
 	free(temp_str);
 }
 
@@ -153,7 +153,6 @@ int	tree_type(t_data *data)
 
 void	make_tree(t_data *data)
 {
-	printf("Tree structure: \n");
 	data->root = NULL;
 	if (tree_type(data) == 1)
 		set_basic_tree(data);
