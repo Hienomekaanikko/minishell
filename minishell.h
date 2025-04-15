@@ -79,16 +79,17 @@ typedef struct s_data
 	char		*input;
 }	t_data;
 
-void	add_var_declaration(t_data *data);
-int		ft_make_list(t_data *data);
-void	make_tree(t_data *data);
-void	visualize_tree_TEST(t_data *data);
-int		execute_command(t_ast *node, char **env);
-void	builtin_echo();
-void	builtin_cd();
-void	builtin_pwd();
-void	builtin_export();
-void	builtin_unset();
-void	builtin_env();
+void		add_var_declaration(t_data *data);
+static int	is_var_declaration(char *input);
+int			ft_make_list(t_data *data);
+void		make_tree(t_data *data);
+void		visualize_tree_TEST(t_data *data);
+int			execute_command(t_ast *node, char **env);
+void		builtin_echo();
+void		builtin_cd();
+void		builtin_pwd();
+void		builtin_export();
+void		builtin_unset();
+void		builtin_env();
 
 #endif

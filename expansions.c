@@ -15,6 +15,20 @@
 #include <string.h>
 #include "minishell.h"
 
+static int	is_var_declaration(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (i > 0 && input[i] == '=' && (ft_isalnum(input[i - 1]) || input[i - 1] == '$'))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 unsigned int	hash(const char* str, int table_size)
 {
 	unsigned int	hash;

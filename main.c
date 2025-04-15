@@ -33,20 +33,6 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 }
 
-static int	is_var_declaration(char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (i > 0 && input[i] == '=' && (ft_isalnum(input[i - 1]) || input[i - 1] == '$'))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 //apr15 run through list before the lexer to find $, and if there is any, replace it with the data that comes from the hashmap
 int	main(int argc, char **argv, char **envp)
 {
