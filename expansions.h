@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 16:31:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:40:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 #define EXPANSIONS_H
 
 # include "minishell.h"
+
+typedef struct s_exp_data
+{
+	int		brace_in;
+	int		brace_out;
+	char	*key;
+	char	*value;
+	char	*expanded_value;
+} t_exp_data;
 
 typedef struct s_entry
 {
