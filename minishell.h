@@ -59,11 +59,11 @@ typedef struct	s_ast
 
 typedef struct s_exec_status
 {
-	int			exit_code;		// return status, 0 = success, non-zero = failure
-	int			signal;			//0 for built-ins
-	char		*error_msg;		//Error message or NULL = success
-	pid_t		pid;			 //0 for built-ins
-	void		(*cleanup)(void*); // Cleanup function? need to research more
+	int			exit_code;
+	int			signal;
+	char		*error_msg;
+	pid_t		pid;
+	void		(*cleanup)(t_ast*);
 } t_exec_status;
 
 //structure for the main data stuff
@@ -81,7 +81,7 @@ void	visualize_tree_TEST(t_data *data);
 void    execute_command(t_ast *node, char **env, t_exec_status *exec_status); //MB, ajetaan niitä commandeja
 //builtins
 int		builtin_echo(char **args, t_exec_status *status);
-int		builtin_cd();
+int		builtin_cd(char **args);
 int		builtin_pwd();
 int		builtin_export();
 int		builtin_unset();

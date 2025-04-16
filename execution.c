@@ -1,26 +1,10 @@
 #include "minishell.h"
 
-void	debug_print(char *msg)
+void	debug_print(char *msg)  //DEBUG
 {
 	ft_putstr_fd("\033[31mDEBUG: ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\033[0m \n", 2);
-}
-
-void	error_command_not_found(t_ast *node)
-{
-	ft_putstr_fd("Command not found: ", 2);
-	ft_putstr_fd(node->cmd, 2);
-	ft_putstr_fd("\n", 2);
-	exit(127);
-}
-
-void	error_execve_failed(char *path)
-{
-	(void) path;
-	ft_putstr_fd("Execve failed\n", 2);
-	free(path);
-	exit(1);
 }
 
 char *try_path(char *cmd, char *path_str)
@@ -60,9 +44,7 @@ char *find_executable(t_ast *node)
         return (executable);
 	printf("Command not found in secure path. Searching through environment. Risky, right?\n");
 	executable = try_path(node->cmd, getenv("PATH"));
-   if (executable)
-		return (executable);
-	return (NULL);
+	return (executable);
 }
 
 int	built_ins(t_ast *node, t_exec_status *status)
@@ -70,7 +52,7 @@ int	built_ins(t_ast *node, t_exec_status *status)
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
 		return (builtin_echo(node->args, status));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
-		return (builtin_cd());
+		return (builtin_cd(node->args));
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
 		return (builtin_pwd());
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
@@ -89,25 +71,31 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 	int		status;
 	
 	node->env = env;
-	debug_print("After built-ins, before fork.");
 	pid = fork();
+	if (pid == -1)
+	{
+		ft_putstr_fd("Fork failed\n", 2);
+		return (1);
+	}
 	if (pid == 0)
 	{
-		debug_print("In child process");
 		path = find_executable(node);
-		printf("Path found: %s\n", path);
 		if(!path)
-			error_command_not_found(node);
+		{
+			ft_putstr_fd("Command not found\n", 2);
+			exit(127);
+		}	
 		execve(path,node->args, node->env);
-		error_execve_failed(path);
+		free(path);
+		ft_putstr_fd("Permission denied\n", 2);
+		exit(1);
 	}
 	else if (pid > 0)
 	{
 		exec_status->pid = pid;
-		debug_print("In parent. Waiting for child.");
 		waitpid(pid, &status, 0);
-		debug_print("Child finished.");
 		if(WIFSIGNALED(status))
+		// TODO: signal message to words here: SIGSEGV -> "Segmentation fault" etc
 			exec_status->exit_code = 128 + WTERMSIG(status);
 		else
 			exec_status->exit_code = WEXITSTATUS(status);
@@ -118,9 +106,10 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
 {
 	node->env = env;
-	if (built_ins(node, exec_status) == -1)
-		if(executables(node, env, exec_status) == -1)
-			printf("command not found");
+	if (built_ins(node, exec_status) != -1)
+		return ;
+	if(executables(node, env, exec_status) == -1)
+		ft_putstr_fd("command not found\n", 2);
 }
 
 

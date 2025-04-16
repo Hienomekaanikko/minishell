@@ -27,14 +27,22 @@ int	builtin_echo(char **args, t_exec_status *status)
 		printf("\n");
 	return (0);
 }
-int	builtin_cd()
+int	builtin_cd(char **args)
 {
-	printf("PLACEHOLDER: cd\n");
+	chdir(args[0]);
 	return (0);
 }
 int	builtin_pwd()
 {
-	printf("PLACEHOLDER: pwd\n");	
+	char	*pwd;
+	pwd = getcwd(NULL, 0);
+	if(pwd)
+	{
+		ft_putstr_fd(pwd, 2);
+		ft_putstr_fd("\n", 2);
+		free(pwd);
+	}
+	//TODO: (!pwd) / else -> error
 	return (0);
 }
 int	builtin_export()
