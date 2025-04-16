@@ -6,16 +6,56 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 16:11:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:04:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*remove_quotes(char *value)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*cleaned_value;
+
+	i = 0;
+	len = 0;
+	cleaned_value = NULL;
+	while(value[i])
+	{
+		if (value[i] == '\'' || value[i] == '"')
+			i++;
+		else
+		{
+			len++;
+			i++;
+		}
+	}
+	cleaned_value = malloc(sizeof(char) * (len + 1));
+	if (!cleaned_value)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (value[i])
+	{
+		if (value[i] == '\'' || value[i] == '"')
+			i++;
+		else
+		{
+			cleaned_value[j] = value[i];
+			i++;
+			j++;
+		}
+	}
+	cleaned_value[j] = '\0';
+	return (cleaned_value);
+}
+
 t_ast	*create_node(char *value, t_token type)
 {
 	t_ast *new_node = (t_ast*)malloc(sizeof(t_ast));
-	new_node->cmd = ft_strdup(value);
+	new_node->cmd = remove_quotes(value);
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
@@ -24,7 +64,7 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->outfile = NULL;
 	return (new_node);
 }
-//incorrectly adds strings with more than one word
+
 void	add_arguments(t_ast *curr_node, t_lexer *current)
 {
 	char	*temp_str;
