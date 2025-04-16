@@ -6,13 +6,10 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 15:40:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:23:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "minishell.h"
 
 void	extract_key(t_exp_data *exp, char *value)
