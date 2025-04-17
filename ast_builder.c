@@ -6,12 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 17:04:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:33:47 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+//removes all quotes and returns a new cleaned up string
 char	*remove_quotes(char *value)
 {
 	int		i;
@@ -48,10 +49,16 @@ char	*remove_quotes(char *value)
 			j++;
 		}
 	}
+	if (value)
+	{
+		free(value);
+		value = NULL;
+	}
 	cleaned_value[j] = '\0';
 	return (cleaned_value);
 }
 
+//creates a node with places for childs and args etc data
 t_ast	*create_node(char *value, t_token type)
 {
 	t_ast *new_node = (t_ast*)malloc(sizeof(t_ast));
@@ -65,34 +72,52 @@ t_ast	*create_node(char *value, t_token type)
 	return (new_node);
 }
 
-void	add_arguments(t_ast *curr_node, t_lexer *current)
+//counts the amount of arguments to allocate right amount of memory for the array of argument strings
+int	count_size(t_lexer *current)
 {
-	char	*temp_str;
-	char	*joined;
+	t_lexer	*temp;
+	int		i;
 
-	temp_str = ft_strdup("");
-	joined = NULL;
-	while (current && current->type == ARG)
+	i = 0;
+	temp = current;
+	while (temp)
 	{
-		joined = ft_strjoin(temp_str, current->value);
-		free(temp_str);
-		temp_str = joined;
-		temp_str = ft_strjoin(temp_str, " ");
-		current = current->next;
+		i++;
+		temp = temp->next;
 	}
-	if (joined == NULL)
-		return ;
-	curr_node->args = ft_no_quotes_split(temp_str, ' ');
-	free(temp_str);
+	return (i);
 }
 
+//adds arguments with quotes removed
+void	add_arguments(t_ast *curr_node, t_lexer *current)
+{
+	t_lexer	*temp;
+	char	*joined;
+	int		argument_amount;
+	int		i;
+
+	temp = current;
+	joined = NULL;
+	argument_amount = count_size(temp);
+	i = 0;
+	curr_node->args = malloc((argument_amount + 1) * sizeof(char *));
+	temp = current;
+	while (temp && temp->type == ARG)
+	{
+		curr_node->args[i] = remove_quotes(temp->value);
+		i++;
+		temp = temp->next;
+	}
+	curr_node->args[i] = NULL;
+}
+//adds right child
 void	add_right_child(t_ast **position, t_lexer *current)
 {
 	*position = create_node(current->value, current->type);
 	if (current->next && current->next->type == ARG)
 		add_arguments(*position, current->next);
 }
-
+//adds left child
 void	add_left_child(t_ast **position, t_lexer *prev_cmd)
 {
 	*position = create_node(prev_cmd->value, prev_cmd->type);
@@ -100,6 +125,7 @@ void	add_left_child(t_ast **position, t_lexer *prev_cmd)
 		add_arguments(*position, prev_cmd->next);
 }
 
+//makes a tree with pipes or redirections or both
 void	set_complex_tree(t_data *data)
 {
 	t_lexer	*current;
@@ -159,6 +185,7 @@ void	set_complex_tree(t_data *data)
 	}
 }
 
+//makes a tree without pipes or redirections
 void	set_basic_tree(t_data *data)
 {
 	t_lexer	*current;
@@ -176,7 +203,7 @@ void	set_basic_tree(t_data *data)
 		current = current->next;
 	}
 }
-
+//determines what kind of tree is needed
 int	tree_type(t_data *data)
 {
 	t_lexer	*temp;
@@ -191,6 +218,7 @@ int	tree_type(t_data *data)
 	return (1);
 }
 
+//launches the tree creation process
 void	make_tree(t_data *data)
 {
 	data->root = NULL;

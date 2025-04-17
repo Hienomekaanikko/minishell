@@ -6,25 +6,55 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 16:23:31 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:02:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	extract_key(t_exp_data *exp, char *value)
+int	count_dollars(char *value)
+{
+	int	i;
+	int	amount;
+
+	i = 0;
+	amount = 0;
+	while (value[i])
+	{
+		if (value[i] == '$')
+			amount++;
+		i++;
+	}
+	return (amount);
+}
+
+void	extract_keys(t_exp_data *exp, char *value)
 {
 	int		i;
 	int		j;
+	int		current;
+	int		start;
 
 	i = 0;
-	j = 0;
-	printf("checking %s for expansions\n", value);
+	current = 0;
+	start = 0;
+	exp->dollars = count_dollars(value);
+	if (exp->dollars)
+	{
+		exp->extracted_keys = malloc((exp->dollars + 1) * sizeof(char *));
+		if (!exp->extracted_keys)
+			return ;
+		exp->values = malloc((exp->dollars + 1) * sizeof(char *));
+		if (!exp->values)
+			return ;
+	}
 	while (value[i])
 	{
 		if (value[i] == '$')
 		{
+			j = 0;
 			i++;
+			start = i;
 			if (value[i] == '{')
 			{
 				i++;
@@ -39,8 +69,8 @@ void	extract_key(t_exp_data *exp, char *value)
 					}
 					j++;
 				}
-				exp->key = malloc((j - i + 1) * sizeof(char));
-				ft_strlcpy(exp->key, value + i, j - i + 1);
+				exp->extracted_keys[current] = malloc((j - i + 1) * sizeof(char));
+				ft_strlcpy(exp->extracted_keys[current], value + i, j - i + 1);
 			}
 			else
 			{
@@ -49,25 +79,25 @@ void	extract_key(t_exp_data *exp, char *value)
 					i++;
 					j++;
 				}
-				exp->key = malloc((j + 1) * sizeof(char));
-				printf("allocated space: %d\n", j + 1);
-				printf("index for key: %d\n", i - j);
-				if (!exp->key)
-					return ;
-				ft_strlcpy(exp->key, value + i - j, j + 1);
+				i--;
+				exp->extracted_keys[current] = ft_substr(value, start, j);
 			}
+			current++;
 		}
 		i++;
 	}
+	exp->extracted_keys[current] = NULL;
 }
+
 
 void	init_exp(t_exp_data *exp)
 {
 	exp->brace_in = 0;
 	exp->brace_out = 0;
 	exp->key = NULL;
-	exp->expanded_value = NULL;
-	exp->value = NULL;
+	exp->values = NULL;
+	exp->extracted_keys = NULL;
+	exp->dollars = 0;
 }
 
 int	count_expanded_size(char *value)
@@ -132,7 +162,40 @@ char	*brace_expand(char *value, char *expanded)
 	return (new_value);
 }
 
-char	*typical_expand(char *value, char *expanded)
+int	new_length(char *value, char **expanded)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	while (expanded[i])
+	{
+		j = 0;
+		while (expanded[i][j])
+		{
+			len++;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '$')
+		{
+			while (value[i] && (value[i] != '$' || value[i] != 32))
+				i++;
+		}
+		i++;
+		len++;
+	}
+	return (len);
+}
+
+char	*typical_expand(char *value, char **expanded)
 {
 	char	*new_value;
 	int		i;
@@ -141,32 +204,23 @@ char	*typical_expand(char *value, char *expanded)
 
 	i = 0;
 	j = 0;
-	len = 0;
-	while(value[i])
+	len = (new_length(value, expanded));
+	new_value = malloc(sizeof(char) * len);
+	while (value[i])
 	{
 		if (value[i] == '$')
-			break;
-		i++;
-		len++;
-	}
-	i = 0;
-	len = len + ft_strlen(expanded);
-	printf("new length: %d\n", len);
-	new_value = malloc(sizeof(char) * len + 1);
-	while(value[i] && value[i] != '$')
-	{
-		new_value[i] = value[i];
-		i++;
-	}
-	j = 0;
-	while(expanded[j])
-	{
-		new_value[i] = expanded[j];
-		j++;
+		{
+			if (*expanded)
+			{
+				new_value = ft_strjoin(new_value, *expanded);
+				j = j + ft_strlen(*expanded);
+			}
+			expanded++;
+			while (value[i] && !ft_isspace(value[i]) && value[i] != '$')
+				i++;
+		}
 		i++;
 	}
-	new_value[i] = '\0';
-	printf("expanded value is: %s\n", new_value);
 	return (new_value);
 }
 
@@ -174,28 +228,26 @@ void	check_for_expansions(t_data *data)
 {
 	t_exp_data	exp;
 	t_lexer		*temp;
+	int			i;
 
 	init_exp(&exp);
 	temp = *data->lexed_list;
 	while(temp)
 	{
-		extract_key(&exp, temp->value);
-		printf("key = %s\n", exp.key);
-		if (exp.key)
+		extract_keys(&exp, temp->value);
+		if (exp.extracted_keys)
 		{
-			exp.value = lookup(data->exp_map, exp.key);
-			printf("value = %s\n", exp.value);
-			if (exp.value == NULL)
+
+			i = 0;
+			while (exp.extracted_keys[i])
 			{
-				temp = temp->next;
-				continue;
+				exp.values[i] = lookup(data->exp_map, exp.extracted_keys[i]);
+				i++;
 			}
-			if (exp.brace_in && exp.brace_out)
-				temp->value = brace_expand(temp->value, exp.value);
-			else
-				temp->value = typical_expand(temp->value, exp.value);
-			exp.key = NULL;
+			temp->value = typical_expand(temp->value, exp.values);
 		}
+		exp.extracted_keys = NULL;
+		exp.values = NULL;
 		temp = temp->next;
 	}
 }
@@ -355,7 +407,6 @@ void	add_var_declaration(t_data *data)
 	while (data->input[i] && data->input[i] != '=')
 		i++;
 	ft_strlcpy(key, data->input, i + 1);
-	printf("key: %s\n", key);
 	j = i;
 	i = 0;
 	while (data->input[i])
@@ -365,24 +416,3 @@ void	add_var_declaration(t_data *data)
 	free(key);
 	free(value);
 }
-
-// int main()
-// {
-// 	// Create a new hashmap with an initial size of 4
-// 	t_hashmap *hashmap = create_hashmap(4);
-
-// 	// Insert some key-value pairs
-// 	insert(hashmap, "name", "Mikko");
-// 	insert(hashmap, "age", "31");
-// 	insert(hashmap, "school", "hive");
-
-// 	// Lookup some values
-// 	printf("name = %s\n", lookup(hashmap, "name"));  // Should print "tree = three"
-// 	printf("age = %s\n", lookup(hashmap, "age"));  // Should print "apple = fruit"
-// 	printf("school = %s\n", lookup(hashmap, "school"));  // Should print "car = vehicle"
-
-// 	// Clean up memory
-// 	free_hashmap(hashmap);
-
-// 	return 0;
-// }

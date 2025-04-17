@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 14:40:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/17 11:37:02 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ typedef struct s_exp_data
 {
 	int		brace_in;
 	int		brace_out;
+	int		dollars;
 	char	*key;
-	char	*value;
-	char	*expanded_value;
+	char	**values;
+	char	**extracted_keys;
 } t_exp_data;
 
 typedef struct s_entry
