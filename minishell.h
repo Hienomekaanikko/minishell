@@ -78,8 +78,11 @@ typedef struct s_data
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
-void    execute_command(t_ast *node, char **env, t_exec_status *exec_status); //MB, ajetaan niitä commandeja
-//builtins
+//execution
+void	debug_print(char *msg);  //DEBUG
+void    execute_command(t_ast *node, char **env, t_exec_status *exec_status);
+void	exec_pipe(t_ast *node, char **env, t_exec_status *exec_status);
+//built-ins
 int		builtin_echo(char **args, t_exec_status *status);
 int		builtin_cd(char **args);
 int		builtin_pwd();

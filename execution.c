@@ -4,14 +4,16 @@ void	debug_print(char *msg)  //DEBUG
 {
 	ft_putstr_fd("\033[31mDEBUG: ", 2);
 	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
+	ft_putnbr_fd(getpid(), 2);
 	ft_putstr_fd("\033[0m \n", 2);
 }
 
 char *try_path(char *cmd, char *path_str)
 {
-	char **paths;
-	char *path_to_executable;
-	int i;
+	char	**paths;
+	char	*path_to_executable;
+	int		i;
 
 	if (!path_str)
 		return (NULL);
@@ -64,11 +66,41 @@ int	built_ins(t_ast *node, t_exec_status *status)
 	return (-1);
 }
 
+char	**cmd_plus_args(char *cmd, char **args) //Free me! Tarvitaanko tätä?
+{
+	char	**cmdargs;
+	int		arg_count;
+	int		i;
+
+	if (!args) {
+		cmdargs = malloc(sizeof(char*) * 2);
+		cmdargs[0] = cmd;
+		cmdargs[1] = NULL;
+		return cmdargs;
+	}
+	arg_count = 0;
+	while(args[arg_count])
+		arg_count++;
+	cmdargs = malloc(sizeof(char*) * (arg_count + 2));
+	if (!cmdargs)
+		return (NULL);
+	cmdargs[0] = cmd;
+	i = 0;
+	while(i < arg_count)
+	{
+		cmdargs[i + 1] = args[i];
+		i++;
+	}
+	cmdargs[arg_count + 1] = NULL;
+	return (cmdargs);
+}
+
 int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 {
 	pid_t	pid;
 	char	*path;
 	int		status;
+
 	
 	node->env = env;
 	pid = fork();
@@ -84,9 +116,12 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 		{
 			ft_putstr_fd("Command not found\n", 2);
 			exit(127);
-		}	
-		execve(path,node->args, node->env);
+		}
+		char	**cmdargs = cmd_plus_args(node->cmd, node->args); //ehkä mikolta tulee ratkaisu ja tätä ei tarvita
+		execve(path, cmdargs, node->env);
+		printf("execve failed\n");
 		free(path);
+		free(cmdargs); //eikä tätä
 		ft_putstr_fd("Permission denied\n", 2);
 		exit(1);
 	}
@@ -106,6 +141,11 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
 {
 	node->env = env;
+	if (node->type == PIPE)
+	{
+		exec_pipe(node, env, exec_status);
+		return ;
+	}
 	if (built_ins(node, exec_status) != -1)
 		return ;
 	if(executables(node, env, exec_status) == -1)
