@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/17 15:02:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:36:39 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	extract_keys(t_exp_data *exp, char *value)
 		if (!exp->values)
 			return ;
 	}
+	else
+		return ;
 	while (value[i])
 	{
 		if (value[i] == '$')
@@ -84,7 +86,8 @@ void	extract_keys(t_exp_data *exp, char *value)
 			}
 			current++;
 		}
-		i++;
+		else
+			i++;
 	}
 	exp->extracted_keys[current] = NULL;
 }
@@ -120,48 +123,6 @@ int	count_expanded_size(char *value)
 	return (len);
 }
 
-char	*brace_expand(char *value, char *expanded)
-{
-	char	*new_value;
-	size_t	len;
-	int		i;
-	int		j;
-	int		y;
-
-	i = 0;
-	j = 0;
-	y = 0;
-	len = count_expanded_size(value);
-	len = len + ft_strlen(expanded);
-	new_value = malloc(sizeof(char) * len + 1);
-	while (value[i])
-	{
-		if (value[i] == '$')
-			i++;
-		if (value[i] == '{')
-		{
-			i++;
-			while (expanded[y])
-			{
-				new_value[j] = expanded[y];
-				j++;
-				y++;
-			}
-				while (value[i] && value[i] != '}')
-				i++;
-		}
-		if (value[i] == '}')
-			i++;
-		else
-		{
-			new_value[j] = value[i];
-			i++;
-			j++;
-		}
-	}
-	return (new_value);
-}
-
 int	new_length(char *value, char **expanded)
 {
 	int	i;
@@ -195,7 +156,7 @@ int	new_length(char *value, char **expanded)
 	return (len);
 }
 
-char	*typical_expand(char *value, char **expanded)
+char	*expand(char *value, char **expanded)
 {
 	char	*new_value;
 	int		i;
@@ -210,17 +171,44 @@ char	*typical_expand(char *value, char **expanded)
 	{
 		if (value[i] == '$')
 		{
+			i++;
 			if (*expanded)
 			{
 				new_value = ft_strjoin(new_value, *expanded);
 				j = j + ft_strlen(*expanded);
 			}
 			expanded++;
-			while (value[i] && !ft_isspace(value[i]) && value[i] != '$')
+			while (value[i] && value[i] != '$' && !ft_isspace(value[i]))
 				i++;
+			if (value[i] != '$')
+				break;
+			else
+				i--;
 		}
+		else
+			new_value[i] = value[i];
 		i++;
 	}
+	return (new_value);
+}
+
+char	*cleanup(char *value)
+{
+	char	*new_value;
+	int		i;
+
+	i = 0;
+	while(value[i] && value[i] != '$')
+		i++;
+	new_value = malloc((i + 1) * sizeof(char));
+	i = 0;
+	while(value[i] != '$')
+	{
+		new_value[i] = value[i];
+		i++;
+	}
+	new_value[i] = '\0';
+	free(value);
 	return (new_value);
 }
 
@@ -237,17 +225,18 @@ void	check_for_expansions(t_data *data)
 		extract_keys(&exp, temp->value);
 		if (exp.extracted_keys)
 		{
-
 			i = 0;
 			while (exp.extracted_keys[i])
 			{
 				exp.values[i] = lookup(data->exp_map, exp.extracted_keys[i]);
 				i++;
 			}
-			temp->value = typical_expand(temp->value, exp.values);
+			i = 0;
+			if (exp.values[i])
+				temp->value = expand(temp->value, exp.values);
+			else
+				temp->value = cleanup(temp->value);
 		}
-		exp.extracted_keys = NULL;
-		exp.values = NULL;
 		temp = temp->next;
 	}
 }
