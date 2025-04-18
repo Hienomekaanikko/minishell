@@ -9,6 +9,14 @@ COMMANDS=(
 	"echo 'world'"
 	"he'he'he"
 	"'arg1 arg2'"
+	"'asd'ert''"
+	"''asd'ert'"
+	"'''asd''ert'"
+	"'''asd''er''t'"
+	"''''''''asd''''''''"
+	"asdasdasdas'rhrrh12'"
+	"'wegweggewgw''''wegewg'"
+	"'faefeaf  rgwrgwrg''wgwrg 'wrg''''"
 )
 
 # Run the commands in both bash and minishell, capturing their outputs
