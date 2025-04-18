@@ -1,0 +1,2 @@
+1. entering empty string = segfault
+2. what we gonna do with unclosed quotes? in the special split, theres commented out the option to split it into commands. now its just one string. original opens up stdin to continue the input.
