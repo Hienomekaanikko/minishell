@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/17 17:36:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 13:32:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,10 @@ char	*expand(char *value, char **expanded)
 				i--;
 		}
 		else
-			new_value[i] = value[i];
+		{
+			new_value[j] = value[i];
+			j++;
+		}
 		i++;
 	}
 	return (new_value);
@@ -222,6 +225,11 @@ void	check_for_expansions(t_data *data)
 	temp = *data->lexed_list;
 	while(temp)
 	{
+		if (temp->value[0] == '\'')
+		{
+			temp = temp->next;
+			continue;
+		}
 		extract_keys(&exp, temp->value);
 		if (exp.extracted_keys)
 		{
