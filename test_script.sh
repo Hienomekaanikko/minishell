@@ -8,6 +8,7 @@ COMMANDS=(
 	"echo world"
 	"echo 'world'"
 	"he'he'he"
+	"'arg1 arg2'"
 )
 
 # Run the commands in both bash and minishell, capturing their outputs
