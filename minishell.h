@@ -88,6 +88,6 @@ int		builtin_cd(char **args);
 int		builtin_pwd();
 int		builtin_export();
 int		builtin_unset();
-int		builtin_env();
+int		builtin_env(char **env);
 
 #endif

@@ -49,7 +49,7 @@ char *find_executable(t_ast *node)
 	return (executable);
 }
 
-int	built_ins(t_ast *node, t_exec_status *status)
+int	built_ins(t_ast *node, char **env, t_exec_status *status)
 { 
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
 		return (builtin_echo(node->args, status));
@@ -62,7 +62,7 @@ int	built_ins(t_ast *node, t_exec_status *status)
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
 		return (builtin_unset());
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
-		return (builtin_env());
+		return (builtin_env(env));
 	return (-1);
 }
 
@@ -147,7 +147,7 @@ void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
 		exec_pipe(node, env, exec_status);
 		return ;
 	}
-	if (built_ins(node, exec_status) != -1)
+	if (built_ins(node, env, exec_status) != -1)
 		return ;
 	if(executables(node, env, exec_status) == -1)
 		ft_putstr_fd("command not found\n", 2);

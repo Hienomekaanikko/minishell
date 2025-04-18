@@ -55,8 +55,16 @@ int	builtin_unset()
 	printf("PLACEHOLDER: unset\n");
 	return (0);
 }
-int	builtin_env()
+int	builtin_env(char **env)
 {
-	printf("PLACEHOLDER: env\n");
+	int	i;
+
+	i = 0;
+	while(env[i])
+	{
+		ft_putstr_fd(env[i], 2);
+		ft_putstr_fd("\n", 2);
+		i++;
+	}
 	return (0);
 }
