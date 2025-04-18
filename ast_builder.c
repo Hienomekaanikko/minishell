@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/18 13:44:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:47:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,21 @@ char	*remove_quotes(char *value)
 {
 	int		i;
 	int		j;
-	int		quote;
 	int		len;
 	char	*cleaned_value;
 
 	i = 0;
 	len = 0;
-	quote = 0;
 	cleaned_value = NULL;
-	if (value[i] == '\'' || value[i] == '"')
+	while (value[i])
 	{
-		quote = value[i];
-		i++;
-		while(value[i] && value[i] != quote)
+		if (value[i] == '\'' || value[i] == '"')
+			i++;
+		else
 		{
 			len++;
 			i++;
 		}
-		if (value[i] != quote)
-			return (value);
 	}
 	cleaned_value = malloc(sizeof(char) * (len + 1));
 	if (!cleaned_value)
@@ -44,18 +40,15 @@ char	*remove_quotes(char *value)
 	j = 0;
 	while (value[i])
 	{
-		if (value[i] == quote)
+		if (value[i] == '\'' || value[i] == '"')
 			i++;
 		else
 		{
-			while (value[i] != quote)
-			{
-				cleaned_value[j] = value[i];
-				i++;
-				j++;
-			}
-			cleaned_value[j] = '\0';
+			cleaned_value[j] = value[i];
+			i++;
+			j++;
 		}
+		cleaned_value[j] = '\0';
 	}
 	return (cleaned_value);
 }
