@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/18 11:48:46 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 13:44:19 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,25 @@ char	*remove_quotes(char *value)
 {
 	int		i;
 	int		j;
+	int		quote;
 	int		len;
 	char	*cleaned_value;
 
 	i = 0;
 	len = 0;
+	quote = 0;
 	cleaned_value = NULL;
-	while(value[i])
+	if (value[i] == '\'' || value[i] == '"')
 	{
-		if (value[i] == '\'' || value[i] == '"')
-			i++;
-		else
+		quote = value[i];
+		i++;
+		while(value[i] && value[i] != quote)
 		{
 			len++;
 			i++;
 		}
+		if (value[i] != quote)
+			return (value);
 	}
 	cleaned_value = malloc(sizeof(char) * (len + 1));
 	if (!cleaned_value)
@@ -40,16 +44,19 @@ char	*remove_quotes(char *value)
 	j = 0;
 	while (value[i])
 	{
-		if (value[i] == '\'' || value[i] == '"')
+		if (value[i] == quote)
 			i++;
 		else
 		{
-			cleaned_value[j] = value[i];
-			i++;
-			j++;
+			while (value[i] != quote)
+			{
+				cleaned_value[j] = value[i];
+				i++;
+				j++;
+			}
+			cleaned_value[j] = '\0';
 		}
 	}
-	cleaned_value[j] = '\0';
 	return (cleaned_value);
 }
 
@@ -107,7 +114,6 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 //adds right child
 void	add_right_child(t_ast **position, t_lexer *current)
 {
-	printf("starting arg: %s\n", current->value);
 	*position = create_node(current->value, current->type);
 	if (*position)
 		add_arguments(*position, current);
@@ -115,7 +121,6 @@ void	add_right_child(t_ast **position, t_lexer *current)
 //adds left child
 void	add_left_child(t_ast **position, t_lexer *prev_cmd)
 {
-	printf("starting arg: %s\n", prev_cmd->value);
 	*position = create_node(prev_cmd->value, prev_cmd->type);
 	if (*position)
 		add_arguments(*position, prev_cmd);
