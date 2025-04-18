@@ -7,7 +7,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 
 	if (!args || !args[0])
 		return (2);
-	i = 0;
+	i = 1;
 	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 		i++;
 	newline_flag = i;
@@ -29,7 +29,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 }
 int	builtin_cd(char **args)
 {
-	chdir(args[0]);
+	chdir(args[1]);
 	return (0);
 }
 int	builtin_pwd()

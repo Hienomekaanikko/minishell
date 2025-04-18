@@ -66,34 +66,34 @@ int	built_ins(t_ast *node, t_exec_status *status)
 	return (-1);
 }
 
-char	**cmd_plus_args(char *cmd, char **args) //Free me! Tarvitaanko tätä?
-{
-	char	**cmdargs;
-	int		arg_count;
-	int		i;
+// char	**cmd_plus_args(char *cmd, char **args) //Free me! Tarvitaanko tätä?
+// {
+// 	char	**cmdargs;
+// 	int		arg_count;
+// 	int		i;
 
-	if (!args) {
-		cmdargs = malloc(sizeof(char*) * 2);
-		cmdargs[0] = cmd;
-		cmdargs[1] = NULL;
-		return cmdargs;
-	}
-	arg_count = 0;
-	while(args[arg_count])
-		arg_count++;
-	cmdargs = malloc(sizeof(char*) * (arg_count + 2));
-	if (!cmdargs)
-		return (NULL);
-	cmdargs[0] = cmd;
-	i = 0;
-	while(i < arg_count)
-	{
-		cmdargs[i + 1] = args[i];
-		i++;
-	}
-	cmdargs[arg_count + 1] = NULL;
-	return (cmdargs);
-}
+// 	if (!args) {
+// 		cmdargs = malloc(sizeof(char*) * 2);
+// 		cmdargs[0] = cmd;
+// 		cmdargs[1] = NULL;
+// 		return cmdargs;
+// 	}
+// 	arg_count = 0;
+// 	while(args[arg_count])
+// 		arg_count++;
+// 	cmdargs = malloc(sizeof(char*) * (arg_count + 2));
+// 	if (!cmdargs)
+// 		return (NULL);
+// 	cmdargs[0] = cmd;
+// 	i = 0;
+// 	while(i < arg_count)
+// 	{
+// 		cmdargs[i + 1] = args[i];
+// 		i++;
+// 	}
+// 	cmdargs[arg_count + 1] = NULL;
+// 	return (cmdargs);
+// }
 
 int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 {
@@ -117,11 +117,12 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 			ft_putstr_fd("Command not found\n", 2);
 			exit(127);
 		}
-		char	**cmdargs = cmd_plus_args(node->cmd, node->args); //ehkä mikolta tulee ratkaisu ja tätä ei tarvita
-		execve(path, cmdargs, node->env);
+	//	char	**cmdargs = cmd_plus_args(node->cmd, node->args); //ehkä mikolta tulee ratkaisu ja tätä ei tarvita
+	//	execve(path, cmdargs, node->env);
+		execve(path, node->args, node->env);
 		printf("execve failed\n");
 		free(path);
-		free(cmdargs); //eikä tätä
+	//	free(cmdargs); //eikä tätä
 		ft_putstr_fd("Permission denied\n", 2);
 		exit(1);
 	}

@@ -9,8 +9,6 @@ void	exec_pipe(t_ast *node, char **env, t_exec_status *exec_status)
 	debug_print("Creating pipe");
 	pipe(pipe_fd);
 	printf("Pipe fds: read=%d, write=%d\n", pipe_fd[0], pipe_fd[1]);
-
-	// First child (left side)
 	debug_print("Forking left child");
 	pidL = fork();
 	if (pidL == 0)
