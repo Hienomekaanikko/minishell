@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 16:39:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 13:42:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	**free_malloc(char **array_of_strings, int y)
 	free(array_of_strings);
 	return (NULL);
 }
-
+#include <stdio.h>
 static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 {
 	int		i;
@@ -79,6 +79,12 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 				}
 				i++;
 			}
+			// if (!s[i])
+			// {
+			// 	i = j;
+			// 	while (s[i] && s[i] != c)
+			// 		i++;
+			// }
 			in_quote = 0;
 		}
 		else
@@ -87,6 +93,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 				i++;
 		}
 		array_of_strings[y] = ft_substr(s, j, i - j);
+		printf("string %s\n", array_of_strings[y]);
 		if (!array_of_strings[y])
 		{
 			free_malloc(array_of_strings, y);
