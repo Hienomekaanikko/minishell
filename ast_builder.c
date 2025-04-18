@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/17 16:33:48 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 11:48:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ char	*remove_quotes(char *value)
 			i++;
 			j++;
 		}
-	}
-	if (value)
-	{
-		free(value);
-		value = NULL;
 	}
 	cleaned_value[j] = '\0';
 	return (cleaned_value);
@@ -101,8 +96,7 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 	argument_amount = count_size(temp);
 	i = 0;
 	curr_node->args = malloc((argument_amount + 1) * sizeof(char *));
-	temp = current;
-	while (temp && temp->type == ARG)
+	while (temp && (temp->type == ARG || temp->type == CMD))
 	{
 		curr_node->args[i] = remove_quotes(temp->value);
 		i++;
@@ -113,16 +107,18 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 //adds right child
 void	add_right_child(t_ast **position, t_lexer *current)
 {
+	printf("starting arg: %s\n", current->value);
 	*position = create_node(current->value, current->type);
-	if (current->next && current->next->type == ARG)
-		add_arguments(*position, current->next);
+	if (*position)
+		add_arguments(*position, current);
 }
 //adds left child
 void	add_left_child(t_ast **position, t_lexer *prev_cmd)
 {
+	printf("starting arg: %s\n", prev_cmd->value);
 	*position = create_node(prev_cmd->value, prev_cmd->type);
-	if (*position && prev_cmd->next->type == ARG)
-		add_arguments(*position, prev_cmd->next);
+	if (*position)
+		add_arguments(*position, prev_cmd);
 }
 
 //makes a tree with pipes or redirections or both
@@ -191,17 +187,7 @@ void	set_basic_tree(t_data *data)
 	t_lexer	*current;
 
 	current = *data->lexed_list;
-	while (current)
-	{
-		if (current->type == CMD)
-			data->root = create_node(current->value, CMD);
-		else if (current->type == ARG)
-		{
-			add_arguments(data->root, current);
-			return ;
-		}
-		current = current->next;
-	}
+	add_right_child(&data->root, current);
 }
 //determines what kind of tree is needed
 int	tree_type(t_data *data)
