@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:44:58 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/17 10:26:50 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 16:21:52 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	debug_print(char *msg)
 
 void	error_command_not_found(t_ast *node)
 {
-	ft_putstr_fd("Minishell: Command not found: ", 2);
 	ft_putstr_fd(node->cmd, 2);
+	ft_putstr_fd(": command not found", 2);
 	ft_putstr_fd("\n", 2);
 	exit(127);
 }
@@ -70,7 +70,7 @@ char *find_executable(t_ast *node)
     executable = try_path(node->cmd, SECURE_PATH);
 	if (executable)
 		return (executable);
-	printf("Command not found in secure path. Searching through environment. Risky, right?");
+	//printf("Command not found in secure path. Searching through environment. Risky, right?");
 	executable = try_path(node->cmd, getenv("PATH"));
 	if (executable)
 		return (executable);
@@ -100,13 +100,13 @@ int	execute_command(t_ast *node, char **env)
 	node->env = env;
 
 	is_built_in(node);
-	debug_print("After built-ins, before fork.");
+	//debug_print("After built-ins, before fork.");
 	pid = fork();
 	if (pid == 0)
 	{
-		debug_print("In child process");
+		//debug_print("In child process");
 		path = find_executable(node);
-		printf("Path found: %s\n", path);
+		//printf("Path found: %s\n", path);
 		if(!path)
 			error_command_not_found(node);
 		execve(path,node->args, node->env);
@@ -115,9 +115,9 @@ int	execute_command(t_ast *node, char **env)
 	else if (pid > 0)
 	{
 		int status;
-		debug_print("In parent. Waiting for child.");
+		//debug_print("In parent. Waiting for child.");
 		waitpid(pid, &status, 0);
-		debug_print("Child finished.");
+		//debug_print("Child finished.");
 		return WEXITSTATUS(status);
 	}
 	return (1);

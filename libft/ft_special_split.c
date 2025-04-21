@@ -6,11 +6,12 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/18 15:47:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:05:24 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int	ft_count_splits(char const *s, char c)
 {
@@ -30,6 +31,7 @@ static int	ft_count_splits(char const *s, char c)
 			in_word = 0;
 		s++;
 	}
+	printf("word count == %d\n", count);
 	return (count);
 }
 
@@ -54,6 +56,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 
 	i = 0;
 	y = 0;
+	j = 0;
 	in_quote = 0;
 	while (s[i])
 	{
@@ -67,37 +70,49 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 			in_quote = 1;
 		}
 		j = i;
-		if (in_quote)
+		if (s[i] && in_quote)
 		{
 			i++;
-			while (s[i])
-			{
-				if (s[i] == quote)
-				{
-					i++;
-					break ;
-				}
+			while (s[i] && s[i] != quote)
 				i++;
-			}
-			if (ft_isalnum(s[i]))
+			if (s[i] == quote)
 			{
+				i++;
 				in_quote = 0;
-				continue;
 			}
-			in_quote = 0;
+			while (!ft_isspace(s[i]) && s[i])
+				i++;
 		}
 		else
 		{
-			while (s[i] && s[i] != c)
+			while (s[i] && s[i] != c && s[i] != '"' && s[i] != '\'')
 				i++;
+			if (s[i] && (s[i] == '"' || s[i] == '\''))
+			{
+				i++;
+				while(s[i] && s[i] != '"' && s[i] != '\'')
+					i++;
+				if (s[i] == '"' || s[i] == '\'')
+				{
+					if (s[i + 1] && !ft_isspace(s[i + 1]))
+					{
+						while (s[i] && !ft_isspace(s[i]))
+							i++;
+					}
+				}
+			}
 		}
-		array_of_strings[y] = ft_substr(s, j, i - j);
-		if (!array_of_strings[y])
+		if (i - j > 0)
 		{
-			free_malloc(array_of_strings, y);
-			return (NULL);
+			array_of_strings[y] = ft_substr(s, j, i - j);
+			printf("Added: %s\n", array_of_strings[y]);
+			if (!array_of_strings[y])
+			{
+				free_malloc(array_of_strings, y);
+				return (NULL);
+			}
+			y++;
 		}
-		y++;
 	}
 	array_of_strings[y] = NULL;
 	return (array_of_strings);

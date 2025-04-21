@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:51:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/16 17:04:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:59:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	builtin_echo()
 {
-	printf("PLACEHOLDER: echo\n");
+	//printf("PLACEHOLDER: echo\n");
 	/*
 	Skip the first argument (which is "echo" itself)
 	no args "\n"
@@ -25,21 +25,21 @@ void	builtin_echo()
 }
 void	builtin_cd()
 {
-	printf("PLACEHOLDER: cd\n");
+	//printf("PLACEHOLDER: cd\n");
 }
 void	builtin_pwd()
 {
-	printf("PLACEHOLDER: pwd\n");
+	//printf("PLACEHOLDER: pwd\n");
 }
 void	builtin_export()
 {
-	printf("PLACEHOLDER: export\n");
+	//printf("PLACEHOLDER: export\n");
 }
 void	builtin_unset()
 {
-	printf("PLACEHOLDER: unset\n");
+	//printf("PLACEHOLDER: unset\n");
 }
 void	builtin_env()
 {
-	printf("PLACEHOLDER: env\n");
+	//printf("PLACEHOLDER: env\n");
 }
