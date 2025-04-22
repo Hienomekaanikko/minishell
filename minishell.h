@@ -50,7 +50,6 @@ typedef struct	s_ast
 	t_token			type;
 	char			*cmd;
 	char			**args;
-	char			**env;
 	char			*infile;
 	char			*outfile;
 	struct s_ast	*left;
@@ -63,7 +62,7 @@ typedef struct s_exec_status
 	int			signal;
 	char		*error_msg;
 	pid_t		pid;
-	void		(*cleanup)(t_ast*);
+	void		(*cleanup)(t_ast*); //olikos tälle nyt käyttöä?
 } t_exec_status;
 
 //structure for the main data stuff
@@ -74,6 +73,14 @@ typedef struct s_data
 	char	**temp_array;
 	char	*input;
 }	t_data;
+
+typedef struct s_env
+{
+	char	**envp;
+	size_t	var_count;
+	size_t	capacity;
+} t_env;
+
 
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
