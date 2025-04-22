@@ -16,6 +16,7 @@ COMMANDS=(
 	"asdasdasdas'rhrrh12'"
 	"'wegweggewgw''''wegewg'"
 	"'faefeaf  rgwrgwrg''wgwrg 'wrg''''"
+	"hel'llo what'sasasda"
 )
 
 for CMD in "${COMMANDS[@]}"; do

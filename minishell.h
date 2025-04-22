@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/14 17:08:23 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:06:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,16 @@ typedef struct s_data
 	char		**temp_array;
 	char		*input;
 }	t_data;
+
+//ast tree stuff (added 22.4.)
+void		add_arguments(t_ast *curr_node, t_lexer *current);
+void		add_right_child(t_ast **position, t_lexer *current);
+void		add_left_child(t_ast **position, t_lexer *prev_cmd);
+void		set_complex_tree(t_data *data);
+char		*remove_quotes(char *value);
+int			count_new_len(char *value);
+int			count_size(t_lexer *current);
+t_ast		*create_node(char *value, t_token type);
 
 void		add_var_declaration(t_data *data);
 void		check_for_expansions(t_data *data);
