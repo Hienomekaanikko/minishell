@@ -81,6 +81,15 @@ typedef struct s_env
 	size_t	capacity;
 } t_env;
 
+typedef struct s_arena
+{
+	char	*memory;
+	size_t	mem_size;
+	size_t	mem_used;
+	char	**ptrs;
+	size_t	ptrs_in_use;
+	size_t	ptr_capacity;
+}	t_arena;
 
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);

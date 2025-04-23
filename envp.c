@@ -1,6 +1,7 @@
 #include "minishell.h"
+#include "libft/libft.h"
 
-size_t	env_var_count(char **env)
+static size_t	env_var_count(char **env)
 {
 	size_t	count;
 
@@ -22,13 +23,18 @@ void	env_init(t_env *env, char **parent_env)
 	i = 0;
 	while(i < env->capacity)
 	{
-		env->envp[i] = ft_strdup(parent_env[i]); //TODO: check for strdup success and free previously allocated strings
+		env->envp[i] = ft_strdup(parent_env[i]);
+		if(!env->envp[i])
+		{
+			while
+		}
 		i++;
 	}
 	env->envp[env->capacity] = NULL;
 	env->var_count = env->capacity;
 }
-void	env_add_space(t_env *env)
+
+static void	env_add_space(t_env *env)
 {
 	char	**new_envp;
 	char	**old_envp;
@@ -64,12 +70,38 @@ void	env_add(t_env *env, char *key, char *value)
 
 void	env_free(t_env *env)
 {
-	size_t	i;
-
 	if (!env || !env->var_count)
 		return ;
 	ft_free_substrings(env->envp);
 	env->envp = NULL;
 	env->var_count = 0;
 	env->capacity = 0;
+}
+
+int	builtin_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	while(env[i])
+	{
+		ft_putstr_fd(env[i], 2);
+		ft_putstr_fd("\n", 2);
+		i++;
+	}
+	return (0);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_env	env;
+	
+	(void) ac;
+	(void) av;
+	env_init(&env, envp);
+	builtin_env(env.envp);
+	env_add(&env, "TEST_KEY", "TEST_VALUE");
+	builtin_env(env.envp);
+	env_free(&env);
+	return (0);
 }
