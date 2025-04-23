@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 17:06:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/23 18:43:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_exec_status
 //structure for the main data stuff
 typedef struct s_data
 {
-	t_hashmap	*exp_map;
+	t_exp_data	*exp;
 	t_lexer		**lexed_list;
 	t_ast		*root;
 	char		**temp_array;
@@ -89,7 +89,17 @@ int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 
+//var declaration stuff
+int			is_var_declaration(char	*str);
 void		add_var_declaration(t_data *data);
+int			already_declared(t_var *start, char *key, char *value);
+
+//expansion stuff
+int			count_dollars(t_lexer *curr);
+char		*is_declared(t_data *data, char *extracted_key);
+void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
+
 void		check_for_expansions(t_data *data);
 int			ft_make_list(t_data *data);
 void		make_tree(t_data *data);

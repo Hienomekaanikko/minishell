@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 17:16:08 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:47:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,23 @@
 
 # include "minishell.h"
 
-typedef struct s_exp_data
+typedef struct s_keys
 {
-	int		brace_in;
-	int		brace_out;
-	int		dollars;
-	char	*key;
-	char	**values;
-	char	**extracted_keys;
-} t_exp_data;
+	char			*key;
+	struct s_keys	*next;
+}	t_keys;
 
-typedef struct s_entry
+typedef struct s_var
 {
 	char			*key;
 	char			*value;
-	struct s_entry	*next;
-} t_entry;
+	struct s_var	*next;
+}	t_var;
 
-typedef struct s_hashmap
+typedef struct s_exp_data
 {
-	t_entry	**table;
-	int		table_size;
-	int		item_count;
-} t_hashmap;
-
-int				is_var_declaration(char *input);
-void			insert(t_hashmap *hashmap, const char *key, const char *value);
-char*			lookup(t_hashmap *hashmap, const char *key);
-void			resize_hashmap(t_hashmap *hashmap);
-void			free_hashmap(t_hashmap *hashmap);
-t_hashmap*		create_hashmap(int initial_size);
-unsigned int	hash(const char* str, int table_size);
+	t_var	*var_list;
+	char	**extracted_keys;
+}	t_exp_data;
 
 #endif
