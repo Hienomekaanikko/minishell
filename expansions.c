@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 17:16:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:46:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,67 +123,39 @@ int	count_expanded_size(char *value)
 	return (len);
 }
 
-int	new_length(char *value, char **expanded)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	i = 0;
-	j = 0;
-	len = 0;
-	while (expanded[i])
-	{
-		j = 0;
-		while (expanded[i][j])
-		{
-			len++;
-			j++;
-		}
-		i++;
-	}
-	i = 0;
-	while (value[i])
-	{
-		if (value[i] == '$')
-		{
-			while (value[i] && (value[i] != '$' || value[i] != 32))
-				i++;
-		}
-		i++;
-		len++;
-	}
-	return (len);
-}
-
 char	*expand(char *value, char **expanded)
 {
 	char	*new_value;
 	int		i;
 	int		j;
-	int		len;
+	int		y;
 
 	i = 0;
 	j = 0;
-	len = (new_length(value, expanded));
-	new_value = malloc(sizeof(char) * len);
+	y = 0;
+	printf("%d\n", new_value_len(value, expanded));
+	new_value = ft_strdup("");
 	while (value[i])
 	{
 		if (value[i] == '$')
 		{
-			i++;
+			while (value[i] && !ft_isspace(value[i + 1]))
+				i++;
 			if (*expanded)
 			{
 				new_value = ft_strjoin(new_value, *expanded);
-				j = j + ft_strlen(*expanded);
+				expanded++;
 			}
-			expanded++;
-			while (value[i] && value[i] != '$' && !ft_isspace(value[i]))
-				i++;
-			if (value[i] != '$')
-				break;
 			else
-				i--;
+			{
+				while (value[i] && value[i] != '$' && !ft_isspace(value[i]))
+					i++;
+				if (value[i] != '$')
+					break;
+				else
+					i--;
+			}
+			j = ft_strlen(new_value);
 		}
 		else
 		{
@@ -192,6 +164,7 @@ char	*expand(char *value, char **expanded)
 		}
 		i++;
 	}
+	new_value[j] = '\0';
 	return (new_value);
 }
 

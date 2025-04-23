@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 17:24:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/23 10:47:52 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	resize_hashmap(t_hashmap *hashmap)
 	i = 0;
 	new_size = hashmap->table_size * 2;
 	new_table = malloc(sizeof(t_entry*) * new_size);
+	if (!new_table)
+		return ;
 	while (i < new_size)
 	{
 		new_table[i] = NULL;
