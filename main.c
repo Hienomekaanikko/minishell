@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 16:24:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:29:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv; //maybe something later
 	data.exp = malloc(sizeof(t_exp_data));
 	data.exp->var_list = malloc(sizeof(t_var));
+	data.exp->var_list = NULL;
 	while (1)
 	{
 		init_data(&data);
