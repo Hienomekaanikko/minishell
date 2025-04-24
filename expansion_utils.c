@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 11:47:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:22:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev)
 {
 	free(current->value);
 	current->value = ft_strdup(expanded_value);
+	if (!current->value)
+		return ;
 	free(expanded_value);
 	prev = current;
 	current = current->next;
@@ -71,6 +73,8 @@ char	*is_declared(t_data *data, char *extracted_key)
 		if (ft_strncmp(extracted_key, temp->key, ft_strlen(extracted_key)) == 0)
 		{
 			fetched_value = ft_strdup(temp->value);
+			if (!fetched_value)
+				return (NULL);
 			return (fetched_value);
 		}
 		temp = temp->next;

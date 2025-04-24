@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 13:37:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:20:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	add_var_declaration(t_data *data)
 {
 	int		i;
 	int		j;
+	int		start;
 	char	*key;
 	char	*value;
 
@@ -59,34 +60,12 @@ void	add_var_declaration(t_data *data)
 	j = 0;
 	while(data->input[i] != '=')
 		i++;
-	key = malloc(sizeof(char) * (i + 1));
-	if (!key)
-		return ;
-	i = 0;
-	while (data->input[i] != '=')
-	{
-		key[i] = data->input[i];
-		i++;
-	}
-	key[i] = '\0';
+	key = ft_substr(data->input, 0, i);
 	i++;
+	start = i;
 	while (data->input[i])
-	{
 		i++;
-		j++;
-	}
-	value = malloc(sizeof(char) * (j + 1));
-	if (!value)
-		return ;
-	i = i - j;
-	j = 0;
-	while (data->input[i])
-	{
-		value[j] = data->input[i];
-		i++;
-		j++;
-	}
-	value[j] = '\0';
+	value = ft_substr(data->input, start, i - start);
 	add_var_to_list(data->exp, key, value);
 	free(key);
 	free(value);

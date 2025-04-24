@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 13:28:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:12:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	check_for_expansions(t_data *data)
 	current = *data->lexed_list;
 	prev = NULL;
 	dollars = count_dollars(*data->lexed_list);
-	data->exp->extracted_keys = malloc(sizeof(char*) * (dollars + 1));
+	if (!dollars)
+		return ;
 	while (current)
 	{
 		if (ft_strchr(current->value, '$'))

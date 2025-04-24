@@ -6,11 +6,26 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 16:41:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:13:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//check if curr->value has any quotes
+int	has_quotes(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '\'' || value[i] == '"')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 //removes all quotes and returns a new cleaned up string
 char	*remove_quotes(char *value)
@@ -57,7 +72,10 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 		return ;
 	while (temp && (temp->type == ARG || temp->type == CMD))
 	{
-		curr_node->args[i] = remove_quotes(temp->value);
+		if (has_quotes(temp->value))
+			curr_node->args[i] = remove_quotes(temp->value);
+		else
+			curr_node->args[i] = ft_strdup(temp->value);
 		i++;
 		temp = temp->next;
 	}

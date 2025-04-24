@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 17:47:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:11:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef struct s_var
 typedef struct s_exp_data
 {
 	t_var	*var_list;
-	char	**extracted_keys;
 }	t_exp_data;
 
 #endif

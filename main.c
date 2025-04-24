@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 14:08:20 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 16:24:33 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static int	ft_lexer(t_data *data)
 
 static void init_data(t_data *data)
 {
+	data->input = NULL;
 	data->root = NULL;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
@@ -45,7 +46,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv; //maybe something later
 	data.exp = malloc(sizeof(t_exp_data));
 	data.exp->var_list = malloc(sizeof(t_var));
-	data.exp->var_list = NULL;
 	while (1)
 	{
 		init_data(&data);
@@ -64,7 +64,12 @@ int	main(int argc, char **argv, char **envp)
 		else
 			make_tree(&data);
 		if (data.root)
+		{
 			execute_command(data.root, envp);
+			free_ast(data.root);
+		}
+		free(data.input);
 	}
+	destroy_memory(&data);
 	return (0);
 }
