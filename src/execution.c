@@ -57,7 +57,7 @@ void exec_pipe(char **cmd1, char **cmd2) {
 	printf("DEBUG: Pipe execution completed\n");
 }
 
-void exec_single(char **cmd) {
+void exec_single(char **cmd, t_arena *env_arena) {
 	printf("DEBUG: Starting single command execution\n");
 	printf("DEBUG: Command: %s\n", cmd[0]);
 	printf("DEBUG: Full command: ");
@@ -69,7 +69,7 @@ void exec_single(char **cmd) {
 	if (strcmp(cmd[0], "cd") == 0) {
 		printf("DEBUG: Handling cd command\n");
 		if (cmd[1] == NULL) {
-			chdir(getenv("HOME"));
+			chdir(arena_getenv(env_arena, "HOME"));
 		} else {
 			if (chdir(cmd[1]) != 0) {
 				perror("cd");
@@ -89,7 +89,7 @@ void exec_single(char **cmd) {
 		execvp(cmd[0], cmd);
 		printf("DEBUG: execvp failed for %s\n", cmd[0]);
 		perror("execvp");
-		exit(EXIT_FAILURE);
+		exit(1);
 	} else {
 		printf("DEBUG: Parent process waiting for child %d\n", pid);
 		waitpid(pid, NULL, 0);

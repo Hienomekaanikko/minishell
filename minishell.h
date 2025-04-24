@@ -105,5 +105,7 @@ int		builtin_pwd();
 int		builtin_export();
 int		builtin_unset();
 int		builtin_env(t_arena *env_arena);
+//envp
+char	*arena_getenv(t_arena *env_arena, char *key);
 
 #endif

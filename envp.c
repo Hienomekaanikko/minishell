@@ -21,3 +21,23 @@ t_arena	*init_env_arena(char **envp)
 	}
 	return (env_arena);
 }
+
+char	*arena_getenv(t_arena *env_arena, char *key)
+{
+	size_t	i;
+	size_t	key_len;
+	char	*env_var;
+
+	if(!env_arena || !key)
+		return (NULL);
+	key_len = ft_strlen(key);
+	i = 0;
+	while(i < env_arena->ptrs_in_use)
+	{
+		env_var = env_arena->ptrs[i];
+		if (ft_strncmp(env_var, key, key_len) == 0 && env_var[key_len] == '=')
+			return (env_var + key_len + 1);
+		i++;
+	}
+	return (NULL);
+}

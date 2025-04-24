@@ -28,7 +28,7 @@ char *try_path(char *cmd, char *path_str)
 	return (NULL);
 }
 
-char *find_executable(t_ast *node)
+char *find_executable(t_ast *node, t_arena *env_arena)
 {
     char *executable;
 
@@ -36,7 +36,7 @@ char *find_executable(t_ast *node)
     if (executable)
         return (executable);
 	printf("Command not found in secure path. Searching through environment. Risky, right?\n");
-	executable = try_path(node->cmd, getenv("PATH"));
+	executable = try_path(node->cmd, arena_getenv(env_arena, "PATH"));
 	return (executable);
 }
 
@@ -71,7 +71,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	}
 	if (pid == 0)
 	{
-		path = find_executable(node);
+		path = find_executable(node, env_arena);
 		if(!path)
 		{
 			ft_putstr_fd("Command not found\n", 2);
