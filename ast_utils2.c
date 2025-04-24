@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 16:53:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:28:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int	count_new_len(char *value)
 t_ast	*create_node(char *value, t_token type)
 {
 	t_ast *new_node = (t_ast*)malloc(sizeof(t_ast));
-	new_node->cmd = remove_quotes(value);
+	if (has_quotes(value))
+		new_node->cmd = remove_quotes(value);
+	else
+		new_node->cmd = ft_strdup(value);
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;

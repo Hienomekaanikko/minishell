@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 16:12:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:50:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	append_substring_before_dollar(char **new_value, char *value, int start, int end)
 {
-	char *sub;
+	char	*sub;
 
 	sub = ft_substr(value, start, end - start);
 	*new_value = ft_strjoin(*new_value, sub);
@@ -93,7 +93,10 @@ void	check_for_expansions(t_data *data)
 		{
 			expanded_value = expander(data, current->value);
 			if (expanded_value)
+			{
 				refresh_value(current, expanded_value, prev);
+				free(expanded_value);
+			}
 			else
 				current = remove_key_not_found(data, current, prev);
 		}

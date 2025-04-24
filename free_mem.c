@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:25:12 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 16:18:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:53:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,18 @@
 
 void	free_ast(t_ast *root)
 {
-	t_ast	*curr;
-	t_ast	*tmp;
-
-	curr = root;
-	while (curr)
-	{
-		tmp = curr->left;
-		if (curr->right)
-			free(curr->right);
-		free(curr);
-		curr = tmp;
-	}
+	if (root == NULL)
+		return;
+	free_ast(root->left);
+	free_ast(root->right);
+	if (root->args)
+		ft_free_split(root->args);
+	if (root->cmd)
+		free(root->cmd);
+	free(root);
 }
+
+
 
 void	free_lexed_list(t_lexer *start)
 {
@@ -68,10 +67,7 @@ void	destroy_memory(t_data *data)
 	if (data->exp)
 	{
 		if (data->exp->var_list)
-		{
 			free_var_list(data->exp->var_list);
-			data->exp->var_list = NULL;
-		}
 		free(data->exp);
 	}
 	if (data->lexed_list)
