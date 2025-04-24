@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 18:43:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:49:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	key_len = 0;
 	while (value[*i + key_len] && ft_isalnum(value[*i + key_len]))
 		key_len++;
-
 	if (key_len == 0)
 		return ;
-
 	extracted_key = ft_substr(value, *i, key_len);
 	fetched_value = is_declared(data, extracted_key);
 	if (fetched_value)

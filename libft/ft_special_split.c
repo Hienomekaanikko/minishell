@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/22 16:10:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:38:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ static char	**free_malloc(char **array_of_strings, int y)
 
 static char **split_the_strings(char const *s, char c, char **array_of_strings)
 {
-	int i = 0;
-	int y = 0;
-	int start;
-	int in_quote = 0;
-	char quote = 0;
+	int		i;
+	int		y;
+	int		start;
+	int		in_quote;
+	char	quote;
 
 	i = 0;
 	y = 0;
@@ -81,15 +81,35 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 			}
 			i++;
 		}
+		if (in_quote)
+		{
+			printf("ERROR: Invalid input, unclosed quote\n");
+			return (NULL);
+		}
 		if (i > start)
 		{
-			array_of_strings[y++] = ft_substr(s, start, i - start);
+			array_of_strings[y] = ft_substr(s, start, i - start);
+			y++;
 			if (!array_of_strings[y - 1])
 				return (free_malloc(array_of_strings, y - 1));
 		}
 	}
 	array_of_strings[y] = NULL;
-	return array_of_strings;
+	return (array_of_strings);
+}
+
+static int	is_only_space(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_isspace(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	**ft_special_split(char const *s, char c)
@@ -99,6 +119,8 @@ char	**ft_special_split(char const *s, char c)
 	char	**result;
 
 	if (!s)
+		return (NULL);
+	if (is_only_space(s))
 		return (NULL);
 	amount_of_strings = ft_count_splits(s, c);
 	array_of_strings = malloc((amount_of_strings + 1) * sizeof(char *));

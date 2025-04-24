@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 18:43:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:15:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,13 @@ typedef struct s_data
 	char		*input;
 }	t_data;
 
+//lexer stuff
+int			ft_make_list(t_data *data);
+void		make_tree(t_data *data);
+int			ft_add_node(t_lexer **list, char *input_list);
+void		add_starting_token(t_lexer *curr);
+void		add_token(t_lexer *curr, t_lexer *prev);
+
 //ast tree stuff (added 22.4.)
 void		add_arguments(t_ast *curr_node, t_lexer *current);
 void		add_right_child(t_ast **position, t_lexer *current);
@@ -95,14 +102,12 @@ void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
+void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
-void		check_for_expansions(t_data *data);
-int			ft_make_list(t_data *data);
-void		make_tree(t_data *data);
 void		visualize_tree_TEST(t_data *data);
 int			execute_command(t_ast *node, char **env);
 void		builtin_echo();

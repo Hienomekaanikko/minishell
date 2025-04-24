@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 14:37:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:52:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static int	ft_lexer(t_data *data)
 {
 	data->temp_array = ft_special_split(data->input, ' ');
+	if (!data->temp_array)
+		return (0);
 	if (!ft_make_list(data))
 		return (0);
 	if (data->exp->var_list)
@@ -49,6 +51,8 @@ int	main(int argc, char **argv, char **envp)
 		init_data(&data);
 		rl_on_new_line();
 		data.input = readline("minishell$: ");
+		if (ft_strlen(data.input) == 0)
+			continue;
 		if (data.input == NULL)
 			continue;
 		else
