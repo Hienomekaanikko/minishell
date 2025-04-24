@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 12:52:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:08:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	main(int argc, char **argv, char **envp)
 		init_data(&data);
 		rl_on_new_line();
 		data.input = readline("minishell$: ");
-		if (ft_strlen(data.input) == 0)
-			continue;
 		if (data.input == NULL)
 			continue;
 		else

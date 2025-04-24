@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 12:13:54 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 14:02:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ int	ft_make_list(t_data *data)
 	if (!check_grammar(data))
 		return (0);
 	// for testing to see what is inside each node:
-	t_lexer	*temp;
-	temp = *linked_list;
-	while (temp)
-	{
-		printf("value: %s, type: %d\n", temp->value, temp->type);
-		temp = temp->next;
-	}
+	// t_lexer	*temp;
+	// temp = *linked_list;
+	// while (temp)
+	// {
+	// 	printf("value: %s, type: %d\n", temp->value, temp->type);
+	// 	temp = temp->next;
+	// }
 	return (1);
 }

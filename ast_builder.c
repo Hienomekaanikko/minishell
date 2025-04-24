@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 11:35:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/24 13:19:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ void	make_tree(t_data *data)
 		set_basic_tree(data);
 	else if (tree_type(data) == 2)
 		set_complex_tree(data);
-	visualize_tree_TEST(data);
+	//visualize_tree_TEST(data);
 }
