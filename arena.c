@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	arena_realloc(t_arena *arena, size_t more_space)
+static void	arena_realloc(t_arena *arena, size_t more_space)
 {
 	char	*old_memory;
 	char	*new_memory;
@@ -9,13 +9,13 @@ void	arena_realloc(t_arena *arena, size_t more_space)
 	old_memory = arena->memory;
 	new_size = arena->mem_size + more_space;
 	new_memory = malloc(new_size);
-	ft_memcpy(old_memory, new_memory, arena->mem_size);
+	ft_memcpy(new_memory, old_memory, arena->mem_used);
 	free(old_memory);
 	arena->memory = new_memory;
 	arena->mem_size = new_size;
 }
 
-void	arena_ptrs_realloc(t_arena *arena)
+static void	arena_ptrs_realloc(t_arena *arena)
 {
 	char	**old_ptrs;
 	char	**new_ptrs;
@@ -63,7 +63,6 @@ char	*arena_add(t_arena *arena, char *add)
 {
 	size_t	add_len;
 	char	*ptr;
-	int		i;
 
 	add_len = ft_strlen(add) + 1;
 	if (arena->mem_used + add_len > arena->mem_size)
@@ -71,18 +70,17 @@ char	*arena_add(t_arena *arena, char *add)
 	if (arena->ptrs_in_use >= arena->ptr_capacity)
 		arena_ptrs_realloc(arena);
 	ptr = arena->memory + arena->mem_used;
+	ft_memcpy(ptr, add, add_len);
 	arena->ptrs[arena->ptrs_in_use] = ptr;
 	arena->ptrs_in_use++;
-	i = 0;
-	while(add[i])
-	{
-		arena->memory[arena->mem_used] = add[i];
-		arena->mem_used++;
-		i++;
-	}
-	arena->memory[arena->mem_used] = '\0';
-	arena->mem_used++;
+	arena->mem_used += add_len;
 	return (ptr);
+}
+
+void	arena_clear(t_arena *arena)
+{
+	arena->mem_used = 0;
+	arena->ptrs_in_use = 0;
 }
 
 void	arena_free(t_arena *arena)
@@ -91,35 +89,3 @@ void	arena_free(t_arena *arena)
 	free(arena->ptrs);
 	free(arena);
 }
-
-int	main(void)
-{
-	t_arena	*arena;
-	arena = arena_init(128, 2);
-	if (!arena)
-	{
-		printf("Failed to initialize arena\n");
-		return (1);
-	}
-
-	// Add some strings to the arena
-	arena_add(arena, "Hello");
-	arena_add(arena, "World");
-	arena_add(arena, "Test");
-
-	// Print the strings directly from arena memory
-	printf("str1: %s\n", arena->ptrs[0]);
-	printf("str2: %s\n", arena->ptrs[1]);
-	printf("str3: %s\n", arena->ptrs[2]);
-
-	// Print arena stats
-	printf("\nArena stats:\n");
-	printf("Memory size: %zu\n", arena->mem_size);
-	printf("Memory used: %zu\n", arena->mem_used);
-	printf("Pointers in use: %zu\n", arena->ptrs_in_use);
-	printf("Pointer capacity: %zu\n", arena->ptr_capacity);
-
-	// Free the arena
-	arena_free(arena);
-	return (0);
-} 

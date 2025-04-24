@@ -56,15 +56,6 @@ typedef struct	s_ast
 	struct s_ast	*right;
 } t_ast;
 
-typedef struct s_exec_status
-{
-	int			exit_code;
-	int			signal;
-	char		*error_msg;
-	pid_t		pid;
-	void		(*cleanup)(t_ast*); //olikos tälle nyt käyttöä?
-} t_exec_status;
-
 //structure for the main data stuff
 typedef struct s_data
 {
@@ -74,36 +65,45 @@ typedef struct s_data
 	char	*input;
 }	t_data;
 
-typedef struct s_env
+//structure for the execution status
+typedef struct s_exec_status
 {
-	char	**envp;
-	size_t	var_count;
-	size_t	capacity;
-} t_env;
+	int			exit_code;
+	int			signal;
+	char		*error_msg;
+	pid_t		pid;
+} t_exec_status;
 
+//arena
 typedef struct s_arena
 {
-	char	*memory;
-	size_t	mem_size;
-	size_t	mem_used;
-	char	**ptrs;
-	size_t	ptrs_in_use;
-	size_t	ptr_capacity;
+	char		*memory;
+	char		**ptrs;
+	size_t		mem_size;
+	size_t		mem_used;
+	size_t		ptrs_in_use;
+	size_t		ptr_capacity;
 }	t_arena;
 
 int		ft_make_list(t_data *data);
 void	make_tree(t_data *data);
 void	visualize_tree_TEST(t_data *data);
+//void	debug_print(char *msg);
 //execution
-void	debug_print(char *msg);  //DEBUG
-void    execute_command(t_ast *node, char **env, t_exec_status *exec_status);
-void	exec_pipe(t_ast *node, char **env, t_exec_status *exec_status);
+void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+//arena
+t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
+void	arena_free(t_arena *arena);
+char	*arena_add(t_arena *arena, char *str);
+void	arena_clear(t_arena *arena);
+t_arena	*init_env_arena(char **envp);
 //built-ins
 int		builtin_echo(char **args, t_exec_status *status);
 int		builtin_cd(char **args);
 int		builtin_pwd();
 int		builtin_export();
 int		builtin_unset();
-int		builtin_env(char **env);
+int		builtin_env(t_arena *env_arena);
 
 #endif

@@ -5,7 +5,7 @@ LIBS	= ${LIBFT}/libft.a
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
-SRC = main.c list_utils.c ast_builder.c TEST_stuff.c execution.c builtins.c exec_pipe.c
+SRC = main.c list_utils.c ast_builder.c TEST_stuff.c execution.c builtins.c exec_pipe.c envp.c arena.c
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)

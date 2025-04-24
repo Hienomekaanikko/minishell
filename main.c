@@ -40,10 +40,13 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
 	t_exec_status	exec_status;
+	t_arena			*env_arena;
 
 	(void)argc; //maybe something later
 	(void)argv; //maybe something later
 	init_exec_status(&exec_status);
+	env_arena = init_env_arena(envp);
+	//TODO: !env_arena -> error and exit
 	while (1)
 	{
 		init_data(&data);
@@ -57,8 +60,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		else
 			make_tree(&data);
-		// replace this with the lexing, parsing etc.
-		execute_command(data.root, envp, &exec_status);
+		execute_command(data.root, env_arena, &exec_status);
 	}
+	arena_free(env_arena);
 	return (0);
 }

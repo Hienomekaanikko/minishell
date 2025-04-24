@@ -55,16 +55,17 @@ int	builtin_unset()
 	printf("PLACEHOLDER: unset\n");
 	return (0);
 }
-int	builtin_env(char **env)
-{
-	int	i;
 
-	i = 0;
-	while(env[i])
-	{
-		ft_putstr_fd(env[i], 2);
-		ft_putstr_fd("\n", 2);
-		i++;
-	}
-	return (0);
+int builtin_env(t_arena *arena)
+{
+    size_t i;
+
+    i = 0;
+    while (i < arena->ptrs_in_use)
+    {
+        ft_putstr_fd(arena->ptrs[i], 2);
+        ft_putstr_fd("\n", 2);
+        i++;
+    }
+    return (0);
 }

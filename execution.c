@@ -1,14 +1,5 @@
 #include "minishell.h"
 
-void	debug_print(char *msg)  //DEBUG
-{
-	ft_putstr_fd("\033[31mDEBUG: ", 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("\n", 2);
-	ft_putnbr_fd(getpid(), 2);
-	ft_putstr_fd("\033[0m \n", 2);
-}
-
 char *try_path(char *cmd, char *path_str)
 {
 	char	**paths;
@@ -49,7 +40,7 @@ char *find_executable(t_ast *node)
 	return (executable);
 }
 
-int	built_ins(t_ast *node, char **env, t_exec_status *status)
+int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
 { 
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
 		return (builtin_echo(node->args, status));
@@ -62,47 +53,16 @@ int	built_ins(t_ast *node, char **env, t_exec_status *status)
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
 		return (builtin_unset());
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
-		return (builtin_env(env));
+		return (builtin_env(env_arena));
 	return (-1);
 }
 
-// char	**cmd_plus_args(char *cmd, char **args) //Free me! Tarvitaanko tätä?
-// {
-// 	char	**cmdargs;
-// 	int		arg_count;
-// 	int		i;
-
-// 	if (!args) {
-// 		cmdargs = malloc(sizeof(char*) * 2);
-// 		cmdargs[0] = cmd;
-// 		cmdargs[1] = NULL;
-// 		return cmdargs;
-// 	}
-// 	arg_count = 0;
-// 	while(args[arg_count])
-// 		arg_count++;
-// 	cmdargs = malloc(sizeof(char*) * (arg_count + 2));
-// 	if (!cmdargs)
-// 		return (NULL);
-// 	cmdargs[0] = cmd;
-// 	i = 0;
-// 	while(i < arg_count)
-// 	{
-// 		cmdargs[i + 1] = args[i];
-// 		i++;
-// 	}
-// 	cmdargs[arg_count + 1] = NULL;
-// 	return (cmdargs);
-// }
-
-int	executables(t_ast *node, char **env, t_exec_status *exec_status)
+int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 {
 	pid_t	pid;
 	char	*path;
 	int		status;
 
-	
-	node->env = env;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -117,12 +77,9 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 			ft_putstr_fd("Command not found\n", 2);
 			exit(127);
 		}
-	//	char	**cmdargs = cmd_plus_args(node->cmd, node->args); //ehkä mikolta tulee ratkaisu ja tätä ei tarvita
-	//	execve(path, cmdargs, node->env);
-		execve(path, node->args, node->env);
+		execve(path, node->args, env_arena->ptrs);
 		printf("execve failed\n");
 		free(path);
-	//	free(cmdargs); //eikä tätä
 		ft_putstr_fd("Permission denied\n", 2);
 		exit(1);
 	}
@@ -139,39 +96,15 @@ int	executables(t_ast *node, char **env, t_exec_status *exec_status)
 	return (0);
 }
 
-void	execute_command(t_ast *node, char **env, t_exec_status *exec_status)
+void	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 {
-	node->env = env;
 	if (node->type == PIPE)
 	{
-		exec_pipe(node, env, exec_status);
+		exec_pipe(node, env_arena, exec_status);
 		return ;
 	}
-	if (built_ins(node, env, exec_status) != -1)
+	if (built_ins(node, env_arena, exec_status) != -1)
 		return ;
-	if(executables(node, env, exec_status) == -1)
+	if(executables(node, env_arena, exec_status) == -1)
 		ft_putstr_fd("command not found\n", 2);
 }
-
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	if (ac < 2)
-// 	{
-// 		ft_putstr_fd("Usage: ./minishell <command> [args]\n", 2);
-// 		return (1);
-// 	}
-
-// 	t_ast cmd_node = {
-// 		.type = CMD,
-// 		.cmd = av[1],
-// 		.args = &av[1],
-// 		.env = env,
-// 		.infile = NULL,
-// 		.outfile = NULL,
-// 		.left = NULL,
-// 		.right = NULL,
-// 	};
-// 	execute_command(&cmd_node);
-// 	return (0);
-// }
