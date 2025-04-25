@@ -1,0 +1,64 @@
+#include <unistd.h>
+#include <stdio.h>
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+
+	(void)argc;
+	(void)argv;
+	data.exp = malloc(sizeof(t_exp_data));
+	data.exp->var_list = NULL;
+
+	if (isatty(STDIN_FILENO)) // Interactive mode
+	{
+		while (1)
+		{
+			init_data(&data);
+			rl_on_new_line();
+			data.input = readline("minishell$: ");
+			if (data.input == NULL)
+				continue;
+			else
+				add_history(data.input);
+			if (ft_strncmp(data.input, "exit", 4) == 0)
+				break;
+			if (is_var_declaration(data.input))
+				add_var_declaration(&data);
+			else if (!ft_lexer(&data))
+				continue ;
+			else
+				make_tree(&data);
+			if (data.root)
+			{
+				execute_command(data.root, envp);
+				free_ast(data.root);
+			}
+			free(data.input);
+		}
+	}
+	else // Non-interactive mode: read from stdin line-by-line
+	{
+		char *line = NULL;
+		while (getline(&line, NULL, stdin) != -1)
+		{
+			data.input = line;
+			init_data(&data);
+			if (is_var_declaration(data.input))
+				add_var_declaration(&data);
+			else if (!ft_lexer(&data))
+				continue ;
+			else
+				make_tree(&data);
+			if (data.root)
+			{
+				execute_command(data.root, envp);
+				free_ast(data.root);
+			}
+			free(data.input);
+			line = NULL;
+		}
+	}
+	destroy_memory(&data);
+	return (0);
+}
