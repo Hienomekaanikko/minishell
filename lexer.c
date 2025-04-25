@@ -6,11 +6,24 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 17:54:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:59:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_lexer(t_data *data)
+{
+	data->temp_array = ft_special_split(data->input, ' ');
+	if (!data->temp_array)
+		return (0);
+	if (!ft_make_list(data))
+		return (0);
+	if (data->exp->var_list)
+		check_for_expansions(data);
+	ft_free_split(data->temp_array);
+	return (1);
+}
 
 //add the type of token to the node 'type', according to the enum struct.
 static void	add_token_type(t_lexer **linked_list)
@@ -76,7 +89,7 @@ static int	check_grammar(t_data *data)
 	}
 	if (msg)
 	{
-		printf("%s\n", msg);
+		ft_putendl_fd(msg, 2);
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 17:50:50 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:24:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ void	check_for_expansions(t_data *data)
 		{
 			expanded_value = expander(data, current->value);
 			if (expanded_value)
-			{
 				refresh_value(current, expanded_value, prev);
-				free(expanded_value);
-			}
 			else
 				current = remove_key_not_found(data, current, prev);
 		}

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 17:18:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:59:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
+int			ft_lexer(t_data *data);
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
