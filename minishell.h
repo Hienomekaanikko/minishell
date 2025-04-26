@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <fcntl.h>
 
 #define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
@@ -50,8 +51,7 @@ typedef struct	s_ast
 	t_token			type;
 	char			*cmd;
 	char			**args;
-	char			*infile;
-	char			*outfile;
+	char			*file;
 	struct s_ast	*left;
 	struct s_ast	*right;
 } t_ast;
@@ -92,6 +92,7 @@ void	visualize_tree_TEST(t_data *data);
 //execution
 void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);

@@ -62,8 +62,8 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->left = NULL;
 	new_node->right = NULL;
 	new_node->args = NULL;
-	new_node->infile = NULL;
-	new_node->outfile = NULL;
+	new_node->file = NULL;
+
 	return (new_node);
 }
 

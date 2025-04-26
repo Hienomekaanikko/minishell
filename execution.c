@@ -103,6 +103,11 @@ void	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status
 		exec_pipe(node, env_arena, exec_status);
 		return ;
 	}
+	if (node->type == RE_OUT)
+	{
+		exec_re_out(node, env_arena, exec_status);
+		return ;
+	}
 	if (built_ins(node, env_arena, exec_status) != -1)
 		return ;
 	if(executables(node, env_arena, exec_status) == -1)
