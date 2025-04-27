@@ -1,0 +1,27 @@
+🔹 $ can indicate variable expansion:
+
+name="world"
+echo "Hello, $name"  # → Hello, world
+🔹 $() is for command substitution:
+This is one of the most powerful uses of $!
+
+date_output=$(date)
+echo "Current date is: $date_output"
+Or inline:
+
+echo "Today is $(date +%A)"
+That runs the command inside $(...) and substitutes the output into the line.
+
+🔹 $ can also be part of positional parameters and special variables:
+$1, $2, etc. → script arguments
+
+$# → number of arguments
+
+$? → exit status of last command
+
+$$ → PID of the script
+
+$! → PID of the last backgrounded process
+
+🔹 $ can be used with arithmetic expansion:
+echo $((2 + 3))  # → 5

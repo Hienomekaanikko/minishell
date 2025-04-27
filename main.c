@@ -12,16 +12,18 @@
 
 #include "minishell.h"
 
-static int	ft_lexer(t_data *data)
-{
-	data->temp_array = ft_special_split(data->input, ' ');
-	if (!ft_make_list(data))
-		return (0);
-	return (1);
-}
-
 static void init_data(t_data *data)
 {
+	if (data->input)
+	{
+		free(data->input);
+		data->input = NULL;
+	}
+	if (data->root)
+	{
+		free_ast(data->root);
+		data->root = NULL;
+	}
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
 	{
@@ -30,7 +32,29 @@ static void init_data(t_data *data)
 	}
 	*data->lexed_list = NULL;
 }
-//perus maini toistaseks etta voidaan rakennella
+
+int	process_input(t_data *data)
+{
+	data->input = readline("minishell$: ");
+	add_history(data->input);
+	if (is_var_declaration(data->input))
+		add_var_declaration(data);
+	ft_lexer(data);
+	if (data->lexed_list)
+		make_tree(data);
+	return (1);
+}
+
+void	init_base(t_data *data, int argc, char **argv)
+{
+	(void)argc;
+	(void)argv;
+	data->exp = malloc(sizeof(t_exp_data));
+	data->exp->var_list = NULL;
+	data->root = NULL;
+	data->input = NULL;
+}
+
 void	init_exec_status(t_exec_status *status)
 {
 	ft_memset(status, 0, sizeof(t_exec_status));
@@ -42,26 +66,21 @@ int	main(int argc, char **argv, char **envp)
 	t_exec_status	exec_status;
 	t_arena			*env_arena;
 
-	(void)argc; //maybe something later
-	(void)argv; //maybe something later
+	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	env_arena = init_env_arena(envp);
 	//TODO: !env_arena -> error and exit
 	while (1)
 	{
 		init_data(&data);
-		rl_on_new_line();
-		data.input = readline("minishell$: ");
-		if (data.input == NULL)
-			break;
-		if (ft_strncmp(data.input, "exit", 4) == 0)
-			break;
-		if (!ft_lexer(&data))
+		if (!process_input(&data))
 			continue ;
-		else
-			make_tree(&data);
-		execute_command(data.root, env_arena, &exec_status);
+		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
+			break;
+		if (data.root)
+			execute_command(data.root, env_arena, &exec_status);
 	}
 	arena_free(env_arena);
+	//destroy_memory(&data);
 	return (0);
 }

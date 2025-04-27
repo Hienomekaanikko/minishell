@@ -60,5 +60,5 @@ void		ft_free_substrings(char **arr_str);
 char		*ft_strjoin_free(char *s1, char *s2);
 int			is_space(char *cmd);
 char		**ft_special_split(char const *s, char c);
-
+char		**ft_no_quotes_split(char const *s, char c);
 #endif

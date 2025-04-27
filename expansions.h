@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   expansions.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 15:26:59 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/25 17:58:47 by msuokas          ###   ########.fr       */
+/*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
+/*   Updated: 2025/04/24 16:11:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXPANSIONS_H
+#define EXPANSIONS_H
 
-int	ft_strncmp(char *str1, char *str2, size_t n)
+# include "minishell.h"
+
+typedef struct s_keys
 {
-	size_t	i;
+	char			*key;
+	struct s_keys	*next;
+}	t_keys;
 
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n)
-	{
-		if (str1[i] != str2[i] || str1[i] == '\0' || str2[i] == '\0')
-			return ((unsigned char)str1[i] - (unsigned char)str2[i]);
-		i++;
-	}
-	if (i < n)
-		return (str1[i] - str2[i]);
-	return (0);
-}
+typedef struct s_var
+{
+	char			*key;
+	char			*value;
+	struct s_var	*next;
+}	t_var;
+
+typedef struct s_exp_data
+{
+	t_var	*var_list;
+}	t_exp_data;
+
+#endif
