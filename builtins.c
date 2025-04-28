@@ -14,17 +14,17 @@ int	builtin_echo(char **args, t_exec_status *status)
 	while(args[i])
 	{
 		if (ft_strncmp(args[i], "$!", 3) == 0)
-			printf("%d", status->pid);
+			ft_putnbr_fd(status->pid, 1);
 		else if (ft_strncmp(args[i], "$?", 3) == 0)
-			printf("%d", status->exit_code);
+			ft_putnbr_fd(status->exit_code, 1);
 		else
-			printf("%s", args[i]);
+			ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
 	if (newline_flag == 0)
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
 int	builtin_cd(char **args)
@@ -38,8 +38,8 @@ int	builtin_pwd()
 	pwd = getcwd(NULL, 0);
 	if(pwd)
 	{
-		ft_putstr_fd(pwd, 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd(pwd, 1);
+		ft_putstr_fd("\n", 1);
 		free(pwd);
 	}
 	//TODO: (!pwd) / else -> error
@@ -47,12 +47,12 @@ int	builtin_pwd()
 }
 int	builtin_export()
 {
-	printf("PLACEHOLDER: export\n");
+	ft_putstr_fd("PLACEHOLDER: export\n", 1);
 	return (0);
 }
 int	builtin_unset()
 {
-	printf("PLACEHOLDER: unset\n");
+	ft_putstr_fd("PLACEHOLDER: unset\n", 1);
 	return (0);
 }
 
@@ -63,8 +63,8 @@ int builtin_env(t_arena *arena)
     i = 0;
     while (i < arena->ptrs_in_use)
     {
-        ft_putstr_fd(arena->ptrs[i], 2);
-        ft_putstr_fd("\n", 2);
+        ft_putstr_fd(arena->ptrs[i], 1);
+        ft_putstr_fd("\n", 1);
         i++;
     }
     return (0);

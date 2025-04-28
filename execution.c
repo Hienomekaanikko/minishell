@@ -55,6 +55,8 @@ void	handle_exec_error(t_exec_status *exec_status, int status, char *error_msg, 
 			exec_status->error_msg = "Terminated";
 		else if (exec_status->signal == SIGKILL)
 			exec_status->error_msg = "Killed";
+		else if (exec_status->signal == SIGPIPE)
+			exec_status->error_msg = "Broken pipe";
 		else
 			exec_status->error_msg = "Unknown signal";
 		ft_putstr_fd("minishell: ", 2);
@@ -72,7 +74,6 @@ char *find_executable(t_ast *node, t_arena *env_arena)
     executable = try_path(node->cmd, SECURE_PATH);
     if (executable)
         return (executable);
-	printf("Command not found in secure path. Searching through environment.\n");
 	executable = try_path(node->cmd, arena_getenv(env_arena, "PATH"));
 	return (executable);
 }

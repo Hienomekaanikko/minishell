@@ -22,7 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
-
+# include <errno.h>
 #define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
 //token types
@@ -130,6 +130,7 @@ void		visualize_tree_TEST(t_data *data);
 void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+void	handle_exec_error(t_exec_status *exec_status, int status, char *error_msg, int exit_code);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);

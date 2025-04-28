@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <errno.h>
 
 void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
@@ -8,27 +9,31 @@ void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_
 	saved_stdout = dup(STDOUT_FILENO);
 	if (saved_stdout == -1)
 	{
-		perror("dup");
-		return ;
+		handle_exec_error(exec_status, 0, "dup failed", 1);
+		return;
 	}
 	fd = open(node->right->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("open");
-		return ;
+		handle_exec_error(exec_status, 0, "open failed", 1);
+		close(saved_stdout);
+		return;
 	}
 	if(dup2(fd, STDOUT_FILENO) == -1)
 	{
-		perror("dup2");
+		handle_exec_error(exec_status, 0, "dup2 failed", 1);
 		close(fd);
+		close(saved_stdout);
 		exit(1);
 	}
-	close(fd);
 	execute_command(node->left, env_arena, exec_status, exec_arena);
 	if (dup2(saved_stdout, STDOUT_FILENO) == -1)
 	{
-		perror("dup2");
-		exec_status->exit_code = 1;
+		handle_exec_error(exec_status, 0, "dup2 failed", 1);
+		close(fd);
+		close(saved_stdout);
+		return;
 	}
+	close(fd);
 	close(saved_stdout);
 }
