@@ -66,6 +66,7 @@ typedef struct s_data
 	t_ast		*root;
 	char		**temp_array;
 	char		*input;
+	int			syntax_err;
 }	t_data;
 
 //structure for the execution status

@@ -42,6 +42,8 @@ int	process_input(t_data *data)
 	ft_lexer(data);
 	if (data->lexed_list)
 		make_tree(data);
+	else
+		return (0);
 	return (1);
 }
 

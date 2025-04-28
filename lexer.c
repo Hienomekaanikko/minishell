@@ -52,21 +52,21 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 		|| checker->type == HERE_DOC || checker->type == APPEND_OUT)
 	{
 		if (!(*msg) && !checker->next)
-			*msg = "minishell$: syntax error near unexpected token `newline'";
+			*msg = "syntax error near unexpected token `newline'";
 	}
 	if (checker->type == PIPE)
 	{
-		if (!(*msg) && !prev)
-			*msg = "minishell$: syntax error near unexpected token `|'";
+		if (!(*msg) && !(*prev))
+			*msg = "syntax error near unexpected token `|'";
 		if (checker->next)
 		{
 			if (!(*msg) && checker->next->type != CMD && checker->next->type != ARG)
-				*msg = "minishell$: syntax error near unexpected token `|'";
+				*msg = "syntax error near unexpected token `|'";
 		}
 		else
 		{
 			if (!(*msg))
-				*msg = "minishell$: a prompt should open here for input, not made yet";
+				*msg = "syntax error near unexpected token `|'";
 		}
 	}
 	*prev = checker;
@@ -111,7 +111,11 @@ int	ft_make_list(t_data *data)
 		input_list++;
 	}
 	if (!check_grammar(data))
+	{
+		free(data->lexed_list);
+		data->lexed_list = NULL;
 		return (0);
+	}
 	// for testing to see what is inside each node:
 	// t_lexer	*temp;
 	// temp = *linked_list;
