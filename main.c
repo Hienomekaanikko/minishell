@@ -65,11 +65,12 @@ int	main(int argc, char **argv, char **envp)
 	t_data			data;
 	t_exec_status	exec_status;
 	t_arena			*env_arena;
+	t_arena			*exec_arena;
 
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
-	env_arena = init_env_arena(envp);
-	//TODO: !env_arena -> error and exit
+	env_arena = init_env_arena(envp);		//TODO: !env_arena -> error and exit
+	exec_arena = arena_init(1024, 1024);	//MB. Added exec arena. Not sure if needed
 	while (1)
 	{
 		init_data(&data);
@@ -78,9 +79,10 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
 			break;
 		if (data.root)
-			execute_command(data.root, env_arena, &exec_status);
+			execute_command(data.root, env_arena, &exec_status, exec_arena);
 	}
 	arena_free(env_arena);
+	arena_free(exec_arena);
 	//destroy_memory(&data);
 	return (0);
 }

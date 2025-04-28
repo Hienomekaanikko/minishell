@@ -127,9 +127,9 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 void		visualize_tree_TEST(t_data *data);
 //void	debug_print(char *msg);
 //execution
-void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);
