@@ -139,11 +139,11 @@ void	arena_clear(t_arena *arena);
 t_arena	*init_env_arena(char **envp);
 //built-ins
 int		builtin_echo(char **args, t_exec_status *status);
-int		builtin_cd(char **args);
-int		builtin_pwd();
-int		builtin_export();
-int		builtin_unset();
-int		builtin_env(t_arena *env_arena);
+int		builtin_cd(char **args, t_exec_status *status);
+int		builtin_pwd(t_exec_status *status);
+int		builtin_export(t_exec_status *status);
+int		builtin_unset(t_exec_status *status);
+int		builtin_env(t_arena *env_arena, t_exec_status *status);
 //envp
 char	*arena_getenv(t_arena *env_arena, char *key);
 

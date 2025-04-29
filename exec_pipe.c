@@ -23,7 +23,11 @@ void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_ar
 	if (pidL == 0)
 	{
 		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
+		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
+		{
+			close(pipe_fd[1]);
+			exit(1);
+		}
 		close(pipe_fd[1]);
 		if (node->left->type == PIPE)
 			exec_pipe(node->left, env_arena, exec_status, exec_arena);
@@ -43,7 +47,11 @@ void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_ar
 	if (pidR == 0)
 	{
 		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
+		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+		{
+			close(pipe_fd[0]);
+			exit(1);
+		}
 		close(pipe_fd[0]);
 		execute_command(node->right, env_arena, exec_status, exec_arena);
 		exit(exec_status->exit_code);
