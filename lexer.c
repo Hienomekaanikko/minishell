@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_lexer(t_data *data)
+int	ft_lexer(t_data *data) //env-arena added
 {
 	data->temp_array = ft_special_split(data->input, ' ');
 	if (!data->temp_array)

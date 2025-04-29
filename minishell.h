@@ -59,25 +59,6 @@ typedef struct	s_ast
 	struct s_ast	*right;
 } t_ast;
 
-//structure for the main data stuff
-typedef struct s_data
-{
-	t_exp_data	*exp;
-	t_lexer		**lexed_list;
-	t_ast		*root;
-	char		**temp_array;
-	char		*input;
-}	t_data;
-
-//structure for the execution status
-typedef struct s_exec_status
-{
-	int			exit_code;
-	int			signal;
-	char		*error_msg;
-	pid_t		pid;
-} t_exec_status;
-
 //arena
 typedef struct s_arena
 {
@@ -89,13 +70,33 @@ typedef struct s_arena
 	size_t		ptr_capacity;
 }	t_arena;
 
+//structure for the main data stuff
+typedef struct s_data
+{
+	t_exp_data	*exp;
+	t_lexer		**lexed_list;
+	t_ast		*root;
+	char		**temp_array;
+	char		*input;
+	t_arena		*env_arena;
+}	t_data;
+
+//structure for the execution status
+typedef struct s_exec_status
+{
+	int			exit_code;
+	int			signal;
+	char		*error_msg;
+	pid_t		pid;
+} t_exec_status;
+
 //lexer stuff
 int			ft_make_list(t_data *data);
 void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data);
+int			ft_lexer(t_data *data); //env-arena added
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
