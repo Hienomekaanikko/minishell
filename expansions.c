@@ -21,7 +21,7 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	free(sub);
 }
 
-static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i) //env-arena added
+static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i)
 {
 	int		key_len;
 	char	*extracted_key;
@@ -33,20 +33,17 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	if (key_len == 0)
 		return ;
 	extracted_key = ft_substr(value, *i, key_len);
-	// fetched_value = is_declared(data, extracted_key);
-	// if (fetched_value)
-	// {
-	// 	*new_value = ft_strjoin(*new_value, fetched_value);
-	// 	free(fetched_value);
-	// }
-	fetched_value = arena_getenv(data->env_arena, extracted_key);
+	fetched_value = is_declared(data, extracted_key);
 	if (fetched_value)
+	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
+		free(fetched_value);
+	}
 	free(extracted_key);
 	*i += key_len;
 }
 
-char	*expander(t_data *data, char *value) //env-arena added
+char	*expander(t_data *data, char *value)
 {
 	char	*new_value;
 	int		i;
@@ -60,7 +57,7 @@ char	*expander(t_data *data, char *value) //env-arena added
 		if (value[i] == '$')
 		{
 			if (i > start)
-				append_expanded_variable(data, &new_value, value, &i);
+				append_substring_before_dollar(&new_value, value, start, i);
 			i++;
 			append_expanded_variable(data, &new_value, value, &i);
 			start = i;
