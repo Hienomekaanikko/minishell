@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -146,5 +147,9 @@ int		builtin_unset(t_exec_status *status);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
 //envp
 char	*arena_getenv(t_arena *env_arena, char *key);
+//signals
+void	setup_signals(void);
+void	handle_sigint(int sig);
+void	setup_child_signals(void);
 
 #endif

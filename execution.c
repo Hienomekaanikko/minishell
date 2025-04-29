@@ -129,6 +129,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	}
 	if (pid == 0)
 	{
+		setup_child_signals();
 		path = find_executable(node, env_arena);
 		if (!path)
 			exit(127);
