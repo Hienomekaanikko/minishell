@@ -126,12 +126,14 @@ void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
-//void	debug_print(char *msg);
 //execution
 void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	exec_re_out(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-void	handle_exec_error(t_exec_status *exec_status, int status, char *error_msg, int exit_code);
+//error
+void	*handle_exec_error(t_exec_status *exec_status, char *error_msg, int exit_code);
+void	handle_exit_error(t_exec_status *exec_status, int exit_code);
+void	handle_signal_error(t_exec_status *exec_status, int signal);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);
@@ -151,5 +153,7 @@ char	*arena_getenv(t_arena *env_arena, char *key);
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	setup_child_signals(void);
+
+
 
 #endif

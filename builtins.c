@@ -32,7 +32,7 @@ int	builtin_cd(char **args, t_exec_status *status)
 {
 	if (chdir(args[1]) == -1)
 	{
-		handle_exec_error(status, 0, "cd: No such file or directory", 1);
+		handle_exec_error(status, "cd: No such file or directory", 1);
 		return (1);
 	}
 	return (0);
@@ -45,7 +45,7 @@ int	builtin_pwd(t_exec_status *status)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		handle_exec_error(status, 0, "pwd: getcwd failed", 1);
+		handle_exec_error(status, "pwd: getcwd failed", 1);
 		return (1);
 	}
 	ft_putstr_fd(pwd, 1);
@@ -74,7 +74,7 @@ int builtin_env(t_arena *arena, t_exec_status *status)
 
 	if (!arena || !arena->ptrs)
 	{
-		handle_exec_error(status, 0, "env: environment not set", 1);
+		handle_exec_error(status, "env: environment not set", 1);
 		return (1);
 	}
 

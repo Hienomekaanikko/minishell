@@ -3,8 +3,6 @@
 void handle_sigint(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
-    write(1, "minishell$ ", 11);
 }
 
 void setup_signals(void)
