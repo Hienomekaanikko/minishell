@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	t_arena			*env_arena;
 	t_arena			*exec_arena;
 
+	splash_screen();
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();

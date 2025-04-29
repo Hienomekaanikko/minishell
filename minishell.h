@@ -139,21 +139,24 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);
 char	*arena_add(t_arena *arena, char *str);
 void	arena_clear(t_arena *arena);
-t_arena	*init_env_arena(char **envp);
 //built-ins
 int		builtin_echo(char **args, t_exec_status *status);
 int		builtin_cd(char **args, t_exec_status *status);
 int		builtin_pwd(t_exec_status *status);
-int		builtin_export(t_exec_status *status);
-int		builtin_unset(t_exec_status *status);
+int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
+int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
 //envp
+t_arena	*init_env_arena(char **envp);
 char	*arena_getenv(t_arena *env_arena, char *key);
+int		arena_set_env(t_arena *env_arena, char *key, char *value);
+int		arena_unset_env(t_arena *env_arena, char *key);
 //signals
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	setup_child_signals(void);
-
+//graphics
+void	splash_screen(void);
 
 
 #endif

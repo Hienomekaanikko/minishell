@@ -1,4 +1,3 @@
-
 # include "minishell.h"
 
 t_arena	*init_env_arena(char **envp)
@@ -20,6 +19,50 @@ t_arena	*init_env_arena(char **envp)
 		i++;
 	}
 	return (env_arena);
+}
+
+int	arena_set_env(t_arena *env_arena, char *key, char *value)
+{
+	char	*env_var;
+
+	if (!env_arena || !key || !value)
+		return (-1);	
+	env_var = ft_strjoin(key, "=");
+	if (!env_var)
+		return (-1);
+	env_var = ft_strjoin_free(env_var, value);
+	if (!env_var)
+		return (-1);
+	if (!arena_add(env_arena, env_var))
+	{
+		free(env_var);
+		return (-1);
+	}
+	free(env_var);
+	return (0);
+}
+
+int	arena_unset_env(t_arena *env_arena, char *key)
+{
+	size_t	i;
+	size_t	key_len;
+
+	if (!env_arena || !key)
+		return (-1);
+	key_len = ft_strlen(key);
+	i = 0;
+	while (i < env_arena->ptrs_in_use)
+	{
+		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0 
+			&& env_arena->ptrs[i][key_len] == '=')
+		{
+			env_arena->ptrs[i] = env_arena->ptrs[env_arena->ptrs_in_use - 1];
+			env_arena->ptrs_in_use--;
+			return (0);
+		}
+		i++;
+	}
+	return (0);
 }
 
 char	*arena_getenv(t_arena *env_arena, char *key)

@@ -20,7 +20,6 @@ char *try_path(char *cmd, char *path_str, t_exec_status *status)
 			ft_free_split(paths);
 			return (handle_exec_error(status, "Memory allocation failed", 1));
 		}
-		
 		char *temp = ft_strjoin(path_to_executable, cmd);
 		free(path_to_executable);
 		if (!temp)
@@ -29,7 +28,6 @@ char *try_path(char *cmd, char *path_str, t_exec_status *status)
 			return (handle_exec_error(status, "Memory allocation failed", 1));
 		}
 		path_to_executable = temp;
-		
 		if (access(path_to_executable, X_OK) == 0)
 		{
 			ft_free_split(paths);
@@ -63,9 +61,9 @@ int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
 		return (builtin_pwd(status));
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
-		return (builtin_export(status));
+		return (builtin_export(env_arena, status, node->args));
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
-		return (builtin_unset(status));
+		return (builtin_unset(env_arena, status, node->args));
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
 		return (builtin_env(env_arena, status));
 	return (-1);

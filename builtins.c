@@ -54,18 +54,78 @@ int	builtin_pwd(t_exec_status *status)
 	return (0);
 }
 
-int	builtin_export(t_exec_status *status)
+static int	is_valid_env_name(const char *name)
 {
-	(void)status;
-	ft_putstr_fd("PLACEHOLDER: export\n", 1);
+	if (!name || !*name || ft_isdigit(*name))
+		return (0);
+	while (*name)
+	{
+		if (!ft_isalnum(*name) && *name != '_')
+			return (0);
+		name++;
+	}
+	return (1);
+}
+
+int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
+{
+	int		i;
+	char	*equals;
+	char	*key;
+	char	*value;
+
+	if (!args[1])
+		return (builtin_env(env_arena, status));
+	i = 1;
+	while (args[i])
+	{
+		equals = ft_strchr(args[i], '=');
+		if (equals)
+		{
+			*equals = '\0';
+			key = args[i];
+			value = equals + 1;
+			if (arena_set_env(env_arena, key, value) == -1)
+			{
+				*equals = '=';
+				handle_exec_error(status, "export: Memory error", 1);
+				return (1);
+			}
+			*equals = '=';
+		}
+		i++;
+	}
 	return (0);
 }
 
-int	builtin_unset(t_exec_status *status)
+
+
+int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 {
-	(void)status;
-	ft_putstr_fd("PLACEHOLDER: unset\n", 1);
-	return (0);
+	int	i;
+	int	return_value;
+
+	return_value = 0;
+	i = 1;
+	if (!args[1])
+	{
+		handle_exec_error(status, "unset: not enough arguments", 1);
+		return (1);
+	}
+	while (args[i])
+	{
+		if (!is_valid_env_name(args[i]))
+		{
+			ft_putstr_fd("unset: '", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return_value = 1;
+		}
+		else
+			arena_unset_env(env_arena, args[i]);
+		i++;
+	}
+	return (return_value);
 }
 
 int builtin_env(t_arena *arena, t_exec_status *status)
@@ -77,7 +137,6 @@ int builtin_env(t_arena *arena, t_exec_status *status)
 		handle_exec_error(status, "env: environment not set", 1);
 		return (1);
 	}
-
 	i = 0;
 	while (i < arena->ptrs_in_use)
 	{
