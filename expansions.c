@@ -60,7 +60,7 @@ char	*expander(t_data *data, char *value) //env-arena added
 		if (value[i] == '$')
 		{
 			if (i > start)
-				append_substring_before_dollar(&new_value, value, start, i);
+				append_expanded_variable(data, &new_value, value, &i);
 			i++;
 			append_expanded_variable(data, &new_value, value, &i);
 			start = i;
