@@ -17,20 +17,36 @@ static int	ft_count_splits(char const *s, char c)
 {
 	int	count;
 	int	in_word;
+	int	op_len;
+	int	op;
 
 	count = 0;
 	in_word = 0;
+	op_len = 0;
+	op = 0;
 	while (*s)
 	{
-		if (*s != c && !in_word)
+		if (*s == '>' || *s == '<' || *s == '|')
+		{
+			op = *s;
+			while (*s && op_len < 2 && *s == op)
+			{
+				op_len++;
+				s++;
+			}
+			op_len = 0;
+			count++;
+		}
+		if (*s != c && !in_word && *s != '|' && *s != '>' && *s != '<')
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c)
+		else if (*s == c || *s == '|' || *s == '>' || *s == '>')
 			in_word = 0;
 		s++;
 	}
+	printf("count is %d\n", count);
 	return (count);
 }
 
