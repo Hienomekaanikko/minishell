@@ -50,28 +50,18 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 {
 	if (checker->type == RE_IN || checker->type == HERE_DOC)
 	{
-		if (!(*msg) && ft_strchr(checker->value, '|'))
-			*msg = "syntax error near unexpected token `|'";
 		if (!(*msg) && !checker->next)
 			*msg = "syntax error near unexpected token `newline'";
 	}
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
 	{
-		if ((*prev)->type == PIPE)
-			*msg = "syntax error near unexpected token `newline'";
-		if (!(*msg) && ft_strchr(checker->value, '|'))
-			*msg = "syntax error near unexpected token `|'";
 		if (!(*msg) && checker->type == RE_OUT && !checker->next)
 			*msg = "syntax error near unexpected token `newline'";
-		else if (!(*msg) && checker->type == APPEND_OUT && ft_strlen(checker->value) != 2)
-			*msg = "syntax error near unexpected token `>'";
 		else if (!(*msg) && checker->type == APPEND_OUT && !checker->next)
 			*msg = "syntax error near unexpected token `newline'";
 	}
 	if (checker->type == PIPE)
 	{
-		if (!(*msg) && ft_strlen(checker->value) > 1)
-			*msg = "syntax error near unexpected token `|'";
 		if (!(*msg) && !(*prev))
 			*msg = "syntax error near unexpected token `|'";
 		if (checker->next)
@@ -126,13 +116,6 @@ int	ft_make_list(t_data *data)
 		add_token_type(linked_list);
 		input_list++;
 	}
-	if (!check_grammar(data))
-	{
-		free(data->lexed_list);
-		data->lexed_list = NULL;
-		return (0);
-	}
-	// for testing to see what is inside each node:
 	t_lexer	*temp;
 	temp = *linked_list;
 	while (temp)
@@ -140,5 +123,12 @@ int	ft_make_list(t_data *data)
 		printf("value: %s, type: %d\n", temp->value, temp->type);
 		temp = temp->next;
 	}
+	if (!check_grammar(data))
+	{
+		free(data->lexed_list);
+		data->lexed_list = NULL;
+		return (0);
+	}
+	// for testing to see what is inside each node:
 	return (1);
 }
