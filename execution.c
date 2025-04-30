@@ -115,9 +115,9 @@ void	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status
 		exec_pipe(node, env_arena, exec_status, exec_arena);
 		return ;
 	}
-	if (node->type == RE_OUT)
+	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
 	{
-		exec_re_out(node, env_arena, exec_status, exec_arena);
+		exec_redir(node, env_arena, exec_status, exec_arena);
 		return ;
 	}
 	if (built_ins(node, env_arena, exec_status) != -1)

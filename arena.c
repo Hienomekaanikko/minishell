@@ -43,7 +43,7 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 	ptrs = NULL;
 	if (arena_size < 128 || initial_ptrs < 2)
 		return (NULL);
-	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1)); //TODO: print some memory error if any of thi fails
+	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1)); //TODO: print some memory error if any of this fails
 	if (!ptrs)
 		return (NULL);
 	memory = malloc(arena_size);
