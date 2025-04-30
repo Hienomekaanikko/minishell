@@ -9,6 +9,8 @@ static void	arena_realloc(t_arena *arena, size_t more_space)
 	old_memory = arena->memory;
 	new_size = arena->mem_size + more_space;
 	new_memory = malloc(new_size);
+	if(!new_memory)
+		return ;
 	ft_memcpy(new_memory, old_memory, arena->mem_used);
 	free(old_memory);
 	arena->memory = new_memory;
@@ -33,25 +35,32 @@ static void	arena_ptrs_realloc(t_arena *arena)
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 {
 	t_arena	*arena;
+	char	*memory;
+	char	**ptrs;
 
+	arena = NULL;
+	memory = NULL;
+	ptrs = NULL;
 	if (arena_size < 128 || initial_ptrs < 2)
-		return (NULL); //TODO error and exit
+		return (NULL);
+	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1)); //TODO: print some memory error if any of thi fails
+	if (!ptrs)
+		return (NULL);
+	memory = malloc(arena_size);
+	if (!memory)
+	{
+		free(ptrs);
+		return (NULL);
+	}
 	arena = malloc(sizeof(t_arena));
 	if (!arena)
-		return (NULL);
-	arena->memory = malloc(arena_size);
-	if (!arena->memory)
 	{
-		free(arena);
+		free(memory);
+		free(ptrs);
 		return (NULL);
 	}
-	arena->ptrs = malloc(sizeof(char *) * (initial_ptrs + 1));
-	if (!arena->ptrs)
-	{
-		free(arena->memory);
-		free(arena);
-		return (NULL);
-	}
+	arena->memory = memory;
+	arena->ptrs = ptrs;
 	arena->mem_size = arena_size;
 	arena->ptr_capacity = initial_ptrs;
 	arena->ptrs_in_use = 0;

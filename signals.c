@@ -1,32 +1,45 @@
 #include "minishell.h"
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 }
 
-void setup_signals(void)
+static void init_sigaction(struct sigaction *sa, void (*handler)(int), int sig)
 {
-	struct sigaction sa;
+	sigset_t	mask;
 
-	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	sigemptyset(&mask);
+	sigaddset(&mask, sig);
+	sa->sa_mask = mask;
+	sa->sa_handler = handler;
+	sa->sa_flags = 0;
+}
+
+void	setup_signals(void)
+{
+	struct	sigaction sa;
+
+	init_sigaction(&sa, SIG_DFL, SIGQUIT);
 	sigaction(SIGQUIT, &sa, NULL);
-
-	sa.sa_handler = handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	init_sigaction(&sa, handle_sigint, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void setup_child_signals(void)
+void	setup_child_signals(void)
 {
-	struct sigaction sa;
+	struct	sigaction sa;
 
-	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	init_sigaction(&sa, SIG_DFL, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGPIPE, &sa, NULL);
+}
+
+void	handle_heredoc_signals(void)
+{
+	struct		sigaction sa;
+
+	init_sigaction(&sa, SIG_IGN, SIGINT);
+	sigaction(SIGINT, &sa, NULL);
 }

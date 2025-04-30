@@ -156,6 +156,7 @@ int		arena_unset_env(t_arena *env_arena, char *key);
 void	setup_signals(void);
 void	handle_sigint(int sig);
 void	setup_child_signals(void);
+void	handle_heredoc_signals(void);
 //graphics
 void	splash_screen(void);
 

@@ -22,6 +22,7 @@ void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_ar
 	}
 	if (pidL == 0)
 	{
+		setup_child_signals();
 		close(pipe_fd[0]);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 		{
@@ -46,6 +47,7 @@ void	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_ar
 	}
 	if (pidR == 0)
 	{
+		setup_child_signals();
 		close(pipe_fd[1]);
 		if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 		{
