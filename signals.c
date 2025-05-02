@@ -38,7 +38,7 @@ void	setup_child_signals(void)
 
 void	handle_heredoc_signals(void)
 {
-	struct		sigaction sa;
+	struct	sigaction sa;
 
 	init_sigaction(&sa, SIG_IGN, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
