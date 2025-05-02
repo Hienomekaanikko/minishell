@@ -44,7 +44,7 @@ int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *
 	int	std_fd;
 
 	if (!get_redirection_params(node, &open_flags, &file_perms, &std_fd))
-		return;
+		return (0);
 	saved_fd = dup(std_fd);
 	if (saved_fd == -1)
 		return (handle_redirection_error(-1, -1, status));

@@ -5,6 +5,6 @@ Cmd: |echo|
 File: |NULL|
 Args:
   [0]: |echo|
-  [1]: |new file|
+  [1]: |hello|
 
-new file
+hello

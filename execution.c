@@ -40,7 +40,6 @@ char *try_path(char *cmd, char *path_str, t_exec_status *status)
 	return (NULL);
 }
 
-
 char *find_executable(t_ast *node, t_arena *env_arena)
 {
     char *executable;
@@ -103,25 +102,60 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	return (0);
 }
 
-void	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+static void print_node_structure(t_ast *node) //DEBUG print the entire node structure
 {
-	if (!node)
-	{
-		handle_exec_error(exec_status, "Invalid command", 1);
-		return;
-	}
-	if (node->type == PIPE)
-	{
-		exec_pipe(node, env_arena, exec_status, exec_arena);
-		return ;
-	}
-	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
-	{
-		exec_redir(node, env_arena, exec_status, exec_arena);
-		return ;
-	}
-	if (built_ins(node, env_arena, exec_status) != -1)
-		return ;
-	if (executables(node, env_arena, exec_status) == -1)
-		handle_exec_error(exec_status, "Command not found", 127);
+    printf("\nNode structure:\n");
+    printf("Type: %d\n", node->type);
+    printf("Cmd: |%s|\n", node->cmd ? node->cmd : "NULL");
+    printf("File: |%s|\n", node->file ? node->file : "NULL");
+    if (node->args)
+    {
+        printf("Args:\n");
+        for (int i = 0; node->args[i]; i++)
+            printf("  [%d]: |%s|\n", i, node->args[i]);
+    }
+    if (node->left)
+    {
+        printf("Left child:\n");
+        printf("  Type: %d\n", node->left->type);
+        printf("  Cmd: |%s|\n", node->left->cmd ? node->left->cmd : "NULL");
+    }
+    if (node->right)
+    {
+        printf("Right child:\n");
+        printf("  Type: %d\n", node->right->type);
+        printf("  Cmd: |%s|\n", node->right->cmd ? node->right->cmd : "NULL");
+    }
+    printf("\n");
+}
+
+void execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+{
+    if (!node)
+    {
+        handle_exec_error(exec_status, "Invalid command", 1);
+        return;
+    }
+
+    print_node_structure(node);
+
+    if (node->type == PIPE)
+    {
+        exec_pipe(node, env_arena, exec_status, exec_arena);
+        return;
+    }
+    if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
+    {
+        exec_redir(node, env_arena, exec_status, exec_arena);
+        return;
+    }
+    if (node->type == HERE_DOC)
+    {
+        exec_heredoc(node, env_arena, exec_status, exec_arena);
+        return;
+    }
+    if (built_ins(node, env_arena, exec_status) != -1)
+        return;
+    if (executables(node, env_arena, exec_status) == -1)
+        handle_exec_error(exec_status, "Command not found", 127);
 }
