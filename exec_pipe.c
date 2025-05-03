@@ -44,14 +44,13 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	exit(exec_status->exit_code);
 }
 
-static void	wait_left_process(pid_t pidL, t_exec_status *exec_status)
+void	wait_process(pid_t pid, t_exec_status *exec_status)
 {
 	int	status;
 
-	if (pidL <= 0)
+	if (pid <= 0)
 		return;
-	
-	waitpid(pidL, &status, 0);
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		exec_status->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -66,8 +65,7 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	int	status;
 
 	if (pidR <= 0)
-		return;
-	
+		return ;
 	waitpid(pidR, &status, 0);
 	if (WIFEXITED(status))
 	{
@@ -84,9 +82,11 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	int 	pipe_fd[2];
-	pid_t	pidL = -1;
-	pid_t	pidR = -1;
+	pid_t	pidL;
+	pid_t	pidR;
 
+	pidL = -1;
+	pidR = -1;
 	if (pipe(pipe_fd) == -1)
 		return (handle_exec_error(exec_status, "pipe failed", 1));
 	pidL = fork();
@@ -100,7 +100,7 @@ void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_a
 	if (pidR == 0)
 		handle_right_child(pipe_fd, node, env_arena, exec_status, exec_arena);
 	cleanup_pipe(pipe_fd, pidL, pidR);
-	wait_left_process(pidL, exec_status);
+	wait_process(pidL, exec_status);
 	wait_right_process(pidR, exec_status);
 	return (NULL);
 }

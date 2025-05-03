@@ -72,7 +72,6 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 {
 	pid_t	pid;
 	char	*path;
-	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -93,11 +92,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	else if (pid > 0)
 	{
 		exec_status->pid = pid;
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			handle_exit_error(exec_status, WEXITSTATUS(status));
-		else if (WIFSIGNALED(status))
-			handle_signal_error(exec_status, WTERMSIG(status));
+		wait_process(pid, exec_status);
 	}
 	return (0);
 }
@@ -129,33 +124,23 @@ static void print_node_structure(t_ast *node) //DEBUG print the entire node stru
     printf("\n");
 }
 
-void execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+void	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
-    if (!node)
-    {
-        handle_exec_error(exec_status, "Invalid command", 1);
-        return;
-    }
-
-    print_node_structure(node);
-
-    if (node->type == PIPE)
-    {
-        exec_pipe(node, env_arena, exec_status, exec_arena);
-        return;
-    }
-    if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
-    {
-        exec_redir(node, env_arena, exec_status, exec_arena);
-        return;
-    }
-    if (node->type == HERE_DOC)
-    {
-        exec_heredoc(node, env_arena, exec_status, exec_arena);
-        return;
-    }
-    if (built_ins(node, env_arena, exec_status) != -1)
-        return;
-    if (executables(node, env_arena, exec_status) == -1)
-        handle_exec_error(exec_status, "Command not found", 127);
+	if (!node)
+	{
+		handle_exec_error(exec_status, "Invalid command", 1);
+		return;
+	}
+	print_node_structure(node); //DEBUG
+	if (node->type == PIPE)
+		exec_pipe(node, env_arena, exec_status, exec_arena);
+	else if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
+		exec_redir(node, env_arena, exec_status, exec_arena);
+	else if (node->type == HERE_DOC)
+		exec_heredoc(node, env_arena, exec_status, exec_arena);
+	else if (built_ins(node, env_arena, exec_status) == -1)
+	{
+		if (executables(node, env_arena, exec_status) == -1)
+			handle_exec_error(exec_status, "Command not found", 127);
+	}
 }

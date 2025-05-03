@@ -130,6 +130,7 @@ void		visualize_tree_TEST(t_data *data);
 //execution
 void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
