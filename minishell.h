@@ -112,7 +112,7 @@ int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
-int			write_heredoc(t_arena *env_arena, const char *delimiter, char **out_path);
+int			write_heredoc(t_arena *env_arena, char *delimiter, char **out_path);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
