@@ -41,7 +41,7 @@ char *find_executable(t_ast *node, t_arena *env_arena)
 }
 
 int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
-{ 
+{
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
 		return (builtin_echo(node->args, status));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)

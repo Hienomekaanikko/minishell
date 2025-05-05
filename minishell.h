@@ -91,7 +91,7 @@ typedef struct s_arena
 
 //lexer stuff
 int			ft_make_list(t_data *data);
-void		make_tree(t_data *data);
+void		make_tree(t_data *data, t_arena *env_arena);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
@@ -106,12 +106,13 @@ void		free_ast(t_ast *root);
 void		add_arguments(t_ast *curr_node, t_lexer *current);
 void		add_right_child(t_ast **position, t_lexer *current);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd);
-void		set_complex_tree(t_data *data);
+void		set_complex_tree(t_data *data, t_arena *env_arena);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
+int			write_heredoc(t_arena *env_arena, const char *delimiter, char **out_path);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);

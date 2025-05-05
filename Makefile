@@ -5,7 +5,7 @@ LIBS	= ${LIBFT}/libft.a
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 
-SRC = main.c lexer.c lexer_utils.c ast_builder.c TEST_stuff.c execution.c builtins.c exec_pipe.c envp.c arena.c exec_re_out.c expansions.c ast_set_complex.c ast_utils.c ast_utils2.c var_list.c var_list_utils.c expansion_utils.c free_mem.c
+SRC = main.c lexer.c lexer_utils.c ast_builder.c TEST_stuff.c execution.c builtins.c exec_pipe.c envp.c arena.c exec_re_out.c expansions.c ast_set_complex.c ast_utils.c ast_utils2.c var_list.c var_list_utils.c expansion_utils.c free_mem.c here_doc.c
 OBJS = $(SRC:.c=.o)
 
 all: $(NAME)

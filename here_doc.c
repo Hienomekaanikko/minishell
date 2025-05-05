@@ -8,9 +8,8 @@
 //     // Now you can open(heredoc_file), dup2 it into stdin, etc.
 // }
 
-
 //maybe find a way to make dynamic filename so no overwriting can happen
-char *get_temp_dir(void)
+char	*get_temp_dir(t_arena *env_arena)
 {
 	char *tmpdir = arena_getenv(env_arena, "TMPDIR");
 	if (!tmpdir)
@@ -19,13 +18,13 @@ char *get_temp_dir(void)
 }
 
 // Generate the full path for the temp file (filename = "temp")
-char *make_filename(void)
+char	*make_filename(t_arena *env_arena)
 {
 	// Get the temporary directory (e.g., "/tmp" or from TMPDIR environment variable)
 	char	*temp_dir;
 	char	*filename;
 
-	temp_dir = get_temp_dir();
+	temp_dir = get_temp_dir(env_arena);
 	filename = malloc(ft_strlen(temp_dir) + ft_strlen("/temp") + 1);
 	if (!filename)
 		return (NULL);
@@ -35,14 +34,14 @@ char *make_filename(void)
 }
 
 // Reads heredoc input and writes it to a temp file
-int write_heredoc(const char *delimiter, char **out_path)
+int	write_heredoc(t_arena *env_arena, const char *delimiter, char **out_path)
 {
 	char	*filename;
 	char	*line;
 	int		fd;
 	int		i;
 
-	filename = make_filename();
+	filename = make_filename(env_arena);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);

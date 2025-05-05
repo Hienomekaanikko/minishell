@@ -33,7 +33,7 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 }
 
-int	process_input(t_data *data)
+int	process_input(t_data *data, t_arena *env_arena)
 {
 	data->input = readline("minishell$: ");
 	add_history(data->input);
@@ -41,7 +41,7 @@ int	process_input(t_data *data)
 		add_var_declaration(data);
 	ft_lexer(data);
 	if (data->lexed_list)
-		make_tree(data);
+		make_tree(data, env_arena);
 	else
 		return (0);
 	return (1);
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		if (!process_input(&data))
+		if (!process_input(&data, env_arena))
 			continue ;
 		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
 			break;
