@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-// Get the TMPDIR if set, else default to /tmp
-char *get_temp_dir(t_arena *env_arena)
+char	*get_temp_dir(t_arena *env_arena)
 {
 	char *tmpdir = arena_getenv(env_arena, "TMPDIR");
 	if (!tmpdir)
@@ -9,8 +8,7 @@ char *get_temp_dir(t_arena *env_arena)
 	return (tmpdir);
 }
 
-// Generate the full path for the heredoc file (just uses fixed name "temp")
-char *make_filename(t_arena *env_arena)
+char	*make_filename(t_arena *env_arena)
 {
 	char *temp_dir = get_temp_dir(env_arena);
 	char *filename = ft_strjoin(temp_dir, "/temp");
@@ -18,7 +16,7 @@ char *make_filename(t_arena *env_arena)
 }
 
 // Write heredoc input into a temp file
-int write_heredoc(t_arena *env_arena, char *delimiter, char **out_path)
+int	write_heredoc(t_arena *env_arena, char *delimiter, char **out_path)
 {
 	char *filename = make_filename(env_arena);
 	if (!filename)
