@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-static void	*cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
+int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 {
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	
 	if (pidR == -1 && pidL > 0)
 		kill(pidL, SIGTERM);
-	return (NULL);
+	return (0);
 }
 
 static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena, 
@@ -17,7 +17,7 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
-		exec_status->error_msg = "Failed to redirect stdout to pipe";
+		error_handler(exec_status, "pipe: failed to redirect stdout", 1);
 		close(pipe_fd[1]);
 		exit(1);
 	}
@@ -36,6 +36,7 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
+		error_handler(exec_status, "pipe: failed to redirect stdin", 1);
 		close(pipe_fd[0]);
 		exit(1);
 	}
@@ -56,7 +57,7 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	else if (WIFSIGNALED(status))
 	{
 		exec_status->signal = WTERMSIG(status);
-		handle_exec_error(exec_status, NULL, 0);
+		error_handler(exec_status, NULL, 0);
 	}
 }
 
@@ -75,11 +76,11 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	else if (WIFSIGNALED(status))
 	{
 		exec_status->signal = WTERMSIG(status);
-		handle_exec_error(exec_status, NULL, 0);
+		error_handler(exec_status, NULL, 0);
 	}
 }
 
-void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	int 	pipe_fd[2];
 	pid_t	pidL;
@@ -88,7 +89,7 @@ void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_a
 	pidL = -1;
 	pidR = -1;
 	if (pipe(pipe_fd) == -1)
-		return (handle_exec_error(exec_status, "pipe failed", 1));
+		return (error_handler(exec_status, "pipe: failed", 1));
 	pidL = fork();
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
@@ -102,5 +103,5 @@ void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_a
 	cleanup_pipe(pipe_fd, pidL, pidR);
 	wait_process(pidL, exec_status);
 	wait_right_process(pidR, exec_status);
-	return (NULL);
+	return (0);
 }

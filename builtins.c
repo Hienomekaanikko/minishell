@@ -32,7 +32,7 @@ int	builtin_cd(char **args, t_exec_status *status)
 {
 	if (chdir(args[1]) == -1)
 	{
-		handle_exec_error(status, "cd: No such file or directory", 1);
+		error_handler(status, "cd: No such file or directory", 1);
 		return (1);
 	}
 	return (0);
@@ -45,7 +45,7 @@ int	builtin_pwd(t_exec_status *status)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		handle_exec_error(status, "pwd: getcwd failed", 1);
+		error_handler(status, "pwd: getcwd failed", 1);
 		return (1);
 	}
 	ft_putstr_fd(pwd, 1);
@@ -88,7 +88,7 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 			if (arena_set_env(env_arena, key, value) == -1)
 			{
 				*equals = '=';
-				handle_exec_error(status, "export: Memory error", 1);
+				error_handler(status, "export: Memory error", 1);
 				return (1);
 			}
 			*equals = '=';
@@ -98,43 +98,36 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 	return (0);
 }
 
-
-
 int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 {
 	int	i;
-	int	return_value;
 
-	return_value = 0;
 	i = 1;
 	if (!args[1])
 	{
-		handle_exec_error(status, "unset: not enough arguments", 1);
+		error_handler(status, "unset: not enough arguments", 1);
 		return (1);
 	}
 	while (args[i])
 	{
 		if (!is_valid_env_name(args[i]))
 		{
-			ft_putstr_fd("unset: '", 2);
-			ft_putstr_fd(args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			return_value = 1;
+			error_handler(status, "unset: invalid identifier", 1);
+			return (1);
 		}
-		else
-			arena_unset_env(env_arena, args[i]);
+		arena_unset_env(env_arena, args[i]);
 		i++;
 	}
-	return (return_value);
+	return (0);
 }
 
-int builtin_env(t_arena *arena, t_exec_status *status)
+int	builtin_env(t_arena *arena, t_exec_status *status)
 {
 	size_t i;
 
 	if (!arena || !arena->ptrs)
 	{
-		handle_exec_error(status, "env: environment not set", 1);
+		error_handler(status, "env: environment not set", 1);
 		return (1);
 	}
 	i = 0;

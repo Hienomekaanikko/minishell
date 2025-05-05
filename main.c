@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	init_exec_status(&exec_status);
 	setup_signals();
 	env_arena = init_env_arena(envp);		//TODO: !env_arena -> error and exit
-	exec_arena = arena_init(1024, 1024);	//MB. Added exec arena. Not sure if needed
+	exec_arena = arena_init(1024, 1024);
 	while (1)
 	{
 		init_data(&data);

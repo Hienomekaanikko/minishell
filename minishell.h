@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include "expansions.h"
+# include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -60,7 +61,7 @@ typedef struct	s_ast
 } t_ast;
 
 //arena
-typedef struct s_arena
+typedef struct	s_arena
 {
 	char		*memory;
 	char		**ptrs;
@@ -82,13 +83,13 @@ typedef struct s_data
 }	t_data;
 
 //structure for the execution status
-typedef struct s_exec_status
+typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
 	char		*error_msg;
 	pid_t		pid;
-} t_exec_status;
+}	t_exec_status;
 
 //lexer stuff
 int			ft_make_list(t_data *data);
@@ -128,15 +129,15 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-void    execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-void	*exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int    	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+char	*find_executable(t_ast *node, t_arena *env_arena);
+int		exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
-void	*handle_exec_error(t_exec_status *exec_status, char *error_msg, int exit_code);
-void	handle_exit_error(t_exec_status *exec_status, int exit_code);
-void	handle_signal_error(t_exec_status *exec_status, int signal);
+int		error_handler(t_exec_status *status, const char *msg, int exit_code);
+void	handle_signal_error(t_exec_status *status, int signal);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
 void	arena_free(t_arena *arena);

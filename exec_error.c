@@ -1,35 +1,29 @@
 # include "minishell.h"
 
-void	*handle_exec_error(t_exec_status *exec_status, char *error_msg, int exit_code)
+int	error_handler(t_exec_status *status, const char *msg, int exit_code)
 {
-	//ft_putstr_fd("minishell: ", 2);
-	if (error_msg)
+	status->signal = 0;
+	if (msg)
 	{
-		exec_status->signal = 0;
-		exec_status->error_msg = error_msg;
-		exec_status->exit_code = exit_code;
-		ft_putstr_fd(error_msg, 2);
+		status->error_msg = (char *)msg;
+		status->exit_code = exit_code;
 	}
 	else
-		exec_status->exit_code = exit_code;
+	{
+		status->error_msg = strerror(errno);
+		status->exit_code = exit_code;
+	}
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(status->error_msg, 2);
 	ft_putstr_fd("\n", 2);
-	return (NULL);
+	return (exit_code);
 }
 
-void	handle_exit_error(t_exec_status *exec_status, int exit_code)
+void	handle_signal_error(t_exec_status *status, int signal)
 {
-	exec_status->exit_code = exit_code;
-	if (exit_code == 127)
-		ft_putstr_fd("Command not found", 2);
-	else if (exit_code == 126)
-		ft_putstr_fd("Permission denied", 2);
-	ft_putstr_fd("\n", 2);
-}
-
-void	handle_signal_error(t_exec_status *exec_status, int signal)
-{
-	exec_status->signal = signal;
-	exec_status->exit_code = 128 + signal;
+	status->signal = signal;
+	status->exit_code = 128 + signal;
+	ft_putstr_fd("minishell: ", 2);
 	if (signal == SIGINT)
 		ft_putstr_fd("\n", 2);
 	else if (signal == SIGSEGV)
@@ -50,4 +44,14 @@ void	handle_signal_error(t_exec_status *exec_status, int signal)
 		ft_putstr_fd("Unknown signal", 2);
 	ft_putstr_fd("\n", 2);
 }
+
+// void	handle_exit_error(t_exec_status *exec_status, int exit_code)
+// {
+// 	exec_status->exit_code = exit_code;
+// 	if (exit_code == 127)
+// 		ft_putstr_fd("Command not found", 2);
+// 	else if (exit_code == 126)
+// 		ft_putstr_fd("Permission denied", 2);
+// 	ft_putstr_fd("\n", 2);
+// }
 
