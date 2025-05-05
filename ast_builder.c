@@ -28,7 +28,7 @@ int	tree_type(t_data *data)
 	temp = *data->lexed_list;
 	while (temp)
 	{
-		if (temp->type == PIPE || temp->type == RE_IN || temp->type == RE_OUT)
+		if (temp->type == PIPE || temp->type == RE_IN || temp->type == RE_OUT || temp->type == HERE_DOC || temp->type == APPEND_OUT)
 			return (2);
 		temp = temp->next;
 	}
@@ -44,5 +44,5 @@ void	make_tree(t_data *data)
 	else if (tree_type(data) == 2)
 		set_complex_tree(data);
 	free_lexed_list(*data->lexed_list);
-	//visualize_tree_TEST(data);
+	visualize_tree_TEST(data);
 }
