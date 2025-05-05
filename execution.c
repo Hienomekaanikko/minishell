@@ -30,17 +30,15 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 		setup_child_signals();
 		path = find_executable(node, env_arena);
 		if (!path)
-			exit(127);
+			exit(error_handler(exec_status, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
 		free(path);
-		exit(126);
+		exit(error_handler(exec_status, "permission denied", 126));
 	}
 	else if (pid > 0)
 	{
 		exec_status->pid = pid;
 		wait_process(pid, exec_status);
-		if (exec_status->exit_code == 127)
-			return (-1);
 	}
 	return (0);
 }

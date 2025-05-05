@@ -17,9 +17,8 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
-		error_handler(exec_status, "pipe: failed to redirect stdout", 1);
 		close(pipe_fd[1]);
-		exit(1);
+		exit(error_handler(exec_status, "pipe: failed to redirect stdout", 1));
 	}
 	close(pipe_fd[1]);
 	if (node->left->type == PIPE)
@@ -36,9 +35,8 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	close(pipe_fd[1]);
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
-		error_handler(exec_status, "pipe: failed to redirect stdin", 1);
 		close(pipe_fd[0]);
-		exit(1);
+		exit(error_handler(exec_status, "pipe: failed to redirect stdin", 1));
 	}
 	close(pipe_fd[0]);
 	execute_command(node->right, env_arena, exec_status, exec_arena);
