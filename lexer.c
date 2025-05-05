@@ -64,16 +64,12 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 	{
 		if (!(*msg) && !(*prev))
 			*msg = "syntax error near unexpected token `|'";
-		if (checker->next)
-		{
-			if (!(*msg) && checker->next->type != CMD && checker->next->type != ARG)
-				*msg = "syntax error near unexpected token `|'";
-		}
-		else
-		{
-			if (!(*msg))
-				*msg = "syntax error near unexpected token `|'";
-		}
+		if (!(*msg) && !checker->next)
+			*msg = "syntax error near unexpected token `|'";
+		if (!(*msg) && ((*prev)->type != CMD && ((*prev)->type != ARG)))
+			*msg = "syntax error near unexpected token `|'";
+		if (!(*msg) && (checker->next->type != CMD && checker->next->type != ARG))
+			*msg = "syntax error near unexpected token `|'";
 	}
 	*prev = checker;
 }
@@ -122,12 +118,12 @@ int	ft_make_list(t_data *data)
 		data->lexed_list = NULL;
 		return (0);
 	}
-	// t_lexer	*temp;
-	// temp = *linked_list;
-	// while (temp)
-	// {
-	// 	printf("value: %s, type: %d\n", temp->value, temp->type);
-	// 	temp = temp->next;
-	// }
+	t_lexer	*temp;
+	temp = *linked_list;
+	while (temp)
+	{
+		printf("value: %s type: %d\n", temp->value, temp->type);
+		temp = temp->next;
+	}
 	return (1);
 }
