@@ -29,20 +29,20 @@ static int	ft_count_splits(char const *s, char c)
 		if (*s == '>' || *s == '<' || *s == '|')
 		{
 			op = *s;
-			while (*s && op_len < 2 && *s == op)
+			while (*s && op_len < 1 && *s == op)
 			{
 				op_len++;
 				s++;
 			}
-			op_len = 0;
 			count++;
+			op_len = 0;
 		}
-		if (*s != c && !in_word && *s != '|' && *s != '>' && *s != '<')
+		if (*s && *s != c && !in_word && *s != '<' && *s != '>' && *s != '|')
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c || *s == '|' || *s == '>' || *s == '>')
+		else if (*s == c || *s == '<' || *s == '>' || *s == '|')
 			in_word = 0;
 		s++;
 	}
@@ -99,6 +99,8 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 			start = i;
 			while (s[i] && (in_quote || s[i] != c))
 			{
+				if (s[i] == '<' || s[i] == '>' || s[i] == '|')
+					break ;
 				if (!in_quote && (s[i] == '"' || s[i] == '\''))
 				{
 					quote = s[i];
@@ -115,17 +117,13 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 				i++;
 			}
 		}
-		if (in_quote)
-		{
-			printf("ERROR: Invalid input, unclosed quote\n");
-			return (NULL);
-		}
 		if (i > start)
 		{
 			array_of_strings[y] = ft_substr(s, start, i - start);
+			printf("added: %s\n", array_of_strings[y]);
+			if (!array_of_strings[y])
+				return (free_malloc(array_of_strings, y));
 			y++;
-			if (!array_of_strings[y - 1])
-				return (free_malloc(array_of_strings, y - 1));
 		}
 	}
 	array_of_strings[y] = NULL;
