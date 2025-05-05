@@ -1,31 +1,28 @@
 #include "minishell.h"
 
-int exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *exec_arena)
+int	exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *exec_arena)
 {
-    (void)env_arena;
-    (void)status;
+	int	fd;
 
 	handle_heredoc_signals();
-    printf("DEBUG: Node type: %d\n", node->type);
-    printf("DEBUG: Node cmd: |%s|\n", node->cmd ? node->cmd : "NULL");
-    printf("DEBUG: Node file: |%s|\n", node->file ? node->file : "NULL");
-    if (node->args)
-    {
-        printf("DEBUG: Node args:\n");
-        for (int i = 0; node->args[i]; i++)
-            printf("DEBUG:  [%d]: |%s|\n", i, node->args[i]);
-    }
-    if (node->right)
-    {
-        printf("DEBUG: Right node cmd: |%s|\n", node->right->cmd ? node->right->cmd : "NULL");
-        printf("DEBUG: Right node file: |%s|\n", node->right->file ? node->right->file : "NULL");
-    }
-    // DEBOG print arena content
-    printf("\nDEBUG: Arena content:\n");
-    for (size_t i = 0; i < exec_arena->ptrs_in_use; i++)
-    {
-        printf("DEBUG: Arena[%zu]: |%s|\n", i, exec_arena->ptrs[i]);
-    }
-    arena_add(exec_arena, "DEBUG: test heredoc content");
-    return (0);
+	// Open temp file that was created during parsing
+	fd = open(node->file, O_RDONLY);
+	if (fd == -1)
+		return (error_handler(status, "heredoc: failed to open temp file", 1));
+
+	// Redirect stdin to temp file
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		close(fd);
+		return (error_handler(status, "heredoc: failed to redirect stdin", 1));
+	}
+	close(fd);
+
+	// Execute command
+	if (node->left)
+		return (execute_command(node->left, env_arena, status, exec_arena));
+
+	// Clean up temp file
+	unlink(node->file);
+	return (0);
 }

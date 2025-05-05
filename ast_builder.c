@@ -44,5 +44,5 @@ void	make_tree(t_data *data)
 	else if (tree_type(data) == 2)
 		set_complex_tree(data);
 	free_lexed_list(*data->lexed_list);
-	visualize_tree_TEST(data);
+	//visualize_tree_TEST(data); //DEBUG
 }

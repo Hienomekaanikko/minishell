@@ -58,7 +58,7 @@ typedef struct	s_ast
 	char			*file;
 	struct s_ast	*left;
 	struct s_ast	*right;
-} t_ast;
+}	t_ast;
 
 //arena
 typedef struct	s_arena
