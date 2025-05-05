@@ -75,6 +75,24 @@ char	*expander(t_data *data, char *value)
 	return (new_value);
 }
 
+int	is_closed_single_quote(char *str)
+{
+	int	i;
+	int closed;
+
+	i = 0;
+	closed = 0;
+	while (str[i])
+	{
+		if (closed && str[i] == '\'')
+			return (1);
+		else if (str[i] == '\'')
+			closed = 1;
+		i++;
+	}
+	return (0);
+}
+
 void	check_for_expansions(t_data *data)
 {
 	t_lexer	*current;
@@ -89,6 +107,12 @@ void	check_for_expansions(t_data *data)
 		return ;
 	while (current)
 	{
+		if (is_closed_single_quote(current->value))
+		{
+			prev = current;
+			current = current->next;
+			continue ;
+		}
 		if (ft_strchr(current->value, '$'))
 		{
 			expanded_value = expander(data, current->value);
