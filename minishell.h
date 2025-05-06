@@ -123,7 +123,7 @@ int			already_declared(t_var *start, char *key, char *value);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
-void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+void		refresh_value(t_lexer *current, char *expanded_value, t_lexer **prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);

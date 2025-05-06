@@ -72,6 +72,7 @@ char	*expander(t_data *data, char *value)
 		free(new_value);
 		return NULL;
 	}
+	printf("new value: %s\n", new_value);
 	return (new_value);
 }
 
@@ -117,7 +118,7 @@ void	check_for_expansions(t_data *data)
 		{
 			expanded_value = expander(data, current->value);
 			if (expanded_value)
-				refresh_value(current, expanded_value, prev);
+				refresh_value(current, expanded_value, &prev);
 			else
 				current = remove_key_not_found(data, current, prev);
 		}

@@ -38,7 +38,6 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *env_arena)
 {
 	data->root = create_node(current->value, current->type);
-	if (data->root->type == HERE_DOC)
 		data->root->file = make_heredoc(env_arena, current->next->value);
 	current = current->next;
 	if (prev_cmd != NULL)

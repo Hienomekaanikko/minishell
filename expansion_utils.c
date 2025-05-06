@@ -12,15 +12,14 @@
 
 #include "minishell.h"
 
-void	refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev)
+void	refresh_value(t_lexer *current, char *expanded_value, t_lexer **prev)
 {
-	(void)prev; //MB. Not needed??
 	free(current->value);
 	current->value = ft_strdup(expanded_value);
 	if (!current->value)
 		return ;
 	free(expanded_value);
-	prev = current;
+	*prev = current;
 	current = current->next;
 }
 
