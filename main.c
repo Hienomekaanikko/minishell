@@ -79,8 +79,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
 			break;
-		//if (data.root)
-		//	execute_command(data.root, env_arena, &exec_status);
+		if (data.root)
+		 	execute_command(data.root, env_arena, &exec_status);
 	}
 	arena_free(env_arena);
 	//destroy_memory(&data);
