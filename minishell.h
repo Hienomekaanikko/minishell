@@ -80,6 +80,7 @@ typedef struct s_data
 	char		**temp_array;
 	char		*input;
 	t_arena		*env_arena;
+	int			syntax_err;
 }	t_data;
 
 //structure for the execution status

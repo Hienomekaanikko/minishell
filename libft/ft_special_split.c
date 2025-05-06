@@ -17,20 +17,36 @@ static int	ft_count_splits(char const *s, char c)
 {
 	int	count;
 	int	in_word;
+	int	op_len;
+	int	op;
 
 	count = 0;
 	in_word = 0;
+	op_len = 0;
+	op = 0;
 	while (*s)
 	{
-		if (*s != c && !in_word)
+		if (*s == '>' || *s == '<' || *s == '|')
+		{
+			op = *s;
+			while (*s && op_len < 2 && *s == op)
+			{
+				op_len++;
+				s++;
+			}
+			op_len = 0;
+			count++;
+		}
+		if (*s != c && !in_word && *s != '|' && *s != '>' && *s != '<')
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c)
+		else if (*s == c || *s == '|' || *s == '>' || *s == '>')
 			in_word = 0;
 		s++;
 	}
+	printf("count is %d\n", count);
 	return (count);
 }
 
@@ -51,35 +67,53 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 	int		y;
 	int		start;
 	int		in_quote;
+	int		in;
 	char	quote;
+	char	op;
 
 	i = 0;
 	y = 0;
 	in_quote = 0;
 	quote = 0;
+	in = 0;
+	op = 0;
 	while (s[i])
 	{
 		while (s[i] == c)
 			i++;
 		if (!s[i])
 			break;
-		start = i;
-		while (s[i] && (in_quote || s[i] != c))
+		if (s[i] == '<' || s[i] == '>' || s[i] == '|')
 		{
-			if (!in_quote && (s[i] == '"' || s[i] == '\''))
+			op = s[i];
+			start = i;
+			while (s[i] && in < 2 && s[i] == op)
 			{
-				quote = s[i];
-				in_quote = 1;
 				i++;
-				continue;
+				in++;
 			}
-			if (in_quote && s[i] == quote)
+			in = 0;
+		}
+		else
+		{
+			start = i;
+			while (s[i] && (in_quote || s[i] != c))
 			{
-				in_quote = 0;
+				if (!in_quote && (s[i] == '"' || s[i] == '\''))
+				{
+					quote = s[i];
+					in_quote = 1;
+					i++;
+					continue;
+				}
+				if (in_quote && s[i] == quote)
+				{
+					in_quote = 0;
+					i++;
+					continue;
+				}
 				i++;
-				continue;
 			}
-			i++;
 		}
 		if (in_quote)
 		{
