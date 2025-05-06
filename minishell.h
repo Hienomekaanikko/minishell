@@ -150,6 +150,7 @@ int		builtin_pwd(t_exec_status *status);
 int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
+int		builtin_exit(char **args, t_exec_status *status);
 //envp
 t_arena	*init_env_arena(char **envp);
 char	*arena_getenv(t_arena *env_arena, char *key);

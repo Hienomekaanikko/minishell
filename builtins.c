@@ -2,15 +2,18 @@
 
 int	builtin_echo(char **args, t_exec_status *status)
 {
-	int		newline_flag;
+	int		no_newline_flag;
 	int		i;
 
+	no_newline_flag = 0;
 	if (!args || !args[0])
 		return (2);
 	i = 1;
 	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
+	{
 		i++;
-	newline_flag = i;
+		no_newline_flag = 1;
+	}
 	while(args[i])
 	{
 		if (ft_strncmp(args[i], "$!", 3) == 0)
@@ -23,7 +26,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 			ft_putstr_fd(" ", 1);
 		i++;
 	}
-	if (newline_flag == 0)
+	if (no_newline_flag == 0)
 		ft_putstr_fd("\n", 1);
 	return (0);
 }

@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	init_exec_status(&exec_status);
 	setup_signals();
 	env_arena = init_env_arena(envp);		//TODO: !env_arena -> error and exit
-	exec_arena = arena_init(1024, 1024);
+	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{
 		init_data(&data);
@@ -86,5 +86,5 @@ int	main(int argc, char **argv, char **envp)
 	arena_free(env_arena);
 	arena_free(exec_arena);
 	//destroy_memory(&data);
-	return (0);
+	return (exec_status.exit_code);
 }
