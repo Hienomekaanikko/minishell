@@ -72,7 +72,7 @@ char	*expander(t_data *data, char *value)
 		free(new_value);
 		return NULL;
 	}
-	printf("new value: %s\n", new_value);
+	//printf("new value: %s\n", new_value);
 	return (new_value);
 }
 
