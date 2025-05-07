@@ -31,15 +31,17 @@ static void init_data(t_data *data)
 		return;
 	}
 	*data->lexed_list = NULL;
+	data->syntax_err = 0;
+	data->temp_array = NULL;
 }
 
-int	process_input(t_data *data)
+int	process_input(t_data *data, t_exec_status  *exec_status)
 {
 	data->input = readline("minishell$: ");
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	ft_lexer(data);
+	ft_lexer(data, exec_status);
 	if (data->lexed_list)
 		make_tree(data);
 	else
@@ -77,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		if (!process_input(&data))
+		if (!process_input(&data, &exec_status))
 			continue ;
 		else if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
 		{

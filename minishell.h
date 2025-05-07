@@ -95,12 +95,12 @@ typedef struct	s_exec_status
 }	t_exec_status;
 
 //lexer stuff
-int			ft_make_list(t_data *data);
+int			ft_make_list(t_data *data, t_exec_status *exec_status);
 void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data); //env-arena added
+int			ft_lexer(t_data *data, t_exec_status *exec_status); //env-arena added
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);

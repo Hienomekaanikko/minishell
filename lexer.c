@@ -12,16 +12,17 @@
 
 #include "minishell.h"
 
-int	ft_lexer(t_data *data) //env-arena added
+int	ft_lexer(t_data *data, t_exec_status *exec_status) //env-arena added
 {
 	data->temp_array = ft_special_split(data->input, ' ');
 	if (!data->temp_array)
 		return (0);
-	if (!ft_make_list(data))
+	if (!ft_make_list(data, exec_status))
 		return (0);
 	if (data->exp->var_list)
 		check_for_expansions(data);
-	ft_free_split(data->temp_array);
+	if (data->temp_array)
+		ft_free_split(data->temp_array);
 	return (1);
 }
 
@@ -48,32 +49,24 @@ static void	add_token_type(t_lexer **linked_list)
 //check if the grammar is right
 static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 {
+
 	if (checker->type == RE_IN || checker->type == HERE_DOC)
 	{
 		if (!(*msg) && !checker->next)
-			*msg = "syntax error near unexpected token `newline'";
+			*msg = " syntax error near unexpected token `newline'";
+		if ((!*msg) && checker->type == RE_IN && checker->next->type != ARG)
+			*msg = " syntax error near unexpected token `<'";
+		if ((!*msg) && checker->type == HERE_DOC && checker->next->type != ARG)
+			*msg = " syntax error near unexpected token `<<'";
 	}
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
 	{
 		if (!(*msg) && checker->type == RE_OUT && !checker->next)
-			*msg = "syntax error near unexpected token `newline'";
+			*msg = " syntax error near unexpected token `newline'";
 		else if (!(*msg) && checker->type == APPEND_OUT && !checker->next)
-			*msg = "syntax error near unexpected token `newline'";
-	}
-	if (checker->type == PIPE)
-	{
-		if (!(*msg) && !(*prev))
-			*msg = "syntax error near unexpected token `|'";
-		if (checker->next)
-		{
-			if (!(*msg) && checker->next->type != CMD && checker->next->type != ARG)
-				*msg = "syntax error near unexpected token `|'";
-		}
-		else
-		{
-			if (!(*msg))
-				*msg = "syntax error near unexpected token `|'";
-		}
+			*msg = " syntax error near unexpected token `newline'";
+		else if (!(*msg) && checker->type == APPEND_OUT && checker->next->type == RE_OUT)
+			*msg = " syntax error near unexpected token `>'";
 	}
 	*prev = checker;
 }
@@ -102,7 +95,7 @@ static int	check_grammar(t_data *data)
 }
 
 //makes a linked list, input must be array of strings (currently made with the special split that can handle " and ')
-int	ft_make_list(t_data *data)
+int	ft_make_list(t_data *data, t_exec_status *exec_status)
 {
 	t_lexer	**linked_list;
 	char	**input_list;
@@ -127,7 +120,7 @@ int	ft_make_list(t_data *data)
 	{
 		free(data->lexed_list);
 		data->lexed_list = NULL;
-		return (0);
+		exec_status->exit_code = 2;
 	}
 	// for testing to see what is inside each node:
 	return (1);
