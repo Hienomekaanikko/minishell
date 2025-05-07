@@ -98,8 +98,6 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 			start = i;
 			while (s[i] && (in_quote || s[i] != c))
 			{
-				if ((s[i] == '<' || s[i] == '>' || s[i] == '|') && quote != '\'')
-					break ;
 				if (!in_quote && (s[i] == '"' || s[i] == '\''))
 				{
 					quote = s[i];
