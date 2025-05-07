@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/25 17:47:45 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:17:37 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	set_basic_tree(t_data *data)
 	t_lexer	*current;
 
 	current = *data->lexed_list;
-	add_right_child(&data->root, current);
+	if (current)
+		add_right_child(&data->root, current);
 }
 //determines what kind of tree is needed
 int	tree_type(t_data *data)
