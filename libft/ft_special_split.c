@@ -46,7 +46,6 @@ static int	ft_count_splits(char const *s, char c)
 			in_word = 0;
 		s++;
 	}
-	printf("count is %d\n", count);
 	return (count);
 }
 

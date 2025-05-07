@@ -44,7 +44,7 @@ int	builtin_cd(char **args, t_exec_status *status)
 int	builtin_pwd(t_exec_status *status)
 {
 	char	*pwd;
-	
+
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{

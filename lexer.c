@@ -116,13 +116,13 @@ int	ft_make_list(t_data *data)
 		add_token_type(linked_list);
 		input_list++;
 	}
-	t_lexer	*temp;
-	temp = *linked_list;
-	while (temp)
-	{
-		printf("value: %s, type: %d\n", temp->value, temp->type);
-		temp = temp->next;
-	}
+	// t_lexer	*temp;
+	// temp = *linked_list;
+	// while (temp)
+	// {
+	// 	printf("value: %s, type: %d\n", temp->value, temp->type);
+	// 	temp = temp->next;
+	// }
 	if (!check_grammar(data))
 	{
 		free(data->lexed_list);

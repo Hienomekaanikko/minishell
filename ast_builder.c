@@ -18,7 +18,8 @@ void	set_basic_tree(t_data *data)
 	t_lexer	*current;
 
 	current = *data->lexed_list;
-	add_right_child(&data->root, current);
+	if (current)
+		add_right_child(&data->root, current);
 }
 //determines what kind of tree is needed
 int	tree_type(t_data *data)

@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	t_arena			*env_arena;
 	t_arena			*exec_arena;
 
-	splash_screen();
+	//splash_screen();
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!process_input(&data))
 			continue ;
 		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
-			break;
+			break ;
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);
 	}
