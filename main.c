@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/07 11:22:23 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/04/11 14:03:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	t_arena			*env_arena;
 	t_arena			*exec_arena;
 
-	//splash_screen();
+	splash_screen();
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
@@ -80,13 +80,18 @@ int	main(int argc, char **argv, char **envp)
 		init_data(&data);
 		if (!process_input(&data))
 			continue ;
-		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
-			break;
+		else if (ft_strncmp(data.input, "exit", 4) == 0)
+		{
+			if (builtin_exit(data.root, &exec_status))
+			{
+				printf("exit\n");
+				break ;
+			}
+		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);
 	}
 	arena_free(env_arena);
 	arena_free(exec_arena);
-	//destroy_memory(&data);
 	return (exec_status.exit_code);
 }

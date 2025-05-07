@@ -7,7 +7,11 @@ int	builtin_echo(char **args, t_exec_status *status)
 
 	no_newline_flag = 0;
 	if (!args || !args[0])
-		return (2);
+	{
+		ft_putstr_fd("\n", 1);
+		status->exit_code = 0;
+		return (0);
+	}
 	i = 1;
 	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 	{
@@ -28,6 +32,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 	}
 	if (no_newline_flag == 0)
 		ft_putstr_fd("\n", 1);
+	status->exit_code = 0;
 	return (0);
 }
 
@@ -141,4 +146,33 @@ int	builtin_env(t_arena *arena, t_exec_status *status)
 		i++;
 	}
 	return (0);
+}
+
+static int	is_valid_exit_arg(char *arg)
+{
+	if (arg[0] != '+' && arg[0] != '-' && !ft_isdigit(arg[0]))
+		return (0);
+	int i = 1;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	builtin_exit(t_ast *node, t_exec_status *status)
+{
+	if (!node->args[1])
+	{
+		status->exit_code = 0;
+		return (1);
+	}
+	if (node->args[2])
+		return (error_handler(status, "exit: too many arguments", 1));
+	if (!is_valid_exit_arg(node->args[1]))
+		return (error_handler(status, "exit: numeric argument required", 255));
+	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
+	return (1);
 }

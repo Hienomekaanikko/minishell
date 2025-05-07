@@ -5,6 +5,12 @@ void	handle_sigint(int sig)
 	(void)sig;
 }
 
+void	handle_sigterm(int sig)
+{
+	(void)sig;
+	handle_signal_error(NULL, SIGTERM);
+}
+
 static void init_sigaction(struct sigaction *sa, void (*handler)(int), int sig)
 {
 	sigset_t	mask;
@@ -24,6 +30,13 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 	init_sigaction(&sa, handle_sigint, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
+	init_sigaction(&sa, SIG_IGN, SIGPIPE);
+	sigaction(SIGPIPE, &sa, NULL);
+	if (!isatty(STDIN_FILENO))
+	{
+		init_sigaction(&sa, handle_sigterm, SIGTERM);
+		sigaction(SIGTERM, &sa, NULL);
+	}
 }
 
 void	setup_child_signals(void)
@@ -42,4 +55,6 @@ void	handle_heredoc_signals(void)
 
 	init_sigaction(&sa, SIG_IGN, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
+	init_sigaction(&sa, SIG_IGN, SIGQUIT);
+	sigaction(SIGQUIT, &sa, NULL);
 }

@@ -120,7 +120,7 @@ int	ft_make_list(t_data *data)
 	temp = *linked_list;
 	while (temp)
 	{
-		printf("value: %s, type: %d\n", temp->value, temp->type);
+		//printf("value: %s, type: %d\n", temp->value, temp->type);
 		temp = temp->next;
 	}
 	if (!check_grammar(data))

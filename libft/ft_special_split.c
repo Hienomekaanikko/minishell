@@ -13,40 +13,39 @@
 #include "libft.h"
 #include <stdio.h>
 
-static int	ft_count_splits(char const *s, char c)
+static int	ft_count_splits(const char *s, char c)
 {
-	int	count;
-	int	in_word;
-	int	op_len;
-	int	op;
+	int	count = 0;
+	int	in_word = 0;
 
-	count = 0;
-	in_word = 0;
-	op_len = 0;
-	op = 0;
 	while (*s)
 	{
 		if (*s == '>' || *s == '<' || *s == '|')
 		{
-			op = *s;
-			while (*s && op_len < 2 && *s == op)
+			char op = *s;
+			int op_len = 0;
+			while (*s == op && op_len < 2)
 			{
 				op_len++;
 				s++;
 			}
-			op_len = 0;
 			count++;
+			in_word = 0;
+			continue;
 		}
-		if (*s != c && !in_word && *s != '|' && *s != '>' && *s != '<')
+		if (*s == c)
+		{
+			in_word = 0;
+			s++;
+			continue;
+		}
+		if (!in_word)
 		{
 			in_word = 1;
 			count++;
 		}
-		else if (*s == c || *s == '|' || *s == '>' || *s == '>')
-			in_word = 0;
 		s++;
 	}
-	printf("count is %d\n", count);
 	return (count);
 }
 
@@ -115,17 +114,12 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 				i++;
 			}
 		}
-		if (in_quote)
-		{
-			printf("ERROR: Invalid input, unclosed quote\n");
-			return (NULL);
-		}
 		if (i > start)
 		{
 			array_of_strings[y] = ft_substr(s, start, i - start);
+			if (!array_of_strings[y])
+				return (free_malloc(array_of_strings, y));
 			y++;
-			if (!array_of_strings[y - 1])
-				return (free_malloc(array_of_strings, y - 1));
 		}
 	}
 	array_of_strings[y] = NULL;
