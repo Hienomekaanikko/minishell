@@ -61,7 +61,6 @@ void	init_exec_status(t_exec_status *status)
 {
 	ft_memset(status, 0, sizeof(t_exec_status));
 }
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
@@ -80,8 +79,11 @@ int	main(int argc, char **argv, char **envp)
 		init_data(&data);
 		if (!process_input(&data))
 			continue ;
-		if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
+		else if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);
 	}
