@@ -41,13 +41,13 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 
 	if (!path_str)
 	{
-		error_handler(status, "PATH", "not set", 127);
+		error_handler(status, "PATH", ERR_NOT_SET);
 		return (NULL);
 	}
 	paths = ft_split(path_str, ':');
 	if (!paths)
 	{
-		error_handler(status, NULL, ERR_MALLOC, 1);
+		error_handler(status, NULL, ERR_MALLOC);
 		return (NULL);
 	}
 	executable = search_paths(paths, cmd);

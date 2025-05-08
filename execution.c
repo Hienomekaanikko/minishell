@@ -24,16 +24,16 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *status)
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(status, "fork", ERR_MALLOC, 1));
+		return (error_handler(status, "fork", ERR_MALLOC));
 	if (pid == 0)
 	{
 		setup_child_signals();
 		path = find_executable(node, env_arena);
 		if (!path)
-			exit(error_handler(status, "fork", ERR_NOT_FOUND, 127));
+			exit(error_handler(status, "fork", ERR_NOT_FOUND));
 		execve(path, node->args, env_arena->ptrs);
 		free(path);
-		exit(error_handler(status, "fork", ERR_PERMISSION, 126));
+		exit(error_handler(status, "fork", ERR_PERMISSION));
 	}
 	else if (pid > 0)
 	{
@@ -73,7 +73,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *status)
 int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *exec_arena)
 {
 	if (!node)
-		return (error_handler(status, "syntax error", ERR_SYNTAX, 1));
+		return (error_handler(status, NULL, ERR_SYNTAX));
 	//print_node_structure(node); //DEBUG
 	if (node->type == PIPE)
 		return (exec_pipe(node, env_arena, status, exec_arena));
@@ -84,7 +84,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *status, t_ar
 	else if (built_ins(node, env_arena, status) == -1)
 	{
 		if (executables(node, env_arena, status) == -1)
-			return (error_handler(status, "builtins", ERR_NOT_FOUND, 127));
+			return (error_handler(status, NULL, ERR_NOT_FOUND));
 	}
 	return (0);
 }

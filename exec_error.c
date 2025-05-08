@@ -1,9 +1,22 @@
 # include "minishell.h"
 
-int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code)
+static int is_error_msg(const char *msg, const char *error_msg)
+{
+	if (!msg || !error_msg)
+		return (0);
+	return (ft_strncmp((char *)msg, (char *)error_msg, ft_strlen(error_msg)) == 0);
+}
+
+int	error_handler(t_exec_status *status, const char *cmd, const char *msg)
 {
 	status->signal = 0;
-	status->exit_code = exit_code;
+
+	if (is_error_msg(msg, ERR_PERMISSION))
+		status->exit_code = 126;
+	else if (is_error_msg(msg, ERR_NOT_FOUND))
+		status->exit_code = 127;
+	else
+		status->exit_code = 1;
 	
 	ft_putstr_fd(ERR_PREFIX, 2);
 	if (cmd)
@@ -16,7 +29,7 @@ int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int e
 	else
 		ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
-	return (exit_code);
+	return (status->exit_code);
 }
 
 void	handle_signal_error(t_exec_status *status, int signal)

@@ -18,7 +18,7 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[1]);
-		exit(error_handler(exec_status, "pipe", ERR_REDIRECT, 1));
+		exit(error_handler(exec_status, "pipe", ERR_REDIRECT));
 	}
 	close(pipe_fd[1]);
 	if (node->left->type == PIPE)
@@ -36,7 +36,7 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[0]);
-		exit(error_handler(exec_status, "pipe", ERR_REDIRECT, 1));
+		exit(error_handler(exec_status, "pipe", ERR_REDIRECT));
 	}
 	close(pipe_fd[0]);
 	execute_command(node->right, env_arena, exec_status, exec_arena);
@@ -55,7 +55,7 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	else if (WIFSIGNALED(status))
 	{
 		exec_status->signal = WTERMSIG(status);
-		error_handler(exec_status, NULL, NULL, 0);
+		error_handler(exec_status, NULL, NULL);
 	}
 }
 
@@ -74,7 +74,7 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	else if (WIFSIGNALED(status))
 	{
 		exec_status->signal = WTERMSIG(status);
-		error_handler(exec_status, NULL, NULL, 0);
+		error_handler(exec_status, NULL, NULL);
 	}
 }
 
@@ -87,7 +87,7 @@ int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_are
 	pidL = -1;
 	pidR = -1;
 	if (pipe(pipe_fd) == -1)
-		return (error_handler(exec_status, "pipe", ERR_MALLOC, 1));
+		return (error_handler(exec_status, "pipe", ERR_MALLOC));
 	pidL = fork();
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));

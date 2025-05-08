@@ -2,9 +2,9 @@
 # define ERROR_MESSAGES_H
 
 // Generic error messages (for use as: "minishell: <cmd>: <error>")
-# define ERR_MALLOC "memory allocation failed"
-# define ERR_NOT_FOUND "command not found"
 # define ERR_PERMISSION "Permission denied"
+# define ERR_NOT_FOUND "command not found"
+# define ERR_MALLOC "memory allocation failed"
 # define ERR_OPEN "No such file or directory"
 # define ERR_EXEC "Exec format error"
 # define ERR_REDIRECT "Ambiguous redirect"
