@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	builtin_echo(char **args, t_exec_status *status)
+int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
 {
 	int		no_newline_flag;
 	int		i;
@@ -20,10 +20,15 @@ int	builtin_echo(char **args, t_exec_status *status)
 	}
 	while(args[i])
 	{
-		if (ft_strncmp(args[i], "$!", 3) == 0)
-			ft_putnbr_fd(status->pid, 1);
-		else if (ft_strncmp(args[i], "$?", 3) == 0)
-			ft_putnbr_fd(status->exit_code, 1);
+		if (args[i][0] == '$')
+		{
+			if (ft_strncmp(args[i], "$!", 3) == 0)
+				ft_putnbr_fd(status->pid, 1);
+			else if (ft_strncmp(args[i], "$?", 3) == 0)
+				ft_putnbr_fd(status->exit_code, 1);
+			else if (arena_getenv(env_arena, args[i] + 1))
+				ft_putstr_fd(arena_getenv(env_arena, args[i] + 1), 1);
+		}
 		else
 			ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
@@ -39,10 +44,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 int	builtin_cd(char **args, t_exec_status *status)
 {
 	if (chdir(args[1]) == -1)
-	{
-		error_handler(status, "cd: No such file or directory", 1);
-		return (1);
-	}
+		return (error_handler(status, "cd: No such file or directory", 1));
 	return (0);
 }
 
@@ -52,10 +54,7 @@ int	builtin_pwd(t_exec_status *status)
 	
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-	{
-		error_handler(status, "pwd: getcwd failed", 1);
-		return (1);
-	}
+		return (error_handler(status, "pwd: getcwd failed", 1));
 	ft_putstr_fd(pwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(pwd);
@@ -96,11 +95,12 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 			if (arena_set_env(env_arena, key, value) == -1)
 			{
 				*equals = '=';
-				error_handler(status, "export: Memory error", 1);
-				return (1);
+				return (error_handler(status, "export: Memory error", 1));
 			}
 			*equals = '=';
 		}
+		if (!is_valid_env_name(key))
+			return (error_handler(status, "export: invalid identifier", 1));
 		i++;
 	}
 	return (0);
@@ -110,12 +110,9 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 {
 	int	i;
 
-	i = 1;
 	if (!args[1])
-	{
-		error_handler(status, "unset: not enough arguments", 1);
-		return (1);
-	}
+		return (error_handler(status, "unset: not enough arguments", 1));
+	i = 1;
 	while (args[i])
 	{
 		if (!is_valid_env_name(args[i]))
