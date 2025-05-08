@@ -6,7 +6,7 @@ static int	handle_redirection_error(int fd, int saved_fd, t_exec_status *status)
 		close(fd);
 	if (saved_fd != -1)
 		close(saved_fd);
-	return (error_handler(status, "redirection: failed", 1));
+	return (error_handler(status, NULL, ERR_REDIRECT, 1));
 }
 
 static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms, int *std_fd)

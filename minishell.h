@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include "expansions.h"
+# include "error_messages.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -137,7 +138,7 @@ void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
-int		error_handler(t_exec_status *status, const char *msg, int exit_code);
+int		error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
 void	handle_signal_error(t_exec_status *status, int signal);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
