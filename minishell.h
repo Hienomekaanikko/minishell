@@ -146,8 +146,8 @@ char	*arena_add(t_arena *arena, char *str);
 void	arena_clear(t_arena *arena);
 //built-ins
 int		builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
-int		builtin_cd(char **args, t_exec_status *status);
-int		builtin_pwd(t_exec_status *status);
+int		builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
+int		builtin_pwd(t_exec_status *status, t_arena *env_arena);
 int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
