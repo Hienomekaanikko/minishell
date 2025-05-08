@@ -59,6 +59,8 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (error_handler(status, "cd", ERR_GETCWD_FAILED));
+	arena_unset_env(env_arena, "OLDPWD");
+	arena_unset_env(env_arena, "PWD");
 	arena_set_env(env_arena, "OLDPWD", arena_getenv(env_arena, "PWD"));
 	arena_set_env(env_arena, "PWD", new_pwd);
 	free(new_pwd);
