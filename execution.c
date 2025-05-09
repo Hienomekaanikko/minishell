@@ -75,12 +75,12 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *status, t_ar
 	if (!node)
 		return (error_handler(status, NULL, ERR_SYNTAX));
 	//print_node_structure(node); //DEBUG
-	if (node->type == PIPE)
-		return (exec_pipe(node, env_arena, status, exec_arena));
-	else if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
+	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
 		return (exec_redir(node, env_arena, status, exec_arena));
 	else if (node->type == HERE_DOC)
 		return (exec_heredoc(node, env_arena, status, exec_arena));
+	else if (node->type == PIPE)
+		return (exec_pipe(node, env_arena, status, exec_arena));
 	else if (built_ins(node, env_arena, status) == -1)
 	{
 		if (executables(node, env_arena, status) == -1)
