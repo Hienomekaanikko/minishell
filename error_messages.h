@@ -9,7 +9,7 @@
 # define ERR_EXEC "Exec format error"
 # define ERR_REDIRECT "Ambiguous redirect"
 # define ERR_GETCWD_FAILED "getcwd failed"
-# define ERR_INVALID_IDENTIFIER "invalid identifier"
+# define ERR_INVALID_IDENTIFIER "not a valid identifier"
 # define ERR_MEMORY_ERROR "memory error"
 # define ERR_NOT_ENOUGH_ARGS "not enough arguments"
 # define ERR_NOT_SET "not set"
