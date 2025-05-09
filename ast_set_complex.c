@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 18:18:26 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:53:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
 	new_node->left = data->root;
 	current = current->next;
 	if (current->type == ARG)
-		add_right_child(&new_node->right, current);
+		add_right_child(&new_node->right, current, new_node->type);
 	data->root = new_node;
 }
 
@@ -29,11 +29,11 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current)
 	current = current->next;
 	if (prev_cmd != NULL)
 	{
-		add_left_child(&data->root->left, prev_cmd);
+		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
 		prev_cmd = NULL;
 	}
 	if (current->type == ARG)
-		add_right_child(&data->root->right, current);
+		add_right_child(&data->root->right, current, data->root->type);
 }
 
 //sets the followup pipe as root and previous pipe as left child
@@ -43,7 +43,7 @@ void	set_followup_pipe(t_data *data, t_lexer *current, t_ast *new_node)
 	new_node->left = data->root;
 	current = current->next;
 	if (current->type == CMD)
-		add_right_child(&new_node->right, current);
+		add_right_child(&new_node->right, current, new_node->type);
 	data->root = new_node;
 }
 
@@ -54,11 +54,11 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 	current = current->next;
 	if (prev_cmd != NULL)
 	{
-		add_left_child(&data->root->left, prev_cmd);
+		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
 			prev_cmd = NULL;
 	}
 	if (current->type == CMD)
-		add_right_child(&data->root->right, current);
+		add_right_child(&data->root->right, current, data->root->type);
 }
 
 //makes a tree with pipes or redirections or both

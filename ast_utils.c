@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 17:53:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/08 13:31:04 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ char	*remove_quotes(char *value)
 	int		i;
 	int		j;
 	int		len;
+	int		quote;
 	char	*cleaned_value;
 
 	i = 0;
 	len = count_new_len(value);
+	quote = 0;
 	cleaned_value = malloc(sizeof(char) * (len + 1));
 	if (!cleaned_value)
 		return (NULL);
@@ -44,8 +46,22 @@ char	*remove_quotes(char *value)
 	j = 0;
 	while (value[i])
 	{
-		if (value[i] == '\'' || value[i] == '"')
+		if (!quote && (value[i] == '\'' || value[i] == '"'))
+		{
+			quote = value[i];
 			i++;
+		}
+		else if (quote)
+		{
+			if (quote == value[i])
+				i++;
+			else
+			{
+				cleaned_value[j] = value[i];
+				i++;
+				j++;
+			}
+		}
 		else
 		{
 			cleaned_value[j] = value[i];
@@ -58,15 +74,17 @@ char	*remove_quotes(char *value)
 }
 
 //adds arguments (including cmd) to the args variable as split string
-void	add_arguments(t_ast *curr_node, t_lexer *current)
+void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 {
 	t_lexer	*temp;
+	t_lexer	*prev;
 	int		argument_amount;
 	int		i;
 
 	temp = current;
 	argument_amount = count_size(temp);
 	i = 0;
+	prev = NULL;
 	curr_node->args = malloc((argument_amount + 1) * sizeof(char *));
 	if (!curr_node->args)
 		return ;
@@ -77,21 +95,39 @@ void	add_arguments(t_ast *curr_node, t_lexer *current)
 		else
 			curr_node->args[i] = ft_strdup(temp->value);
 		i++;
+		prev = temp;
 		temp = temp->next;
+		if (type == RE_IN || type == RE_OUT)
+			return ;
+	}
+	if (temp)
+	{
+		if (temp->type == RE_IN || temp->type == RE_OUT)
+			temp = temp->next;
+		temp = temp->next;
+		while (temp && temp->type == ARG)
+		{
+			if (has_quotes(temp->value))
+				curr_node->args[i] = remove_quotes(temp->value);
+			else
+				curr_node->args[i] = ft_strdup(temp->value);
+			i++;
+			temp = temp->next;
+		}
 	}
 	curr_node->args[i] = NULL;
 }
 //adds right child
-void	add_right_child(t_ast **position, t_lexer *current)
+void	add_right_child(t_ast **position, t_lexer *current, t_token type)
 {
 	*position = create_node(current->value, current->type);
 	if (*position)
-		add_arguments(*position, current);
+		add_arguments(*position, current, type);
 }
 //adds left child
-void	add_left_child(t_ast **position, t_lexer *prev_cmd)
+void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
 {
 	*position = create_node(prev_cmd->value, prev_cmd->type);
 	if (*position)
-		add_arguments(*position, prev_cmd);
+		add_arguments(*position, prev_cmd, type);
 }
