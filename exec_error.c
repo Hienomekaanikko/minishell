@@ -13,9 +13,8 @@ int	error_handler(t_exec_status *status, const char *msg, int exit_code)
 		status->error_msg = strerror(errno);
 		status->exit_code = exit_code;
 	}
-	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(" ", 2);
 	ft_putstr_fd(status->error_msg, 2);
-	ft_putstr_fd("\n", 2);
 	return (exit_code);
 }
 

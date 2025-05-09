@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/25 17:59:53 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/09 13:06:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # include <errno.h>
 #define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
-int g_exit_value;
-
 //token types
 typedef enum e_token
 {
@@ -39,7 +37,7 @@ typedef enum e_token
 	RE_IN,
 	RE_OUT,
 	HERE_DOC,
-	APPEND_OUT
+	APPEND_OUT,
 	//näitä tarvii varmaa lisää mut täs nää perushommat
 } t_token;
 
@@ -90,6 +88,7 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
+	int			infile;
 	char		*error_msg;
 	pid_t		pid;
 }	t_exec_status;
@@ -108,9 +107,9 @@ void		free_lexed_list(t_lexer *start);
 void		free_ast(t_ast *root);
 
 //ast tree stuff (added 22.4.)
-void		add_arguments(t_ast *curr_node, t_lexer *current);
-void		add_right_child(t_ast **position, t_lexer *current);
-void		add_left_child(t_ast **position, t_lexer *prev_cmd);
+void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
+void		add_right_child(t_ast **position, t_lexer *current, t_token type);
+void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
 void		set_complex_tree(t_data *data);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);

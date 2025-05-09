@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/11 14:03:45 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/09 13:06:54 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	init_base(t_data *data, int argc, char **argv)
 void	init_exec_status(t_exec_status *status)
 {
 	ft_memset(status, 0, sizeof(t_exec_status));
+	status->infile = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {
