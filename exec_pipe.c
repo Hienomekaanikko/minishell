@@ -4,17 +4,19 @@ int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 {
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	
+
 	if (pidR == -1 && pidL > 0)
 		kill(pidL, SIGTERM);
 	return (0);
 }
 
-static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena, 
+static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	t_exec_status *exec_status, t_arena *exec_arena)
 {
 	setup_child_signals();
 	close(pipe_fd[0]);
+	if (exec_status->infile != -1)
+		pipe_fd[1] = exec_status->infile;
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[1]);
@@ -28,11 +30,13 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	exit(exec_status->exit_code);
 }
 
-static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena, 
+static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	t_exec_status *exec_status, t_arena *exec_arena)
 {
 	setup_child_signals();
 	close(pipe_fd[1]);
+	if (exec_status->infile != -1)
+		pipe_fd[0] = exec_status->infile;
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[0]);
@@ -101,5 +105,6 @@ int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_are
 	cleanup_pipe(pipe_fd, pidL, pidR);
 	wait_process(pidL, exec_status);
 	wait_right_process(pidR, exec_status);
+	exec_status->infile = 0;
 	return (0);
 }

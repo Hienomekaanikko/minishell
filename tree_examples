@@ -31,13 +31,12 @@ grep foo > output.txt
 
 ls | grep foo > result.txt
 
-         >
+         <
         / \
-       |  result.txt
+       <  /test_files/infile
       / \
-    ls   grep
-          |
-         foo
+   grep  ./test_files/infile_big
+
 
 (echo "foo" && echo "bar") > output.txt
 
@@ -90,17 +89,66 @@ ls -l | grep foo | echo "hello
 
 cmd1 | cmd2 | cmd3 | cmd4
 
-          PIPE
-         /    \
-      PIPE     cmd4
-     /    \
-  PIPE     cmd3
- /    \
-cmd1   cmd2
 
+
+echo <"./test_files/infile" <missing <"./test_files/infile"
+
+          RE_IN
+         /    \
+      RE_IN     ./test_files/infile
+     /    \
+  RE_IN     missing
+ /    \
+echo   ./test_files/infile
+
+grep hi <./test_files/infile_big <./test_files/infile
+
+          RE_IN
+         /    \
+      RE_IN     ./test_files/infile
+     /    \
+  grep     ./test_files_infile_big
+
+
+>>   file2
+    >>   file1
+        echo
+
+          >>
+         /  \
+       >>     file2
+     /    \
+  echo     file1
 
       PIPE
      /    \
    <<     ls
  /    \
 cmd1   EOF
+
+<   ./test_files/infile
+    <   ./test_files/infile_big
+        grep
+
+<   ./test_files/infile
+    <   missing
+        <   ./test_files/infile
+            echo
+
+
+echo <"./test_files/infile" <missing <"./test_files/infile"
+
+echo <"./test_files/infile_big" | cat <"./test_files/infile"
+
+          	<
+         /    \
+      	|    ./test_files/infile"
+     /    \
+  	<     cat
+ /    \
+echo   ./test_files/infile_big
+
+<   ./test_files/infile
+    |   cat
+        <   ./test_files/infile_big
+            echo

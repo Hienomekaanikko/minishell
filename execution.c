@@ -43,44 +43,17 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	return (0);
 }
 
-// static void print_node_structure(t_ast *node) //DEBUG print the entire node structure
-// {
-//     printf("\nNode structure:\n");
-//     printf("%d\n", node->type);
-//     printf("Cmd: |%s|\n", node->cmd ? node->cmd : "NULL");
-//     printf("File: |%s|\n", node->file ? node->file : "NULL");
-//     if (node->args)
-//     {
-//         printf("Args:\n");
-//         for (int i = 0; node->args[i]; i++)
-//             printf("  [%d]: |%s|\n", i, node->args[i]);
-//     }
-//     if (node->left)
-//     {
-//         printf("Left child:\n");
-//         printf("  Type: %d\n", node->left->type);
-//         printf("  Cmd: |%s|\n", node->left->cmd ? node->left->cmd : "NULL");
-//     }
-//     if (node->right)
-//     {
-//         printf("Right child:\n");
-//         printf("  Type: %d\n", node->right->type);
-//         printf("  Cmd: |%s|\n", node->right->cmd ? node->right->cmd : "NULL");
-//     }
-//     printf("\n");
-// }
-
 int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	if (!node)
 		return (error_handler(exec_status, "syntax error: invalid command", 1));
 	//print_node_structure(node); //DEBUG
-	if (node->type == PIPE)
-		return (exec_pipe(node, env_arena, exec_status, exec_arena));
-	else if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
+	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
 		return (exec_redir(node, env_arena, exec_status, exec_arena));
 	else if (node->type == HERE_DOC)
 		return (exec_heredoc(node, env_arena, exec_status, exec_arena));
+	else if (node->type == PIPE)
+		return (exec_pipe(node, env_arena, exec_status, exec_arena));
 	else if (built_ins(node, env_arena, exec_status) == -1)
 	{
 		if (executables(node, env_arena, exec_status) == -1)
@@ -88,3 +61,5 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 	}
 	return (0);
 }
+//
+//echo <"./test_files/infile" <missing <"./test_files/infile"
