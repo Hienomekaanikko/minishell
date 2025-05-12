@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/08 12:11:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 14:30:47 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	ft_lexer(t_data *data, t_exec_status *exec_status) //env-arena added
 		return (0);
 	if (data->exp->var_list)
 		check_for_expansions(data);
-	if (data->temp_array)
-		ft_free_split(data->temp_array);
 	return (1);
 }
 
@@ -128,9 +126,9 @@ int	ft_make_list(t_data *data, t_exec_status *exec_status)
 	// }
 	if (!check_grammar(data))
 	{
-		free(data->lexed_list);
-		data->lexed_list = NULL;
+		free_lexed_list(*data->lexed_list);
 		exec_status->exit_code = 2;
+		return (0);
 	}
 	// for testing to see what is inside each node:
 	return (1);

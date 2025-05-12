@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/09 16:36:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:22:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void init_data(t_data *data)
 {
+	if (data->temp_array)
+		ft_free_split(data->temp_array);
 	if (data->input)
 	{
 		free(data->input);
@@ -23,12 +25,6 @@ static void init_data(t_data *data)
 	{
 		free_ast(data->root);
 		data->root = NULL;
-	}
-	data->lexed_list = malloc(sizeof(t_lexer *));
-	if (!data->lexed_list)
-	{
-		printf("MALLOC\n");
-		return;
 	}
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
@@ -41,11 +37,8 @@ int	process_input(t_data *data, t_exec_status  *exec_status)
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	ft_lexer(data, exec_status);
-	if (data->lexed_list)
+	if (ft_lexer(data, exec_status))
 		make_tree(data);
-	else
-		return (0);
 	return (1);
 }
 
@@ -57,6 +50,14 @@ void	init_base(t_data *data, int argc, char **argv)
 	data->exp->var_list = NULL;
 	data->root = NULL;
 	data->input = NULL;
+	data->lexed_list = malloc(sizeof(t_lexer *));
+	if (!data->lexed_list)
+	{
+		printf("MALLOC\n");
+		return;
+	}
+	data->temp_array = NULL;
+	*data->lexed_list = NULL;
 }
 
 void	init_exec_status(t_exec_status *status)
@@ -71,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	t_arena			*env_arena;
 	t_arena			*exec_arena;
 
-	//splash_screen();
+	splash_screen();
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
@@ -92,6 +93,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	arena_free(env_arena);
 	arena_free(exec_arena);
-	//destroy_memory(&data);
+	destroy_memory(&data);
 	return (exec_status.exit_code);
 }

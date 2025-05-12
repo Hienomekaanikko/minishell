@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:25:12 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 17:53:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 14:33:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ static void	free_var_list(t_var *start)
 
 void	destroy_memory(t_data *data)
 {
+	if (data->temp_array)
+		ft_free_split(data->temp_array);
+	if (data->root)
+		free_ast(data->root);
 	if (data->exp)
 	{
 		if (data->exp->var_list)
@@ -71,10 +75,7 @@ void	destroy_memory(t_data *data)
 		free(data->exp);
 	}
 	if (data->lexed_list)
-	{
-		free_lexed_list(*data->lexed_list);
 		free(data->lexed_list);
-	}
 	if (data->input)
 		free(data->input);
 }

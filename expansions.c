@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/25 17:24:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 14:45:08 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*expander(t_data *data, char *value)
 
 	i = 0;
 	start = 0;
-	new_value = ft_strdup("");
 	while (value[i])
 	{
 		if (value[i] == '$')
