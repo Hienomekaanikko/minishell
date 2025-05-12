@@ -128,10 +128,9 @@ int	ft_make_list(t_data *data, t_exec_status *exec_status)
 	// }
 	if (!check_grammar(data))
 	{
-		free(data->lexed_list);
-		data->lexed_list = NULL;
+		free_lexed_list(*data->lexed_list);
 		exec_status->exit_code = 2;
+		return (0);
 	}
-	// for testing to see what is inside each node:
 	return (1);
 }

@@ -46,7 +46,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *status)
 // static void print_node_structure(t_ast *node) //DEBUG print the entire node structure
 // {
 //     printf("\nNode structure:\n");
-//     printf("Type: %d\n", node->type);
+//     printf("%d\n", node->type);
 //     printf("Cmd: |%s|\n", node->cmd ? node->cmd : "NULL");
 //     printf("File: |%s|\n", node->file ? node->file : "NULL");
 //     if (node->args)

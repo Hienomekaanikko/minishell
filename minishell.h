@@ -29,6 +29,8 @@
 # include <errno.h>
 #define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
+int g_exit_value;
+
 //token types
 typedef enum e_token
 {
