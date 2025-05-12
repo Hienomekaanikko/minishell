@@ -103,30 +103,34 @@ static int	is_valid_env_name(const char *name)
 int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 {
 	int		i;
-	char	*equals;
 	char	*key;
-	char	*value;
 
 	if (!args[1])
 		return (builtin_env(env_arena, status));
 	i = 1;
 	while (args[i])
 	{
-		equals = ft_strchr(args[i], '=');
-		if (equals)
+		if (ft_strchr(args[i], '='))
 		{
-			*equals = '\0';
-			key = args[i];
-			value = equals + 1;
-			if (arena_set_env(env_arena, key, value) == -1)
-			{
-				*equals = '=';
+			key = ft_strndup(args[i], ft_strchr(args[i], '=') - args[i]);
+			if (!key)
 				return (handle_errno_error(status, "export", errno));
-			}
-			*equals = '=';
 		}
+		else
+			key = args[i];
 		if (!is_valid_env_name(key))
+		{
+			if (ft_strchr(args[i], '='))
+				free(key);
 			return (error_handler(status, "export", ERR_INVALID_IDENTIFIER));
+		}
+		if (ft_strchr(args[i], '=') && arena_set_env(env_arena, key, ft_strchr(args[i], '=') + 1) == -1)
+		{
+			free(key);
+			return (handle_errno_error(status, "export", errno));
+		}
+		if (ft_strchr(args[i], '='))
+			free(key);
 		i++;
 	}
 	return (0);
