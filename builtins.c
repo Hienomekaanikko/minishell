@@ -106,11 +106,6 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 	int	i;
 
 	i = 1;
-	if (!args[1])
-	{
-		error_handler(status, "unset: not enough arguments", 1);
-		return (1);
-	}
 	while (args[i])
 	{
 		if (!is_valid_env_name(args[i]))
@@ -141,4 +136,33 @@ int	builtin_env(t_arena *arena, t_exec_status *status)
 		i++;
 	}
 	return (0);
+}
+
+static int	is_valid_exit_arg(char *arg)
+{
+	if (arg[0] != '+' && arg[0] != '-' && !ft_isdigit(arg[0]))
+		return (0);
+	int i = 1;
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	builtin_exit(t_ast *node, t_exec_status *status)
+{
+	if (!node->args[1])
+	{
+		status->exit_code = 0;
+		return (1);
+	}
+	if (node->args[2])
+		return (error_handler(status, "exit", 1));
+	if (!is_valid_exit_arg(node->args[1]))
+		return (error_handler(status, "exit", 1));
+	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
+	return (1);
 }

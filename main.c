@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/12 15:22:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:14:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,13 @@ int	main(int argc, char **argv, char **envp)
 		init_data(&data);
 		if (!process_input(&data, &exec_status))
 			continue ;
-		else if (ft_strncmp(data.input, "exit", 4) == 0) //MB. Exit command added back
+		else if (ft_strncmp(data.input, "exit", 4) == 0)
 		{
-			printf("exit\n");
-			break ;
+			if (builtin_exit(data.root, &exec_status))
+			{
+				printf("exit\n");
+				break ;
+			}
 		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);

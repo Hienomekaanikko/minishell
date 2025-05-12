@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/09 16:34:02 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:04:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int		builtin_pwd(t_exec_status *status);
 int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
-int		builtin_exit(char **args, t_exec_status *status);
+int		builtin_exit(t_ast *node, t_exec_status *status);
 //envp
 t_arena	*init_env_arena(char **envp);
 char	*arena_getenv(t_arena *env_arena, char *key);
