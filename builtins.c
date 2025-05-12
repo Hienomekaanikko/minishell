@@ -140,8 +140,8 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 {
 	int	i;
 
-	if (!args[1])
-		return (error_handler(status, "unset", ERR_NOT_ENOUGH_ARGS));
+	// if (!args[1])
+	// 	return (error_handler(status, "unset", ERR_NOT_ENOUGH_ARGS));
 	i = 1;
 	while (args[i])
 	{
