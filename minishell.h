@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -89,17 +90,18 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
+	int			infile;
 	char		*error_msg;
 	pid_t		pid;
 }	t_exec_status;
 
 //lexer stuff
-int			ft_make_list(t_data *data);
+int			ft_make_list(t_data *data, t_exec_status *exec_status);
 void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data); //env-arena added
+int			ft_lexer(t_data *data, t_exec_status *exec_status); //env-arena added
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
@@ -107,9 +109,9 @@ void		free_lexed_list(t_lexer *start);
 void		free_ast(t_ast *root);
 
 //ast tree stuff (added 22.4.)
-void		add_arguments(t_ast *curr_node, t_lexer *current);
-void		add_right_child(t_ast **position, t_lexer *current);
-void		add_left_child(t_ast **position, t_lexer *prev_cmd);
+void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
+void		add_right_child(t_ast **position, t_lexer *current, t_token type);
+void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
 void		set_complex_tree(t_data *data);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
@@ -128,16 +130,19 @@ int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
-
 void		visualize_tree_TEST(t_data *data);
 //execution
 int    	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 char	*find_executable(t_ast *node, t_arena *env_arena);
+int		check_file_status(const char *path, t_exec_status *status);
 int		exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
+void	cleanup_fds(t_exec_status *status, int fd);
+int		handle_fd_error(t_exec_status *status, int fd);
+int		handle_errno_error(t_exec_status *status, const char *cmd, int errno_val);
 int		error_handler(t_exec_status *status, const char *cmd, const char *msg);
 void	handle_signal_error(t_exec_status *status, int signal);
 //arena

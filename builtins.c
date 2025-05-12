@@ -52,13 +52,13 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	{
 		path = arena_getenv(env_arena, "HOME");
 		if (!path)
-			return (error_handler(status, "DEBUG_HOME", ERR_NOT_SET));
+			return (error_handler(status, "cd", ERR_NOT_SET));
 	}
 	if (chdir(path) == -1)
-		return (error_handler(status, "DEBUG_CHDIR", ERR_OPEN));
+		return (handle_errno_error(status, "cd", errno));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (error_handler(status, "DEBUG_GETCWD", ERR_GETCWD_FAILED));
+		return (handle_errno_error(status, "cd", errno));
 	arena_unset_env(env_arena, "OLDPWD");
 	arena_unset_env(env_arena, "PWD");
 	arena_set_env(env_arena, "OLDPWD", arena_getenv(env_arena, "PWD"));
@@ -80,7 +80,7 @@ int	builtin_pwd(t_exec_status *status, t_arena *env_arena)
 	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (error_handler(status, "DEBUG_GETCWD", ERR_GETCWD_FAILED));
+		return (handle_errno_error(status, "pwd", errno));
 	ft_putstr_fd(pwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(pwd);
@@ -121,12 +121,12 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 			if (arena_set_env(env_arena, key, value) == -1)
 			{
 				*equals = '=';
-				return (error_handler(status, "DEBUG_EXPORT_1", ERR_MEMORY_ERROR));
+				return (handle_errno_error(status, "export", errno));
 			}
 			*equals = '=';
 		}
 		if (!is_valid_env_name(key))
-			return (error_handler(status, "DEBUG_EXPORT_2", ERR_INVALID_IDENTIFIER));
+			return (error_handler(status, "export", ERR_INVALID_IDENTIFIER));
 		i++;
 	}
 	return (0);
@@ -137,13 +137,13 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 	int	i;
 
 	if (!args[1])
-		return (error_handler(status, "DEBUG: unset", ERR_NOT_ENOUGH_ARGS));
+		return (error_handler(status, "unset", ERR_NOT_ENOUGH_ARGS));
 	i = 1;
 	while (args[i])
 	{
 		if (!is_valid_env_name(args[i]))
 		{
-			error_handler(status, "DEBUG: unset 2", ERR_INVALID_IDENTIFIER);
+			error_handler(status, "unset", ERR_INVALID_IDENTIFIER);
 			return (1);
 		}
 		arena_unset_env(env_arena, args[i]);
@@ -158,7 +158,7 @@ int	builtin_env(t_arena *arena, t_exec_status *status)
 	char	*value;
 
 	if (!arena || !arena->ptrs)
-		return (error_handler(status, "DEBUG: env", ERR_NOT_SET));
+		return (error_handler(status, "env", ERR_NOT_SET));
 	i = 0;
 	while (i < arena->ptrs_in_use)
 	{
@@ -195,9 +195,9 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 		return (1);
 	}
 	if (node->args[2])
-		return (error_handler(status, "DEBUG: exit", ERR_TOO_MANY_ARGS));
+		return (error_handler(status, "exit", ERR_TOO_MANY_ARGS));
 	if (!is_valid_exit_arg(node->args[1]))
-		return (error_handler(status, "DEBUG: exit 2", ERR_NUMERIC_ARG_REQUIRED));
+		return (error_handler(status, "exit", ERR_NUMERIC_ARG_REQUIRED));
 	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
 	return (1);
 }

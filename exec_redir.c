@@ -1,16 +1,12 @@
 #include "minishell.h"
 
-static int	handle_redirection_error(int fd, int saved_fd, t_exec_status *status)
+static int	handle_redirection_error(int fd, int saved_fd, t_exec_status *status, const char *path)
 {
 	if (fd != -1)
 		close(fd);
 	if (saved_fd != -1)
 		close(saved_fd);
-	if (errno == EACCES)
-		return (error_handler(status, NULL, ERR_PERMISSION));
-	if (errno == ENOENT)
-		return (error_handler(status, NULL, ERR_OPEN));
-	return (error_handler(status, NULL, ERR_REDIRECT));
+	return (handle_errno_error(status, path, errno));
 }
 
 static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms, int *std_fd)
@@ -40,26 +36,30 @@ static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms,
 
 int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *exec_arena)
 {
-	int	fd;
 	int	saved_fd;
 	int	open_flags;
 	int	file_perms;
 	int	std_fd;
+	int	fd;
 
 	if (!get_redirection_params(node, &open_flags, &file_perms, &std_fd))
 		return (0);
 	saved_fd = dup(std_fd);
 	if (saved_fd == -1)
-		return (handle_redirection_error(-1, -1, status));
+		return (handle_redirection_error(-1, -1, status, NULL));
 	fd = open(node->right->cmd, open_flags, file_perms);
 	if (fd == -1)
-		return (handle_redirection_error(-1, saved_fd, status));
-	if (dup2(fd, std_fd) == -1)
-		return (handle_redirection_error(fd, saved_fd, status));
+		return (handle_redirection_error(fd, saved_fd, status, node->right->cmd));
+	else
+	{
+		if (status->infile == -1)
+			status->infile = fd;
+	}
+	if (dup2(status->infile, std_fd) == -1)
+		return (handle_redirection_error(status->infile, saved_fd, status, node->right->cmd));
 	execute_command(node->left, env_arena, status, exec_arena);
 	if (dup2(saved_fd, std_fd) == -1)
-		return (handle_redirection_error(fd, saved_fd, status));
-	close(fd);
+		return (handle_redirection_error(status->infile, saved_fd, status, node->right->cmd));
 	close(saved_fd);
 	return (0);
-} 
+}

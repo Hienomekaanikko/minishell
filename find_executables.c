@@ -1,5 +1,20 @@
 # include "minishell.h"
 
+int check_file_status(const char *path, t_exec_status *status)
+{
+	struct stat path_stat;
+
+	if (stat(path, &path_stat) == 0)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+			return (error_handler(status, path, ERR_IS_DIR));
+		if (!(path_stat.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH)))
+			return (error_handler(status, path, ERR_PERMISSION));
+		return (0);
+	}
+	return (handle_errno_error(status, path, errno));
+}
+
 static char	*check_single_path(char *dir, char *cmd)
 {
 	char	*path;
@@ -12,7 +27,7 @@ static char	*check_single_path(char *dir, char *cmd)
 	free(path);
 	if (!full_path)
 		return (NULL);
-	if (access(full_path, X_OK) == 0)
+	if (check_file_status(full_path, NULL) == 0)
 		return (full_path);
 	free(full_path);
 	return (NULL);
@@ -47,7 +62,7 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 	paths = ft_split(path_str, ':');
 	if (!paths)
 	{
-		error_handler(status, NULL, ERR_MALLOC);
+		handle_errno_error(status, NULL, errno);
 		return (NULL);
 	}
 	executable = search_paths(paths, cmd);

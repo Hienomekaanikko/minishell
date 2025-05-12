@@ -24,22 +24,22 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *status)
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(status, "fork", ERR_MALLOC));
+		return (handle_errno_error(status, "fork", errno));
 	if (pid == 0)
 	{
 		setup_child_signals();
 		path = find_executable(node, env_arena);
 		if (!path)
-			exit(error_handler(status, "fork", ERR_NOT_FOUND));
+		{
+			check_file_status(node->cmd, status);
+			exit(status->exit_code);
+		}
 		execve(path, node->args, env_arena->ptrs);
 		free(path);
-		exit(error_handler(status, "fork", ERR_PERMISSION));
+		exit(handle_errno_error(status, node->cmd, errno));
 	}
-	else if (pid > 0)
-	{
-		status->pid = pid;
-		wait_process(pid, status);
-	}
+	status->pid = pid;
+	wait_process(pid, status);
 	return (0);
 }
 
@@ -84,7 +84,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *status, t_ar
 	else if (built_ins(node, env_arena, status) == -1)
 	{
 		if (executables(node, env_arena, status) == -1)
-			return (error_handler(status, NULL, ERR_NOT_FOUND));
+			return (handle_errno_error(status, node->cmd, errno));
 	}
 	return (0);
 }

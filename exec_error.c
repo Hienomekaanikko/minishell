@@ -15,6 +15,8 @@ int	error_handler(t_exec_status *status, const char *cmd, const char *msg)
 		status->exit_code = 126;
 	else if (is_error_msg(msg, ERR_NOT_FOUND))
 		status->exit_code = 127;
+	else if (is_error_msg(msg, ERR_BROKEN_PIPE))
+		status->exit_code = 141;
 	else
 		status->exit_code = 1;
 	
@@ -58,13 +60,23 @@ void	handle_signal_error(t_exec_status *status, int signal)
 	ft_putstr_fd("\n", 2);
 }
 
-// void	handle_exit_error(t_exec_status *exec_status, int exit_code)
-// {
-// 	exec_status->exit_code = exit_code;
-// 	if (exit_code == 127)
-// 		ft_putstr_fd("Command not found", 2);
-// 	else if (exit_code == 126)
-// 		ft_putstr_fd("Permission denied", 2);
-// 	ft_putstr_fd("\n", 2);
-// }
+int	handle_errno_error(t_exec_status *status, const char *cmd, int errno_val)
+{
+	if (errno_val == EACCES || errno_val == EPERM || errno_val == EROFS)
+		status->exit_code = 126;
+	else if (errno_val == ENOENT)
+		status->exit_code = 127;
+	else
+		status->exit_code = 1;
+	ft_putstr_fd(ERR_PREFIX, 2);
+	if (cmd)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	ft_putstr_fd(strerror(errno_val), 2);
+	ft_putstr_fd("\n", 2);
+	
+	return (status->exit_code);
+}
 
