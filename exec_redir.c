@@ -6,6 +6,8 @@ static int	handle_redirection_error(int fd, int saved_fd, t_exec_status *status)
 		close(fd);
 	if (saved_fd != -1)
 		close(saved_fd);
+	if (errno == EACCES)
+		return (error_handler(status, "Permission denied", 1));
 	return (error_handler(status, "No such file or directory", 1));
 }
 
