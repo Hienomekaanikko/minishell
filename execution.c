@@ -54,8 +54,13 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 		return (exec_pipe(node, env_arena, exec_status, exec_arena));
 	else if (built_ins(node, env_arena, exec_status) == -1)
 	{
-		if (executables(node, env_arena, exec_status) == -1)
-			return (error_handler(exec_status, "command not found", 127));
+		if (exec_status->redir_fail == 0)
+		{
+			if (executables(node, env_arena, exec_status) == -1)
+				return (error_handler(exec_status, "command not found", 127));
+		}
+		else
+			exec_status->exit_code = 1;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 10:07:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:07:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 		prev = temp;
 		temp = temp->next;
 		if (type == RE_IN || type == RE_OUT)
+		{
+			curr_node->args[i] = NULL;
 			return ;
+		}
 	}
 	if (temp)
 	{
