@@ -51,7 +51,7 @@ t_arena	*init_env_arena(char **envp, t_data *data)
 	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
 	return (data->env_arena);
 }
-
+//missing some free()?
 int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status)
 {
 	char	*env_var;

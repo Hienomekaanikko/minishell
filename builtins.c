@@ -83,7 +83,7 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	free(new_pwd);
 	return (0);
 }
-//Do we need to implement the oldpwd thing? cd -
+
 int	builtin_pwd(t_exec_status *status, t_arena *env_arena)
 {
 	char	*pwd;
@@ -144,7 +144,7 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 		if (ft_strchr(args[i], '=') && arena_set_env(env_arena, key, ft_strchr(args[i], '=') + 1, status) == -1)
 		{
 			free(key);
-			return (error_handler(status,"export" ,strerror(errno), 1));
+			return (error_handler(status,"export", strerror(errno), 1));
 		}
 		if (ft_strchr(args[i], '='))
 			free(key);
@@ -157,8 +157,6 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 {
 	int	i;
 
-	// if (!args[1])
-	// 	return (error_handler(status, "unset", ERR_NOT_ENOUGH_ARGS));
 	i = 1;
 	while (args[i])
 	{
@@ -175,7 +173,7 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 
 int	builtin_env(t_arena *arena, t_exec_status *status)
 {
-	size_t i;
+	size_t	i;
 	char	*value;
 
 	if (!arena || !arena->ptrs)
@@ -184,7 +182,7 @@ int	builtin_env(t_arena *arena, t_exec_status *status)
 	while (i < arena->ptrs_in_use)
 	{
 		value = ft_strchr(arena->ptrs[i], '=');
-		if (value && value[1])
+		if (value)
 		{
 			ft_putstr_fd(arena->ptrs[i], 1);
 			ft_putstr_fd("\n", 1);
