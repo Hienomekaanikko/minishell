@@ -48,10 +48,8 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 	if (!node)
 		return (error_handler(exec_status, "syntax error: invalid command", 1));
 	//print_node_structure(node); //DEBUG
-	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN)
+	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, env_arena, exec_status, exec_arena));
-	else if (node->type == HERE_DOC)
-		return (exec_heredoc(node, env_arena, exec_status, exec_arena));
 	else if (node->type == PIPE)
 		return (exec_pipe(node, env_arena, exec_status, exec_arena));
 	else if (built_ins(node, env_arena, exec_status) == -1)

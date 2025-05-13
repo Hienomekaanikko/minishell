@@ -29,6 +29,12 @@ static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms,
 		*file_perms = 0644;
 		*std_fd = STDOUT_FILENO;
 	}
+	else if (node->type == HERE_DOC)
+	{
+		*open_flags = O_RDONLY;
+		*file_perms = 0;
+		*std_fd = STDIN_FILENO;
+	}
 	else
 		return (0);
 	return (1);

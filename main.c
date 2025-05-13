@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/12 17:14:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:00:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ static void init_data(t_data *data)
 	data->temp_array = NULL;
 }
 
-int	process_input(t_data *data, t_exec_status  *exec_status)
+int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 {
 	data->input = readline("minishell$: ");
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	if (ft_lexer(data, exec_status))
-		make_tree(data);
+		make_tree(data, env_arena);
 	return (1);
 }
 
@@ -64,6 +64,7 @@ void	init_exec_status(t_exec_status *status)
 {
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
+	status->outfile = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -81,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		if (!process_input(&data, &exec_status))
+		if (!process_input(&data, &exec_status, env_arena))
 			continue ;
 		else if (ft_strncmp(data.input, "exit", 4) == 0)
 		{

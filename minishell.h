@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/12 17:04:38 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:00:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct	s_exec_status
 	int			exit_code;
 	int			signal;
 	int			infile;
+	int			outfile;
 	int			final_exit_code;
 	char		*error_msg;
 	pid_t		pid;
@@ -96,7 +97,7 @@ typedef struct	s_exec_status
 
 //lexer stuff
 int			ft_make_list(t_data *data, t_exec_status *exec_status);
-void		make_tree(t_data *data);
+void		make_tree(t_data *data, t_arena *env_arena);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
@@ -111,12 +112,13 @@ void		free_ast(t_ast *root);
 void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
 void		add_right_child(t_ast **position, t_lexer *current, t_token type);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
-void		set_complex_tree(t_data *data);
+void		set_complex_tree(t_data *data, t_arena *env_arena);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
+int			write_heredoc(t_arena *env_arena, char *delimiter, char **out_path);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
@@ -132,7 +134,7 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int    	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int		execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 char	*find_executable(t_ast *node, t_arena *env_arena);
 int		exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 void	wait_process(pid_t pid, t_exec_status *exec_status);

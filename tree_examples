@@ -120,11 +120,11 @@ grep hi <./test_files/infile_big <./test_files/infile
      /    \
   echo     file1
 
-      PIPE
+       >>
      /    \
-   <<     ls
+   <<     file.txt
  /    \
-cmd1   EOF
+cat	  EOF
 
 <   ./test_files/infile
     <   ./test_files/infile_big
@@ -152,3 +152,5 @@ echo   ./test_files/infile_big
     |   cat
         <   ./test_files/infile_big
             echo
+cat <<EOF >> file.txt
+
