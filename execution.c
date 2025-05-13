@@ -17,6 +17,22 @@ int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
 	return (-1);
 }
 
+void check_path_permissions(char *path, t_exec_status *exec_status)
+{
+	struct stat path_stat;
+
+	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
+	{
+		if (stat(path, &path_stat) == -1)
+			exit(error_handler(exec_status, strerror(errno), 127));
+		if (S_ISDIR(path_stat.st_mode))
+			exit(error_handler(exec_status, "is a directory", 126));
+		if (access(path, X_OK) == -1)
+			exit(error_handler(exec_status, "Permission denied", 126));
+		return;
+	}
+}
+
 int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 {
 	pid_t	pid;
@@ -28,12 +44,12 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	if (pid == 0)
 	{
 		setup_child_signals();
+		check_path_permissions(node->cmd, exec_status);
 		path = find_executable(node, env_arena);
 		if (!path)
 			exit(error_handler(exec_status, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
-		free(path);
-		exit(error_handler(exec_status, "permission denied", 126));
+		exit(error_handler(exec_status, "command not found", 127)); 
 	}
 	else if (pid > 0)
 	{

@@ -77,14 +77,14 @@ char	*remove_quotes(char *value)
 void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 {
 	t_lexer	*temp;
-	t_lexer	*prev;
+	//t_lexer	*prev;
 	int		argument_amount;
 	int		i;
 
 	temp = current;
 	argument_amount = count_size(temp);
 	i = 0;
-	prev = NULL;
+	//prev = NULL;
 	curr_node->args = malloc((argument_amount + 1) * sizeof(char *));
 	if (!curr_node->args)
 		return ;
@@ -95,7 +95,7 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 		else
 			curr_node->args[i] = ft_strdup(temp->value);
 		i++;
-		prev = temp;
+		//prev = temp;
 		temp = temp->next;
 		if (type == RE_IN || type == RE_OUT)
 			return ;
