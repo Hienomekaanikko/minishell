@@ -110,16 +110,18 @@ grep hi <./test_files/infile_big <./test_files/infile
   grep     ./test_files_infile_big
 
 
->>   file2
-    >>   file1
-        echo
+>>   ./outfiles/outfile02
+    |   echo
+        >>   ./outfiles/outfile01
+            echo
 
           >>
          /  \
-       >>     file2
+       |     ./outfiiles/outfile02
      /    \
-  echo     file1
-
+  >>     echo
+  /   \
+ echo ./outfiles/outfile01
        >>
      /    \
    <<     file.txt

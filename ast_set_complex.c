@@ -6,11 +6,29 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 17:51:54 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:30:56 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+#include <unistd.h>
+
+int check_permissions_only(char *path, int type)
+{
+	if (type == RE_IN)
+		return (access(path, R_OK));  // Returns 0 if readable, -1 if not
+	else if (type == RE_OUT || type == APPEND_OUT)
+	{
+		// If file exists, check if writable
+		if (access(path, F_OK) == 0)
+			return (access(path, W_OK));  // Returns 0 if writable, -1 if not
+		else
+			return (0); // File doesn't exist — but that's OK, no permission check needed
+	}
+	return (-1); // Invalid redirection type
+}
+
 
 static char	*make_heredoc(t_arena *env_arena, char *delimiter)
 {
@@ -31,6 +49,13 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 	current = current->next;
 	if (current->type == ARG)
 		add_right_child(&new_node->right, current, new_node->type);
+	if ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1)
+	{
+		if (data->redir_err == 0)
+			ft_putstr_fd(" Permission denied\n", 2);
+		new_node->access = 0;
+		data->redir_err = 1;
+	}
 	data->root = new_node;
 }
 
@@ -48,6 +73,13 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 	}
 	if (current->type == ARG)
 		add_right_child(&data->root->right, current, data->root->type);
+	if ((check_permissions_only(data->root->right->args[0], data->root->type) == -1) || data->redir_err == 1)
+	{
+		if (data->redir_err == 0)
+			ft_putstr_fd(" Permission denied\n", 2);
+		data->root->access = 0;
+		data->redir_err = 1;
+	}
 }
 
 //sets the followup pipe as root and previous pipe as left child

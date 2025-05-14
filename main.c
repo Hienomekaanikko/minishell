@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 17:07:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:36:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	init_base(t_data *data, int argc, char **argv)
 	data->exp->var_list = NULL;
 	data->root = NULL;
 	data->input = NULL;
+	data->redir_err = 0;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
 	{

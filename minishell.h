@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 17:07:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:35:55 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_lexer
 typedef struct	s_ast
 {
 	t_token			type;
+	int				access;
 	char			*cmd;
 	char			**args;
 	char			*file;
@@ -81,6 +82,7 @@ typedef struct s_data
 	char		*input;
 	t_arena		*env_arena;
 	int			syntax_err;
+	int			redir_err;
 }	t_data;
 
 //structure for the execution status

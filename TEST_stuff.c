@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:15:05 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/09 11:50:09 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:41:24 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	show_arguments_per_cmd(t_data *data)
 			printf("Args for cmd '%s':\n", curr->right->cmd);
 			print_args(curr->right);
 		}
+		printf("access for %s is : %d\n", curr->cmd, curr->access);
 		curr = curr->left;
 	}
 }

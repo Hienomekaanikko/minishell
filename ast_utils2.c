@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/12 14:45:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 15:26:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
+	new_node->access = 1;
 	new_node->args = NULL;
 	new_node->file = NULL; //MB ATTENTION: infile outfile -> file
 	return (new_node);
