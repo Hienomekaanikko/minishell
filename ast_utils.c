@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 10:07:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:10:46 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 		else
 			curr_node->args[i] = ft_strdup(temp->value);
 		i++;
-		//prev = temp;
+	//	prev = temp;
 		temp = temp->next;
 		if (type == RE_IN || type == RE_OUT)
 			return ;
