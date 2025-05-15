@@ -50,7 +50,7 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	path = args[1];
 	if (!path)
 	{
-		path = arena_getenv(env_arena, "HOME");
+		path = arena_getenv(env_arena, "HOME"); //MB. MIght not be correct.
 		if (!path)
 			return (error_handler(status, "not set", 1));
 	}
@@ -59,14 +59,11 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (error_handler(status, strerror(errno), 1));
-	arena_unset_env(env_arena, "OLDPWD");
-	arena_unset_env(env_arena, "PWD");
-	arena_set_env(env_arena, "OLDPWD", arena_getenv(env_arena, "PWD"));
 	arena_set_env(env_arena, "PWD", new_pwd);
 	free(new_pwd);
 	return (0);
 }
-
+//Do we need to implement the oldpwd thing? cd -
 int	builtin_pwd(t_exec_status *status, t_arena *env_arena)
 {
 	char	*pwd;

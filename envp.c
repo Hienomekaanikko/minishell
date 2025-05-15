@@ -39,6 +39,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value)
 {
 	char	*env_var;
 
+	arena_unset_env(env_arena, key);
 	if (!env_arena || !key || !value)
 		return (-1);
 	env_var = ft_strjoin(key, "=");
