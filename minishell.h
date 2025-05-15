@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 13:58:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:19:07 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,9 @@ void	arena_free(t_arena *arena);
 char	*arena_add(t_arena *arena, char *str);
 void	arena_clear(t_arena *arena);
 //built-ins
-int		builtin_echo(char **args, t_exec_status *status);
-int		builtin_cd(char **args, t_exec_status *status);
-int		builtin_pwd(t_exec_status *status);
+int		builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
+int		builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
+int		builtin_pwd(t_exec_status *status, t_arena *env_arena);
 int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int		builtin_env(t_arena *env_arena, t_exec_status *status);
