@@ -3,11 +3,11 @@
 int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
 {
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
-		return (builtin_echo(node->args, status));
+		return (builtin_echo(node->args, status, env_arena));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
-		return (builtin_cd(node->args, status));
+		return (builtin_cd(node->args, status, env_arena));
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
-		return (builtin_pwd(status));
+		return (builtin_pwd(status, env_arena));
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
 		return (builtin_export(env_arena, status, node->args));
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
