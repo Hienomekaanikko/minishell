@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 17:27:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:45:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,13 +116,13 @@ int	ft_make_list(t_data *data, t_exec_status *exec_status)
 		add_token_type(linked_list);
 		input_list++;
 	}
-	t_lexer	*temp;
-	temp = *linked_list;
-	while (temp)
-	{
-		printf("value: %s, type: %d\n", temp->value, temp->type);
-		temp = temp->next;
-	}
+	// t_lexer	*temp;
+	// temp = *linked_list;
+	// while (temp)
+	// {
+	// 	printf("value: %s, type: %d\n", temp->value, temp->type);
+	// 	temp = temp->next;
+	// }
 	if (!check_grammar(data))
 	{
 		free_lexed_list(*data->lexed_list);

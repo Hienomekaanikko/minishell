@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 17:41:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:54:59 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,14 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i, t_arena *env_arena, t_exec_status *exec_status)
 {
 	int		key_len;
-	int		i;
 	char	*extracted_key;
 	char	*fetched_value;
+	char	*leftovers;
 
 	key_len = 0;
-	i = 0;
 	fetched_value = NULL;
 	extracted_key = NULL;
-	printf("checking value : %s\n", value);
+	leftovers = NULL;
 	while (value[*i + key_len] && ft_isalnum(value[*i + key_len]))
 		key_len++;
 	if (key_len == 0)
@@ -42,12 +41,18 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	}
 	extracted_key = ft_substr(value, *i, key_len);
 	if (ft_strncmp(extracted_key, "?", 1) == 0)
+	{
 		fetched_value = ft_strdup(ft_itoa(exec_status->exit_code));
+		if (key_len > 1)
+			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+	}
 	else
 		fetched_value = is_declared(data, extracted_key, env_arena);
 	if (fetched_value)
 	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
+		if (leftovers)
+			*new_value = ft_strjoin(*new_value, leftovers);
 		free(fetched_value);
 	}
 	free(extracted_key);
