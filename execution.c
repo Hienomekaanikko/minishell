@@ -49,7 +49,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 		if (!path)
 			exit(error_handler(exec_status, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
-		exit(error_handler(exec_status, "command not found", 127)); 
+		exit(error_handler(exec_status, "command not found", 127));
 	}
 	else if (pid > 0)
 	{
@@ -72,6 +72,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 	{
 		if (exec_status->redir_fail == 0)
 		{
+
 			if (executables(node, env_arena, exec_status) == -1)
 				return (error_handler(exec_status, "command not found", 127));
 		}

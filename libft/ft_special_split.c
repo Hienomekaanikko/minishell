@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 11:38:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:24:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,11 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 				}
 				i++;
 			}
+		}
+		if (in_quote)
+		{
+			ft_putstr_fd("WTF gimme a proper input!\n", 2);
+			return (NULL);
 		}
 		if (i > start)
 		{

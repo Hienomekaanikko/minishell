@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/14 16:30:56 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:58:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int check_permissions_only(char *path, int type)
 	}
 	return (-1); // Invalid redirection type
 }
-
 
 static char	*make_heredoc(t_arena *env_arena, char *delimiter)
 {
