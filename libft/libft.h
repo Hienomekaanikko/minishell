@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:27:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/10 10:55:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:31:36 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int			ft_tolower(int c);
 int			ft_isnum(char *num);
 int			ft_isprint(int c);
 int			ft_atoi(const char *str);
+char		*ft_itoa(int n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 int			ft_strncmp(char *str1, char *str2, size_t n);
 void		*ft_memset(void *dest, int x, size_t n);
