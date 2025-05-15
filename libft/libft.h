@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:27:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/10 10:55:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:51:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void		*ft_calloc(size_t count, size_t size);
 void		*ft_memchr(const void *s, int c, size_t n);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
+char		*ft_itoa(int n);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t n);
 char		*ft_strdup(const char *s);
 char		*ft_substr(char const *s, unsigned int start, size_t len);

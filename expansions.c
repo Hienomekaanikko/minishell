@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 14:15:07 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:41:33 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,30 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	free(sub);
 }
 
-static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i)
+static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i, t_arena *env_arena, t_exec_status *exec_status)
 {
 	int		key_len;
+	int		i;
 	char	*extracted_key;
 	char	*fetched_value;
 
 	key_len = 0;
+	i = 0;
+	fetched_value = NULL;
+	extracted_key = NULL;
+	printf("checking value : %s\n", value);
 	while (value[*i + key_len] && ft_isalnum(value[*i + key_len]))
 		key_len++;
 	if (key_len == 0)
+	{
+		(*new_value) = ft_strjoin_free(*new_value, "$");
 		return ;
+	}
 	extracted_key = ft_substr(value, *i, key_len);
-	fetched_value = is_declared(data, extracted_key);
+	if (ft_strncmp(extracted_key, "?", 1) == 0)
+		fetched_value = ft_strdup(ft_itoa(exec_status->exit_code));
+	else
+		fetched_value = is_declared(data, extracted_key, env_arena);
 	if (fetched_value)
 	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
@@ -43,7 +54,7 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	*i += key_len;
 }
 
-char	*expander(t_data *data, char *value)
+char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exec_status)
 {
 	char	*new_value;
 	int		i;
@@ -51,6 +62,7 @@ char	*expander(t_data *data, char *value)
 
 	i = 0;
 	start = 0;
+	new_value = NULL;
 	while (value[i])
 	{
 		if (value[i] == '$')
@@ -58,7 +70,7 @@ char	*expander(t_data *data, char *value)
 			if (i > start)
 				append_substring_before_dollar(&new_value, value, start, i);
 			i++;
-			append_expanded_variable(data, &new_value, value, &i);
+			append_expanded_variable(data, &new_value, value, &i, env_arena, exec_status);
 			start = i;
 		}
 		else
@@ -66,15 +78,19 @@ char	*expander(t_data *data, char *value)
 	}
 	if (i > start)
 		append_substring_before_dollar(&new_value, value, start, i);
-	if (ft_strlen(new_value) == 0)
+	if (new_value)
 	{
-		free(new_value);
-		return NULL;
+		if (ft_strlen(new_value) == 0)
+		{
+			free(new_value);
+			return (NULL);
+		}
+		return (new_value);
 	}
-	return (new_value);
+	return (NULL);
 }
 
-void	check_for_expansions(t_data *data)
+void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status)
 {
 	t_lexer	*current;
 	t_lexer	*prev;
@@ -88,11 +104,24 @@ void	check_for_expansions(t_data *data)
 		return ;
 	while (current)
 	{
+		if (current->value[0] == '\'')
+		{
+			prev = current;
+			current = current->next;
+			continue ;
+		}
 		if (ft_strchr(current->value, '$'))
 		{
-			expanded_value = expander(data, current->value);
+			expanded_value = expander(data, current->value, env_arena, exec_status);
 			if (expanded_value)
+			{
 				refresh_value(current, expanded_value, prev);
+				if (ft_strchr(current->value, '$'))
+				{
+					prev = current;
+					current = current->next;
+				}
+			}
 			else
 				current = remove_key_not_found(data, current, prev);
 		}

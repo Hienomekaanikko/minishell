@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 14:19:07 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:48:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		make_tree(t_data *data, t_arena *env_arena);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data, t_exec_status *exec_status); //env-arena added
+int			ft_lexer(t_data *data, t_exec_status *exec_status, t_arena *env_arena); //env-arena added
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
@@ -130,9 +130,9 @@ void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
-void		check_for_expansions(t_data *data);
+void		check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status);
 int			count_dollars(t_lexer *curr);
-char		*is_declared(t_data *data, char *extracted_key);
+char		*is_declared(t_data *data, char *extracted_key, t_arena *env_arena);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 

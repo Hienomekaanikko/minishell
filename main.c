@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/14 15:36:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:21:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	if (ft_lexer(data, exec_status))
+	if (ft_lexer(data, exec_status, env_arena))
 		make_tree(data, env_arena);
 	return (1);
 }

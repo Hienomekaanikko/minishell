@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 16:33:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:16:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,15 @@ int	count_dollars(t_lexer *curr)
 	return (dollars);
 }
 
-char	*is_declared(t_data *data, char *extracted_key)
+char	*is_declared(t_data *data, char *extracted_key, t_arena *env_arena)
 {
 	t_var	*temp;
 	char	*fetched_value;
 
+	fetched_value = NULL;
+	fetched_value = arena_getenv(env_arena, extracted_key);
+	if (fetched_value)
+		return (fetched_value);
 	temp = data->exp->var_list;
 	while (temp)
 	{

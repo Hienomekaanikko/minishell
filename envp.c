@@ -26,7 +26,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value)
 	char	*env_var;
 
 	if (!env_arena || !key || !value)
-		return (-1);	
+		return (-1);
 	env_var = ft_strjoin(key, "=");
 	if (!env_var)
 		return (-1);
@@ -53,7 +53,7 @@ int	arena_unset_env(t_arena *env_arena, char *key)
 	i = 0;
 	while (i < env_arena->ptrs_in_use)
 	{
-		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0 
+		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0
 			&& env_arena->ptrs[i][key_len] == '=')
 		{
 			env_arena->ptrs[i] = env_arena->ptrs[env_arena->ptrs_in_use - 1];
@@ -79,7 +79,7 @@ char	*arena_getenv(t_arena *env_arena, char *key)
 	{
 		env_var = env_arena->ptrs[i];
 		if (ft_strncmp(env_var, key, key_len) == 0 && env_var[key_len] == '=')
-			return (env_var + key_len + 1);
+			return (ft_strdup(env_var + key_len + 1));
 		i++;
 	}
 	return (NULL);
