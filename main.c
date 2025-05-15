@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/13 11:00:20 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:07:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_data(t_data *data)
+static void init_data(t_data *data, t_exec_status *status)
 {
 	if (data->temp_array)
 		ft_free_split(data->temp_array);
@@ -29,6 +29,9 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
+	status->infile = -1;
+	status->outfile = -1;
+	status->redir_fail = 0;
 }
 
 int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
@@ -65,6 +68,7 @@ void	init_exec_status(t_exec_status *status)
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
 	status->outfile = -1;
+	status->redir_fail = 0;
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -81,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{
-		init_data(&data);
+		init_data(&data, &exec_status);
 		if (!process_input(&data, &exec_status, env_arena))
 			continue ;
 		else if (ft_strncmp(data.input, "exit", 4) == 0)

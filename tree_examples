@@ -154,3 +154,6 @@ echo   ./test_files/infile_big
             echo
 cat <<EOF >> file.txt
 
+ls >./outfiles/outfile01 >./test_files/invalid_permission
+
+
