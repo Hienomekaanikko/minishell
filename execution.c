@@ -26,7 +26,7 @@ void check_path_permissions(char *path, t_exec_status *exec_status)
 		if (stat(path, &path_stat) == -1)
 			exit(error_handler(exec_status, strerror(errno), 127));
 		if (S_ISDIR(path_stat.st_mode))
-			exit(error_handler(exec_status, "is a directory", 126));
+			exit(error_handler(exec_status, "Is a directory", 126));
 		if (access(path, X_OK) == -1)
 			exit(error_handler(exec_status, "Permission denied", 126));
 		return;
@@ -49,7 +49,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 		if (!path)
 			exit(error_handler(exec_status, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
-		exit(error_handler(exec_status, "command not found", 127)); 
+		exit(error_handler(exec_status, "command not found", 127));
 	}
 	else if (pid > 0)
 	{
