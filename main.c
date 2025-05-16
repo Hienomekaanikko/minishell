@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 15:21:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:17:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	if (ft_lexer(data, exec_status, env_arena))
-		make_tree(data, env_arena);
+		make_tree(data, env_arena, exec_status);
 	return (1);
 }
 
@@ -69,7 +69,7 @@ void	init_exec_status(t_exec_status *status)
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
 	status->outfile = -1;
-	status->redir_fail = 0;
+	//status->redir_fail = 0;
 }
 int	main(int argc, char **argv, char **envp)
 {

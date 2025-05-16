@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 11:19:57 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:09:02 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct	s_exec_status
 
 //lexer stuff
 int			ft_make_list(t_data *data, t_exec_status *exec_status);
-void		make_tree(t_data *data, t_arena *env_arena);
+void		make_tree(t_data *data, t_arena *env_arena, t_exec_status *status);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
@@ -116,7 +116,7 @@ void		free_ast(t_ast *root);
 void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
 void		add_right_child(t_ast **position, t_lexer *current, t_token type);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
-void		set_complex_tree(t_data *data, t_arena *env_arena);
+void		set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *current);

@@ -11,7 +11,12 @@ int	error_handler(t_exec_status *status, const char *msg, int exit_code)
 	else
 	{
 		status->error_msg = strerror(errno);
-		status->exit_code = exit_code;
+		if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
+			status->exit_code = 126;
+		else if (errno == ENOENT)
+			status->exit_code = 127;
+		else
+			status->exit_code = 1;
 	}
 	ft_putstr_fd(" ", 2);
 	ft_putendl_fd(status->error_msg, 2);
