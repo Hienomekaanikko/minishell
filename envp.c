@@ -1,5 +1,18 @@
 # include "minishell.h"
 
+void	set_shell_level(t_arena *env_arena)
+{
+	int		level;
+	char	*old_level;
+	char	*new_level;
+
+	old_level = arena_getenv(env_arena, "SHLVL");
+	level = ft_atoi(old_level);
+	level++;
+	new_level = ft_itoa(level);
+	arena_set_env(env_arena, "SHLVL", new_level);
+}
+
 t_arena	*init_env_arena(char **envp)
 {
 	t_arena	*env_arena;
@@ -18,6 +31,7 @@ t_arena	*init_env_arena(char **envp)
 		arena_add(env_arena, envp[i]);
 		i++;
 	}
+	set_shell_level(env_arena);
 	return (env_arena);
 }
 
@@ -25,6 +39,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value)
 {
 	char	*env_var;
 
+	arena_unset_env(env_arena, key);
 	if (!env_arena || !key || !value)
 		return (-1);
 	env_var = ft_strjoin(key, "=");
