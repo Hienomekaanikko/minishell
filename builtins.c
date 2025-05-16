@@ -49,15 +49,17 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	char	*new_pwd;
 	char	*path;
 
+	if (args [2])
+		return (error_handler(status, "too many arguments", 1));
 	path = args[1];
 	if (!path)
 	{
-		path = arena_getenv(env_arena, "HOME"); //MB. MIght not be correct.
+		path = arena_getenv(env_arena, "HOME");
 		if (!path)
 			return (error_handler(status, "not set", 1));
 	}
 	if (chdir(path) == -1)
-		return (error_handler(status, strerror(errno), 127));
+		return (error_handler(status, strerror(errno), 1));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (error_handler(status, strerror(errno), 1));
