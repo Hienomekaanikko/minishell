@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_set_complex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:10:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:59:04 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 	if ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			(error_handler(status, strerror(errno), 1));
+			(error_handler(status, "redirect", strerror(errno), 1));
 		new_node->access = 0;
 		data->redir_err = 1;
 	}
@@ -73,7 +73,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 	if ((check_permissions_only(data->root->right->args[0], data->root->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			(error_handler(status, strerror(errno), 1));
+			(error_handler(status, "redirect", strerror(errno), 1));
 		data->root->access = 0;
 		data->redir_err = 1;
 	}

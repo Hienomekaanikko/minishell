@@ -24,11 +24,11 @@ void check_path_permissions(char *path, t_exec_status *exec_status)
 	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
 	{
 		if (stat(path, &path_stat) == -1)
-			exit(error_handler(exec_status, strerror(errno), 127));
+			exit(error_handler(exec_status, path, strerror(errno), 127));
 		if (S_ISDIR(path_stat.st_mode))
-			exit(error_handler(exec_status, "Is a directory", 126));
+			exit(error_handler(exec_status, path, "Is a directory", 126));
 		if (access(path, X_OK) == -1)
-			exit(error_handler(exec_status, "Permission denied", 126));
+			exit(error_handler(exec_status, path, "Permission denied", 126));
 		return;
 	}
 }
@@ -40,16 +40,16 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(exec_status, "fork: failed", 1));
+		return (error_handler(exec_status, "fork", "failed", 1));
 	if (pid == 0)
 	{
 		setup_child_signals();
 		check_path_permissions(node->cmd, exec_status);
 		path = find_executable(node, env_arena);
 		if (!path)
-			exit(error_handler(exec_status, "command not found", 127));
+			exit(error_handler(exec_status, node->cmd, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
-		exit(error_handler(exec_status, "command not found", 127));
+		exit(error_handler(exec_status, node->cmd, "command not found", 127));
 	}
 	else if (pid > 0)
 	{
@@ -62,7 +62,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	if (!node)
-		return (error_handler(exec_status, "syntax error: invalid command", 1));
+		return (error_handler(exec_status, "syntax error", "invalid command", 1));
 	//print_node_structure(node); //DEBUG
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, env_arena, exec_status, exec_arena));
@@ -73,7 +73,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 		if (exec_status->redir_fail == 0)
 		{
 			if (executables(node, env_arena, exec_status) == -1)
-				return (error_handler(exec_status, "command not found", 127));
+				return (error_handler(exec_status, node->cmd, "command not found", 127));
 		}
 	}
 	if (exec_status->redir_fail == 1)

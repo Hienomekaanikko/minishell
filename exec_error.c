@@ -1,6 +1,6 @@
 # include "minishell.h"
 
-int	error_handler(t_exec_status *status, const char *msg, int exit_code)
+int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code)
 {
 	status->signal = 0;
 	if (msg)
@@ -19,6 +19,8 @@ int	error_handler(t_exec_status *status, const char *msg, int exit_code)
 			status->exit_code = 1;
 	}
 	ft_putstr_fd(" ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(status->error_msg, 2);
 	return (exit_code);
 }

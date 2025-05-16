@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:09:02 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:39:20 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
-int		error_handler(t_exec_status *status, const char *msg, int exit_code);
+int		error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
 void	handle_signal_error(t_exec_status *status, int signal);
 //arena
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);

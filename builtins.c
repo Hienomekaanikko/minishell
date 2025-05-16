@@ -50,19 +50,19 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	char	*path;
 
 	if (args [2])
-		return (error_handler(status, "too many arguments", 1));
+		return (error_handler(status, "cd", "too many arguments", 1));
 	path = args[1];
 	if (!path)
 	{
 		path = arena_getenv(env_arena, "HOME");
 		if (!path)
-			return (error_handler(status, "not set", 1));
+			return (error_handler(status, "env", "not set", 1));
 	}
 	if (chdir(path) == -1)
-		return (error_handler(status, strerror(errno), 1));
+		return (error_handler(status, "cd", strerror(errno), 1));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (error_handler(status, strerror(errno), 1));
+		return (error_handler(status, "cd", strerror(errno), 1));
 	arena_set_env(env_arena, "PWD", new_pwd);
 	free(new_pwd);
 	return (0);
@@ -81,7 +81,7 @@ int	builtin_pwd(t_exec_status *status, t_arena *env_arena)
 	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (error_handler(status, strerror(errno), 1));
+		return (error_handler(status, "PWD", strerror(errno), 1));
 	ft_putstr_fd(pwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(pwd);
@@ -115,7 +115,7 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 		{
 			key = ft_strndup(args[i], ft_strchr(args[i], '=') - args[i]);
 			if (!key)
-				return (error_handler(status, strerror(errno), 1));
+				return (error_handler(status, "export", strerror(errno), 1));
 		}
 		else
 			key = args[i];
@@ -123,12 +123,12 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 		{
 			if (ft_strchr(args[i], '='))
 				free(key);
-			return (error_handler(status, "not a valid identifier", 1));
+			return (error_handler(status, args[0], "not a valid identifier", 1));
 		}
 		if (ft_strchr(args[i], '=') && arena_set_env(env_arena, key, ft_strchr(args[i], '=') + 1) == -1)
 		{
 			free(key);
-			return (error_handler(status, strerror(errno), 1));
+			return (error_handler(status,"export" ,strerror(errno), 1));
 		}
 		if (ft_strchr(args[i], '='))
 			free(key);
@@ -148,7 +148,7 @@ int	builtin_unset(t_arena *env_arena, t_exec_status *status, char **args)
 	{
 		if (!is_valid_env_name(args[i]))
 		{
-			error_handler(status, "not a valid identifier", 1);
+			error_handler(status, "unset", "not a valid identifier", 1);
 			return (1);
 		}
 		arena_unset_env(env_arena, args[i]);
@@ -163,7 +163,7 @@ int	builtin_env(t_arena *arena, t_exec_status *status)
 	char	*value;
 
 	if (!arena || !arena->ptrs)
-		return (error_handler(status, "env not set", 1));
+		return (error_handler(status, NULL, "env not set", 1));
 	i = 0;
 	while (i < arena->ptrs_in_use)
 	{
@@ -200,9 +200,9 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 		return (1);
 	}
 	if (node->args[2])
-		return (error_handler(status, "too many arguments",1));
+		return (error_handler(status, node->cmd, "too many arguments",1));
 	if (!is_valid_exit_arg(node->args[1]))
-		return (error_handler(status, "numeric argument required",  2));
+		return (error_handler(status, node->cmd, "numeric argument required",  2));
 	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
 	return (1);
 }
