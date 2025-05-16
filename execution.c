@@ -76,6 +76,8 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 				return (error_handler(exec_status, "command not found", 127));
 		}
 	}
+	if (exec_status->redir_fail == 1)
+		exec_status->exit_code = 1;
 	return (0);
 }
 //
