@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_set_complex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 11:58:46 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:01:16 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*make_heredoc(t_arena *env_arena, char *delimiter)
 	return (heredoc_file);
 }
 
-void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena *env_arena)
+void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena *env_arena, t_exec_status *status)
 {
 	new_node = create_node(current->value, current->type);
 	if (new_node->type == HERE_DOC)
@@ -51,7 +51,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 	if ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			ft_putstr_fd(" Permission denied\n", 2);
+			(error_handler(status, strerror(errno), 1));
 		new_node->access = 0;
 		data->redir_err = 1;
 	}
@@ -59,7 +59,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 }
 
 //sets redirection as root if no previous roots
-void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *env_arena)
+void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *env_arena, t_exec_status *status)
 {
 	data->root = create_node(current->value, current->type);
 	if (data->root->type == HERE_DOC)
@@ -75,7 +75,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 	if ((check_permissions_only(data->root->right->args[0], data->root->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			ft_putstr_fd(" Permission denied\n", 2);
+			(error_handler(status, strerror(errno), 1));
 		data->root->access = 0;
 		data->redir_err = 1;
 	}
@@ -107,7 +107,7 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 }
 
 //makes a tree with pipes or redirections or both
-void	set_complex_tree(t_data *data, t_arena *env_arena)
+void	set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
 {
 	t_lexer	*current;
 	t_lexer	*prev_cmd;
@@ -126,10 +126,10 @@ void	set_complex_tree(t_data *data, t_arena *env_arena)
 			set_followup_pipe(data, current, new_node);
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
-			set_redir_root(data, prev_cmd, current, env_arena);
+			set_redir_root(data, prev_cmd, current, env_arena, status);
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
-			set_followup_redir(data, current, new_node, env_arena);
+			set_followup_redir(data, current, new_node, env_arena, status);
 		if (current)
 			current = current->next;
 	}

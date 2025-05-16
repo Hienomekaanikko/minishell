@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 15:21:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:48:27 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	if (ft_lexer(data, exec_status, env_arena))
-		make_tree(data, env_arena);
+		make_tree(data, env_arena, exec_status);
 	return (1);
 }
 
