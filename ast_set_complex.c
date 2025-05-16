@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 11:58:46 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:24:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ void	set_complex_tree(t_data *data, t_arena *env_arena)
 	t_lexer	*current;
 	t_lexer	*prev_cmd;
 	t_ast	*new_node;
+	int		redir_status;
 
+	redir_status = 0;
 	current = *data->lexed_list;
 	prev_cmd = NULL;
 	new_node = NULL;
@@ -121,16 +123,34 @@ void	set_complex_tree(t_data *data, t_arena *env_arena)
 		if (current->type == CMD)
 			prev_cmd = current;
 		else if (current->type == PIPE && data->root == NULL)
+		{
+			if (redir_status)
+				data->redir_err = 0;
 			set_first_pipe(data, current, prev_cmd);
+		}
 		else if (current->type == PIPE && data->root != NULL)
+		{
+			if (redir_status)
+				data->redir_err = 0;
 			set_followup_pipe(data, current, new_node);
+		}
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
+		{
 			set_redir_root(data, prev_cmd, current, env_arena);
+			if (data->redir_err)
+				redir_status = 1;
+		}
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
+		{
 			set_followup_redir(data, current, new_node, env_arena);
+			if (data->redir_err)
+				redir_status = 1;
+		}
 		if (current)
 			current = current->next;
 	}
+	if (redir_status)
+		data->redir_err = 1;
 }

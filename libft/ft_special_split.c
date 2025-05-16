@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 16:15:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 11:24:37 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:55:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ static char **split_the_strings(char const *s, char c, char **array_of_strings)
 			start = i;
 			while (s[i] && (in_quote || s[i] != c))
 			{
+				if (!in_quote && (s[i] == '<' || s[i] == '>' || s[i] == '|'))
+					break ;
 				if (!in_quote && (s[i] == '"' || s[i] == '\''))
 				{
 					quote = s[i];

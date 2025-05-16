@@ -63,12 +63,13 @@ int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *
 	if (node->type == HERE_DOC)
 		fd = open(node->file, open_flags, file_perms);
 	else
-		fd = open(node->right->cmd, open_flags, file_perms);
-	if (fd == -1)
 	{
-		status->redir_fail = 1;
-		return (execute_command(node->left, env_arena, status, exec_arena));
+		if (status->redir_fail == 1)
+			node->access = 0;
+		fd = open(node->right->cmd, open_flags, file_perms);
 	}
+	if (fd == -1)
+		return (execute_command(node->left, env_arena, status, exec_arena));
 	else
 	{
 		if ((node->type == RE_IN || node->type == HERE_DOC) && status->infile == -1)
@@ -77,7 +78,7 @@ int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *
 			if (dup2(status->infile, std_fd) == -1)
 				return (handle_redirection_error(status->infile, saved_fd, status));
 		}
-		if ((node->type == RE_OUT || node->type == APPEND_OUT) && status->outfile == -1)
+		if ((node->type == RE_OUT || node->type == APPEND_OUT) && status->outfile == -1 && status->redir_fail == 0)
 		{
 			status->outfile = fd;
 			if (dup2(status->outfile, std_fd) == -1)

@@ -26,10 +26,7 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	if (node->left->type == PIPE)
 		exec_pipe(node->left, env_arena, exec_status, exec_arena);
 	else
-	{
-		if (node->left->access != 0)
-			execute_command(node->left, env_arena, exec_status, exec_arena);
-	}
+		execute_command(node->left, env_arena, exec_status, exec_arena);
 	exit(exec_status->exit_code);
 }
 
