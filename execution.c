@@ -62,7 +62,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	if (!node)
-		return (error_handler(exec_status, "syntax error", "invalid command", 1));
+		return (error_handler(exec_status, node->cmd, "command not found", 127));
 	//print_node_structure(node); //DEBUG
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, env_arena, exec_status, exec_arena));

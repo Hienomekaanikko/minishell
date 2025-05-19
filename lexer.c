@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:01:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/19 14:34:29 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,31 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 	if (checker->type == PIPE)
 	{
 		if (!(*msg) && !(*prev))
-			*msg = " syntax error near unexpected token `|'";
+			*msg = "minishell: syntax error near unexpected token `|'";
 		else if (!(*msg) && !checker->next)
-			*msg = " syntax error near unexpected token `|'";
+			*msg = "minishell: syntax error near unexpected token `|'";
 	}
 	if (checker->type == RE_IN || checker->type == HERE_DOC)
 	{
 		if (!(*msg) && checker->next && checker->next->type == PIPE)
-			*msg = " syntax error near unexpected token `|'";
+			*msg = "minishell: syntax error near unexpected token `|'";
 		else if (!(*msg) && !checker->next)
-			*msg = " syntax error near unexpected token `newline'";
+			*msg = "minishell: syntax error near unexpected token `newline'";
 		else if ((!*msg) && checker->type == RE_IN && checker->next->type != ARG)
-			*msg = " syntax error near unexpected token `<'";
+			*msg = "minishell: syntax error near unexpected token `<'";
 		else if ((!*msg) && checker->type == HERE_DOC && checker->next->type != ARG)
-			*msg = " syntax error near unexpected token `<<'";
+			*msg = "minishell: syntax error near unexpected token `<<'";
 	}
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
 	{
 		if (!(*msg) && checker->type == APPEND_OUT && !(*prev) && !checker->next)
-			*msg = " syntax error near unexpected token `newline'";
+			*msg = "minishell: syntax error near unexpected token `newline'";
 		else if (!(*msg) && checker->type == RE_OUT && !checker->next)
-			*msg = " syntax error near unexpected token `newline'";
+			*msg = "minishell: syntax error near unexpected token `newline'";
 		else if (!(*msg) && checker->type == APPEND_OUT && !checker->next)
-			*msg = " syntax error near unexpected token `>>'";
+			*msg = "minishell: syntax error near unexpected token `>>'";
 		else if (!(*msg) && checker->type == APPEND_OUT && checker->next->type == RE_OUT)
-			*msg = " syntax error near unexpected token `>'";
+			*msg = "minishell: syntax error near unexpected token `>'";
 	}
 	*prev = checker;
 }

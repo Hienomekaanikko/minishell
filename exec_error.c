@@ -18,6 +18,7 @@ int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int e
 		else
 			status->exit_code = 1;
 	}
+	ft_putstr_fd("minishell:", 2);
 	ft_putstr_fd(" ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
