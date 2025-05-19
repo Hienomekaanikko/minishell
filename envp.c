@@ -11,6 +11,8 @@ void	set_shell_level(t_arena *env_arena)
 	level++;
 	new_level = ft_itoa(level);
 	arena_set_env(env_arena, "SHLVL", new_level);
+	free(old_level);
+	free(new_level);
 }
 
 t_arena	*init_env_arena(char **envp)
