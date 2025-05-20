@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   envp.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
+/*   Updated: 2025/05/20 10:12:15 by mbonsdor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "minishell.h"
 
-void	set_shell_level(t_arena *env_arena)
+void	set_shell_level(t_arena *env_arena, t_exec_status *status)
 {
 	int		level;
 	char	*old_level;
@@ -10,12 +22,12 @@ void	set_shell_level(t_arena *env_arena)
 	level = ft_atoi(old_level);
 	level++;
 	new_level = ft_itoa(level);
-	arena_set_env(env_arena, "SHLVL", new_level);
+	arena_set_env(env_arena, "SHLVL", new_level, status);
 	free(old_level);
 	free(new_level);
 }
 
-t_arena	*init_env_arena(char **envp)
+t_arena	*init_env_arena(char **envp, t_exec_status *status)
 {
 	t_arena	*env_arena;
 	size_t	env_count;
@@ -30,14 +42,14 @@ t_arena	*init_env_arena(char **envp)
 	i = 0;
 	while (i < env_count)
 	{
-		arena_add(env_arena, envp[i]);
+		arena_add(env_arena, envp[i], status);
 		i++;
 	}
-	set_shell_level(env_arena);
+	set_shell_level(env_arena, status);
 	return (env_arena);
 }
 
-int	arena_set_env(t_arena *env_arena, char *key, char *value)
+int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status)
 {
 	char	*env_var;
 
@@ -50,7 +62,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value)
 	env_var = ft_strjoin_free(env_var, value);
 	if (!env_var)
 		return (-1);
-	if (!arena_add(env_arena, env_var))
+	if (!arena_add(env_arena, env_var, status))
 	{
 		free(env_var);
 		return (-1);

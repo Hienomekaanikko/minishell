@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_executables.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
+/*   Updated: 2025/05/20 10:37:29 by mbonsdor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "minishell.h"
 
 static char	*check_single_path(char *dir, char *cmd)
@@ -57,11 +69,14 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 
 char	*find_executable(t_ast *node, t_arena *env_arena)
 {
-	char *executable;
+	char	*executable;
+	char	*path_env;
 
 	executable = try_path(node->cmd, SECURE_PATH, NULL);
 	if (executable)
 		return (executable);
-	executable = try_path(node->cmd, arena_getenv(env_arena, "PATH"), NULL);
+	path_env = arena_getenv(env_arena, "PATH");
+	executable = try_path(node->cmd, path_env, NULL);
+	free(path_env);
 	return (executable);
 }

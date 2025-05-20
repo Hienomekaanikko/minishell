@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
+/*   Updated: 2025/05/20 10:16:30 by mbonsdor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
@@ -63,7 +75,7 @@ int	builtin_cd(char **args, t_exec_status *status, t_arena *env_arena)
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
 		return (error_handler(status, "cd", strerror(errno), 1));
-	arena_set_env(env_arena, "PWD", new_pwd);
+	arena_set_env(env_arena, "PWD", new_pwd, status);
 	free(new_pwd);
 	return (0);
 }
@@ -125,7 +137,7 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 				free(key);
 			return (error_handler(status, args[0], "not a valid identifier", 1));
 		}
-		if (ft_strchr(args[i], '=') && arena_set_env(env_arena, key, ft_strchr(args[i], '=') + 1) == -1)
+		if (ft_strchr(args[i], '=') && arena_set_env(env_arena, key, ft_strchr(args[i], '=') + 1, status) == -1)
 		{
 			free(key);
 			return (error_handler(status,"export" ,strerror(errno), 1));

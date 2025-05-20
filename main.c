@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:17:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:15:10 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
-	env_arena = init_env_arena(envp);		//TODO: !env_arena -> error and exit
+	env_arena = init_env_arena(envp, &exec_status);		//TODO: !env_arena -> error and exit
 	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{

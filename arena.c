@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arena.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
+/*   Updated: 2025/05/20 10:03:19 by mbonsdor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static void	arena_realloc(t_arena *arena, size_t more_space)
+static int	arena_realloc(t_arena *arena, size_t more_space)
 {
 	char	*old_memory;
 	char	*new_memory;
@@ -10,11 +22,12 @@ static void	arena_realloc(t_arena *arena, size_t more_space)
 	new_size = arena->mem_size + more_space;
 	new_memory = malloc(new_size);
 	if(!new_memory)
-		return ;
+		return (0);
 	ft_memcpy(new_memory, old_memory, arena->mem_used);
 	free(old_memory);
 	arena->memory = new_memory;
 	arena->mem_size = new_size;
+	return (1);
 }
 
 static void	arena_ptrs_realloc(t_arena *arena)
@@ -31,6 +44,12 @@ static void	arena_ptrs_realloc(t_arena *arena)
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
 }
+static t_arena	*arena_cleanup(char **ptrs, char *memory)
+{
+	free(ptrs);
+	free(memory);
+	return (NULL);
+}
 
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 {
@@ -45,38 +64,32 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 		return (NULL);
 	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1)); //TODO: print some memory error if any of this fails
 	if (!ptrs)
-		return (NULL);
+		return (arena_cleanup(ptrs, memory));
 	memory = malloc(arena_size);
 	if (!memory)
-	{
-		free(ptrs);
-		return (NULL);
-	}
+		return (arena_cleanup(ptrs, memory));
 	arena = malloc(sizeof(t_arena));
 	if (!arena)
-	{
-		free(memory);
-		free(ptrs);
-		return (NULL);
-	}
+		return (arena_cleanup(ptrs, memory));
 	arena->memory = memory;
-	arena->ptrs = ptrs;
 	arena->mem_size = arena_size;
+	arena->mem_used = 0;
+	arena->ptrs = ptrs;
 	arena->ptr_capacity = initial_ptrs;
 	arena->ptrs_in_use = 0;
-	arena->mem_used = 0;
 	return (arena);
 }
 
-char	*arena_add(t_arena *arena, char *add)
+char	*arena_add(t_arena *arena, char *add, t_exec_status *status)
 {
 	size_t	add_len;
 	char	*ptr;
 
 	add_len = ft_strlen(add) + 1;
 	if (arena->mem_used + add_len > arena->mem_size)
-		arena_realloc(arena, arena->mem_size);
-	if (arena->ptrs_in_use >= arena->ptr_capacity)
+		if (!arena_realloc(arena, arena->mem_size))
+			error_handler(status, "malloc", "Cannot allocate memory", 1);
+				if (arena->ptrs_in_use >= arena->ptr_capacity)
 		arena_ptrs_realloc(arena);
 	ptr = arena->memory + arena->mem_used;
 	ft_memcpy(ptr, add, add_len);
@@ -86,7 +99,7 @@ char	*arena_add(t_arena *arena, char *add)
 	return (ptr);
 }
 
-void	arena_clear(t_arena *arena)
+void	arena_clear(t_arena *arena) //NOT IN USE.
 {
 	arena->mem_used = 0;
 	arena->ptrs_in_use = 0;

@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 16:39:20 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:14:01 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,40 +138,40 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int		execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-char	*find_executable(t_ast *node, t_arena *env_arena);
-int		exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-void	wait_process(pid_t pid, t_exec_status *exec_status);
-int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+char		*find_executable(t_ast *node, t_arena *env_arena);
+int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+void		wait_process(pid_t pid, t_exec_status *exec_status);
+int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 //error
-int		error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
-void	handle_signal_error(t_exec_status *status, int signal);
+int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
+void		handle_signal_error(t_exec_status *status, int signal);
 //arena
-t_arena	*arena_init(size_t arena_size, size_t initial_ptrs);
-void	arena_free(t_arena *arena);
-char	*arena_add(t_arena *arena, char *str);
-void	arena_clear(t_arena *arena);
+t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
+void		arena_free(t_arena *arena);
+char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
+void		arena_clear(t_arena *arena);
 //built-ins
-int		builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
-int		builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
-int		builtin_pwd(t_exec_status *status, t_arena *env_arena);
-int		builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
-int		builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
-int		builtin_env(t_arena *env_arena, t_exec_status *status);
-int		builtin_exit(t_ast *node, t_exec_status *status);
+int			builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
+int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
+int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
+int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
+int			builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
+int			builtin_env(t_arena *env_arena, t_exec_status *status);
+int			builtin_exit(t_ast *node, t_exec_status *status);
 //envp
-t_arena	*init_env_arena(char **envp);
-char	*arena_getenv(t_arena *env_arena, char *key);
-int		arena_set_env(t_arena *env_arena, char *key, char *value);
-int		arena_unset_env(t_arena *env_arena, char *key);
+t_arena		*init_env_arena(char **envp, t_exec_status *status);
+char		*arena_getenv(t_arena *env_arena, char *key);
+int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
+int			arena_unset_env(t_arena *env_arena, char *key);
 //signals
-void	setup_signals(void);
-void	handle_sigint(int sig);
-void	setup_child_signals(void);
-void	handle_heredoc_signals(void);
+void		setup_signals(void);
+void		handle_sigint(int sig);
+void		setup_child_signals(void);
+void		handle_heredoc_signals(void);
 //graphics
-void	splash_screen(void);
+void		splash_screen(void);
 
 
 #endif
