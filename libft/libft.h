@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 11:27:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 11:27:11 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:19:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,9 @@ size_t		ft_strlcat(char *dst, const char *src, size_t size);
 size_t		ft_strlen(const char *str);
 long long	ft_atol(const char *s);
 int			ft_isspace(int c);
+int			ft_is_only_space(const char *s);
 char		*ft_strndup(const char *s, size_t n);
 void		ft_free_substrings(char **arr_str);
 char		*ft_strjoin_free(char *s1, char *s2);
 int			is_space(char *cmd);
-char		**ft_special_split(char const *s, char c);
-char		**ft_no_quotes_split(char const *s, char c);
 #endif

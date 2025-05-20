@@ -117,6 +117,8 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 			dup2(exec_status->saved_stdout, STDOUT_FILENO);
 			close(exec_status->saved_stdout);
 			close(exec_status->outfile);
+			if (exec_status->temp_fd != -1)
+				close(exec_status->temp_fd);
 		}
 	}
 	if (exec_status->redir_fail == 1)

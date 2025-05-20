@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 15:35:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/20 16:20:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include "expansions.h"
+# include "parser.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -102,6 +103,7 @@ typedef struct	s_exec_status
 }	t_exec_status;
 
 //lexer stuff
+char		**parser(char const *s, char c);
 int			ft_make_list(t_data *data, t_exec_status *exec_status);
 void		make_tree(t_data *data, t_arena *env_arena, t_exec_status *status);
 int			ft_add_node(t_lexer **list, char *input_list);
