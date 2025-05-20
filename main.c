@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 10:15:10 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:17:14 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
-	env_arena = init_env_arena(envp, &exec_status);		//TODO: !env_arena -> error and exit
+	env_arena = init_env_arena(envp, &exec_status); //TODO error
 	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{

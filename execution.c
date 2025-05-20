@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:44 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 09:12:45 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:26:03 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 		if (!path)
 			exit(error_handler(exec_status, node->cmd, "command not found", 127));
 		execve(path, node->args, env_arena->ptrs);
+		free(path);
 		exit(error_handler(exec_status, node->cmd, "command not found", 127));
 	}
 	else if (pid > 0)

@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:12:15 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:16:33 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ t_arena	*init_env_arena(char **envp, t_exec_status *status)
 		env_count++;
 	env_arena = arena_init(env_count * 100 * 2, env_count + 32);
 	if (!env_arena)
+	{
+		free(env_arena);
 		return (NULL);
+	}
 	i = 0;
 	while (i < env_count)
 	{
@@ -46,6 +49,7 @@ t_arena	*init_env_arena(char **envp, t_exec_status *status)
 		i++;
 	}
 	set_shell_level(env_arena, status);
+	env_arena->ptrs[env_arena->ptrs_in_use] = NULL;
 	return (env_arena);
 }
 

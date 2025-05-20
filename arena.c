@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:03:19 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:17:35 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	arena_ptrs_realloc(t_arena *arena)
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
 }
+
 static t_arena	*arena_cleanup(char **ptrs, char *memory)
 {
 	free(ptrs);
@@ -62,7 +63,7 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 	ptrs = NULL;
 	if (arena_size < 128 || initial_ptrs < 2)
 		return (NULL);
-	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1)); //TODO: print some memory error if any of this fails
+	ptrs = malloc(sizeof(char *) * (initial_ptrs + 1));
 	if (!ptrs)
 		return (arena_cleanup(ptrs, memory));
 	memory = malloc(arena_size);
