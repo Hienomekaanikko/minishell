@@ -12,25 +12,25 @@
 
 #include "minishell.h"
 
-char	*get_temp_dir(t_arena *env_arena)
+char	*get_temp_dir(t_data *data)
 {
-	char *tmpdir = arena_getenv(env_arena, "TMPDIR");
+	char *tmpdir = arena_getenv(data, "TMPDIR");
 	if (!tmpdir)
 		return ("/tmp");
 	return (tmpdir);
 }
 
-char	*make_filename(t_arena *env_arena)
+char	*make_filename(t_data *data)
 {
-	char *temp_dir = get_temp_dir(env_arena);
+	char *temp_dir = get_temp_dir(data);
 	char *filename = ft_strjoin(temp_dir, "/temp");
 	return (filename);
 }
 
 // Write heredoc input into a temp file
-int	write_heredoc(t_arena *env_arena, char *delimiter, char **out_path)
+int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 {
-	char *filename = make_filename(env_arena);
+	char *filename = make_filename(data);
 	if (!filename)
 		return (-1);
 

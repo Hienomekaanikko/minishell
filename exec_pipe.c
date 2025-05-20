@@ -10,44 +10,42 @@ int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 	return (0);
 }
 
-static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
-	t_exec_status *exec_status, t_arena *exec_arena)
+static void	handle_left_child(int pipe_fd[2], t_data *data)
 {
 	setup_child_signals();
 	close(pipe_fd[0]);
-	if (exec_status->outfile != -1)
-		pipe_fd[1] = exec_status->outfile;
+	if (data->status->outfile != -1)
+		pipe_fd[1] = data->status->outfile;
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[1]);
-		exit(error_handler(exec_status, "pipe","failed to redirect stdout", 1));
+		exit(error_handler(data, "pipe", "failed to redirect stdout", 1));
 	}
 	close(pipe_fd[1]);
-	if (node->left->type == PIPE)
-		exec_pipe(node->left, env_arena, exec_status, exec_arena);
+	if (data->root->left->type == PIPE)
+		exec_pipe(data);
 	else
-		execute_command(node->left, env_arena, exec_status, exec_arena);
-	exit(exec_status->exit_code);
+		execute_command(data);
+	exit(data->status->exit_code);
 }
 
-static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
-	t_exec_status *exec_status, t_arena *exec_arena)
+static void	handle_right_child(int pipe_fd[2], t_data *data)
 {
 	setup_child_signals();
 	close(pipe_fd[1]);
-	if (exec_status->infile != -1)
-		pipe_fd[0] = exec_status->infile;
+	if (data->status->infile != -1)
+		pipe_fd[0] = data->status->infile;
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[0]);
-		exit(error_handler(exec_status, "pipe", "failed to redirect stdin", 1));
+		exit(error_handler(data, "pipe", "failed to redirect stdin", 1));
 	}
 	close(pipe_fd[0]);
-	execute_command(node->right, env_arena, exec_status, exec_arena);
-	exit(exec_status->exit_code);
+	execute_command(data);
+	exit(data->status->exit_code);
 }
 
-void	wait_process(pid_t pid, t_exec_status *exec_status)
+void	wait_process(pid_t pid, t_data *data)
 {
 	int	status;
 
@@ -55,12 +53,12 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 		return;
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		exec_status->exit_code = WEXITSTATUS(status);
+		data->status->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
-		handle_signal_error(exec_status, WTERMSIG(status));
+		handle_signal_error(data, WTERMSIG(status));
 }
 
-static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
+static void	wait_right_process(pid_t pidR, t_data *data)
 {
 	int	status;
 
@@ -69,45 +67,45 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	waitpid(pidR, &status, 0);
 	if (WIFEXITED(status))
 	{
-		exec_status->exit_code = WEXITSTATUS(status);
-		if (exec_status->exit_code == 0)
-			exec_status->exit_code = exec_status->final_exit_code;
+		data->status->exit_code = WEXITSTATUS(status);
+		if (data->status->exit_code == 0)
+			data->status->exit_code = data->status->final_exit_code;
 	}
 	else if (WIFSIGNALED(status))
 	{
-		exec_status->signal = WTERMSIG(status);
-		error_handler(exec_status, NULL, NULL, 0);
+		data->status->signal = WTERMSIG(status);
+		error_handler(data, NULL, NULL, 0);
 	}
 }
 
-int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+int	exec_pipe(t_data *data)
 {
 	int 	pipe_fd[2];
 	pid_t	pidL;
 	pid_t	pidR;
 
-	if (exec_status->outfile != -1)
+	if (data->status->outfile != -1)
 	{
-		close(exec_status->outfile);
-		exec_status->outfile = -1;
+		close(data->status->outfile);
+		data->status->outfile = -1;
 	}
 	pidL = -1;
 	pidR = -1;
 	if (pipe(pipe_fd) == -1)
-		return (error_handler(exec_status, "pipe","failed", 1));
+		return (error_handler(data, "pipe","failed", 1));
 	pidL = fork();
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidL == 0)
-		handle_left_child(pipe_fd, node, env_arena, exec_status, exec_arena);
+		handle_left_child(pipe_fd, data);
 	pidR = fork();
 	if (pidR == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidR == 0)
-		handle_right_child(pipe_fd, node, env_arena, exec_status, exec_arena);
+		handle_right_child(pipe_fd, data);
 	cleanup_pipe(pipe_fd, pidL, pidR);
-	wait_process(pidL, exec_status);
-	wait_right_process(pidR, exec_status);
-	exec_status->infile = 0;
+	wait_process(pidL, data);
+	wait_right_process(pidR, data);
+	data->status->infile = 0;
 	return (0);
 }

@@ -27,21 +27,21 @@ int check_permissions_only(char *path, int type)
 	return (-1); // Invalid redirection type
 }
 
-static char	*make_heredoc(t_arena *env_arena, char *delimiter)
+static char	*make_heredoc(t_data *data, char *delimiter)
 {
 	char	*heredoc_file;
 
 	// `heredoc_file` holds the full path, e.g., "/tmp/temp"
-	write_heredoc(env_arena, delimiter, &heredoc_file);
+	write_heredoc(data, delimiter, &heredoc_file);
 	// Now you can open(heredoc_file), dup2 it into stdin, etc.
 	return (heredoc_file);
 }
 
-void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena *env_arena, t_exec_status *status)
+void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
 {
 	new_node = create_node(current->value, current->type);
 	if (new_node->type == HERE_DOC)
-		new_node->file = make_heredoc(env_arena, current->next->value);
+		new_node->file = make_heredoc(data, current->next->value);
 	new_node->left = data->root;
 	current = current->next;
 	if (current->type == ARG)
@@ -49,7 +49,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 	if ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			(error_handler(status, "redirect", strerror(errno), 1));
+			(error_handler(data, "redirect", strerror(errno), 1));
 		new_node->access = 0;
 		data->redir_err = 1;
 	}
@@ -57,11 +57,11 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 }
 
 //sets redirection as root if no previous roots
-void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *env_arena, t_exec_status *status)
+void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current)
 {
 	data->root = create_node(current->value, current->type);
 	if (data->root->type == HERE_DOC)
-		data->root->file = make_heredoc(env_arena, current->next->value);
+		data->root->file = make_heredoc(data, current->next->value);
 	current = current->next;
 	if (prev_cmd != NULL)
 	{
@@ -73,7 +73,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 	if ((check_permissions_only(data->root->right->args[0], data->root->type) == -1) || data->redir_err == 1)
 	{
 		if (data->redir_err == 0)
-			(error_handler(status, "redirect", strerror(errno), 1));
+			(error_handler(data, "redirect", strerror(errno), 1));
 		data->root->access = 0;
 		data->redir_err = 1;
 	}
@@ -105,7 +105,7 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 }
 
 //makes a tree with pipes or redirections or both
-void	set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
+void	set_complex_tree(t_data *data)
 {
 	t_lexer	*current;
 	t_lexer	*prev_cmd;
@@ -135,14 +135,14 @@ void	set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
 		{
-			set_redir_root(data, prev_cmd, current, env_arena, status);
+			set_redir_root(data, prev_cmd, current);
 			if (data->redir_err)
 				redir_status = 1;
 		}
 		else if ((current->type == RE_OUT || current->type == RE_IN
 			|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
 		{
-			set_followup_redir(data, current, new_node, env_arena, status);
+			set_followup_redir(data, current, new_node);
 			if (data->redir_err)
 				redir_status = 1;
 		}

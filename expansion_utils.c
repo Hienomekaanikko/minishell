@@ -63,13 +63,13 @@ int	count_dollars(t_lexer *curr)
 	return (dollars);
 }
 
-char	*is_declared(t_data *data, char *extracted_key, t_arena *env_arena)
+char	*is_declared(t_data *data, char *extracted_key)
 {
 	t_var	*temp;
 	char	*fetched_value;
 
 	fetched_value = NULL;
-	fetched_value = arena_getenv(env_arena, extracted_key);
+	fetched_value = arena_getenv(data, extracted_key);
 	if (fetched_value)
 		return (fetched_value);
 	temp = data->exp->var_list;

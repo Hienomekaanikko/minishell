@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-int	ft_lexer(t_data *data, t_exec_status *exec_status, t_arena *env_arena) //env-arena added
+int	ft_lexer(t_data *data) //env-arena added
 {
 	data->temp_array = ft_special_split(data->input, ' ');
 	if (!data->temp_array)
 		return (0);
-	if (!ft_make_list(data, exec_status))
+	if (!ft_make_list(data))
 		return (0);
-	check_for_expansions(data, env_arena, exec_status);
+	check_for_expansions(data);
 	return (1);
 }
 
@@ -102,7 +102,7 @@ static int	check_grammar(t_data *data)
 }
 
 //makes a linked list, input must be array of strings (currently made with the special split that can handle " and ')
-int	ft_make_list(t_data *data, t_exec_status *exec_status)
+int	ft_make_list(t_data *data)
 {
 	t_lexer	**linked_list;
 	char	**input_list;
@@ -126,7 +126,7 @@ int	ft_make_list(t_data *data, t_exec_status *exec_status)
 	if (!check_grammar(data))
 	{
 		free_lexed_list(*data->lexed_list);
-		exec_status->exit_code = 2;
+		data->status->exit_code = 2;
 		return (0);
 	}
 	// for testing to see what is inside each node:

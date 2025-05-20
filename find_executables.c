@@ -30,7 +30,7 @@ static char	*check_single_path(char *dir, char *cmd)
 	return (NULL);
 }
 
-static char	*search_paths(char **paths, char *cmd)
+static char	*search_paths(t_data *data, char **paths)
 {
 	char	*executable;
 	int		i;
@@ -38,7 +38,7 @@ static char	*search_paths(char **paths, char *cmd)
 	i = 0;
 	while (paths[i])
 	{
-		executable = check_single_path(paths[i], cmd);
+		executable = check_single_path(paths[i], data->root->cmd);
 		if (executable)
 			return (executable);
 		i++;
@@ -46,37 +46,37 @@ static char	*search_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
-static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
+static char	*try_path(t_data *data, char *path_str)
 {
 	char	**paths;
 	char	*executable;
 
 	if (!path_str)
 	{
-		error_handler(status, "PATH", "not set", 127);
+		error_handler(data, "PATH", "not set", 127);
 		return (NULL);
 	}
 	paths = ft_split(path_str, ':');
 	if (!paths)
 	{
-		error_handler(status, "memory", "allocation failed", 1);
+		error_handler(data, "memory", "allocation failed", 1);
 		return (NULL);
 	}
-	executable = search_paths(paths, cmd);
+	executable = search_paths(data,paths);
 	ft_free_split(paths);
 	return (executable);
 }
 
-char	*find_executable(t_ast *node, t_arena *env_arena)
+char	*find_executable(t_data *data)
 {
 	char	*executable;
 	char	*path_env;
 
-	executable = try_path(node->cmd, SECURE_PATH, NULL);
+	executable = try_path(data, SECURE_PATH);
 	if (executable)
 		return (executable);
-	path_env = arena_getenv(env_arena, "PATH");
-	executable = try_path(node->cmd, path_env, NULL);
+	path_env = arena_getenv(data, "PATH");
+	executable = try_path(data, path_env);
 	free(path_env);
 	return (executable);
 }

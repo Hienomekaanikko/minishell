@@ -12,22 +12,22 @@
 
 # include "minishell.h"
 
-void	set_shell_level(t_arena *env_arena, t_exec_status *status)
+void	set_shell_level(t_data *data)
 {
 	int		level;
 	char	*old_level;
 	char	*new_level;
 
-	old_level = arena_getenv(env_arena, "SHLVL");
+	old_level = arena_getenv(data, "SHLVL");
 	level = ft_atoi(old_level);
 	level++;
 	new_level = ft_itoa(level);
-	arena_set_env(env_arena, "SHLVL", new_level, status);
+	arena_set_env(data, "SHLVL", new_level);
 	free(old_level);
 	free(new_level);
 }
 
-t_arena	*init_env_arena(char **envp, t_exec_status *status)
+t_arena	*init_env_arena(t_data *data, char **envp)
 {
 	t_arena	*env_arena;
 	size_t	env_count;
@@ -43,22 +43,24 @@ t_arena	*init_env_arena(char **envp, t_exec_status *status)
 		return (NULL);
 	}
 	i = 0;
+
+	data->env_arena = env_arena;
 	while (i < env_count)
 	{
-		arena_add(env_arena, envp[i], status);
+		arena_add(data, envp[i]);
 		i++;
 	}
-	set_shell_level(env_arena, status);
-	env_arena->ptrs[env_arena->ptrs_in_use] = NULL;
-	return (env_arena);
+	set_shell_level(data);
+	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
+	return (data->env_arena);
 }
 
-int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status)
+int	arena_set_env(t_data *data, char *key, char *value)
 {
 	char	*env_var;
 
-	arena_unset_env(env_arena, key);
-	if (!env_arena || !key || !value)
+	arena_unset_env(data, key);
+	if (!data->env_arena || !key || !value)
 		return (-1);
 	env_var = ft_strjoin(key, "=");
 	if (!env_var)
@@ -66,7 +68,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 	env_var = ft_strjoin_free(env_var, value);
 	if (!env_var)
 		return (-1);
-	if (!arena_add(env_arena, env_var, status))
+	if (!arena_add(data, env_var))
 	{
 		free(env_var);
 		return (-1);
@@ -75,22 +77,22 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 	return (0);
 }
 
-int	arena_unset_env(t_arena *env_arena, char *key)
+int	arena_unset_env(t_data *data, char *key)
 {
 	size_t	i;
 	size_t	key_len;
 
-	if (!env_arena || !key)
+	if (!data->env_arena || !key)
 		return (-1);
 	key_len = ft_strlen(key);
 	i = 0;
-	while (i < env_arena->ptrs_in_use)
+	while (i < data->env_arena->ptrs_in_use)
 	{
-		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0
-			&& env_arena->ptrs[i][key_len] == '=')
+		if (ft_strncmp(data->env_arena->ptrs[i], key, key_len) == 0
+			&& data->env_arena->ptrs[i][key_len] == '=')
 		{
-			env_arena->ptrs[i] = env_arena->ptrs[env_arena->ptrs_in_use - 1];
-			env_arena->ptrs_in_use--;
+			data->env_arena->ptrs[i] = data->env_arena->ptrs[data->env_arena->ptrs_in_use - 1];
+			data->env_arena->ptrs_in_use--;
 			return (0);
 		}
 		i++;
@@ -98,19 +100,19 @@ int	arena_unset_env(t_arena *env_arena, char *key)
 	return (0);
 }
 
-char	*arena_getenv(t_arena *env_arena, char *key)
+char	*arena_getenv(t_data *data, char *key)
 {
 	size_t	i;
 	size_t	key_len;
 	char	*env_var;
 
-	if(!env_arena || !key)
+	if(!data->env_arena || !key)
 		return (NULL);
 	key_len = ft_strlen(key);
 	i = 0;
-	while(i < env_arena->ptrs_in_use)
+	while(i < data->env_arena->ptrs_in_use)
 	{
-		env_var = env_arena->ptrs[i];
+		env_var = data->env_arena->ptrs[i];
 		if (ft_strncmp(env_var, key, key_len) == 0 && env_var[key_len] == '=')
 			return (ft_strdup(env_var + key_len + 1));
 		i++;

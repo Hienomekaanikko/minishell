@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void init_data(t_data *data, t_exec_status *status)
+static void init_data(t_data *data)
 {
 	if (data->temp_array)
 		ft_free_split(data->temp_array);
@@ -29,19 +29,19 @@ static void init_data(t_data *data, t_exec_status *status)
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
-	status->infile = -1;
-	status->outfile = -1;
-	status->redir_fail = 0;
+	data->status->infile = -1;
+	data->status->outfile = -1;
+	data->status->redir_fail = 0;
 }
 
-int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
+int	process_input(t_data *data)
 {
 	data->input = readline("minishell$: ");
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	if (ft_lexer(data, exec_status, env_arena))
-		make_tree(data, env_arena, exec_status);
+	if (ft_lexer(data))
+		make_tree(data);
 	return (1);
 }
 
@@ -75,32 +75,32 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
 	t_exec_status	exec_status;
-	t_arena			*env_arena;
 	t_arena			*exec_arena;
 
 	splash_screen();
 	init_base(&data, argc, argv);
 	init_exec_status(&exec_status);
 	setup_signals();
-	env_arena = init_env_arena(envp, &exec_status); //TODO error
+	data.env_arena = init_env_arena(&data, envp); //TODO error handling
+	data.status = &exec_status;
 	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{
-		init_data(&data, &exec_status);
-		if (!process_input(&data, &exec_status, env_arena))
+		init_data(&data);
+		if (!process_input(&data))
 			continue ;
 		else if (ft_strncmp(data.input, "exit", 4) == 0)
 		{
-			if (builtin_exit(data.root, &exec_status))
+			if (builtin_exit(&data))
 			{
 				printf("exit\n");
 				break ;
 			}
 		}
 		if (data.root)
-			execute_command(data.root, env_arena, &exec_status, exec_arena);
+			execute_command(&data);
 	}
-	arena_free(env_arena);
+	arena_free(data.env_arena);
 	arena_free(exec_arena);
 	destroy_memory(&data);
 	return (exec_status.exit_code);

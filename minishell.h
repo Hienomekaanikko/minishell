@@ -73,19 +73,6 @@ typedef struct	s_arena
 	size_t		ptr_capacity;
 }	t_arena;
 
-//structure for the main data stuff
-typedef struct s_data
-{
-	t_exp_data	*exp;
-	t_lexer		**lexed_list;
-	t_ast		*root;
-	char		**temp_array;
-	char		*input;
-	t_arena		*env_arena;
-	int			syntax_err;
-	int			redir_err;
-}	t_data;
-
 //structure for the execution status
 typedef struct	s_exec_status
 {
@@ -99,13 +86,28 @@ typedef struct	s_exec_status
 	pid_t		pid;
 }	t_exec_status;
 
+//structure for the main data stuff
+typedef struct s_data
+{
+	t_exp_data		*exp;
+	t_lexer			**lexed_list;
+	t_ast			*root;
+	t_arena			*env_arena;
+	t_exec_status	*status;
+	char			**temp_array;
+	char			*input;
+	int				syntax_err;
+	int				redir_err;
+}	t_data;
+
+
 //lexer stuff
-int			ft_make_list(t_data *data, t_exec_status *exec_status);
-void		make_tree(t_data *data, t_arena *env_arena, t_exec_status *status);
+int			ft_make_list(t_data *data);
+void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data, t_exec_status *exec_status, t_arena *env_arena); //env-arena added
+int			ft_lexer(t_data *data);
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
@@ -116,13 +118,13 @@ void		free_ast(t_ast *root);
 void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
 void		add_right_child(t_ast **position, t_lexer *current, t_token type);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
-void		set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status);
+void		set_complex_tree(t_data *data);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
-int			write_heredoc(t_arena *env_arena, char *delimiter, char **out_path);
+int			write_heredoc(t_data *data, char *delimiter, char **out_path);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
@@ -130,41 +132,41 @@ void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
-void		check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status);
+void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
-char		*is_declared(t_data *data, char *extracted_key, t_arena *env_arena);
+char		*is_declared(t_data *data, char *extracted_key);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-char		*find_executable(t_ast *node, t_arena *env_arena);
-int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-void		wait_process(pid_t pid, t_exec_status *exec_status);
-int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			execute_command(t_data *data);
+char		*find_executable(t_data *data);
+int			exec_pipe(t_data *data);
+void		wait_process(pid_t pid, t_data *data);
+int			exec_redir(t_data *data);
+int			exec_heredoc(t_data *data);
 //error
-int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
-void		handle_signal_error(t_exec_status *status, int signal);
+int			error_handler(t_data *data, const char *cmd, const char *msg, int exit_code);
+void		handle_signal_error(t_data *data, int signal);
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
 void		arena_free(t_arena *arena);
-char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
+char		*arena_add(t_data *data, char *add);
 void		arena_clear(t_arena *arena);
 //built-ins
-int			builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
-int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
-int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
-int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
-int			builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
-int			builtin_env(t_arena *env_arena, t_exec_status *status);
-int			builtin_exit(t_ast *node, t_exec_status *status);
+int			builtin_echo(t_data *data);
+int			builtin_cd(t_data *data);
+int			builtin_pwd(t_data *data);
+int			builtin_export(t_data *data);
+int			builtin_unset(t_data *data);
+int			builtin_env(t_data *data);
+int			builtin_exit(t_data *data);
 //envp
-t_arena		*init_env_arena(char **envp, t_exec_status *status);
-char		*arena_getenv(t_arena *env_arena, char *key);
-int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
-int			arena_unset_env(t_arena *env_arena, char *key);
+t_arena		*init_env_arena( t_data *data, char **envp);
+char		*arena_getenv(t_data *data, char *key);
+int			arena_set_env(t_data *data, char *key, char *value);
+int			arena_unset_env(t_data *data, char *key);
 //signals
 void		setup_signals(void);
 void		handle_sigint(int sig);

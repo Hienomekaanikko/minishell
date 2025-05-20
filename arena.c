@@ -81,22 +81,22 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 	return (arena);
 }
 
-char	*arena_add(t_arena *arena, char *add, t_exec_status *status)
+char	*arena_add(t_data *data, char *add)
 {
 	size_t	add_len;
 	char	*ptr;
 
 	add_len = ft_strlen(add) + 1;
-	if (arena->mem_used + add_len > arena->mem_size)
-		if (!arena_realloc(arena, arena->mem_size))
-			error_handler(status, "malloc", "Cannot allocate memory", 1);
-				if (arena->ptrs_in_use >= arena->ptr_capacity)
-		arena_ptrs_realloc(arena);
-	ptr = arena->memory + arena->mem_used;
+	if (data->env_arena->mem_used + add_len > data->env_arena->mem_size)
+		if (!arena_realloc(data->env_arena, data->env_arena->mem_size))
+			error_handler(data, "malloc", "Cannot allocate memory", 1);
+	if (data->env_arena->ptrs_in_use >= data->env_arena->ptr_capacity)
+		arena_ptrs_realloc(data->env_arena);
+	ptr = data->env_arena->memory + data->env_arena->mem_used;
 	ft_memcpy(ptr, add, add_len);
-	arena->ptrs[arena->ptrs_in_use] = ptr;
-	arena->ptrs_in_use++;
-	arena->mem_used += add_len;
+	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = ptr;
+	data->env_arena->ptrs_in_use++;
+	data->env_arena->mem_used += add_len;
 	return (ptr);
 }
 

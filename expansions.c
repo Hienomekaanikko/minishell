@@ -21,7 +21,7 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	free(sub);
 }
 
-static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i, t_arena *env_arena, t_exec_status *exec_status)
+static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i)
 {
 	int		key_len;
 	char	*extracted_key;
@@ -42,12 +42,12 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	extracted_key = ft_substr(value, *i, key_len);
 	if (ft_strncmp(extracted_key, "?", 1) == 0)
 	{
-		fetched_value = ft_strdup(ft_itoa(exec_status->exit_code));
+		fetched_value = ft_strdup(ft_itoa(data->status->exit_code));
 		if (key_len > 1)
 			leftovers = ft_substr(extracted_key, 1, key_len - 1);
 	}
 	else
-		fetched_value = is_declared(data, extracted_key, env_arena);
+		fetched_value = is_declared(data, extracted_key);
 	if (fetched_value)
 	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
@@ -59,7 +59,7 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	*i += key_len;
 }
 
-char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exec_status)
+char	*expander(t_data *data, char *value)
 {
 	char	*new_value;
 	int		i;
@@ -75,7 +75,7 @@ char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exe
 			if (i > start)
 				append_substring_before_dollar(&new_value, value, start, i);
 			i++;
-			append_expanded_variable(data, &new_value, value, &i, env_arena, exec_status);
+			append_expanded_variable(data, &new_value, value, &i);
 			start = i;
 		}
 		else
@@ -95,7 +95,7 @@ char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exe
 	return (NULL);
 }
 
-void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status)
+void	check_for_expansions(t_data *data)
 {
 	t_lexer	*current;
 	t_lexer	*prev;
@@ -117,7 +117,7 @@ void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_
 		}
 		if (ft_strchr(current->value, '$'))
 		{
-			expanded_value = expander(data, current->value, env_arena, exec_status);
+			expanded_value = expander(data, current->value);
 			if (expanded_value)
 			{
 				refresh_value(current, expanded_value, prev);
