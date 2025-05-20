@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:17:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:37:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static void init_data(t_data *data, t_exec_status *status)
 		free_ast(data->root);
 		data->root = NULL;
 	}
+	status->infile = -1;
+	status->outfile = -1;
+	status->temp_fd = -1;
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
-	status->infile = -1;
-	status->outfile = -1;
 	status->redir_fail = 0;
 }
 
@@ -69,7 +70,8 @@ void	init_exec_status(t_exec_status *status)
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
 	status->outfile = -1;
-	//status->redir_fail = 0;
+	status->temp_fd = -1;
+	status->saved_stdout = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {

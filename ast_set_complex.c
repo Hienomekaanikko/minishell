@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:10:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/20 13:36:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int check_permissions_only(char *path, int type)
 	return (-1); // Invalid redirection type
 }
 
-static char	*make_heredoc(t_arena *env_arena, char *delimiter)
+static char	*make_heredoc(t_data *data, t_exec_status *status, t_arena *env_arena, char *delimiter)
 {
 	char	*heredoc_file;
 
 	// `heredoc_file` holds the full path, e.g., "/tmp/temp"
-	write_heredoc(env_arena, delimiter, &heredoc_file);
+	write_heredoc(data, env_arena, delimiter, &heredoc_file, status);
 	// Now you can open(heredoc_file), dup2 it into stdin, etc.
 	return (heredoc_file);
 }
@@ -41,17 +41,20 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node, t_arena
 {
 	new_node = create_node(current->value, current->type);
 	if (new_node->type == HERE_DOC)
-		new_node->file = make_heredoc(env_arena, current->next->value);
+		new_node->file = make_heredoc(data, status, env_arena, current->next->value);
 	new_node->left = data->root;
 	current = current->next;
 	if (current->type == ARG)
 		add_right_child(&new_node->right, current, new_node->type);
 	if ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1)
 	{
-		if (data->redir_err == 0)
-			(error_handler(status, strerror(errno), 1));
-		new_node->access = 0;
-		data->redir_err = 1;
+		if (new_node->type != HERE_DOC)
+		{
+			if (data->redir_err == 0)
+				(error_handler(status, strerror(errno), 1));
+			new_node->access = 0;
+			data->redir_err = 1;
+		}
 	}
 	data->root = new_node;
 }
@@ -61,7 +64,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 {
 	data->root = create_node(current->value, current->type);
 	if (data->root->type == HERE_DOC)
-		data->root->file = make_heredoc(env_arena, current->next->value);
+		data->root->file = make_heredoc(data, status, env_arena, current->next->value);
 	current = current->next;
 	if (prev_cmd != NULL)
 	{
@@ -72,10 +75,13 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current, t_arena *
 		add_right_child(&data->root->right, current, data->root->type);
 	if ((check_permissions_only(data->root->right->args[0], data->root->type) == -1) || data->redir_err == 1)
 	{
-		if (data->redir_err == 0)
-			(error_handler(status, strerror(errno), 1));
-		data->root->access = 0;
-		data->redir_err = 1;
+		if (data->root->type != HERE_DOC)
+		{
+			if (data->redir_err == 0)
+				(error_handler(status, strerror(errno), 1));
+			data->root->access = 0;
+			data->redir_err = 1;
+		}
 	}
 }
 

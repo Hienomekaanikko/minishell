@@ -2,6 +2,8 @@
 
 void	handle_sigint(int sig)
 {
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("minishell$:", 1);
 	(void)sig;
 }
 

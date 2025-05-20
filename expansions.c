@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/19 12:27:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,18 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	extracted_key = ft_substr(value, *i, key_len);
 	if (ft_strncmp(extracted_key, "?", 1) == 0)
 	{
-		fetched_value = ft_strdup(ft_itoa(exec_status->exit_code));
+		fetched_value = ft_itoa(exec_status->exit_code);
+		if (key_len > 1)
+			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+	}
+	else if (ft_strncmp(extracted_key, "!", 1) == 0)
+	{
+		fetched_value = ft_itoa((int)exec_status->pid);
+		if (!fetched_value || ft_strncmp(fetched_value, "0", 1) == 0)
+		{
+			free(fetched_value);
+			fetched_value = ft_strdup("");
+		}
 		if (key_len > 1)
 			leftovers = ft_substr(extracted_key, 1, key_len - 1);
 	}
@@ -52,7 +63,10 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
 		if (leftovers)
+		{
 			*new_value = ft_strjoin(*new_value, leftovers);
+			free(leftovers);
+		}
 		free(fetched_value);
 	}
 	free(extracted_key);

@@ -22,17 +22,6 @@ int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
 	}
 	while(args[i])
 	{
-		// if (args[i][0] == '$')
-		// {
-		// 	if (ft_strncmp(args[i], "$!", 3) == 0)
-		// 		ft_putnbr_fd(status->pid, 1);
-		// 	else if (ft_strncmp(args[i], "$?", 3) == 0)
-		// 		ft_putnbr_fd(status->exit_code, 1);
-		// }
-		// 	else if ((env_value = arena_getenv(env_arena, args[i] + 1)))
-		// 		ft_putstr_fd(env_value, 1);
-		// }
-		// else
 		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])
 			ft_putstr_fd(" ", 1);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:09:02 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:35:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
+	int			temp_fd;
+	int			saved_stdout;
 	int			infile;
 	int			outfile;
 	int			redir_fail;
@@ -122,7 +124,7 @@ int			count_new_len(char *value);
 int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
-int			write_heredoc(t_arena *env_arena, char *delimiter, char **out_path);
+int			write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_path, t_exec_status *status);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
@@ -134,6 +136,7 @@ void		check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key, t_arena *env_arena);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+char		*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exec_status);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
@@ -144,6 +147,7 @@ int		exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_ar
 void	wait_process(pid_t pid, t_exec_status *exec_status);
 int		exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
 int		exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int		handle_redirection_error(int fd, t_exec_status *status);
 //error
 int		error_handler(t_exec_status *status, const char *msg, int exit_code);
 void	handle_signal_error(t_exec_status *status, int signal);
