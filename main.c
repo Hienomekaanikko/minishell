@@ -75,7 +75,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
 	t_exec_status	exec_status;
-	t_arena			*exec_arena;
 
 	splash_screen();
 	init_base(&data, argc, argv);
@@ -83,7 +82,6 @@ int	main(int argc, char **argv, char **envp)
 	setup_signals();
 	data.env_arena = init_env_arena(&data, envp); //TODO error handling
 	data.status = &exec_status;
-	exec_arena = arena_init(1024, 1024);	//TODO: Not in use atm.
 	while (1)
 	{
 		init_data(&data);
@@ -101,7 +99,6 @@ int	main(int argc, char **argv, char **envp)
 			execute_command(&data);
 	}
 	arena_free(data.env_arena);
-	arena_free(exec_arena);
 	destroy_memory(&data);
 	return (exec_status.exit_code);
 }
