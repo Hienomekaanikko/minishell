@@ -6,10 +6,12 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:19:25 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:10:07 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:21:26 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PARSER_H
+# define PARSER_H
 #include "minishell.h"
 
 typedef struct	s_parser
@@ -35,3 +37,5 @@ void	add_operator(t_parser *data, const char *s);
 void	make_substring(t_parser *data, char const *s, char **array_of_strings);
 char	**free_malloc(char **array_of_strings, int y);
 void	skip_word(t_counter *data, const char *s);
+
+# endif

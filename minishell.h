@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:07:54 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:14:03 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,11 @@ typedef struct s_data
 	t_exp_data	*exp;
 	t_lexer		**lexed_list;
 	t_ast		*root;
+	t_arena		*env_arena;
 	char		**temp_array;
 	char		*input;
-	t_arena		*env_arena;
 	int			syntax_err;
 	int			redir_err;
-	int			mem_error;
 	int			mem_error;
 }	t_data;
 
@@ -97,8 +96,6 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
-	int			temp_fd;
-	int			saved_stdout;
 	int			temp_fd;
 	int			saved_stdout;
 	int			infile;

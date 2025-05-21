@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 17:31:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 18:28:37 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ static char	*handle_special(char *extracted_key, int key_len, t_exec_status *sta
 			fetched_value = ft_strdup("");
 		}
 		if (key_len > 1)
+		{
 			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+			free(leftovers); //ADDED FOR COMPILER NAG. NOT IN uSE ATM.
+		}
 	}
 	return (fetched_value);
 }

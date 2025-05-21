@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:03:55 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:29:26 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_access_err(t_data *data, t_exec_status *status, t_ast *new_node)
 	if (new_node->type != HERE_DOC)
 	{
 		if (data->redir_err == 0)
-			(error_handler(status, strerror(errno), 1));
+			(error_handler(status, data->root->cmd, strerror(errno), 1));
 		new_node->access = 0;
 		data->redir_err = 1;
 	}

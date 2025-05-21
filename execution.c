@@ -61,7 +61,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 		check_path_permissions(node->cmd, exec_status);
 		path = find_executable(node, env_arena);
 		if (!path)
-			exit(error_handler(exec_status, "command not found", 127));
+			exit(error_handler(exec_status, node->cmd, "command not found", 127));
 		if (exec_status->outfile != -1)
 		{
 			if (dup2(exec_status->outfile, 1) == -1)
@@ -92,7 +92,7 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
 {
 	if (!node)
-		return (error_handler(exec_status, "syntax error: invalid command", 1));
+		return (error_handler(exec_status, node->cmd, "syntax error: invalid command", 1));
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, env_arena, exec_status, exec_arena));
 	else if (node->type == PIPE && exec_status->redir_fail == 0)
@@ -109,7 +109,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status,
 			if (exec_status->redir_fail == 0)
 			{
 				if (executables(node, env_arena, exec_status) == -1)
-					return (error_handler(exec_status, "command not found", 127));
+					return (error_handler(exec_status, node->cmd, "command not found", 127));
 
 			}
 		}
