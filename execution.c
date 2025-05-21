@@ -89,14 +89,14 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	return (0);
 }
 
-int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena)
+int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 {
 	if (!node)
 		return (error_handler(exec_status, node->cmd, "syntax error: invalid command", 1));
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
-		return (exec_redir(node, env_arena, exec_status, exec_arena));
+		return (exec_redir(node, env_arena, exec_status));
 	else if (node->type == PIPE && exec_status->redir_fail == 0)
-		return (exec_pipe(node, env_arena, exec_status, exec_arena));
+		return (exec_pipe(node, env_arena, exec_status));
 	else
 	{
 		if (exec_status->outfile != -1)

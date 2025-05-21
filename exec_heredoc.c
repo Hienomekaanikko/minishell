@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena *exec_arena)
+int	exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *status)
 {
 	int	fd;
 
@@ -15,7 +15,7 @@ int	exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *status, t_arena
 	}
 	close(fd);
 	if (node->left)
-		return (execute_command(node->left, env_arena, status, exec_arena));
+		return (execute_command(node->left, env_arena, status));
 	unlink(node->file);
 	return (0);
 }

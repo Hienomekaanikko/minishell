@@ -147,12 +147,12 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 char		*find_executable(t_ast *node, t_arena *env_arena);
-int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
-int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
-int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_arena *exec_arena);
+int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 int		handle_redirection_error(int fd, t_exec_status *status);
 //error
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
