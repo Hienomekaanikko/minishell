@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/15 17:54:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:31:18 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,32 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	sub = ft_substr(value, start, end - start);
 	*new_value = ft_strjoin(*new_value, sub);
 	free(sub);
+}
+
+static char	*handle_special(char *extracted_key, int key_len, t_exec_status *status)
+{
+	char	*fetched_value;
+	char	*leftovers;
+
+	fetched_value = NULL;
+	if (ft_strncmp(extracted_key, "?", 1) == 0)
+	{
+		fetched_value = ft_itoa(status->exit_code);
+		if (key_len > 1)
+			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+	}
+	else if (ft_strncmp(extracted_key, "!", 1) == 0)
+	{
+		fetched_value = ft_itoa((int)status->pid);
+		if (!fetched_value || ft_strncmp(fetched_value, "0", 1) == 0)
+		{
+			free(fetched_value);
+			fetched_value = ft_strdup("");
+		}
+		if (key_len > 1)
+			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+	}
+	return (fetched_value);
 }
 
 static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i, t_arena *env_arena, t_exec_status *exec_status)
@@ -40,19 +66,17 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 		return ;
 	}
 	extracted_key = ft_substr(value, *i, key_len);
-	if (ft_strncmp(extracted_key, "?", 1) == 0)
-	{
-		fetched_value = ft_strdup(ft_itoa(exec_status->exit_code));
-		if (key_len > 1)
-			leftovers = ft_substr(extracted_key, 1, key_len - 1);
-	}
-	else
+	fetched_value = handle_special(extracted_key, key_len, exec_status);
+	if (fetched_value == NULL)
 		fetched_value = is_declared(data, extracted_key, env_arena);
 	if (fetched_value)
 	{
 		*new_value = ft_strjoin(*new_value, fetched_value);
 		if (leftovers)
+		{
 			*new_value = ft_strjoin(*new_value, leftovers);
+			free(leftovers);
+		}
 		free(fetched_value);
 	}
 	free(extracted_key);

@@ -1,9 +1,0 @@
-jee testi file.txt
-hello lissaa
-haha
-jee asd
-ekekef
-faogopeoeo
-hello
-hello
-[?2004hminishell$: c^C[?2004l[?2004h^Z[?2004lhello

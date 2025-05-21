@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 12:17:14 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:06:30 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,24 @@ static void init_data(t_data *data, t_exec_status *status)
 		free_ast(data->root);
 		data->root = NULL;
 	}
+	if (status->infile != -1)
+	{
+		close(status->infile);
+		status->infile = -1;
+	}
+	if (status->outfile != -1)
+	{
+		close(status->outfile);
+		status->outfile = -1;
+	}
+	if (status->temp_fd != -1)
+	{
+		close(status->temp_fd);
+		status->temp_fd = -1;
+	}
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
-	status->infile = -1;
-	status->outfile = -1;
 	status->redir_fail = 0;
 }
 
@@ -40,7 +53,7 @@ int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	if (ft_lexer(data, exec_status, env_arena))
+	else if (ft_lexer(data, exec_status, env_arena))
 		make_tree(data, env_arena, exec_status);
 	return (1);
 }
@@ -53,6 +66,7 @@ void	init_base(t_data *data, int argc, char **argv)
 	data->exp->var_list = NULL;
 	data->root = NULL;
 	data->input = NULL;
+	data->mem_error = 0;
 	data->redir_err = 0;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
@@ -69,7 +83,8 @@ void	init_exec_status(t_exec_status *status)
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
 	status->outfile = -1;
-	//status->redir_fail = 0;
+	status->temp_fd = -1;
+	status->saved_stdout = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -92,10 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strncmp(data.input, "exit", 4) == 0)
 		{
 			if (builtin_exit(data.root, &exec_status))
-			{
-				printf("exit\n");
 				break ;
-			}
 		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);

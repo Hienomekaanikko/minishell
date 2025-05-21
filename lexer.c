@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/19 14:34:29 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:05:48 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_lexer(t_data *data, t_exec_status *exec_status, t_arena *env_arena) //env-arena added
 {
-	data->temp_array = ft_special_split(data->input, ' ');
+	data->temp_array = parser(data->input, ' ');
 	if (!data->temp_array)
 		return (0);
 	if (!ft_make_list(data, exec_status))

@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansions.h                                       :+:      :+:    :+:   */
+/*   ft_is_only_space.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 17:20:11 by msuokas          ###   ########.fr       */
+/*   Created: 2025/05/20 17:08:42 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/20 17:09:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANSIONS_H
-#define EXPANSIONS_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_keys
+int	ft_is_only_space(const char *s)
 {
-	char			*key;
-	struct s_keys	*next;
-}	t_keys;
+	int	i;
 
-typedef struct s_var
-{
-	char			*key;
-	char			*value;
-	struct s_var	*next;
-}	t_var;
-
-typedef struct s_exp_data
-{
-	t_var	*var_list;
-}	t_exp_data;
-
-#endif
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_isspace(s[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
