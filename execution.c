@@ -6,25 +6,25 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:44 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/21 14:56:25 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:35:25 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	built_ins(t_data *data)
+int	built_ins(t_ast *node, t_data *data)
 {
-	if (ft_strncmp(data->root->cmd, "echo", 5) == 0)
-		return (builtin_echo(data));
-	else if (ft_strncmp(data->root->cmd, "cd", 3) == 0)
-		return (builtin_cd(data));
-	else if (ft_strncmp(data->root->cmd, "pwd", 4) == 0)
+	if (ft_strncmp(node->cmd, "echo", 5) == 0)
+		return (builtin_echo(data, node->args));
+	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
+		return (builtin_cd(data, node->args));
+	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
 		return (builtin_pwd(data));
-	else if (ft_strncmp(data->root->cmd, "export", 7) == 0)
-		return (builtin_export(data));
-	else if (ft_strncmp(data->root->cmd, "unset", 6) == 0)
-		return (builtin_unset(data));
-	else if (ft_strncmp(data->root->cmd, "env", 4) == 0)
+	else if (ft_strncmp(node->cmd, "export", 7) == 0)
+		return (builtin_export(data, node->args));
+	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
+		return (builtin_unset(data, node->args));
+	else if (ft_strncmp(node->cmd, "env", 4) == 0)
 		return (builtin_env(data));
 	return (-1);
 }
@@ -57,7 +57,7 @@ void	close_fds(t_data *data)
 		data->status->temp_fd = -1;
 	}
 }
-int	executables(t_data *data)
+int	executables(t_data *data, t_ast *node)
 {
 	pid_t	pid;
 	char	*path;
@@ -69,7 +69,7 @@ int	executables(t_data *data)
 	{
 		setup_child_signals();
 		check_path_permissions(data);
-		path = find_executable(data);
+		path = find_executable(data, node);
 		if (!path)
 			exit(error_handler(data, data->root->cmd, "command not found", 127));
 		if (data->status->outfile != -1)
@@ -87,7 +87,7 @@ int	executables(t_data *data)
 			data->status->infile = -1;
 		}
 		close_fds(data);
-		execve(path, data->root->args, data->env_arena->ptrs);
+		execve(path,node->args, data->env_arena->ptrs);
 		free(path);
 		exit(error_handler(data, data->root->cmd, "command not found", 127));
 	}
@@ -99,14 +99,14 @@ int	executables(t_data *data)
 	return (0);
 }
 
-int	execute_command(t_data *data)
+int	execute_command(t_data *data, t_ast *node)
 {
-	if (!data->root)
+	if (!node)
 		return (error_handler(data, "syntax error", "invalid command", 1));
-	if (data->root->type == RE_OUT || data->root->type == APPEND_OUT || data->root->type == RE_IN || data->root->type == HERE_DOC)
-		return (exec_redir(data));
-	else if (data->root->type == PIPE && data->status->redir_fail == 0)
-		return (exec_pipe(data));
+	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
+		return (exec_redir(data, node));
+	else if (node->type == PIPE && data->status->redir_fail == 0)
+		return (exec_pipe(data, node));
 	else
 	{
 		if (data->status->outfile != -1)
@@ -114,15 +114,14 @@ int	execute_command(t_data *data)
 			data->status->saved_stdout = dup(STDOUT_FILENO);
 			dup2(data->status->outfile, STDOUT_FILENO);
 		}
-		if (built_ins(data) == -1)
-	{
-			if (data->status->redir_fail == 0)
+		if (built_ins(node, data) == -1)
 		{
-				if (executables(data) == -1)
+			if (data->status->redir_fail == 0)
+			{
+				if (executables(data, node) == -1)
 					return (error_handler(data, "WIP: exec", "command not found", 127));
-
+			}
 		}
-	}
 		if (data->status->outfile != -1 && data->status->saved_stdout != -1)
 		{
 			dup2(data->status->saved_stdout, STDOUT_FILENO);

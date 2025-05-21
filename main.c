@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 12:17:14 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:58:12 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static void init_data(t_data *data)
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
+	data->status->temp_fd = -1;
 	data->status->infile = -1;
 	data->status->outfile = -1;
 	data->status->redir_fail = 0;
@@ -69,7 +70,8 @@ void	init_exec_status(t_exec_status *status)
 	ft_memset(status, 0, sizeof(t_exec_status));
 	status->infile = -1;
 	status->outfile = -1;
-	//status->redir_fail = 0;
+	status->temp_fd = -1;
+	status->saved_stdout = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {
@@ -84,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 	data.status = &exec_status;
 	while (1)
 	{
-		init_data(&data);
 		if (!process_input(&data))
 			continue ;
 		else if (ft_strncmp(data.input, "exit", 4) == 0)
@@ -96,7 +97,8 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 		if (data.root)
-			execute_command(&data);
+			execute_command(&data, data.root);
+		init_data(&data);
 	}
 	arena_free(data.env_arena);
 	destroy_memory(&data);

@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:37:29 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:34:22 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*check_single_path(char *dir, char *cmd)
 	return (NULL);
 }
 
-static char	*search_paths(t_data *data, char **paths)
+static char	*search_paths(t_ast *node, char **paths)
 {
 	char	*executable;
 	int		i;
@@ -38,7 +38,7 @@ static char	*search_paths(t_data *data, char **paths)
 	i = 0;
 	while (paths[i])
 	{
-		executable = check_single_path(paths[i], data->root->cmd);
+		executable = check_single_path(paths[i], node->cmd);
 		if (executable)
 			return (executable);
 		i++;
@@ -46,7 +46,7 @@ static char	*search_paths(t_data *data, char **paths)
 	return (NULL);
 }
 
-static char	*try_path(t_data *data, char *path_str)
+static char	*try_path(t_data *data, t_ast *node, char *path_str)
 {
 	char	**paths;
 	char	*executable;
@@ -62,21 +62,21 @@ static char	*try_path(t_data *data, char *path_str)
 		error_handler(data, "memory", "allocation failed", 1);
 		return (NULL);
 	}
-	executable = search_paths(data,paths);
+	executable = search_paths(node, paths);
 	ft_free_split(paths);
 	return (executable);
 }
 
-char	*find_executable(t_data *data)
+char	*find_executable(t_data *data, t_ast *node)
 {
 	char	*executable;
 	char	*path_env;
 
-	executable = try_path(data, SECURE_PATH);
+	executable = try_path(data, node, SECURE_PATH);
 	if (executable)
 		return (executable);
 	path_env = arena_getenv(data, "PATH");
-	executable = try_path(data, path_env);
+	executable = try_path(data, node, path_env);
 	free(path_env);
 	return (executable);
 }

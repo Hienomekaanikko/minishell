@@ -6,13 +6,13 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:16:30 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:06:02 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	builtin_echo(t_data *data)
+int	builtin_echo(t_data *data, char **args)
 {
 	int		no_newline_flag;
 	int		i;
@@ -20,33 +20,22 @@ int	builtin_echo(t_data *data)
 
 	//(void)data;
 	no_newline_flag = 0;
-	if (!data->root->args || !data->root->args[0])
+	if (!args || !args[0])
 	{
 		ft_putstr_fd("\n", 1);
 		data->status->exit_code = 0;
 		return (0);
 	}
 	i = 1;
-	while (data->root->args[i] && ft_strncmp(data->root->args[i], "-n", 3) == 0)
+	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
 	{
 		i++;
 		no_newline_flag = 1;
 	}
-	while(data->root->args[i])
+	while(args[i])
 	{
-		// if (args[i][0] == '$')
-		// {
-		// 	if (ft_strncmp(args[i], "$!", 3) == 0)
-		// 		ft_putnbr_fd(status->pid, 1);
-		// 	else if (ft_strncmp(args[i], "$?", 3) == 0)
-		// 		ft_putnbr_fd(status->exit_code, 1);
-		// }
-		// 	else if ((env_value = arena_getenv(env_arena, args[i] + 1)))
-		// 		ft_putstr_fd(env_value, 1);
-		// }
-		// else
-		ft_putstr_fd(data->root->args[i], 1);
-		if (data->root->args[i + 1])
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
 			ft_putstr_fd(" ", 1);
 		i++;
 	}
@@ -56,14 +45,14 @@ int	builtin_echo(t_data *data)
 	return (0);
 }
 
-int	builtin_cd(t_data *data)
+int	builtin_cd(t_data *data, char **args)
 {
 	char	*new_pwd;
 	char	*path;
 
-	if (data->root->args[2])
+	if (args[2])
 		return (error_handler(data, "cd", "too many arguments", 1));
-	path = data->root->args[1];
+	path = args[1];
 	if (!path)
 	{
 		path = arena_getenv(data, "HOME");
@@ -113,57 +102,57 @@ static int	is_valid_env_name(const char *name)
 	return (1);
 }
 
-int	builtin_export(t_data *data)
+int	builtin_export(t_data *data, char **args)
 {
 	int		i;
 	char	*key;
 
-	if (!data->root->args[1])
+	if (!args[1])
 		return (builtin_env(data));
 	i = 1;
-	while (data->root->args[i])
+	while (args[i])
 	{
-		if (ft_strchr(data->root->args[i], '='))
+		if (ft_strchr(args[i], '='))
 		{
-			key = ft_strndup(data->root->args[i], ft_strchr(data->root->args[i], '=') - data->root->args[i]);
+			key = ft_strndup(args[i], ft_strchr(args[i], '=') - args[i]);
 			if (!key)
 				return (error_handler(data, "export", strerror(errno), 1));
 		}
 		else
-			key = data->root->args[i];
+			key = args[i];
 		if (!is_valid_env_name(key))
 		{
-			if (ft_strchr(data->root->args[i], '='))
+			if (ft_strchr(args[i], '='))
 				free(key);
-			return (error_handler(data, data->root->args[0], "not a valid identifier", 1));
+			return (error_handler(data, args[0], "not a valid identifier", 1));
 		}
-		if (ft_strchr(data->root->args[i], '=') && arena_set_env(data, key, ft_strchr(data->root->args[i], '=') + 1) == -1)
+		if (ft_strchr(args[i], '=') && arena_set_env(data, key, ft_strchr(args[i], '=') + 1) == -1)
 		{
 			free(key);
 			return (error_handler(data, "export" ,strerror(errno), 1));
 		}
-		if (ft_strchr(data->root->args[i], '='))
+		if (ft_strchr(args[i], '='))
 			free(key);
 		i++;
 	}
 	return (0);
 }
 
-int	builtin_unset(t_data *data)
+int	builtin_unset(t_data *data, char **args)
 {
-	int	i;	
+	int	i;
 
 	//if (!data->root->args[1])
 	//	return (error_handler(data->status, "unset", ERR_NOT_ENOUGH_ARGS));
 	i = 1;
-	while (data->root->args[i])
+	while (args[i])
 	{
-		if (!is_valid_env_name(data->root->args[i]))
+		if (!is_valid_env_name(args[i]))
 		{
 			error_handler(data, "unset", "not a valid identifier", 1);
 			return (1);
 		}
-		arena_unset_env(data, data->root->args[i]);
+		arena_unset_env(data, args[i]);
 		i++;
 	}
 	return (0);
@@ -171,7 +160,7 @@ int	builtin_unset(t_data *data)
 
 int	builtin_env(t_data *data)
 {
-	size_t i;
+	size_t	i;
 	char	*value;
 
 	if (!data->env_arena || !data->env_arena->ptrs)

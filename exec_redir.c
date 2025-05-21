@@ -61,26 +61,27 @@ static void	open_file(t_data *data, int open_flags, int file_perms)
 	}
 }
 
-int	exec_redir(t_data *data)
+int	exec_redir(t_data *data, t_ast *node)
 {
 	int	open_flags;
 	int	file_perms;
 	int	std_fd;
 
+	printf("checking redir\n");
 	if (data->root->access == 0)
 	{
 		data->status->redir_fail = 1;
-		return (execute_command(data));
+		return (execute_command(data, node));
 	}
 	if (!get_redirection_params(data, &open_flags, &file_perms, &std_fd))
 		return (0);
 	open_file(data, open_flags, file_perms);
 	if (data->status->temp_fd == -1)
-		return (execute_command(data));
+		return (execute_command(data, node->left));
 	else
 	{
 		assign_node_direction(data);
-		return (execute_command(data));
+		return (execute_command(data, node->left));
 	}
 	return (0);
 }

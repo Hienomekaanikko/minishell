@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 14:54:31 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:35:04 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,6 @@ typedef struct s_data
 	int				redir_err;
 }	t_data;
 
-
-
-
-
-
 //lexer stuff
 char		**parser(char const *s, char c);
 int			ft_make_list(t_data *data);
@@ -150,12 +145,11 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int			execute_command(t_data *data);
-char		*find_executable(t_data *data);
-int			exec_pipe(t_data *data);
+int			execute_command(t_data *data, t_ast *node);
+char		*find_executable(t_data *data, t_ast *node);
+int			exec_pipe(t_data *data, t_ast *node);
 void		wait_process(t_data *data, pid_t pid);
-int			exec_redir(t_data *data);
-int			exec_heredoc(t_data *data);
+int			exec_redir(t_data *data, t_ast *node);
 //error
 int			handle_redirection_error( t_data *data);
 int			error_handler(t_data *data, const char *cmd, const char *msg, int exit_code);
@@ -166,11 +160,11 @@ void		arena_free(t_arena *arena);
 char		*arena_add(t_data *data, char *add);
 void		arena_clear(t_arena *arena);
 //built-ins
-int			builtin_echo(t_data *data);
-int			builtin_cd(t_data *data);
+int			builtin_echo(t_data *data, char **args);
+int			builtin_cd(t_data *data, char **args);
 int			builtin_pwd(t_data *data);
-int			builtin_export(t_data *data);
-int			builtin_unset(t_data *data);
+int			builtin_export(t_data *data, char **args);
+int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_data *data);
 //envp

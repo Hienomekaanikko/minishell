@@ -10,7 +10,7 @@ int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 	return (0);
 }
 
-static void	handle_left_child(int pipe_fd[2], t_data *data)
+static void	handle_left_child(t_data *data, t_ast *node, int pipe_fd[2])
 {
 	setup_child_signals();
 	if (data->status->outfile != -1)
@@ -26,13 +26,13 @@ static void	handle_left_child(int pipe_fd[2], t_data *data)
 	}
 	close(pipe_fd[1]);
 	if (data->root->left->type == PIPE)
-		exec_pipe(data);
+		exec_pipe(data, node->left);
 	else
-		execute_command(data);
+		execute_command(data, node->left);
 	exit(data->status->exit_code);
 }
 
-static void	handle_right_child(int pipe_fd[2], t_data *data)
+static void	handle_right_child( t_data *data, t_ast *node, int pipe_fd[2])
 {
 	setup_child_signals();
 	close(pipe_fd[1]);
@@ -42,7 +42,7 @@ static void	handle_right_child(int pipe_fd[2], t_data *data)
 		exit(error_handler(data, "pipe", "failed to redirect stdin", 1));
 	}
 	close(pipe_fd[0]);
-	execute_command(data);
+	execute_command(data, node->right);
 	exit(data->status->exit_code);
 }
 
@@ -79,7 +79,7 @@ static void	wait_right_process( t_data *data, pid_t pidR)
 	}
 }
 
-int	exec_pipe(t_data *data)
+int	exec_pipe(t_data *data, t_ast *node)
 {
 	int 	pipe_fd[2];
 	pid_t	pidL;
@@ -93,12 +93,12 @@ int	exec_pipe(t_data *data)
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidL == 0)
-		handle_left_child(pipe_fd,data);
+		handle_left_child(data, node, pipe_fd);
 	pidR = fork();
 	if (pidR == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidR == 0)
-		handle_right_child(pipe_fd, data);
+		handle_right_child(data, node, pipe_fd);
 	cleanup_pipe(pipe_fd, pidL, pidR);
 	wait_process(data, pidL);
 	wait_right_process(data, pidR);
