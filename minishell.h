@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 10:14:01 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:55:56 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include "expansions.h"
+# include "parser.h"
+# include "ast_builder.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -84,6 +86,7 @@ typedef struct s_data
 	t_arena		*env_arena;
 	int			syntax_err;
 	int			redir_err;
+	int			mem_error;
 }	t_data;
 
 //structure for the execution status
@@ -91,6 +94,8 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
+	int			temp_fd;
+	int			saved_stdout;
 	int			infile;
 	int			outfile;
 	int			redir_fail;

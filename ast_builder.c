@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/16 15:09:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:47:57 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ void	set_basic_tree(t_data *data)
 
 	current = *data->lexed_list;
 	if (current)
+	{
 		add_right_child(&data->root, current, current->type);
+		if (!data->root->args)
+		{
+			data->mem_error = 1;
+			return ;
+		}
+	}
 }
 //determines what kind of tree is needed
 int	tree_type(t_data *data)
@@ -44,6 +51,11 @@ void	make_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
 		set_basic_tree(data);
 	else if (tree_type(data) == 2)
 		set_complex_tree(data, env_arena, status);
+	if (data->mem_error)
+	{
+		free_ast(data->root);
+		data->root = NULL;
+	}
 	free_lexed_list(*data->lexed_list);
 	//visualize_tree_TEST(data); //DEBUG
 }

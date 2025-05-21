@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/14 15:26:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:48:57 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,23 @@ int	count_new_len(char *value)
 //creates a node with places for childs and args etc data
 t_ast	*create_node(char *value, t_token type)
 {
-	t_ast *new_node = (t_ast*)malloc(sizeof(t_ast));
+	t_ast *new_node;
+
+	new_node = (t_ast*)malloc(sizeof(t_ast));
+	if (!new_node)
+		return (NULL);
 	if (has_quotes(value))
+	{
 		new_node->cmd = remove_quotes(value);
+		if (!new_node->cmd)
+			return (NULL);
+	}
 	else
+	{
 		new_node->cmd = ft_strdup(value);
+		if (!new_node->cmd)
+			return (NULL);
+	}
 	new_node->type = type;
 	new_node->left = NULL;
 	new_node->right = NULL;
@@ -63,4 +75,19 @@ int	count_size(t_lexer *current)
 		temp = temp->next;
 	}
 	return (i);
+}
+
+//check if curr->value has any quotes
+int	has_quotes(char *value)
+{
+	int	i;
+
+	i = 0;
+	while (value[i])
+	{
+		if (value[i] == '\'' || value[i] == '"')
+			return (1);
+		i++;
+	}
+	return (0);
 }
