@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 16:36:09 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 16:45:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 		allocate_arguments(&ast, curr_node, &temp);
 	if (temp && type != RE_IN && type != RE_OUT)
 	{
-		if (temp->type == RE_IN || temp->type == RE_OUT || temp->type == APPEND_OUT || temp->type == HERE_DOC)
+		if (temp->type == RE_IN || temp->type == RE_OUT
+			|| temp->type == APPEND_OUT || temp->type == HERE_DOC)
 			temp = temp->next;
 		temp = temp->next;
 		while (temp && temp->type == ARG)
