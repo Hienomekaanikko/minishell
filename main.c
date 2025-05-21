@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 11:49:21 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:27:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,21 @@ static void init_data(t_data *data, t_exec_status *status)
 		free_ast(data->root);
 		data->root = NULL;
 	}
-	status->infile = -1;
-	status->outfile = -1;
-	status->temp_fd = -1;
+	if (status->infile != -1)
+	{
+		close(status->infile);
+		status->infile = -1;
+	}
+	if (status->outfile != -1)
+	{
+		close(status->outfile);
+		status->outfile = -1;
+	}
+	if (status->temp_fd != -1)
+	{
+		close(status->temp_fd);
+		status->temp_fd = -1;
+	}
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->temp_array = NULL;
@@ -54,6 +66,7 @@ void	init_base(t_data *data, int argc, char **argv)
 	data->exp->var_list = NULL;
 	data->root = NULL;
 	data->input = NULL;
+	data->mem_error = 0;
 	data->redir_err = 0;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
@@ -94,10 +107,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strncmp(data.input, "exit", 4) == 0)
 		{
 			if (builtin_exit(data.root, &exec_status))
-			{
-				printf("exit\n");
 				break ;
-			}
 		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status, exec_arena);

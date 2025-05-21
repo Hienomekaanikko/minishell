@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 16:20:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 15:51:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "libft/libft.h"
 # include "expansions.h"
 # include "parser.h"
+# include "ast_builder.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -85,6 +86,7 @@ typedef struct s_data
 	t_arena		*env_arena;
 	int			syntax_err;
 	int			redir_err;
+	int			mem_error;
 }	t_data;
 
 //structure for the execution status

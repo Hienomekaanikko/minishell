@@ -17,7 +17,7 @@ static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms,
 		*file_perms = 0644;
 		*std_fd = STDOUT_FILENO;
 	}
-	else if (node->type == RE_IN)
+	else if (node->type == RE_IN || node->type == HERE_DOC)
 	{
 		*open_flags = O_RDONLY;
 		*file_perms = 0;
@@ -28,12 +28,6 @@ static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms,
 		*open_flags = O_WRONLY | O_CREAT | O_APPEND;
 		*file_perms = 0644;
 		*std_fd = STDOUT_FILENO;
-	}
-	else if (node->type == HERE_DOC)
-	{
-		*open_flags = O_RDONLY;
-		*file_perms = 0;
-		*std_fd = STDIN_FILENO;
 	}
 	else
 		return (0);
