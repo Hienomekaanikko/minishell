@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:44 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 11:26:03 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:56:25 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	built_ins(t_data *data)
 	return (-1);
 }
 
-void check_path_permissions(t_data *data) 
+void check_path_permissions(t_data *data)
 {
 	struct stat path_stat;
 
@@ -44,7 +44,19 @@ void check_path_permissions(t_data *data)
 		return;
 	}
 }
-
+void	close_fds(t_data *data)
+{
+	if (data->status->saved_stdout != -1)
+	{
+		close(data->status->saved_stdout);
+		data->status->saved_stdout = -1;
+	}
+	if (data->status->temp_fd != -1)
+	{
+		close(data->status->temp_fd);
+		data->status->temp_fd = -1;
+	}
+}
 int	executables(t_data *data)
 {
 	pid_t	pid;
@@ -60,6 +72,21 @@ int	executables(t_data *data)
 		path = find_executable(data);
 		if (!path)
 			exit(error_handler(data, data->root->cmd, "command not found", 127));
+		if (data->status->outfile != -1)
+		{
+			if (dup2(data->status->outfile, 1) == -1)
+				exit(handle_redirection_error(data));
+			close(data->status->outfile);
+			data->status->outfile = -1;
+		}
+		if (data->status->infile != -1)
+		{
+			if (dup2(data->status->infile, 0) == -1)
+				exit(handle_redirection_error(data));
+			close(data->status->infile);
+			data->status->infile = -1;
+		}
+		close_fds(data);
 		execve(path, data->root->args, data->env_arena->ptrs);
 		free(path);
 		exit(error_handler(data, data->root->cmd, "command not found", 127));
@@ -67,7 +94,7 @@ int	executables(t_data *data)
 	else if (pid > 0)
 	{
 		data->status->pid = pid;
-		wait_process(pid, data);
+		wait_process(data, pid);
 	}
 	return (0);
 }
@@ -75,18 +102,34 @@ int	executables(t_data *data)
 int	execute_command(t_data *data)
 {
 	if (!data->root)
-		return (error_handler(data, data->root->cmd, "command not found", 127));
-	//print_node_structure(node); //DEBUG
+		return (error_handler(data, "syntax error", "invalid command", 1));
 	if (data->root->type == RE_OUT || data->root->type == APPEND_OUT || data->root->type == RE_IN || data->root->type == HERE_DOC)
 		return (exec_redir(data));
 	else if (data->root->type == PIPE && data->status->redir_fail == 0)
 		return (exec_pipe(data));
-	else if (built_ins(data) == -1)
+	else
 	{
-		if (data->status->redir_fail == 0)
+		if (data->status->outfile != -1)
 		{
-			if (executables(data) == -1)
-				return (error_handler(data, data->root->cmd, "command not found", 127));
+			data->status->saved_stdout = dup(STDOUT_FILENO);
+			dup2(data->status->outfile, STDOUT_FILENO);
+		}
+		if (built_ins(data) == -1)
+	{
+			if (data->status->redir_fail == 0)
+		{
+				if (executables(data) == -1)
+					return (error_handler(data, "WIP: exec", "command not found", 127));
+
+		}
+	}
+		if (data->status->outfile != -1 && data->status->saved_stdout != -1)
+		{
+			dup2(data->status->saved_stdout, STDOUT_FILENO);
+			close(data->status->saved_stdout);
+			close(data->status->outfile);
+			if (data->status->temp_fd != -1)
+				close(data->status->temp_fd);
 		}
 	}
 	if (data->status->redir_fail == 1)

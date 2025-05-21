@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 10:14:01 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:54:31 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MINISHELL_H
 # include "libft/libft.h"
 # include "expansions.h"
+# include "parser.h"
+
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -78,6 +80,8 @@ typedef struct	s_exec_status
 {
 	int			exit_code;
 	int			signal;
+	int			temp_fd;
+	int			saved_stdout;
 	int			infile;
 	int			outfile;
 	int			redir_fail;
@@ -101,7 +105,12 @@ typedef struct s_data
 }	t_data;
 
 
+
+
+
+
 //lexer stuff
+char		**parser(char const *s, char c);
 int			ft_make_list(t_data *data);
 void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
@@ -136,6 +145,7 @@ void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
 void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
@@ -143,10 +153,11 @@ void		visualize_tree_TEST(t_data *data);
 int			execute_command(t_data *data);
 char		*find_executable(t_data *data);
 int			exec_pipe(t_data *data);
-void		wait_process(pid_t pid, t_data *data);
+void		wait_process(t_data *data, pid_t pid);
 int			exec_redir(t_data *data);
 int			exec_heredoc(t_data *data);
 //error
+int			handle_redirection_error( t_data *data);
 int			error_handler(t_data *data, const char *cmd, const char *msg, int exit_code);
 void		handle_signal_error(t_data *data, int signal);
 //arena

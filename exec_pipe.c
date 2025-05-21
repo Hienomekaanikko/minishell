@@ -13,9 +13,12 @@ int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 static void	handle_left_child(int pipe_fd[2], t_data *data)
 {
 	setup_child_signals();
-	close(pipe_fd[0]);
 	if (data->status->outfile != -1)
-		pipe_fd[1] = data->status->outfile;
+	{
+		close(data->status->outfile);
+		data->status->outfile = -1;
+	}
+	close(pipe_fd[0]);
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[1]);
@@ -33,8 +36,6 @@ static void	handle_right_child(int pipe_fd[2], t_data *data)
 {
 	setup_child_signals();
 	close(pipe_fd[1]);
-	if (data->status->infile != -1)
-		pipe_fd[0] = data->status->infile;
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[0]);
@@ -45,7 +46,7 @@ static void	handle_right_child(int pipe_fd[2], t_data *data)
 	exit(data->status->exit_code);
 }
 
-void	wait_process(pid_t pid, t_data *data)
+void	wait_process(t_data *data, pid_t pid)
 {
 	int	status;
 
@@ -58,7 +59,7 @@ void	wait_process(pid_t pid, t_data *data)
 		handle_signal_error(data, WTERMSIG(status));
 }
 
-static void	wait_right_process(pid_t pidR, t_data *data)
+static void	wait_right_process( t_data *data, pid_t pidR)
 {
 	int	status;
 
@@ -84,28 +85,22 @@ int	exec_pipe(t_data *data)
 	pid_t	pidL;
 	pid_t	pidR;
 
-	if (data->status->outfile != -1)
-	{
-		close(data->status->outfile);
-		data->status->outfile = -1;
-	}
 	pidL = -1;
 	pidR = -1;
 	if (pipe(pipe_fd) == -1)
-		return (error_handler(data, "pipe","failed", 1));
+		return (error_handler(data, "pipe", "failed", 1));
 	pidL = fork();
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidL == 0)
-		handle_left_child(pipe_fd, data);
+		handle_left_child(pipe_fd,data);
 	pidR = fork();
 	if (pidR == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidR == 0)
 		handle_right_child(pipe_fd, data);
 	cleanup_pipe(pipe_fd, pidL, pidR);
-	wait_process(pidL, data);
-	wait_right_process(pidR, data);
-	data->status->infile = 0;
+	wait_process(data, pidL);
+	wait_right_process(data, pidR);
 	return (0);
 }
