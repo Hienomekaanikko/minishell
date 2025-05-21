@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/23 12:38:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:51:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_var_declaration(char	*str)
 		return (0);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
-	if (str[i] && str[i] == '=')
+	while (str[i] && str[i] == '=')
 		i++;
 	if (str[i] && ft_isalnum(str[i]))
 		return (1);
