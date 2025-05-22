@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 13:12:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:44:36 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void init_data(t_data *data, t_exec_status *status)
 int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 {
 	data->input = readline("minishell$: ");
+	if (data->input == NULL)
+		return (0);
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
@@ -101,12 +103,15 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data, &exec_status);
-		if (!process_input(&data, &exec_status, env_arena))
-			continue ;
-		else if (ft_strncmp(data.input, "exit", 4) == 0)
+		if (process_input(&data, &exec_status, env_arena) == 0)
 		{
-			if (builtin_exit(data.root, &exec_status))
-				break ;
+			builtin_exit(data.root, &exec_status);
+			break ;
+		}
+		if (ft_strncmp(data.input, "exit", 4) == 0)
+		{
+			builtin_exit(data.root, &exec_status);
+			break ;
 		}
 		if (data.root)
 			execute_command(data.root, env_arena, &exec_status);

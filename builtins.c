@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 13:03:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:46:04 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,9 +212,10 @@ static int	is_valid_exit_arg(char *arg)
 
 int	builtin_exit(t_ast *node, t_exec_status *status)
 {
-	if (!node->args[1])
+	if (!node || !node->args[1])
 	{
 		status->exit_code = 0;
+		ft_putstr_fd("exit\n", 1);
 		return (1);
 	}
 	if (node->args[2])
@@ -222,5 +223,6 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 	if (!is_valid_exit_arg(node->args[1]))
 		return (error_handler(status, node->cmd, "numeric argument required",  2));
 	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
+	ft_putstr_fd("exit\n", 1);
 	return (1);
 }
