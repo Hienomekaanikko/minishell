@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:16:30 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:39:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int is_n_flag(const char *arg)
+{
+	int	j;
+
+	j = 1;
+	if (arg[0] != '-')
+		return (0);
+	while (arg[j] != 'n')
+	{
+		j++;
+		if (arg[j] != 'n')
+			return (0);
+	}
+	return (1);
+}
+
 
 int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
 {
@@ -27,10 +44,10 @@ int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
 		return (0);
 	}
 	i = 1;
-	while (args[i] && ft_strncmp(args[i], "-n", 3) == 0)
+	while (args[i] && is_n_flag(args[i]))
 	{
-		i++;
 		no_newline_flag = 1;
+		i++;
 	}
 	while(args[i])
 	{
