@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:28:37 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:27:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	free(sub);
 }
 
-static char	*handle_special(char *extracted_key, int key_len, t_exec_status *status)
+static char	*handle_special(char *extracted_key, char **leftovers, int key_len, t_exec_status *status)
 {
 	char	*fetched_value;
-	char	*leftovers;
 
 	fetched_value = NULL;
 	if (ft_strncmp(extracted_key, "?", 1) == 0)
 	{
 		fetched_value = ft_itoa(status->exit_code);
 		if (key_len > 1)
-			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+			*leftovers = ft_substr(extracted_key, 1, key_len - 1);
 	}
 	else if (ft_strncmp(extracted_key, "!", 1) == 0)
 	{
@@ -43,7 +42,7 @@ static char	*handle_special(char *extracted_key, int key_len, t_exec_status *sta
 		}
 		if (key_len > 1)
 		{
-			leftovers = ft_substr(extracted_key, 1, key_len - 1);
+			*leftovers = ft_substr(extracted_key, 1, key_len - 1);
 			free(leftovers); //ADDED FOR COMPILER NAG. NOT IN uSE ATM.
 		}
 	}
@@ -69,7 +68,7 @@ static void	append_expanded_variable(t_data *data, char **new_value, char *value
 		return ;
 	}
 	extracted_key = ft_substr(value, *i, key_len);
-	fetched_value = handle_special(extracted_key, key_len, exec_status);
+	fetched_value = handle_special(extracted_key, &leftovers, key_len, exec_status);
 	if (fetched_value == NULL)
 		fetched_value = is_declared(data, extracted_key, env_arena);
 	if (fetched_value)

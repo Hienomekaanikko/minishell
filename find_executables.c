@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_executables.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 10:37:29 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:24:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
