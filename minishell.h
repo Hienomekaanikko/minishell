@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:14:03 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:01:52 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void		arena_free(t_arena *arena);
 char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
 void		arena_clear(t_arena *arena);
 //built-ins
-int			builtin_echo(char **args, t_exec_status *status, t_arena *env_arena);
+int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
 int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
 int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args);

@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 15:46:04 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:01:27 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int is_n_flag(const char *arg)
 }
 
 
-int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
+int	builtin_echo(char **args, t_exec_status *status)
 {
 	int		no_newline_flag;
 	int		i;
-	// /char	*env_value;
 
-	(void)env_arena;
 	no_newline_flag = 0;
 	if (!args || !args[0])
 	{
