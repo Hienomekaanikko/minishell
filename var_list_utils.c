@@ -6,26 +6,54 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 11:51:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/22 11:33:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_var_declaration(char	*str)
+int	note_quote(char *str, int i, int *has_open_quote)
 {
-	int	i;
+	if (!*has_open_quote)
+		*has_open_quote = str[i];
+	else if (str[i] == *has_open_quote)
+		*has_open_quote = 0;
+	else
+	{
+		ft_putstr_fd("ERROR: Mismatched or unclosed quote\n", 2);
+		return (0);
+	}
+	return (1);
+}
 
-	i = 0;
+//check if var declaration
+int	is_var_declaration(char *str)
+{
+	int		i = 0;
+	int		has_open_quote = 0;
+
 	if (!str)
 		return (0);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
-	while (str[i] && str[i] == '=')
+	if (str[i] != '=')
+		return (0);
+	i++;
+	while (str[i])
+	{
+		if ((str[i] == '\'' || str[i] == '"'))
+		{
+			if (!note_quote(str, i, &has_open_quote))
+				return (0);
+		}
 		i++;
-	if (str[i] && ft_isalnum(str[i]))
-		return (1);
-	return (0);
+	}
+	if (has_open_quote)
+	{
+		ft_putstr_fd("ERROR: Unclosed quote\n", 2);
+		return (0);
+	}
+	return (1);
 }
 
 //check if key is already declared and replace the value

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:02:03 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:25:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,8 @@ void	set_basic_tree(t_data *data)
 	current = *data->lexed_list;
 	if (current)
 	{
-	{
 		add_right_child(&data->root, current, current->type);
-		if (!data->root->args)
-		{
-			data->mem_error = 1;
-			return ;
-		}
-	}
-		if (!data->root->args)
+		if (!data->root)
 		{
 			data->mem_error = 1;
 			return ;

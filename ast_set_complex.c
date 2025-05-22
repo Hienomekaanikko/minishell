@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_set_complex.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:29:26 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:20:08 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,10 @@ void	set_complex_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
 		place_pipe(data, current, new_node, prev_cmd, &redir_status);
 		place_redir(data, current, new_node, prev_cmd, env_arena, status, &redir_status);
 		if (data->mem_error == 1)
+		{
+			error_handler(status, "malloc", "Cannot allocate memory", 1);
 			return ;
+		}
 		if (current)
 			current = current->next;
 	}

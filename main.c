@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:06:30 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:12:52 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void init_data(t_data *data, t_exec_status *status)
 	}
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
+	data->mem_error = 0;
 	data->temp_array = NULL;
 	status->redir_fail = 0;
 }

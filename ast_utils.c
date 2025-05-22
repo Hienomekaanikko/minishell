@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:04:24 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:20:57 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*remove_quotes(char *value)
 	return (ast.cleaned_value);
 }
 
-void	allocate_arguments(t_ast_utils *ast, t_ast *curr_node, t_lexer **current)
+int	allocate_arguments(t_ast_utils *ast, t_ast *curr_node, t_lexer **current)
 {
 	if (has_quotes((*current)->value))
 		curr_node->args[ast->i] = remove_quotes((*current)->value);
@@ -50,10 +50,11 @@ void	allocate_arguments(t_ast_utils *ast, t_ast *curr_node, t_lexer **current)
 	{
 		ft_free_split(curr_node->args);
 		curr_node->args = NULL;
-		return ;
+		return (0);
 	}
 	ast->i++;
 	(*current) = (*current)->next;
+	return (1);
 }
 
 //adds arguments (including cmd) to the args variable as split string
@@ -69,7 +70,10 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 	if (!curr_node->args)
 		return ;
 	while (temp && (temp->type == ARG || temp->type == CMD))
-		allocate_arguments(&ast, curr_node, &temp);
+	{
+		if (!allocate_arguments(&ast, curr_node, &temp))
+			return ;
+	}
 	if (temp && type != RE_IN && type != RE_OUT)
 	{
 		if (temp->type == RE_IN || temp->type == RE_OUT
@@ -77,7 +81,10 @@ void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
 			temp = temp->next;
 		temp = temp->next;
 		while (temp && temp->type == ARG)
-			allocate_arguments(&ast, curr_node, &temp);
+		{
+			if (!allocate_arguments(&ast, curr_node, &temp))
+				return ;
+		}
 	}
 	curr_node->args[ast.i] = NULL;
 }
