@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 16:58:22 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:06:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,15 @@ char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exe
 	return (NULL);
 }
 
+void advance_node(t_lexer **current, t_lexer **prev)
+{
+	if (current && *current)
+	{
+		*prev = *current;
+		*current = (*current)->next;
+	}
+}
+
 void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status)
 {
 	t_lexer	*current;
@@ -137,8 +146,7 @@ void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_
 	{
 		if (current->value[0] == '\'')
 		{
-			prev = current;
-			current = current->next;
+			advance_node(&current, &prev);
 			continue ;
 		}
 		if (ft_strchr(current->value, '$'))
@@ -148,18 +156,12 @@ void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_
 			{
 				refresh_value(current, expanded_value, prev);
 				if (ft_strchr(current->value, '$'))
-				{
-					prev = current;
-					current = current->next;
-				}
+					advance_node(&current, &prev);
 			}
 			else
 				current = remove_key_not_found(data, current, prev);
 		}
 		else
-		{
-			prev = current;
-			current = current->next;
-		}
+			advance_node(&current, &prev);
 	}
 }
