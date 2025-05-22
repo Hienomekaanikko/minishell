@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 13:03:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:01:57 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_n_flag(const char *arg)
+int	is_n_flag(const char *arg)
 {
 	int	j;
 
@@ -33,9 +33,7 @@ int	builtin_echo(char **args, t_exec_status *status, t_arena *env_arena)
 {
 	int		no_newline_flag;
 	int		i;
-	// /char	*env_value;
 
-	(void)env_arena;
 	no_newline_flag = 0;
 	if (!args || !args[0])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:05:23 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:40:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*is_declared(t_data *data, char *extracted_key, t_arena *env_arena)
 	t_var	*temp;
 	char	*fetched_value;
 
+	if (!extracted_key)
+		return (NULL);
 	fetched_value = NULL;
 	fetched_value = arena_getenv(env_arena, extracted_key);
 	if (fetched_value)
