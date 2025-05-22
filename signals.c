@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 09:13:34 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:24:01 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	handle_sigint(int sig)
 {
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("minishell$:", 1);
 	(void)sig;
 	ft_putstr_fd("\n", 1);
 	ft_putstr_fd("minishell$:", 1);
