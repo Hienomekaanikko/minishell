@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:05:36 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:12:29 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_
 	char	*line;
 	char	*expanded_line;
 	int		fd;
+	int		linecount;
 
 	filename = make_filename(env_arena);
 	if (!filename)
@@ -50,12 +51,21 @@ int	write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_
 		free(filename);
 		return (-1);
 	}
+	linecount = 0;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
+		{
+			ft_putstr_fd("minishell: warning: here-document at line ", 2);
+			ft_putnbr_fd(linecount, 2);
+			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(delimiter, 2);
+			ft_putstr_fd("')\n", 2);
 			break;
-		expanded_line = expander(data, line, env_arena, status);
+		}
+		linecount++;
+			expanded_line = expander(data, line, env_arena, status);
 		if (expanded_line)
 		{
 			free(line);
