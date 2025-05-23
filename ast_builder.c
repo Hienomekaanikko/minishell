@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 13:25:17 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 12:33:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	tree_type(t_data *data)
 }
 
 //launches the tree creation process
-void	make_tree(t_data *data, t_arena *env_arena, t_exec_status *status)
+void	make_tree(t_data *data)
 {
 	data->root = NULL;
 	if (tree_type(data) == 1)
 		set_basic_tree(data);
 	else if (tree_type(data) == 2)
-		set_complex_tree(data, env_arena, status);
+		set_complex_tree(data);
 	if (data->mem_error)
 	{
 		free_ast(data->root);

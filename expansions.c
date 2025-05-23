@@ -6,35 +6,38 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 10:31:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 12:46:02 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	append_substring_before_dollar(char **new_value, char *value, int start, int end)
+static int	append_substring_before_dollar(char **new_value, char *value, int start, int end)
 {
 	char	*sub;
 
 	sub = ft_substr(value, start, end - start);
+	if (!sub)
+		return (0);
 	*new_value = ft_strjoin_free(*new_value, sub);
 	free(sub);
+	return (1);
 }
 
-static char	*handle_special(char *extracted_key, char **leftovers, int key_len, t_exec_status *status)
+static char	*handle_special(t_data *data, int key_len)
 {
 	char	*fetched_value;
 
 	fetched_value = NULL;
-	if (ft_strncmp(extracted_key, "?", 1) == 0)
+	if (ft_strncmp(data->tools->extracted_key, "?", 1) == 0)
 	{
-		fetched_value = ft_itoa(status->exit_code);
+		fetched_value = ft_itoa(data->status.exit_code);
 		if (key_len > 1)
-			*leftovers = ft_substr(extracted_key, 1, key_len - 1);
+			data->tools->leftovers = ft_substr(data->tools->extracted_key, 1, key_len - 1);
 	}
-	else if (ft_strncmp(extracted_key, "!", 1) == 0)
+	else if (ft_strncmp(data->tools->extracted_key, "!", 1) == 0)
 	{
-		fetched_value = ft_itoa((int)status->pid);
+		fetched_value = ft_itoa((int)data->status.pid);
 		if (!fetched_value || ft_strncmp(fetched_value, "0", 1) == 0)
 		{
 			free(fetched_value);
@@ -42,54 +45,49 @@ static char	*handle_special(char *extracted_key, char **leftovers, int key_len, 
 		}
 		if (key_len > 1)
 		{
-			*leftovers = ft_substr(extracted_key, 1, key_len - 1);
-			free(leftovers); //ADDED FOR COMPILER NAG. NOT IN uSE ATM.
+			data->tools->leftovers = ft_substr(data->tools->extracted_key, 1, key_len - 1);
+			free(data->tools->leftovers); //ADDED FOR COMPILER NAG. NOT IN uSE ATM.
 		}
 	}
 	return (fetched_value);
 }
 
-static void	append_expanded_variable(t_data *data, char **new_value, char *value, int *i, t_arena *env_arena, t_exec_status *exec_status)
+static int	append_expanded_variable(t_data *data, char **new_value, char *value, int *i)
 {
-	int		key_len;
-	char	*extracted_key;
-	char	*fetched_value;
-	char	*leftovers;
+	int	key_len;
 
+	ft_memset(data->tools, 0, sizeof(t_exp_tools));
 	key_len = 0;
-	fetched_value = NULL;
-	extracted_key = NULL;
-	leftovers = NULL;
 	while (value[*i + key_len] && ft_isalnum(value[*i + key_len]))
 		key_len++;
 	if (key_len == 0)
 	{
 		(*new_value) = ft_strjoin_free(*new_value, "$");
-		return ;
-	}
-	extracted_key = ft_substr(value, *i, key_len);
-	fetched_value = handle_special(extracted_key, &leftovers, key_len, exec_status);
-	if (fetched_value == NULL)
-		fetched_value = is_declared(data, extracted_key, env_arena);
-	if (fetched_value)
+		if (*new_value == NULL)
+			return (0);
+		return (1);
+}
+	data->tools->extracted_key = ft_substr(value, *i, key_len);
+	data->tools->fetched_value = handle_special(data, key_len);
+	if (data->tools->fetched_value == NULL)
+		data->tools->fetched_value = is_declared(data, data->tools->extracted_key);
+	if (data->tools->fetched_value)
 	{
-		*new_value = ft_strjoin(*new_value, fetched_value);
-		if (leftovers)
-		{
-			*new_value = ft_strjoin(*new_value, leftovers);
-			free(leftovers);
-		}
-		free(fetched_value);
+		*new_value = ft_strjoin_free(*new_value, data->tools->fetched_value);
+		if (data->tools->leftovers)
+			*new_value = ft_strjoin_free(*new_value, data->tools->leftovers);
 	}
-	free(extracted_key);
 	*i += key_len;
+	return (1);
 }
 
-char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exec_status)
+// int	handle_leftovers()
+
+char	*expander(t_data *data, char *value)
 {
-	char	*new_value;
 	int		i;
 	int		start;
+	char	*new_value;
 
 	i = 0;
 	start = 0;
@@ -99,16 +97,28 @@ char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exe
 		if (value[i] == '$')
 		{
 			if (i > start)
-				append_substring_before_dollar(&new_value, value, start, i);
+			{
+				if (!append_substring_before_dollar(&new_value, value, start, i))
+				{
+					data->mem_error = 1;
+					return (NULL);
+				}
+			}
 			i++;
-			append_expanded_variable(data, &new_value, value, &i, env_arena, exec_status);
+			append_expanded_variable(data, &new_value, value, &i);
 			start = i;
 		}
 		else
 			i++;
 	}
 	if (i > start)
-		append_substring_before_dollar(&new_value, value, start, i);
+	{
+		if (!append_substring_before_dollar(&new_value, value, start, i))
+		{
+			data->mem_error = 1;
+			return (NULL);
+		}
+	}
 	if (new_value)
 	{
 		if (ft_strlen(new_value) == 0)
@@ -149,7 +159,18 @@ int	expand(t_lexer **current, t_lexer **prev, char *expanded_value)
 	return (1);
 }
 
-void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status)
+// static void clear_expander_tools(t_data *data)
+// {
+// 	if (data->tools->extracted_key)
+// 		free(data->tools->extracted_key);
+// 	if (data->tools->fetched_value)
+// 		free(data->tools->fetched_value);
+// 	if (data->tools->leftovers)
+// 		free(data->tools->leftovers);
+// 	ft_memset(data->tools, 0, sizeof(t_exp_tools));
+// }
+
+void	check_for_expansions(t_data *data)
 {
 	t_lexer	*current;
 	t_lexer	*prev;
@@ -163,7 +184,7 @@ void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_
 			continue ;
 		if (ft_strchr(current->value, '$'))
 		{
-			expanded_value = expander(data, current->value, env_arena, exec_status);
+			expanded_value = expander(data, current->value);
 			if (expanded_value)
 			{
 				if (!expand(&current, &prev, expanded_value))
@@ -176,9 +197,10 @@ void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_
 			else if (data->mem_error == 0)
 				current = remove_key_not_found(data, current, prev);
 			else
-				return ;
+			return ;
 		}
 		else
 			advance_node(&current, &prev);
+		//clear_expander_tools(data);
 	}
 }

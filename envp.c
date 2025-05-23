@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 12:16:33 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:31:08 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,29 @@ void	set_shell_level(t_arena *env_arena, t_exec_status *status)
 	free(new_level);
 }
 
-t_arena	*init_env_arena(char **envp, t_exec_status *status)
+t_arena	*init_env_arena(char **envp, t_data *data)
 {
-	t_arena	*env_arena;
 	size_t	env_count;
 	size_t	i;
 
 	env_count = 0;
 	while (envp[env_count])
 		env_count++;
-	env_arena = arena_init(env_count * 100 * 2, env_count + 32);
-	if (!env_arena)
+	data->env_arena = arena_init(env_count * 100 * 2, env_count + 32);
+	if (!data->env_arena)
 	{
-		free(env_arena);
+		free(data->env_arena);
 		return (NULL);
 	}
 	i = 0;
 	while (i < env_count)
 	{
-		arena_add(env_arena, envp[i], status);
+		arena_add(data->env_arena, envp[i], &data->status);
 		i++;
 	}
-	set_shell_level(env_arena, status);
-	env_arena->ptrs[env_arena->ptrs_in_use] = NULL;
-	return (env_arena);
+	set_shell_level(data->env_arena, &data->status);
+	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
+	return (data->env_arena);
 }
 
 int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status)

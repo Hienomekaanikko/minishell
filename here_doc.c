@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 16:12:29 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:37:09 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*make_filename(t_arena *env_arena)
 }
 
 // Write heredoc input into a temp file
-int	write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_path, t_exec_status *status)
+int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 {
 	char	*filename;
 	char	*line;
@@ -41,7 +41,7 @@ int	write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_
 	int		fd;
 	int		linecount;
 
-	filename = make_filename(env_arena);
+	filename = make_filename(data->env_arena);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -65,7 +65,7 @@ int	write_heredoc(t_data *data, t_arena *env_arena, char *delimiter, char **out_
 			break;
 		}
 		linecount++;
-			expanded_line = expander(data, line, env_arena, status);
+			expanded_line = expander(data, line);
 		if (expanded_line)
 		{
 			free(line);

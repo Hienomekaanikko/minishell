@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 16:38:40 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:43:18 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_data(t_data *data, t_exec_status *status)
+static void init_data(t_data *data)
 {
 	if (data->temp_array)
 		ft_free_split(data->temp_array);
@@ -26,29 +26,31 @@ static void init_data(t_data *data, t_exec_status *status)
 		free_ast(data->root);
 		data->root = NULL;
 	}
-	if (status->infile != -1)
+	if (data->status.infile != -1)
 	{
-		close(status->infile);
-		status->infile = -1;
+		close(data->status.infile);
+		data->status.infile = -1;
 	}
-	if (status->outfile != -1)
+	if (data->status.outfile != -1)
 	{
-		close(status->outfile);
-		status->outfile = -1;
+		close(data->status.outfile);
+		data->status.outfile = -1;
 	}
-	if (status->temp_fd != -1)
+	if (data->status.temp_fd != -1)
 	{
-		close(status->temp_fd);
-		status->temp_fd = -1;
+		close(data->status.temp_fd);
+		data->status.temp_fd = -1;
 	}
+	if (!data->tools)
+		data->tools = malloc(sizeof(t_exp_tools));
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->mem_error = 0;
 	data->temp_array = NULL;
-	status->redir_fail = 0;
+	data->status.redir_fail = 0;
 }
 
-int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
+int	process_input(t_data *data)
 {
 	data->input = readline("minishell$: ");
 	if (data->input == NULL)
@@ -56,8 +58,8 @@ int	process_input(t_data *data, t_exec_status *exec_status, t_arena *env_arena)
 	add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
-	else if (ft_lexer(data, exec_status, env_arena))
-		make_tree(data, env_arena, exec_status);
+	else if (ft_lexer(data))
+		make_tree(data);
 	return (1);
 }
 
@@ -70,6 +72,7 @@ void	init_base(t_data *data, int argc, char **argv)
 	data->root = NULL;
 	data->input = NULL;
 	data->mem_error = 0;
+	data->tools = NULL;
 	data->redir_err = 0;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
@@ -81,42 +84,40 @@ void	init_base(t_data *data, int argc, char **argv)
 	*data->lexed_list = NULL;
 }
 
-void	init_exec_status(t_exec_status *status)
+void	init_exec_status(t_data *data)
 {
-	ft_memset(status, 0, sizeof(t_exec_status));
-	status->infile = -1;
-	status->outfile = -1;
-	status->temp_fd = -1;
-	status->saved_stdout = -1;
+	ft_memset(&data->status, 0, sizeof(t_exec_status));
+	data->status.infile = -1;
+	data->status.outfile = -1;
+	data->status.temp_fd = -1;
+	data->status.saved_stdout = -1;
 }
 int	main(int argc, char **argv, char **envp)
 {
 	t_data			data;
-	t_exec_status	exec_status;
-	t_arena			*env_arena;
 
 	splash_screen();
 	init_base(&data, argc, argv);
-	init_exec_status(&exec_status);
-	env_arena = init_env_arena(envp, &exec_status); //TODO error
+	init_exec_status(&data);
+	init_env_arena(envp, &data); //TODO error
 	setup_signals();
 	while (1)
 	{
-		init_data(&data, &exec_status);
-		if (process_input(&data, &exec_status, env_arena) == 0)
+		init_data(&data);
+		if (process_input(&data) == 0)
 		{
-			builtin_exit(data.root, &exec_status);
+			builtin_exit(data.root, &data.status);
 			break ;
 		}
 		if (ft_strncmp(data.input, "exit", 4) == 0)
 		{
-			builtin_exit(data.root, &exec_status);
+			builtin_exit(data.root, &data.status);
 			break ;
 		}
 		if (data.root)
-			execute_command(data.root, env_arena, &exec_status);
+			execute_command(data.root, data.env_arena, &data.status);
 	}
-	arena_free(env_arena);
+	arena_free(data.env_arena);
 	destroy_memory(&data);
-	return (exec_status.exit_code);
+	return (data.status.exit_code);
 }
