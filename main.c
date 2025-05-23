@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:43:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:05:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void init_data(t_data *data)
 	}
 	if (!data->tools)
 		data->tools = malloc(sizeof(t_exp_tools));
+	ft_memset(data->tools, 0, sizeof(t_exp_tools));
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->mem_error = 0;

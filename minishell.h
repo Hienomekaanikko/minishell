@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:44:05 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 16:29:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,9 @@ typedef struct s_exp_tools
 {
 	t_lexer	*current;
 	t_lexer	*prev;
+	int		key_len;
+	int		i;
+	int		start;
 	char	*extracted_key;
 	char	*fetched_value;
 	char	*leftovers;
@@ -151,9 +154,10 @@ void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
+int			set_mem_error(t_data *data, char *value);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
-char		*is_declared(t_data *data, char *extracted_key);
+char		*is_declared(t_data *data);
 int			refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);

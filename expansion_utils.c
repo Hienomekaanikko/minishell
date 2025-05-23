@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:39:31 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 16:31:33 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ int	refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev)
 	current->value = ft_strdup(expanded_value);
 	if (!current->value)
 		return (0);
-	free(expanded_value);
 	prev = current;
 	current = current->next;
 	return (1);
 }
 
-t_lexer *remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev)
+t_lexer	*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev)
 {
-	t_lexer *temp;
-	t_lexer *next;
+	t_lexer	*temp;
+	t_lexer	*next;
 
 	temp = current;
 	next = current->next;
@@ -64,26 +63,25 @@ int	count_dollars(t_lexer *curr)
 	return (dollars);
 }
 
-char	*is_declared(t_data *data, char *extracted_key)
+char	*is_declared(t_data *data)
 {
 	t_var	*temp;
 	char	*fetched_value;
 
+	if (data->mem_error || !data->tools->extracted_key)
+		return (NULL);
 	fetched_value = NULL;
-	fetched_value = arena_getenv(data->env_arena, extracted_key);
+	fetched_value = arena_getenv(data->env_arena, data->tools->extracted_key);
 	if (fetched_value)
 		return (fetched_value);
 	temp = data->exp->var_list;
 	while (temp)
 	{
-		if (ft_strncmp(extracted_key, temp->key, ft_strlen(temp->key)) == 0)
+		if (ft_strncmp(data->tools->extracted_key, temp->key, ft_strlen(temp->key)) == 0)
 		{
 			fetched_value = ft_strdup(temp->value);
-			if (!fetched_value)
-			{
-				data->mem_error = 1;
+			if (set_mem_error(data, fetched_value))
 				return (NULL);
-			}
 			return (fetched_value);
 		}
 		temp = temp->next;
