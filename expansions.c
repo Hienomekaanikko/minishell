@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 10:31:05 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 10:31:34 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	append_substring_before_dollar(char **new_value, char *value, int st
 	char	*sub;
 
 	sub = ft_substr(value, start, end - start);
-	*new_value = ft_strjoin(*new_value, sub);
+	*new_value = ft_strjoin_free(*new_value, sub);
 	free(sub);
 }
 
@@ -121,45 +121,64 @@ char	*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exe
 	return (NULL);
 }
 
+void advance_node(t_lexer **current, t_lexer **prev)
+{
+	if (current && *current)
+	{
+		*prev = *current;
+		*current = (*current)->next;
+	}
+}
+
+int	is_single_quote(t_lexer **current, t_lexer **prev)
+{
+	if ((*current)->value[0] == '\'')
+	{
+		advance_node(current, prev);
+		return (1);
+	}
+	return (0);
+}
+
+int	expand(t_lexer **current, t_lexer **prev, char *expanded_value)
+{
+	if (!refresh_value(*current, expanded_value, *prev))
+		return (0);
+	if (ft_strchr((*current)->value, '$'))
+		advance_node(current, prev);
+	return (1);
+}
+
 void	check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status)
 {
 	t_lexer	*current;
 	t_lexer	*prev;
 	char	*expanded_value;
-	int		dollars;
 
 	current = *data->lexed_list;
 	prev = NULL;
-	dollars = count_dollars(*data->lexed_list);
-	if (!dollars)
-		return ;
 	while (current)
 	{
-		if (current->value[0] == '\'')
-		{
-			prev = current;
-			current = current->next;
+		if (is_single_quote(&current, &prev))
 			continue ;
-		}
 		if (ft_strchr(current->value, '$'))
 		{
 			expanded_value = expander(data, current->value, env_arena, exec_status);
 			if (expanded_value)
 			{
-				refresh_value(current, expanded_value, prev);
-				if (ft_strchr(current->value, '$'))
+				if (!expand(&current, &prev, expanded_value))
 				{
-					prev = current;
-					current = current->next;
+					free(expanded_value);
+					data->mem_error = 1;
+					return ;
 				}
 			}
-			else
+			else if (data->mem_error == 0)
 				current = remove_key_not_found(data, current, prev);
+			else
+				return ;
 		}
 		else
-		{
-			prev = current;
-			current = current->next;
-		}
+			advance_node(&current, &prev);
 	}
 }

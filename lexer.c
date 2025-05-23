@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:05:48 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:23:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@ int	ft_lexer(t_data *data, t_exec_status *exec_status, t_arena *env_arena) //env
 		return (0);
 	if (!ft_make_list(data, exec_status))
 		return (0);
-	check_for_expansions(data, env_arena, exec_status);
+	if (count_dollars(*data->lexed_list))
+		check_for_expansions(data, env_arena, exec_status);
+	if (data->mem_error)
+	{
+		free_lexed_list(*data->lexed_list);
+		error_handler(exec_status, "malloc", "Cannot allocate memory", 1);
+		return (0);
+	}
 	return (1);
 }
 

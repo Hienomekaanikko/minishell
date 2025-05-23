@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 17:01:52 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:17:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int			already_declared(t_var *start, char *key, char *value);
 void		check_for_expansions(t_data *data, t_arena *env_arena, t_exec_status *exec_status);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key, t_arena *env_arena);
-void		refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+int			refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 char		*expander(t_data *data, char *value, t_arena *env_arena, t_exec_status *exec_status);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
@@ -153,7 +153,7 @@ int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
 int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-int		handle_redirection_error(int fd, t_exec_status *status);
+int			handle_redirection_error(int fd, t_exec_status *status);
 //error
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
 void		handle_signal_error(t_exec_status *status, int signal);
