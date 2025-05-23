@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 16:29:26 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 16:49:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
 int			set_mem_error(t_data *data, char *value);
+void		clear_expander_tools(t_data *data);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data);

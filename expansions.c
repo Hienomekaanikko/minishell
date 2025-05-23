@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 16:33:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/23 16:49:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,14 +158,15 @@ void	handle_dollars(t_data *data, char *value)
 			return ;
 		data->tools->start = data->tools->i;
 	}
-	else
-		data->tools->i++;
 }
 
 char	*expander(t_data *data, char *value)
 {
 	while (value[data->tools->i] && !data->mem_error)
+	{
 		handle_dollars(data, value);
+		data->tools->i++;
+	}
 	if (data->tools->i > data->tools->start && !data->mem_error)
 	{
 		if (!append_substring_before_dollar(data, value))
@@ -209,7 +210,7 @@ int	expand(t_lexer **current, t_lexer **prev, char *expanded_value)
 	return (1);
 }
 
-static void clear_expander_tools(t_data *data)
+void	clear_expander_tools(t_data *data)
 {
 	if (data->tools->extracted_key)
 		free(data->tools->extracted_key);
