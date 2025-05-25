@@ -94,8 +94,8 @@ int	arena_unset_env(t_arena *env_arena, char *key)
 	i = 0;
 	while (i < env_arena->ptrs_in_use)
 	{
-		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0
-			&& env_arena->ptrs[i][key_len] == '=')
+		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0 &&
+			(env_arena->ptrs[i][key_len] == '=' || env_arena->ptrs[i][key_len] == '\0'))
 		{
 			env_arena->ptrs[i] = env_arena->ptrs[env_arena->ptrs_in_use - 1];
 			env_arena->ptrs_in_use--;
