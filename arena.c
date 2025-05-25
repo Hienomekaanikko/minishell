@@ -97,6 +97,7 @@ char	*arena_add(t_arena *arena, char *add, t_exec_status *status)
 	arena->ptrs[arena->ptrs_in_use] = ptr;
 	arena->ptrs_in_use++;
 	arena->mem_used += add_len;
+	printf("arena_add: %s\n", ptr);
 	return (ptr);
 }
 
