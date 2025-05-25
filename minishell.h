@@ -162,6 +162,7 @@ void		visualize_tree_TEST(t_data *data);
 //execution
 int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
+int			is_valid_env_name(const char *name);
 int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
