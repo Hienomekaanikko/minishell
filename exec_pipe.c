@@ -11,7 +11,7 @@ int	cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR)
 }
 
 static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
-	t_exec_status *exec_status)
+	t_exec_status *exec_status, t_data *data)
 {
 	setup_child_signals();
 	if (exec_status->outfile != -1)
@@ -27,14 +27,14 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 	}
 	close(pipe_fd[1]);
 	if (node->left->type == PIPE)
-		exec_pipe(node->left, env_arena, exec_status);
+		exec_pipe(node->left, env_arena, exec_status, data);
 	else
-		execute_command(node->left, env_arena, exec_status);
+		execute_command(node->left, env_arena, exec_status, data);
 	exit(exec_status->exit_code);
 }
 
 static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
-	t_exec_status *exec_status)
+	t_exec_status *exec_status, t_data *data)
 {
 	setup_child_signals();
 	close(pipe_fd[1]);
@@ -44,7 +44,7 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_arena *env_arena,
 		exit(error_handler(exec_status, "pipe", "failed to redirect stdin", 1));
 	}
 	close(pipe_fd[0]);
-	execute_command(node->right, env_arena, exec_status);
+	execute_command(node->right, env_arena, exec_status, data);
 	exit(exec_status->exit_code);
 }
 
@@ -81,7 +81,7 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	}
 }
 
-int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
+int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data)
 {
 	int 	pipe_fd[2];
 	pid_t	pidL;
@@ -95,12 +95,12 @@ int	exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	if (pidL == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidL == 0)
-		handle_left_child(pipe_fd, node, env_arena, exec_status);
+		handle_left_child(pipe_fd, node, env_arena, exec_status, data);
 	pidR = fork();
 	if (pidR == -1)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidR == 0)
-		handle_right_child(pipe_fd, node, env_arena, exec_status);
+		handle_right_child(pipe_fd, node, env_arena, exec_status, data);
 	cleanup_pipe(pipe_fd, pidL, pidR);
 	wait_process(pidL, exec_status);
 	wait_right_process(pidR, exec_status);

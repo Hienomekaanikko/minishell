@@ -117,7 +117,7 @@ static int	is_valid_env_name(const char *name)
 	return (1);
 }
 
-int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
+int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args, t_data *data)
 {
 	size_t		i;
 	char	*key;
@@ -174,8 +174,16 @@ int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args)
 		}
 		else
 		{
-			if (arena_set_env(env_arena, key, NULL, status) == -1)
-				return (error_handler(status, "export", strerror(errno), 1));
+			char *value = is_declared(data, key);
+			if (value)
+			{
+				arena_set_env(env_arena, key, value, status);
+				free(value);
+			}
+			else
+			{
+				arena_set_env(env_arena, key, NULL, status);
+			}
 		}
 		i++;
 	}

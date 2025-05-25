@@ -54,7 +54,7 @@ static void	open_file(t_ast *node, t_exec_status *status, int open_flags, int fi
 	}
 }
 
-int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status)
+int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status, t_data *data)
 {
 	int	open_flags;
 	int	file_perms;
@@ -63,17 +63,17 @@ int	exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *status)
 	if (node->access == 0)
 	{
 		status->redir_fail = 1;
-		return (execute_command(node->left, env_arena, status));
+		return (execute_command(node->left, env_arena, status, data));
 	}
 	if (!get_redirection_params(node, &open_flags, &file_perms, &std_fd))
 		return (0);
 	open_file(node, status, open_flags, file_perms);
 	if (status->temp_fd == -1)
-		return (execute_command(node->left, env_arena, status));
+		return (execute_command(node->left, env_arena, status, data));
 	else
 	{
 		assign_node_direction(node, status);
-		return (execute_command(node->left, env_arena, status));
+		return (execute_command(node->left, env_arena, status, data));
 	}
 	return (0);
 }

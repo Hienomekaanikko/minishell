@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		if (data.root)
-			execute_command(data.root, data.env_arena, &data.status);
+			execute_command(data.root, data.env_arena, &data.status, &data);
 	}
 	arena_free(data.env_arena);
 	destroy_memory(&data);
