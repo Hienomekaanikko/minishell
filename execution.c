@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
+int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status, t_data *data)
 {
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
 		return (builtin_echo(node->args, status));
@@ -9,7 +9,7 @@ int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
 		return (builtin_pwd(status, env_arena));
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
-		return (builtin_export(env_arena, status, node->args));
+		return (builtin_export(env_arena, status, node->args, data));
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
 		return (builtin_unset(env_arena, status, node->args));
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
@@ -89,14 +89,14 @@ int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 	return (0);
 }
 
-int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
+int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data)
 {
 	if (!node)
 		return (error_handler(exec_status, node->cmd, "syntax error: invalid command", 1));
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
-		return (exec_redir(node, env_arena, exec_status));
+		return (exec_redir(node, env_arena, exec_status, data));
 	else if (node->type == PIPE && exec_status->redir_fail == 0)
-		return (exec_pipe(node, env_arena, exec_status));
+		return (exec_pipe(node, env_arena, exec_status, data));
 	else
 	{
 		if (exec_status->outfile != -1)
@@ -104,7 +104,7 @@ int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
 			exec_status->saved_stdout = dup(STDOUT_FILENO);
 			dup2(exec_status->outfile, STDOUT_FILENO);
 		}
-		if (built_ins(node, env_arena, exec_status) == -1)
+		if (built_ins(node, env_arena, exec_status, data) == -1)
 		{
 			if (exec_status->redir_fail == 0)
 			{

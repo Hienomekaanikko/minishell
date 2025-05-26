@@ -63,25 +63,26 @@ int	count_dollars(t_lexer *curr)
 	return (dollars);
 }
 
-char	*is_declared(t_data *data)
+char	*is_declared(t_data *data, char *extracted_key)
 {
 	t_var	*temp;
 	char	*fetched_value;
 
-	if (data->mem_error || !data->tools->extracted_key)
-		return (NULL);
 	fetched_value = NULL;
-	fetched_value = arena_getenv(data->env_arena, data->tools->extracted_key);
+	fetched_value = arena_getenv(data->env_arena, extracted_key);
 	if (fetched_value)
 		return (fetched_value);
 	temp = data->exp->var_list;
 	while (temp)
 	{
-		if (ft_strncmp(data->tools->extracted_key, temp->key, ft_strlen(temp->key)) == 0)
+		if (ft_strncmp(extracted_key, temp->key, ft_strlen(temp->key)) == 0)
 		{
 			fetched_value = ft_strdup(temp->value);
-			if (set_mem_error(data, fetched_value))
+			if (!fetched_value)
+			{
+				data->mem_error = 1;
 				return (NULL);
+			}
 			return (fetched_value);
 		}
 		temp = temp->next;

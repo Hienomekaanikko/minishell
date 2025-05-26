@@ -158,21 +158,21 @@ int			set_mem_error(t_data *data, char *value);
 void		clear_expander_tools(t_data *data);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
-char		*is_declared(t_data *data);
+char		*is_declared(t_data *data, char *extracted_key);
 int			refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
-int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
-int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-int			handle_redirection_error(int fd, t_exec_status *status);
+int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
+int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status, t_data *data);
 //error
+int			handle_redirection_error(int fd, t_exec_status *status);
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
 void		handle_signal_error(t_exec_status *status, int signal);
 //arena
@@ -184,12 +184,13 @@ void		arena_clear(t_arena *arena);
 int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
 int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
-int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
+int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args, t_data *data);
 int			builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int			builtin_env(t_arena *env_arena, t_exec_status *status);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);
+int			is_valid_env_name(const char *name);
 char		*arena_getenv(t_arena *env_arena, char *key);
 int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
 int			arena_unset_env(t_arena *env_arena, char *key);
