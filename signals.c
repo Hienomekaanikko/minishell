@@ -6,11 +6,17 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 14:24:01 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:23:34 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_heredoc(int sig)
+{
+	(void) sig;
+	g_interrupted = 0;
+}
 
 void	handle_sigint(int sig)
 {
@@ -50,10 +56,10 @@ void	setup_child_signals(void)
 	sigaction(SIGPIPE, &sa, NULL);
 }
 
-void	handle_heredoc_signals(void)
+void	setup_heredoc_signals(void)
 {
 	struct	sigaction sa;
 
-	init_sigaction(&sa, SIG_IGN, SIGINT);
+	init_sigaction(&sa, handle_heredoc, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:25:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:26:23 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
-#define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
+#define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"
 
+extern volatile sig_atomic_t g_interrupted;
 //token types
 typedef enum e_token
 {
@@ -184,7 +185,7 @@ int			arena_unset_env(t_arena *env_arena, char *key);
 void		setup_signals(void);
 void		handle_sigint(int sig);
 void		setup_child_signals(void);
-void		handle_heredoc_signals(void);
+void		setup_heredoc_signals(void);
 //graphics
 void		splash_screen(void);
 

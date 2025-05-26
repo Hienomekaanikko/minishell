@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:18:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:26:43 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+volatile sig_atomic_t	g_interrupted = 0;
 
 char	*get_temp_dir(t_arena *env_arena)
 {
@@ -56,9 +57,15 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		free(filename);
 		return (-1);
 	}
+	setup_heredoc_signals();
 	linecount = 0;
 	while (1)
 	{
+		if (g_interrupted)
+		{
+			//cleanup, fds reset?
+			break;
+		}
 		line = readline("> ");
 		if (!line)
 		{
