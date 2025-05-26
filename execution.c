@@ -1,19 +1,19 @@
 #include "minishell.h"
 
-int	built_ins(t_ast *node, t_arena *env_arena, t_exec_status *status)
+int	built_ins(t_ast *node, t_data *data)
 {
 	if (ft_strncmp(node->cmd, "echo", 5) == 0)
-		return (builtin_echo(node->args, status));
+		return (builtin_echo(node->args, &data->status));
 	else if (ft_strncmp(node->cmd, "cd", 3) == 0)
-		return (builtin_cd(node->args, status, env_arena));
+		return (builtin_cd(node->args, data));
 	else if (ft_strncmp(node->cmd, "pwd", 4) == 0)
-		return (builtin_pwd(status, env_arena));
+		return (builtin_pwd(data));
 	else if (ft_strncmp(node->cmd, "export", 7) == 0)
-		return (builtin_export(env_arena, status, node->args));
+		return (builtin_export(data, node->args));
 	else if (ft_strncmp(node->cmd, "unset", 6) == 0)
-		return (builtin_unset(env_arena, status, node->args));
+		return (builtin_unset(data, node->args));
 	else if (ft_strncmp(node->cmd, "env", 4) == 0)
-		return (builtin_env(env_arena, status));
+		return (builtin_env(data));
 	return (-1);
 }
 
@@ -47,82 +47,82 @@ void	close_fds(t_exec_status *exec_status)
 	}
 }
 
-int	executables(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
+int	executables(t_ast *node, t_data *data)
 {
 	pid_t	pid;
 	char	*path;
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(exec_status, "fork", "failed", 1));
+		return (error_handler(&data->status, "fork", "failed", 1));
 	if (pid == 0)
 	{
 		setup_child_signals();
-		check_path_permissions(node->cmd, exec_status);
-		path = find_executable(node, env_arena);
+		check_path_permissions(node->cmd, &data->status);
+		path = find_executable(node, data->env_arena);
 		if (!path)
-			exit(error_handler(exec_status, node->cmd, "command not found", 127));
-		if (exec_status->outfile != -1)
+			exit(error_handler(&data->status, node->cmd, "command not found", 127));
+		if (data->status.outfile != -1)
 		{
-			if (dup2(exec_status->outfile, 1) == -1)
-				exit(handle_redirection_error(exec_status->outfile, exec_status));
-			close(exec_status->outfile);
-			exec_status->outfile = -1;
+			if (dup2(data->status.outfile, 1) == -1)
+				exit(handle_redirection_error(data->status.outfile, &data->status));
+			close(data->status.outfile);
+			data->status.outfile = -1;
 		}
-		if (exec_status->infile != -1)
+		if (data->status.infile != -1)
 		{
-			if (dup2(exec_status->infile, 0) == -1)
-				exit(handle_redirection_error(exec_status->infile, exec_status));
-			close(exec_status->infile);
-			exec_status->infile = -1;
+			if (dup2(data->status.infile, 0) == -1)
+				exit(handle_redirection_error(data->status.infile, &data->status));
+			close(data->status.infile);
+			data->status.infile = -1;
 		}
-		close_fds(exec_status);
-		execve(path, node->args, env_arena->ptrs);
+		close_fds(&data->status);
+		execve(path, node->args, data->env_arena->ptrs);
 		free(path);
-		exit(error_handler(exec_status, node->cmd, "command not found", 127));
+		exit(error_handler(&data->status, node->cmd, "command not found", 127));
 	}
 	else
 	{
-		exec_status->pid = pid;
-		wait_process(pid, exec_status);
+		data->status.pid = pid;
+		wait_process(pid, &data->status);
 	}
 	return (0);
 }
 
-int	execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status)
+int	execute_command(t_ast *node, t_data *data)
 {
 	if (!node)
-		return (error_handler(exec_status, node->cmd, "syntax error: invalid command", 1));
+		return (error_handler(&data->status, node->cmd, "syntax error: invalid command", 1));
 	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
-		return (exec_redir(node, env_arena, exec_status));
-	else if (node->type == PIPE && exec_status->redir_fail == 0)
-		return (exec_pipe(node, env_arena, exec_status));
+		return (exec_redir(node, data));
+	else if (node->type == PIPE && data->status.redir_fail == 0)
+		return (exec_pipe(node, data));
 	else
 	{
-		if (exec_status->outfile != -1)
+		if (data->status.outfile != -1)
 		{
-			exec_status->saved_stdout = dup(STDOUT_FILENO);
-			dup2(exec_status->outfile, STDOUT_FILENO);
+			data->status.saved_stdout = dup(STDOUT_FILENO);
+			dup2(data->status.outfile, STDOUT_FILENO);
 		}
-		if (built_ins(node, env_arena, exec_status) == -1)
+		if (built_ins(node, data) == -1)
 		{
-			if (exec_status->redir_fail == 0)
+			if (data->status.redir_fail == 0)
 			{
-				if (executables(node, env_arena, exec_status) == -1)
-					return (error_handler(exec_status, node->cmd, "command not found", 127));
+				if (executables(node, data) == -1)
+					return (error_handler(&data->status, node->cmd, "command not found", 127));
 
 			}
 		}
-		if (exec_status->outfile != -1 && exec_status->saved_stdout != -1)
+		if (data->status.outfile != -1 && data->status.saved_stdout != -1)
 		{
-			dup2(exec_status->saved_stdout, STDOUT_FILENO);
-			close(exec_status->saved_stdout);
-			close(exec_status->outfile);
-			if (exec_status->temp_fd != -1)
-				close(exec_status->temp_fd);
+			dup2(data->status.saved_stdout, STDOUT_FILENO);
+			close(data->status.saved_stdout);
+			close(data->status.outfile);
+			if (data->status.temp_fd != -1)
+				close(data->status.temp_fd);
 		}
 	}
-	if (exec_status->redir_fail == 1)
-		exec_status->exit_code = 1;
+	if (data->status.redir_fail == 1)
+		data->status.exit_code = 1;
 	return (0);
 }

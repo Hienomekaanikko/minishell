@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:33:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 13:07:24 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		if (data.root)
-			execute_command(data.root, data.env_arena, &data.status);
+			execute_command(data.root, &data);
 	}
 	arena_free(data.env_arena);
 	destroy_memory(&data);

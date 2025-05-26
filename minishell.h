@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:39:57 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 13:26:47 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,12 +151,11 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 
 void		visualize_tree_TEST(t_data *data);
 //execution
-int			execute_command(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
-int			exec_pipe(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			exec_pipe(t_ast *node, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
-int			exec_redir(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
-int			exec_heredoc(t_ast *node, t_arena *env_arena, t_exec_status *exec_status);
+int			exec_redir(t_ast *node, t_data *data);
 int			handle_redirection_error(int fd, t_exec_status *status);
 //error
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
@@ -168,11 +167,11 @@ char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
 void		arena_clear(t_arena *arena);
 //built-ins
 int			builtin_echo(char **args, t_exec_status *status);
-int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
-int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
-int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args, t_data *data);
-int			builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
-int			builtin_env(t_arena *env_arena, t_exec_status *status);
+int			builtin_cd(char **args, t_data *data);
+int			builtin_pwd(t_data *data);
+int			builtin_export(t_data *data, char **args);
+int			builtin_unset(t_data *data, char **args);
+int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
 //envp

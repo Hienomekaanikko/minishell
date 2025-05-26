@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 12:36:34 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:38:13 by msuokas          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 int	export_no_args(t_arena *env_arena)
@@ -75,7 +63,7 @@ int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
 	return (0);
 }
 
-int	set_export_value(t_arena *env_arena, t_exec_status *status, const char *key, const char *arg, t_data *data)
+int	set_export_value(t_data *data, const char *key, const char *arg)
 {
 	char	*eq;
 	char	*value;
@@ -83,36 +71,36 @@ int	set_export_value(t_arena *env_arena, t_exec_status *status, const char *key,
 	eq = ft_strchr(arg, '=');
 	if (eq)
 	{
-		if (arena_set_env(env_arena, (char *)key, eq + 1, status) == -1)
-			return (error_handler(status, "export", strerror(errno), 1));
+		if (arena_set_env(data->env_arena, (char *)key, eq + 1, &data->status) == -1)
+			return (error_handler(&data->status, "export", strerror(errno), 1));
 	}
 	else
 	{
 		value = is_declared(data, (char *)key);
 		if (value)
 		{
-			arena_set_env(env_arena, (char *)key, value, status);
+			arena_set_env(data->env_arena, (char *)key, value, &data->status);
 			free(value);
 		}
 		else
-			arena_set_env(env_arena, (char *)key, NULL, status);
+			arena_set_env(data->env_arena, (char *)key, NULL, &data->status);
 	}
 	return (0);
 }
 
-int	builtin_export(t_arena *env_arena, t_exec_status *status, char **args, t_data *data)
+int	builtin_export(t_data *data, char **args)
 {
 	size_t	i;
 	char	*key;
 
 	if (!args[1])
-		return (export_no_args(env_arena));
+		return (export_no_args(data->env_arena));
 	i = 1;
 	while (args[i])
 	{
-		if (get_and_validate_key(args[i], status, &key))
+		if (get_and_validate_key(args[i], &data->status, &key))
 			return (1);
-		if (set_export_value(env_arena, status, key, args[i], data))
+		if (set_export_value(data, key, args[i]))
 		{
 			if (ft_strchr(args[i], '=')) free(key);
 			return (1);
