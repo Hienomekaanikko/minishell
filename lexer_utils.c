@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/08 12:10:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:58:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,24 @@ static t_lexer	*ft_lstnew(void *input_list)
 	return (element);
 }
 
+static void	set_node(t_lexer **list, t_lexer *new_node)
+{
+	t_lexer	*temp;
+
+	if (*list == NULL)
+		*list = new_node;
+	else
+	{
+		temp = *list;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = new_node;
+	}
+}
+
 int	ft_add_node(t_lexer **list, char *input_list)
 {
 	t_lexer		*new_node;
-	t_lexer		*temp;
 	char		*content_copy;
 	int			i;
 
@@ -47,15 +61,7 @@ int	ft_add_node(t_lexer **list, char *input_list)
 		free(content_copy);
 		return (0);
 	}
-	if (*list == NULL)
-		*list = new_node;
-	else
-	{
-		temp = *list;
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_node;
-	}
+	set_node(list, new_node);
 	return (1);
 }
 

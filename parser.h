@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:19:25 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 18:21:26 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/26 11:08:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_counter
 } t_counter;
 
 void	add_operator(t_parser *data, const char *s);
-void	make_substring(t_parser *data, char const *s, char **array_of_strings);
+int		make_substring(t_parser *data, char const *s, char **array_of_strings);
 char	**free_malloc(char **array_of_strings, int y);
 void	skip_word(t_counter *data, const char *s);
 

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 15:05:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:06:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ static void init_data(t_data *data)
 		data->status.temp_fd = -1;
 	}
 	if (!data->tools)
+	{
 		data->tools = malloc(sizeof(t_exp_tools));
-	ft_memset(data->tools, 0, sizeof(t_exp_tools));
+		ft_memset(data->tools, 0, sizeof(t_exp_tools));
+	}
 	*data->lexed_list = NULL;
 	data->syntax_err = 0;
 	data->mem_error = 0;
@@ -61,6 +63,12 @@ int	process_input(t_data *data)
 		add_var_declaration(data);
 	else if (ft_lexer(data))
 		make_tree(data);
+	if (data->mem_error)
+	{
+		free_lexed_list(*data->lexed_list);
+		error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
+		return (0);
+	}
 	return (1);
 }
 

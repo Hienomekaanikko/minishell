@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:00:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:01:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,18 @@ typedef struct s_exp_data
 {
 	t_var	*var_list;
 }	t_exp_data;
+
+typedef struct s_exp_tools
+{
+	int		key_len;
+	size_t	i;
+	size_t	start;
+	char	*extracted_key;
+	char	*fetched_value;
+	char	*leftovers;
+	char	*new_value;
+	char	*expanded_value;
+}	t_exp_tools;
+
 
 #endif

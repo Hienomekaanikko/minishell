@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/04/24 14:20:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:52:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ t_var	*create_var(char *key, char *value)
 }
 
 // Add a new node to the end of the list
-void	add_var_to_list(t_exp_data *data, char *key, char *value)
+int	add_var_to_list(t_exp_data *data, char *key, char *value)
 {
 	t_var	*current;
 	t_var	*new_node;
 
 	if (already_declared(data->var_list, key, value))
-		return ;
+		return (1);
 	new_node = create_var(key, value);
 	if (!new_node)
-		return ;
+		return (0);
 	if (!data->var_list)
 		data->var_list = new_node;
 	else
@@ -46,27 +46,39 @@ void	add_var_to_list(t_exp_data *data, char *key, char *value)
 			current = current->next;
 		current->next = new_node;
 	}
+	return (1);
 }
 
 void	add_var_declaration(t_data *data)
 {
 	int		i;
-	//int		j; //MB. Not needed
 	int		start;
 	char	*key;
 	char	*value;
 
 	i = 0;
-	//j = 0; //MB. Not needed
 	while(data->input[i] != '=')
 		i++;
 	key = ft_substr(data->input, 0, i);
+	if (set_mem_error(data, key))
+		return ;
 	i++;
 	start = i;
 	while (data->input[i])
 		i++;
+	if (start == i)
+	{
+		free(key);
+		return ;
+	}
 	value = ft_substr(data->input, start, i - start);
-	add_var_to_list(data->exp, key, value);
+	if (set_mem_error(data, value))
+	{
+		free(key);
+		return ;
+	}
+	else if (!add_var_to_list(data->exp, key, value))
+		data->mem_error = 1;
 	free(key);
 	free(value);
 }

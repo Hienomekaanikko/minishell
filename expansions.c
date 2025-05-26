@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 16:49:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:07:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,10 @@ void	handle_dollars(t_data *data, char *value)
 
 char	*expander(t_data *data, char *value)
 {
-	while (value[data->tools->i] && !data->mem_error)
+	size_t	len;
+
+	len = ft_strlen(value);
+	while (data->tools->i < len && !data->mem_error)
 	{
 		handle_dollars(data, value);
 		data->tools->i++;

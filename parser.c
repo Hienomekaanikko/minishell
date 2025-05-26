@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/21 12:55:21 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:24:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static void	get_range(t_parser *parser_data, const char *s, char c)
 {
 	while (s[parser_data->i] && (parser_data->in_quote || s[parser_data->i] != c))
 	{
-		if (!parser_data->in_quote && (s[parser_data->i] == '<' || s[parser_data->i] == '>' || s[parser_data->i] == '|'))
+		if (!parser_data->in_quote && (s[parser_data->i] == '<'
+			|| s[parser_data->i] == '>' || s[parser_data->i] == '|'))
 			break ;
 		if (!parser_data->in_quote && (s[parser_data->i] == '"' || s[parser_data->i] == '\''))
 		{
@@ -85,7 +86,10 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 		if (parser_data.in_quote)
 			return (NULL);
 		if (parser_data.i > parser_data.start)
-			make_substring(&parser_data, s, array_of_strings);
+		{
+			if (!make_substring(&parser_data, s, array_of_strings))
+				return (NULL);
+		}
 	}
 	array_of_strings[parser_data.y] = NULL;
 	return (array_of_strings);
@@ -93,9 +97,9 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 
 char	**parser(char const *s, char c)
 {
-	char	**array_of_strings;
-	int		amount_of_strings;
-	char	**result;
+	char		**array_of_strings;
+	int			amount_of_strings;
+	char		**result;
 
 	if (!s)
 		return (NULL);

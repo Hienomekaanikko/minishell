@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:40:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:06:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,16 @@ int	ft_lexer(t_data *data) //env-arena added
 {
 	data->temp_array = parser(data->input, ' ');
 	if (!data->temp_array)
+	{
+		data->mem_error = 1;
 		return (0);
+	}
 	if (!ft_make_list(data))
 		return (0);
 	if (count_dollars(*data->lexed_list))
 		check_for_expansions(data);
 	if (data->mem_error)
-	{
-		free_lexed_list(*data->lexed_list);
-		error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
 		return (0);
-	}
 	return (1);
 }
 
@@ -50,27 +49,8 @@ static void	add_token_type(t_lexer **linked_list)
 	}
 }
 
-//check if the grammar is right
-static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
+static void	check_outfiles(t_lexer *checker, char **msg, t_lexer **prev)
 {
-	if (checker->type == PIPE)
-	{
-		if (!(*msg) && !(*prev))
-			*msg = "minishell: syntax error near unexpected token `|'";
-		else if (!(*msg) && !checker->next)
-			*msg = "minishell: syntax error near unexpected token `|'";
-	}
-	if (checker->type == RE_IN || checker->type == HERE_DOC)
-	{
-		if (!(*msg) && checker->next && checker->next->type == PIPE)
-			*msg = "minishell: syntax error near unexpected token `|'";
-		else if (!(*msg) && !checker->next)
-			*msg = "minishell: syntax error near unexpected token `newline'";
-		else if ((!*msg) && checker->type == RE_IN && checker->next->type != ARG)
-			*msg = "minishell: syntax error near unexpected token `<'";
-		else if ((!*msg) && checker->type == HERE_DOC && checker->next->type != ARG)
-			*msg = "minishell: syntax error near unexpected token `<<'";
-	}
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
 	{
 		if (!(*msg) && checker->type == APPEND_OUT && !(*prev) && !checker->next)
@@ -82,6 +62,40 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 		else if (!(*msg) && checker->type == APPEND_OUT && checker->next->type == RE_OUT)
 			*msg = "minishell: syntax error near unexpected token `>'";
 	}
+}
+
+static void	check_infiles(t_lexer *checker, char **msg)
+{
+	if (checker->type == RE_IN || checker->type == HERE_DOC)
+	{
+		if (!(*msg) && checker->next && checker->next->type == PIPE)
+			*msg = "minishell: syntax error near unexpected token `|'";
+		else if (!(*msg) && !checker->next)
+			*msg = "minishell: syntax error near unexpected token `newline'";
+		else if ((!*msg) && checker->type == RE_IN && checker->next->type != ARG)
+			*msg = "minishell: syntax error near unexpected token `<'";
+		else if ((!*msg) && checker->type == HERE_DOC && checker->next->type != ARG)
+			*msg = "minishell: syntax error near unexpected token `<<'";
+	}
+}
+
+static void	check_pipes(t_lexer *checker, char **msg, t_lexer **prev)
+{
+	if (checker->type == PIPE)
+	{
+		if (!(*msg) && !(*prev))
+			*msg = "minishell: syntax error near unexpected token `|'";
+		else if (!(*msg) && !checker->next)
+			*msg = "minishell: syntax error near unexpected token `|'";
+	}
+}
+
+//check if the grammar is right
+static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
+{
+	check_pipes(checker, msg, prev);
+	check_infiles(checker, msg);
+	check_outfiles(checker, msg, prev);
 	*prev = checker;
 }
 
@@ -119,23 +133,18 @@ int	ft_make_list(t_data *data)
 	while (*input_list)
 	{
 		if (!ft_add_node(linked_list, *input_list))
+		{
+			data->mem_error = 1;
 			return (0);
+		}
 		add_token_type(linked_list);
 		input_list++;
 	}
-	// t_lexer	*temp;
-	// temp = *linked_list;
-	// while (temp)
-	// {
-	// 	printf("value: %s, type: %d\n", temp->value, temp->type);
-	// 	temp = temp->next;
-	// }
 	if (!check_grammar(data))
 	{
 		free_lexed_list(*data->lexed_list);
 		data->status.exit_code = 2;
 		return (0);
 	}
-	// for testing to see what is inside each node:
 	return (1);
 }

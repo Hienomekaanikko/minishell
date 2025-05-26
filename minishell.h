@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 16:54:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 11:36:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,6 @@ typedef struct	s_arena
 	size_t		ptrs_in_use;
 	size_t		ptr_capacity;
 }	t_arena;
-
-typedef struct s_exp_tools
-{
-	t_lexer	*current;
-	t_lexer	*prev;
-	int		key_len;
-	int		i;
-	int		start;
-	char	*extracted_key;
-	char	*fetched_value;
-	char	*leftovers;
-	char	*new_value;
-	char	*expanded_value;
-}	t_exp_tools;
 
 //structure for the execution status
 typedef struct	s_exec_status
