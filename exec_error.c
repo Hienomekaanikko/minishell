@@ -42,25 +42,24 @@ void	handle_signal_error(t_exec_status *status, int signal)
 {
 	status->signal = signal;
 	status->exit_code = 128 + signal;
-	ft_putstr_fd("minishell: ", 2);
 	if (signal == SIGINT)
 		ft_putstr_fd("\n", 2);
 	else if (signal == SIGSEGV)
-		ft_putstr_fd("Segmentation fault", 2);
+		ft_putstr_fd("minishell: Segmentation fault", 2);
 	else if (signal == SIGBUS)
-		ft_putstr_fd("Bus error", 2);
+		ft_putstr_fd("minishell: Bus error", 2);
 	else if (signal == SIGFPE)
-		ft_putstr_fd("Floating point exception", 2);
+		ft_putstr_fd("minishell: Floating point exception", 2);
 	else if (signal == SIGILL)
-		ft_putstr_fd("Illegal instruction", 2);
+		ft_putstr_fd("minishell: Illegal instruction", 2);
 	else if (signal == SIGTERM)
-		ft_putstr_fd("Terminated", 2);
+		ft_putstr_fd("minishell: Terminated", 2);
 	else if (signal == SIGKILL)
-		ft_putstr_fd("Killed", 2);
+		ft_putstr_fd("minishell: Killed", 2);
 	else if (signal == SIGPIPE)
-		ft_putstr_fd("Broken pipe", 2);
-	else
-		ft_putstr_fd("Unknown signal", 2);
+		ft_putstr_fd("minishell: Broken pipe", 2);
+	// else
+	// 	ft_putstr_fd("Unknown signal", 2);
 	ft_putstr_fd("\n", 2);
 }
 
