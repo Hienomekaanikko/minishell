@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:06:23 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:33:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	process_input(t_data *data)
 	data->input = readline("minishell$: ");
 	if (data->input == NULL)
 		return (0);
-	add_history(data->input);
+	if (ft_strlen(data->input) > 0)
+		add_history(data->input);
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	else if (ft_lexer(data))

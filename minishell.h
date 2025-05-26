@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 11:36:46 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:39:57 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int			set_mem_error(t_data *data, char *value);
 void		clear_expander_tools(t_data *data);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
-char		*is_declared(t_data *data);
+char		*is_declared(t_data *data, char *extracted_key);
 int			refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
 char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
@@ -170,10 +170,11 @@ void		arena_clear(t_arena *arena);
 int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_exec_status *status, t_arena *env_arena);
 int			builtin_pwd(t_exec_status *status, t_arena *env_arena);
-int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args);
+int			builtin_export(t_arena *env_arena, t_exec_status *status, char **args, t_data *data);
 int			builtin_unset(t_arena *env_arena, t_exec_status *status, char **args);
 int			builtin_env(t_arena *env_arena, t_exec_status *status);
 int			builtin_exit(t_ast *node, t_exec_status *status);
+int			is_valid_env_name(const char *name);
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);
 char		*arena_getenv(t_arena *env_arena, char *key);

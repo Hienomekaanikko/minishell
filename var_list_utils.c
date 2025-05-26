@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 11:33:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:27:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_var_declaration(char *str)
 	int		i = 0;
 	int		has_open_quote = 0;
 
-	if (!str)
+	if (!str || ft_strlen(str) == 0)
 		return (0);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;

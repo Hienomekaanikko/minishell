@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 11:06:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:30:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_lexer(t_data *data) //env-arena added
 {
+	if (!data->input || ft_strlen(data->input) == 0)
+		return (0);
 	data->temp_array = parser(data->input, ' ');
 	if (!data->temp_array)
 	{

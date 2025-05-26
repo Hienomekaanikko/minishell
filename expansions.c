@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:07:53 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:40:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static int	append_expanded_variable(t_data *data, char *value)
 	if (!handle_special(data))
 		return (0);
 	if (data->tools->fetched_value == NULL)
-		data->tools->fetched_value = is_declared(data);
+		data->tools->fetched_value = is_declared(data, data->tools->extracted_key);
 	if (data->tools->fetched_value && !data->mem_error)
 	{
 		if (!strjoin_handler(data, &data->tools->new_value, &data->tools->fetched_value))
