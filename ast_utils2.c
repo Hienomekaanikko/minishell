@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/22 13:26:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:42:07 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	count_new_len(char *value)
 //creates a node with places for childs and args etc data
 t_ast	*create_node(char *value, t_token type)
 {
-	t_ast *new_node;
+	t_ast	*new_node;
 
 	new_node = (t_ast*)malloc(sizeof(t_ast));
 	if (!new_node)

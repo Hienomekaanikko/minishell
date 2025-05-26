@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:40:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:25:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@ int	set_mem_error(t_data *data, char *value)
 	}
 	return (0);
 }
+
 int	strjoin_handler(t_data *data, char **dest, char **to_append)
 {
-	char *new_str;
+	char	*new_str;
 
 	new_str = ft_strjoin_free(*dest, *to_append);
 	if (set_mem_error(data, new_str))
@@ -40,8 +41,12 @@ int	strjoin_handler(t_data *data, char **dest, char **to_append)
 static int	append_substring_before_dollar(t_data *data, char *value)
 {
 	char	*sub;
+	int		i;
+	int		start;
 
-	sub = ft_substr(value, data->tools->start, data->tools->i - data->tools->start);
+	i = data->tools->i;
+	start = data->tools->start;
+	sub = ft_substr(value, start, i - start);
 	if (set_mem_error(data, sub))
 		return (0);
 	data->tools->new_value = ft_strjoin_free(data->tools->new_value, sub);
@@ -104,7 +109,8 @@ static int	handle_special(t_data *data)
 static int	get_key_len(t_data *data, char *value)
 {
 	data->tools->key_len = 0;
-	while (value[data->tools->i + data->tools->key_len] && ft_isalnum(value[data->tools->i + data->tools->key_len]))
+	while (value[data->tools->i + data->tools->key_len]
+		&& ft_isalnum(value[data->tools->i + data->tools->key_len]))
 		data->tools->key_len++;
 	if (data->tools->key_len == 0)
 	{
@@ -173,7 +179,7 @@ char	*expander(t_data *data, char *value)
 	if (data->tools->i > data->tools->start && !data->mem_error)
 	{
 		if (!append_substring_before_dollar(data, value))
-			return(NULL);
+			return (NULL);
 	}
 	if (data->tools->new_value && !data->mem_error)
 	{
@@ -206,7 +212,7 @@ int	is_single_quote(t_lexer **current, t_lexer **prev)
 
 int	expand(t_lexer **current, t_lexer **prev, char *expanded_value)
 {
-	if (!refresh_value(*current, expanded_value, *prev))
+	if (!refresh_value(*current, expanded_value))
 		return (0);
 	if (ft_strchr((*current)->value, '$'))
 		advance_node(current, prev);

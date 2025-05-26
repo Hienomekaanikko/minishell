@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/26 14:26:54 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	export_no_args(t_arena *env_arena)
@@ -102,10 +114,14 @@ int	builtin_export(t_data *data, char **args)
 			return (1);
 		if (set_export_value(data, key, args[i]))
 		{
-			if (ft_strchr(args[i], '=')) free(key);
-			return (1);
+			if (ft_strchr(args[i], '='))
+			{
+				free(key);
+				return (1);
+			}
 		}
-		if (ft_strchr(args[i], '=')) free(key);
+		if (ft_strchr(args[i], '='))
+			free(key);
 		i++;
 	}
 	return (0);

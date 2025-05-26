@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 11:24:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:15:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static int	ft_count_splits(const char *s, char c)
 		{
 			skip_word(&parser_data, s);
 			s += parser_data.op_len;
-			continue;
+			continue ;
 		}
 		if (*s == c)
 		{
 			parser_data.in_word = 0;
 			s++;
-			continue;
+			continue ;
 		}
 		if (!parser_data.in_word)
 		{
@@ -43,23 +43,25 @@ static int	ft_count_splits(const char *s, char c)
 
 static void	get_range(t_parser *parser_data, const char *s, char c)
 {
-	while (s[parser_data->i] && (parser_data->in_quote || s[parser_data->i] != c))
+	while (s[parser_data->i] && (parser_data->in_quote
+			|| s[parser_data->i] != c))
 	{
 		if (!parser_data->in_quote && (s[parser_data->i] == '<'
-			|| s[parser_data->i] == '>' || s[parser_data->i] == '|'))
+				|| s[parser_data->i] == '>' || s[parser_data->i] == '|'))
 			break ;
-		if (!parser_data->in_quote && (s[parser_data->i] == '"' || s[parser_data->i] == '\''))
+		if (!parser_data->in_quote && (s[parser_data->i] == '"'
+				|| s[parser_data->i] == '\''))
 		{
 			parser_data->quote = s[parser_data->i];
 			parser_data->in_quote = 1;
 			parser_data->i++;
-			continue;
+			continue ;
 		}
 		if (parser_data->in_quote && s[parser_data->i] == parser_data->quote)
 		{
 			parser_data->in_quote = 0;
 			parser_data->i++;
-			continue;
+			continue ;
 		}
 		parser_data->i++;
 	}
@@ -75,16 +77,15 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 		while (s[parser_data.i] == c)
 			parser_data.i++;
 		if (!s[parser_data.i])
-			break;
-		if (s[parser_data.i] == '<' || s[parser_data.i] == '>' || s[parser_data.i] == '|')
+			break ;
+		if (s[parser_data.i] == '<' || s[parser_data.i] == '>'
+			|| s[parser_data.i] == '|')
 			add_operator(&parser_data, s);
 		else
 		{
 			parser_data.start = parser_data.i;
 			get_range(&parser_data, s, c);
 		}
-		if (parser_data.in_quote)
-			return (NULL);
 		if (parser_data.i > parser_data.start)
 		{
 			if (!make_substring(&parser_data, s, array_of_strings))

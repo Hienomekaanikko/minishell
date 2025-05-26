@@ -6,20 +6,18 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:41:07 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:25:18 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev)
+int	refresh_value(t_lexer *current, char *expanded_value)
 {
-	(void)prev; //MB. Not needed??
 	free(current->value);
 	current->value = ft_strdup(expanded_value);
 	if (!current->value)
 		return (0);
-	prev = current;
 	current = current->next;
 	return (1);
 }

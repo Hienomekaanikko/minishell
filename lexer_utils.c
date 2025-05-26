@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 11:58:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:28:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_add_node(t_lexer **list, char *input_list)
 	content_copy = malloc((ft_strlen(input_list) + 1) * sizeof(char));
 	if (!content_copy)
 		return (0);
-	while(input_list[i])
+	while (input_list[i])
 	{
 		content_copy[i] = input_list[i];
 		i++;
@@ -97,7 +97,8 @@ void	add_token(t_lexer *curr, t_lexer *prev)
 		curr->type = RE_OUT;
 	else if (prev->type == PIPE)
 		curr->type = CMD;
-	else if (prev->type == RE_IN || prev->type == RE_OUT || prev->type == HERE_DOC || prev->type == APPEND_OUT)
+	else if (prev->type == RE_IN || prev->type == RE_OUT
+		|| prev->type == HERE_DOC || prev->type == APPEND_OUT)
 		curr->type = ARG;
 	else if (prev->type == CMD || prev->type == ARG)
 		curr->type = ARG;

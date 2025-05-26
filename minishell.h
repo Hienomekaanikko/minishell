@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 13:26:47 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:25:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_data
 	t_ast			*root;
 	char			**temp_array;
 	char			*input;
+	int				redir_status;
 	int				syntax_err;
 	int				redir_err;
 	int				mem_error;
@@ -145,7 +146,7 @@ void		clear_expander_tools(t_data *data);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
-int			refresh_value(t_lexer *current, char *expanded_value, t_lexer *prev);
+int			refresh_value(t_lexer *current, char *expanded_value);
 char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 

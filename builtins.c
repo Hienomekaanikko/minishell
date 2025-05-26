@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/26 13:26:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:40:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	builtin_unset(t_data *data, char **args)
 
 int	builtin_env(t_data *data)
 {
-	size_t i;
+	size_t	i;
 	char	*value;
 
 	if (!data->env_arena || !data->env_arena->ptrs)
@@ -112,9 +112,11 @@ int	builtin_env(t_data *data)
 
 static int	is_valid_exit_arg(char *arg)
 {
+	int	i;
+
 	if (arg[0] != '+' && arg[0] != '-' && !ft_isdigit(arg[0]))
 		return (0);
-	int i = 1;
+	i = 1;
 	while (arg[i])
 	{
 		if (!ft_isdigit(arg[i]))

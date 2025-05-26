@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 12:36:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:36:26 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:27:57 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_n_flag(const char *arg)
+int	is_n_flag(const char *arg)
 {
 	int	j;
 
@@ -50,7 +50,7 @@ int	builtin_echo(char **args, t_exec_status *status)
 		no_newline_flag = 1;
 		i++;
 	}
-	while(args[i])
+	while (args[i])
 	{
 		ft_putstr_fd(args[i], 1);
 		if (args[i + 1])

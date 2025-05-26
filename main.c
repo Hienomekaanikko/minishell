@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 13:07:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:41:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void init_data(t_data *data)
+static void	init_data(t_data *data)
 {
 	if (data->temp_array)
 		ft_free_split(data->temp_array);
@@ -66,9 +66,8 @@ int	process_input(t_data *data)
 		make_tree(data);
 	if (data->mem_error)
 	{
-		free_lexed_list(*data->lexed_list);
 		error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
-		return (0);
+		return (1);
 	}
 	return (1);
 }
@@ -104,7 +103,7 @@ void	init_exec_status(t_data *data)
 }
 int	main(int argc, char **argv, char **envp)
 {
-	t_data			data;
+	t_data	data;
 
 	splash_screen();
 	init_base(&data, argc, argv);

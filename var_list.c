@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 11:52:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:29:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // Helper function to create a new node
 t_var	*create_var(char *key, char *value)
 {
-	t_var *new_node;
+	t_var	*new_node;
 
 	new_node = malloc(sizeof(t_var));
 	if (!new_node)
@@ -57,7 +57,7 @@ void	add_var_declaration(t_data *data)
 	char	*value;
 
 	i = 0;
-	while(data->input[i] != '=')
+	while (data->input[i] != '=')
 		i++;
 	key = ft_substr(data->input, 0, i);
 	if (set_mem_error(data, key))

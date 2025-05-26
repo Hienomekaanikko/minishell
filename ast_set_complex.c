@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 12:45:49 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:07:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int check_permissions_only(char *path, int type)
+int	check_permissions_only(char *path, int type)
 {
 	if (type == RE_IN)
 		return (access(path, R_OK));
@@ -58,7 +58,9 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
 			return ;
 		}
 	}
-	if (!data->mem_error && ((check_permissions_only(new_node->right->args[0], new_node->type) == -1) || data->redir_err == 1))
+	if (!data->mem_error
+		&& ((check_permissions_only(new_node->right->args[0], new_node->type) == -1)
+		|| data->redir_err == 1))
 		set_access_err(data, new_node);
 	if (!data->mem_error)
 		data->root = new_node;
@@ -140,37 +142,37 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 	}
 }
 
-void	place_pipe(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd, int *redir_status)
+void	place_pipe(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd)
 {
 	if (current->type == PIPE && data->root == NULL)
 	{
-		if (redir_status)
+		if (data->redir_status)
 			data->redir_err = 0;
 		set_first_pipe(data, current, prev_cmd);
 	}
 	else if (current->type == PIPE && data->root != NULL)
 	{
-		if (redir_status)
+		if (data->redir_status)
 			data->redir_err = 0;
 		set_followup_pipe(data, current, new_node);
 	}
 }
 
-void	place_redir(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd, int *redir_status)
+void	place_redir(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd)
 {
 	if ((current->type == RE_OUT || current->type == RE_IN
 		|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
 	{
 		set_redir_root(data, prev_cmd, current);
 		if (data->redir_err)
-			*redir_status = 1;
+			data->redir_status = 1;
 	}
 	else if ((current->type == RE_OUT || current->type == RE_IN
 		|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
 	{
 		set_followup_redir(data, current, new_node);
 		if (data->redir_err)
-			*redir_status = 1;
+			data->redir_status = 1;
 	}
 }
 
@@ -180,9 +182,7 @@ void	set_complex_tree(t_data *data)
 	t_lexer	*current;
 	t_lexer	*prev_cmd;
 	t_ast	*new_node;
-	int		redir_status;
 
-	redir_status = 0;
 	current = *data->lexed_list;
 	prev_cmd = NULL;
 	new_node = NULL;
@@ -190,8 +190,8 @@ void	set_complex_tree(t_data *data)
 	{
 		if (current->type == CMD)
 			prev_cmd = current;
-		place_pipe(data, current, new_node, prev_cmd, &redir_status);
-		place_redir(data, current, new_node, prev_cmd, &redir_status);
+		place_pipe(data, current, new_node, prev_cmd);
+		place_redir(data, current, new_node, prev_cmd);
 		if (data->mem_error == 1)
 		{
 			error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
@@ -200,6 +200,6 @@ void	set_complex_tree(t_data *data)
 		if (current)
 			current = current->next;
 	}
-	if (redir_status)
+	if (data->redir_status)
 		data->redir_err = 1;
 }

@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:30:00 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:18:05 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_lexer(t_data *data) //env-arena added
+int	ft_lexer(t_data *data)
 {
 	if (!data->input || ft_strlen(data->input) == 0)
 		return (0);
@@ -31,7 +31,6 @@ int	ft_lexer(t_data *data) //env-arena added
 	return (1);
 }
 
-//add the type of token to the node 'type', according to the enum struct.
 static void	add_token_type(t_lexer **linked_list)
 {
 	t_lexer	*curr;
@@ -55,13 +54,15 @@ static void	check_outfiles(t_lexer *checker, char **msg, t_lexer **prev)
 {
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
 	{
-		if (!(*msg) && checker->type == APPEND_OUT && !(*prev) && !checker->next)
+		if (!(*msg) && checker->type == APPEND_OUT && !(*prev)
+			&& !checker->next)
 			*msg = "minishell: syntax error near unexpected token `newline'";
 		else if (!(*msg) && checker->type == RE_OUT && !checker->next)
 			*msg = "minishell: syntax error near unexpected token `newline'";
 		else if (!(*msg) && checker->type == APPEND_OUT && !checker->next)
 			*msg = "minishell: syntax error near unexpected token `>>'";
-		else if (!(*msg) && checker->type == APPEND_OUT && checker->next->type == RE_OUT)
+		else if (!(*msg) && checker->type == APPEND_OUT
+			&& checker->next->type == RE_OUT)
 			*msg = "minishell: syntax error near unexpected token `>'";
 	}
 }
@@ -74,9 +75,11 @@ static void	check_infiles(t_lexer *checker, char **msg)
 			*msg = "minishell: syntax error near unexpected token `|'";
 		else if (!(*msg) && !checker->next)
 			*msg = "minishell: syntax error near unexpected token `newline'";
-		else if ((!*msg) && checker->type == RE_IN && checker->next->type != ARG)
+		else if ((!*msg) && checker->type == RE_IN
+			&& checker->next->type != ARG)
 			*msg = "minishell: syntax error near unexpected token `<'";
-		else if ((!*msg) && checker->type == HERE_DOC && checker->next->type != ARG)
+		else if ((!*msg) && checker->type == HERE_DOC
+			&& checker->next->type != ARG)
 			*msg = "minishell: syntax error near unexpected token `<<'";
 	}
 }
@@ -92,7 +95,6 @@ static void	check_pipes(t_lexer *checker, char **msg, t_lexer **prev)
 	}
 }
 
-//check if the grammar is right
 static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 {
 	check_pipes(checker, msg, prev);
@@ -101,7 +103,6 @@ static void	check_grammar_error(t_lexer *checker, char **msg, t_lexer **prev)
 	*prev = checker;
 }
 
-//basic checks to make sure the order of things is right. whether commands or paths exits will be checked later.
 static int	check_grammar(t_data *data)
 {
 	t_lexer	*checker;
@@ -124,7 +125,6 @@ static int	check_grammar(t_data *data)
 	return (1);
 }
 
-//makes a linked list, input must be array of strings (currently made with the special split that can handle " and ')
 int	ft_make_list(t_data *data)
 {
 	t_lexer	**linked_list;

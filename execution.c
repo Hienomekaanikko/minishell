@@ -19,7 +19,7 @@ int	built_ins(t_ast *node, t_data *data)
 
 void check_path_permissions(char *path, t_exec_status *exec_status)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
 	{
@@ -93,7 +93,8 @@ int	execute_command(t_ast *node, t_data *data)
 {
 	if (!node)
 		return (error_handler(&data->status, node->cmd, "syntax error: invalid command", 1));
-	if (node->type == RE_OUT || node->type == APPEND_OUT || node->type == RE_IN || node->type == HERE_DOC)
+	if (node->type == RE_OUT || node->type == APPEND_OUT
+		|| node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, data));
 	else if (node->type == PIPE && data->status.redir_fail == 0)
 		return (exec_pipe(node, data));

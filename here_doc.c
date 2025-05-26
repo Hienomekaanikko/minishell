@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 16:55:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:18:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 			ft_putstr_fd(delimiter, 2);
 			ft_putstr_fd("')\n", 2);
-			break;
+			break ;
 		}
 		linecount++;
 		if (ft_strchr(line, '$'))
@@ -83,7 +83,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);

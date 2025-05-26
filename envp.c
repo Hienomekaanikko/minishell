@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/26 12:46:58 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:24:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*arena_getenv(t_arena *env_arena, char *key)
 	size_t	key_len;
 	char	*env_var;
 
-	if(!env_arena || !key)
+	if (!env_arena || !key)
 		return (NULL);
 	key_len = ft_strlen(key);
 	i = 0;

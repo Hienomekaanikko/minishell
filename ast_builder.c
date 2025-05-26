@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 12:11:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:39:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,7 @@ void	make_tree(t_data *data)
 		free_ast(data->root);
 		data->root = NULL;
 	}
-	if (data->mem_error)
-	{
-		free_ast(data->root);
-		data->root = NULL;
-	}
-	free_lexed_list(*data->lexed_list);
+	if (*data->lexed_list)
+		free_lexed_list(*data->lexed_list);
 	//visualize_tree_TEST(data); //DEBUG
 }

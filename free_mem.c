@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:25:12 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/23 15:03:43 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 14:19:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_ast(t_ast *root)
 {
 	if (root == NULL)
-		return;
+		return ;
 	free_ast(root->left);
 	free_ast(root->right);
 	if (root->args)
@@ -24,8 +24,6 @@ void	free_ast(t_ast *root)
 		free(root->cmd);
 	free(root);
 }
-
-
 
 void	free_lexed_list(t_lexer *start)
 {
