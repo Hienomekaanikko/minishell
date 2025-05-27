@@ -6,12 +6,11 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:51:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 10:51:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:33:04 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static void	reset_parser(t_data *data)
 {
@@ -33,7 +32,7 @@ static void	reset_parser(t_data *data)
 	*data->lexed_list = NULL;
 }
 
-static void	close_all_fds(t_data *data)
+void	close_all_fds(t_data *data)
 {
 	if (data->status.infile != -1)
 	{

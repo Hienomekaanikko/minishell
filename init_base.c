@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:49:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 10:52:07 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 11:27:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int	allocate_structs(t_data *data)
 	data->exp = malloc(sizeof(t_exp_data));
 	if (!data->exp)
 		return (0);
+	data->exp->var_list = NULL;
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
 		return (0);
