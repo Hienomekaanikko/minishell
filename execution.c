@@ -48,7 +48,7 @@ int	executables(t_ast *node, t_data *data)
 int	execute_command(t_ast *node, t_data *data)
 {
 	if (!node)
-		return (error_handler(&data->status, node->cmd, "syntax error: invalid command", 1));
+		return (0);
 	if (node->type == RE_OUT || node->type == APPEND_OUT
 		|| node->type == RE_IN || node->type == HERE_DOC)
 		return (exec_redir(node, data));
@@ -64,6 +64,7 @@ int	execute_command(t_ast *node, t_data *data)
 		}
 		restore_orig_fd(data);
 	}
+	close_fds(&data->status);
 	if (data->status.redir_fail == 1)
 		data->status.exit_code = 1;
 	return (0);

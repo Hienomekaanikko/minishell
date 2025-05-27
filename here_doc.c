@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 16:03:50 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:29:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*make_filename(t_arena *env_arena)
 
 	temp_dir = get_temp_dir(env_arena);
 	num = ft_itoa(counter++);
+	if (!num)
+		return (NULL);
 	filename = ft_strjoin(temp_dir, "/heredoc_");
 	filename = ft_strjoin_free(filename, num);
 	free(num);

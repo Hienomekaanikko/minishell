@@ -6,15 +6,20 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 17:00:27 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:34:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_permissions_only(char *path, int type)
+int	check_permissions_only(t_data *data, char *path, int type)
 {
-	if (type == RE_IN)
+	if (path[0] == '$')
+	{
+		(error_handler(&data->status, path, "ambiguous redirect", 1));
+		return (-2);
+	}
+	else if (type == RE_IN)
 		return (access(path, R_OK));
 	else if (type == RE_OUT || type == APPEND_OUT)
 	{
@@ -31,7 +36,7 @@ void	set_access_err(t_data *data, t_ast *new_node)
 	if (new_node->type != HERE_DOC)
 	{
 		if (data->redir_err == 0)
-			(error_handler(&data->status, data->root->cmd, strerror(errno), 1));
+			(error_handler(&data->status, new_node->right->args[0], strerror(errno), 1));
 		new_node->access = 0;
 		data->redir_err = 1;
 	}
@@ -49,7 +54,7 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
 		write_heredoc(data, current->next->value, &new_node->file);
 	new_node->left = data->root;
 	current = current->next;
-	if (current->type == ARG)
+	if (current && current->type == ARG)
 	{
 		add_right_child(&new_node->right, current, new_node->type);
 		if (!new_node->right->args)
@@ -58,11 +63,10 @@ void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
 			return ;
 		}
 	}
-	if (!data->mem_error
-		&& ((check_permissions_only(new_node->right->args[0], new_node->type) == -1)
+	if (current && !data->mem_error && ((check_permissions_only(data, new_node->right->args[0], new_node->type) == -1)
 		|| data->redir_err == 1))
 		set_access_err(data, new_node);
-	if (!data->mem_error)
+	if (current && !data->mem_error)
 		data->root = new_node;
 }
 
@@ -85,13 +89,13 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current)
 			data->mem_error = 1;
 		prev_cmd = NULL;
 	}
-	if (current->type == ARG)
+	if (current && current->type == ARG)
 	{
 		add_right_child(&data->root->right, current, data->root->type);
 		if (!data->root->right->args)
 			data->mem_error = 1;
 	}
-	if (!data->mem_error && ((check_permissions_only(data->root->right->args[0], data->root->type) == -1)
+	if (current && !data->mem_error && ((check_permissions_only(data, data->root->right->args[0], data->root->type) == -1)
 		|| data->redir_err == 1))
 		set_access_err(data, data->root);
 }
@@ -107,7 +111,7 @@ void	set_followup_pipe(t_data *data, t_lexer *current, t_ast *new_node)
 	}
 	new_node->left = data->root;
 	current = current->next;
-	if (current->type == CMD)
+	if (current && current->type == CMD)
 	{
 		add_right_child(&new_node->right, current, new_node->type);
 		if (!new_node->right->args)
@@ -127,14 +131,14 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 		return ;
 	}
 	current = current->next;
-	if (prev_cmd != NULL)
+	if (current && prev_cmd != NULL)
 	{
 		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
 		if (!data->root->left->args)
 			data->mem_error = 1;
 		prev_cmd = NULL;
 	}
-	if (current->type == CMD)
+	if (current && current->type == CMD)
 	{
 		add_right_child(&data->root->right, current, data->root->type);
 		if (!data->root->right->args)

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 11:48:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:43:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct	s_arena
 typedef struct	s_exec_status
 {
 	int			exit_code;
+	int			here_doc_flag;
 	int			signal;
 	int			temp_fd;
 	int			saved_stdin;

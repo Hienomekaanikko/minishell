@@ -42,16 +42,27 @@ static void	assign_node_direction(t_ast *node, t_exec_status *status)
 		status->outfile = status->temp_fd;
 }
 
-static void	open_file(t_ast *node, t_exec_status *status, int open_flags, int file_perms)
+static int	open_file(t_ast *node, t_data *data, int open_flags, int file_perms)
 {
 	if (node->type == HERE_DOC)
-		status->temp_fd = open(node->file, open_flags, file_perms);
+	{
+		if (data->status.here_doc_flag == 1)
+		{
+			free(node->file);
+			return (0);
+		}
+		data->status.temp_fd = open(node->file, open_flags, file_perms);
+		free(node->file);
+		data->status.here_doc_flag = 1;
+	}
 	else
 	{
-		if (status->redir_fail == 1)
+		if (data->status.redir_fail == 1)
 			node->access = 0;
-		status->temp_fd = open(node->right->cmd, open_flags, file_perms);
+		if (node->right)
+			data->status.temp_fd = open(node->right->cmd, open_flags, file_perms);
 	}
+	return (1);
 }
 
 int	exec_redir(t_ast *node, t_data *data)
@@ -67,7 +78,7 @@ int	exec_redir(t_ast *node, t_data *data)
 	}
 	if (!get_redirection_params(node, &open_flags, &file_perms, &std_fd))
 		return (0);
-	open_file(node, &data->status, open_flags, file_perms);
+	open_file(node, data, open_flags, file_perms);
 	if (data->status.temp_fd == -1)
 		return (execute_command(node->left, data));
 	else
