@@ -21,8 +21,11 @@ void	handle_heredoc(int sig)
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("\n", 1);
-	//ft_putstr_fd("minishell$:", 1);
+	g_interrupted = 1;
+	ft_putstr_fd("\nDEBUG: SIGINT\n", 1);
+	//rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 static void init_sigaction(struct sigaction *sa, void (*handler)(int), int sig)

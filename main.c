@@ -58,7 +58,14 @@ int	process_input(t_data *data)
 {
 	data->input = readline("minishell$: ");
 	if (data->input == NULL)
+	{
+		if (g_interrupted)
+		{
+			g_interrupted = 0;
+			return (1);
+		}
 		return (0);
+	}
 	if (ft_strlen(data->input) > 0)
 		add_history(data->input);
 	if (is_var_declaration(data->input))
@@ -110,9 +117,9 @@ int	main(int argc, char **argv, char **envp)
 	init_base(&data, argc, argv);
 	init_exec_status(&data);
 	init_env_arena(envp, &data); //TODO error
-	setup_signals();
 	while (1)
 	{
+		setup_signals();
 		init_data(&data);
 		if (process_input(&data) == 0)
 		{
