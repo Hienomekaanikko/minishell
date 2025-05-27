@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/27 11:50:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 19:19:28 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,28 @@ void	set_shell_level(t_arena *env_arena, t_exec_status *status)
 	free(new_level);
 }
 
+static t_arena	*init_backup_env(t_data *data)
+{
+	data->env_arena = arena_init(100 * 2, 32);
+	if (!data->env_arena)
+		return (NULL);
+	arena_set_env(data->env_arena, "SHLVL", "1", &data->status);
+	arena_set_env(data->env_arena, "OLDPWD", "", &data->status);
+	arena_set_env(data->env_arena, "PWD", getcwd(NULL, 0), &data->status);
+	arena_set_env(data->env_arena, "HOME", "/", &data->status);
+	arena_set_env(data->env_arena, "USER", "USER", &data->status);
+	arena_set_env(data->env_arena, "PATH", SECURE_PATH, &data->status);
+	arena_set_env(data->env_arena, "LOGNAME", "USER", &data->status);
+	return (data->env_arena);
+}
+
 t_arena	*init_env_arena(char **envp, t_data *data)
 {
 	size_t	env_count;
 	size_t	i;
 
+	if (envp == NULL || *envp == NULL || **envp == '\0')
+		return (init_backup_env(data));
 	env_count = 0;
 	while (envp[env_count])
 		env_count++;
