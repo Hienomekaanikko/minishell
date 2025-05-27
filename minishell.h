@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:25:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:52:56 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct	s_exec_status
 	int			exit_code;
 	int			signal;
 	int			temp_fd;
+	int			saved_stdin;
 	int			saved_stdout;
 	int			infile;
 	int			outfile;
@@ -108,6 +109,10 @@ typedef struct s_data
 	int				redir_err;
 	int				mem_error;
 }	t_data;
+
+//init stuff
+void		init_data(t_data *data);
+int			init_base(t_data *data, int argc, char **argv, char **envp);
 
 //lexer stuff
 char		**parser(char const *s, char c);

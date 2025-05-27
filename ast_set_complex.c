@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:07:25 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:00:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	set_complex_tree(t_data *data)
 	new_node = NULL;
 	while (current)
 	{
-		if (current->type == CMD)
+		if (current && current->type == CMD)
 			prev_cmd = current;
 		place_pipe(data, current, new_node, prev_cmd);
 		place_redir(data, current, new_node, prev_cmd);
@@ -197,8 +197,7 @@ void	set_complex_tree(t_data *data)
 			error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
 			return ;
 		}
-		if (current)
-			current = current->next;
+		current = current->next;
 	}
 	if (data->redir_status)
 		data->redir_err = 1;

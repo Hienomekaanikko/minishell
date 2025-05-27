@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:18:05 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 10:26:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,16 @@ int	ft_make_list(t_data *data)
 	t_lexer	**linked_list;
 	char	**input_list;
 
+	if (!data->lexed_list)
+	{
+		data->lexed_list = malloc(sizeof(t_lexer *));
+		if (!data->lexed_list)
+		{
+			data->mem_error = 1;
+			return (0);
+		}
+		*data->lexed_list = NULL;
+	}
 	linked_list = data->lexed_list;
 	input_list = data->temp_array;
 	while (*input_list)

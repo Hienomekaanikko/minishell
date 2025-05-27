@@ -62,20 +62,6 @@ int	executables(t_ast *node, t_data *data)
 		path = find_executable(node, data->env_arena);
 		if (!path)
 			exit(error_handler(&data->status, node->cmd, "command not found", 127));
-		if (data->status.outfile != -1)
-		{
-			if (dup2(data->status.outfile, 1) == -1)
-				exit(handle_redirection_error(data->status.outfile, &data->status));
-			close(data->status.outfile);
-			data->status.outfile = -1;
-		}
-		if (data->status.infile != -1)
-		{
-			if (dup2(data->status.infile, 0) == -1)
-				exit(handle_redirection_error(data->status.infile, &data->status));
-			close(data->status.infile);
-			data->status.infile = -1;
-		}
 		close_fds(&data->status);
 		execve(path, node->args, data->env_arena->ptrs);
 		free(path);
@@ -89,6 +75,44 @@ int	executables(t_ast *node, t_data *data)
 	return (0);
 }
 
+void	restore_orig_fd(t_data *data)
+{
+	if (data->status.outfile != -1 && data->status.saved_stdout != -1)
+	{
+		dup2(data->status.saved_stdout, STDOUT_FILENO);
+		close(data->status.saved_stdout);
+		data->status.saved_stdout = -1;
+		close(data->status.outfile);
+		data->status.outfile = -1;
+		if (data->status.temp_fd != -1)
+			close(data->status.temp_fd);
+	}
+	if (data->status.infile != -1 && data->status.saved_stdin != -1)
+	{
+		dup2(data->status.saved_stdin, STDIN_FILENO);
+		close(data->status.saved_stdin);
+		data->status.saved_stdin = -1;
+		close(data->status.infile);
+		data->status.infile = -1;
+		if (data->status.temp_fd != -1)
+			close(data->status.temp_fd);
+	}
+}
+
+void	save_orig_fd(t_data *data)
+{
+	if (data->status.infile != -1)
+	{
+		data->status.saved_stdin = dup(STDIN_FILENO);
+		dup2(data->status.infile, STDIN_FILENO);
+	}
+	if (data->status.outfile != -1)
+	{
+		data->status.saved_stdout = dup(STDOUT_FILENO);
+		dup2(data->status.outfile, STDOUT_FILENO);
+	}
+}
+
 int	execute_command(t_ast *node, t_data *data)
 {
 	if (!node)
@@ -100,28 +124,13 @@ int	execute_command(t_ast *node, t_data *data)
 		return (exec_pipe(node, data));
 	else
 	{
-		if (data->status.outfile != -1)
+		save_orig_fd(data);
+		if (built_ins(node, data) == -1 && data->status.redir_fail == 0)
 		{
-			data->status.saved_stdout = dup(STDOUT_FILENO);
-			dup2(data->status.outfile, STDOUT_FILENO);
-		}
-		if (built_ins(node, data) == -1)
-		{
-			if (data->status.redir_fail == 0)
-			{
 				if (executables(node, data) == -1)
 					return (error_handler(&data->status, node->cmd, "command not found", 127));
-
-			}
 		}
-		if (data->status.outfile != -1 && data->status.saved_stdout != -1)
-		{
-			dup2(data->status.saved_stdout, STDOUT_FILENO);
-			close(data->status.saved_stdout);
-			close(data->status.outfile);
-			if (data->status.temp_fd != -1)
-				close(data->status.temp_fd);
-		}
+		restore_orig_fd(data);
 	}
 	if (data->status.redir_fail == 1)
 		data->status.exit_code = 1;
