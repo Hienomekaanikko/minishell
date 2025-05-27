@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 20:20:58 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:41:14 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	{
 		if(g_interrupted)
 		{
-			// we need to find our way back to the prompt from here.
+			//do we need some cleanup here? The prompt seems to work.
 			break ;
 		}
 		line = readline("> ");
