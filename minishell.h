@@ -30,6 +30,8 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <pwd.h>
+
 #define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"  //MB. Execve checks this first
 
 //token types
