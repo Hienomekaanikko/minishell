@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 13:43:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:35:47 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct	s_exec_status
 	int			redir_fail;
 	int			final_exit_code;
 	char		*error_msg;
+	char		*error_path;
 	pid_t		pid;
 }	t_exec_status;
 

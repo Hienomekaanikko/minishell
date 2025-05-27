@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 15:17:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:43:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	process_input(t_data *data)
 		add_var_declaration(data);
 	else if (ft_lexer(data))
 		make_tree(data);
-	if (data->mem_error)
+	if (data->mem_error == 1)
 	{
 		error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
 		return (1);

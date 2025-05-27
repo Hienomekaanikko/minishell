@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 15:34:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:01:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	check_permissions_only(t_data *data, char *path, int type)
 	if (path[0] == '$')
 	{
 		(error_handler(&data->status, path, "ambiguous redirect", 1));
+		data->mem_error = 2;
 		return (-2);
 	}
 	else if (type == RE_IN)
@@ -36,7 +37,10 @@ void	set_access_err(t_data *data, t_ast *new_node)
 	if (new_node->type != HERE_DOC)
 	{
 		if (data->redir_err == 0)
-			(error_handler(&data->status, new_node->right->args[0], strerror(errno), 1));
+		{
+			data->status.error_msg = ft_strdup(strerror(errno));
+			data->status.error_path = ft_strdup(new_node->right->args[0]);
+		}
 		new_node->access = 0;
 		data->redir_err = 1;
 	}
@@ -148,6 +152,12 @@ void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
 
 void	place_pipe(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd)
 {
+	if (current->type == PIPE && data->status.error_msg && data->status.error_path)
+	{
+		error_handler(&data->status, data->status.error_path, data->status.error_msg, 1);
+		data->status.error_msg = NULL;
+		data->status.error_path = NULL;
+	}
 	if (current->type == PIPE && data->root == NULL)
 	{
 		if (data->redir_status)
@@ -202,6 +212,12 @@ void	set_complex_tree(t_data *data)
 			return ;
 		}
 		current = current->next;
+	}
+	if (data->status.error_msg && data->status.error_path)
+	{
+		error_handler(&data->status, data->status.error_path, data->status.error_msg, 1);
+		data->status.error_msg = NULL;
+		data->status.error_path = NULL;
 	}
 	if (data->redir_status)
 		data->redir_err = 1;

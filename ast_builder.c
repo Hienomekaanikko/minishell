@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 15:17:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:43:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	make_tree(t_data *data)
 		set_complex_tree(data);
 	if (data->mem_error)
 	{
-		free_ast(data->root);
+		if (data->root)
+			free_ast(data->root);
 		data->root = NULL;
 	}
 	if (*data->lexed_list)
