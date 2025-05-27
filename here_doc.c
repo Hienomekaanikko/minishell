@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 13:29:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:20:58 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	int		fd;
 	int		linecount;
 
+	setup_heredoc_signals();
 	filename = make_filename(data->env_arena);
 	if (!filename)
 		return (-1);
@@ -61,6 +62,11 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	linecount = 0;
 	while (1)
 	{
+		if(g_interrupted)
+		{
+			// we need to find our way back to the prompt from here.
+			break ;
+		}
 		line = readline("> ");
 		if (!line)
 		{

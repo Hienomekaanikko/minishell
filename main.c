@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 17:43:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:07:03 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	main(int argc, char **argv, char **envp)
 	splash_screen();
 	if (!init_base(&data, argc, argv, envp))
 		error_handler(&data.status, "malloc", "Cannot allocate memory", 1);
-	setup_signals();
 	while (1)
 	{
 		init_data(&data);
+		setup_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)

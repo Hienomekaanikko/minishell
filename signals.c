@@ -6,11 +6,21 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 14:24:01 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:21:47 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t	g_interrupted = 0;
+
+void	handle_heredoc(int sig)
+{
+	(void) sig;
+	g_interrupted = 1;
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("minishell$:", 1);
+}
 
 void	handle_sigint(int sig)
 {
@@ -38,6 +48,7 @@ void	setup_signals(void)
 	sigaction(SIGQUIT, &sa, NULL);
 	init_sigaction(&sa, handle_sigint, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
+	g_interrupted = 0;
 }
 
 void	setup_child_signals(void)
@@ -50,10 +61,10 @@ void	setup_child_signals(void)
 	sigaction(SIGPIPE, &sa, NULL);
 }
 
-void	handle_heredoc_signals(void)
+void	setup_heredoc_signals(void)
 {
 	struct	sigaction sa;
 
-	init_sigaction(&sa, SIG_IGN, SIGINT);
+	init_sigaction(&sa, handle_heredoc, SIGINT);
 	sigaction(SIGINT, &sa, NULL);
 }
