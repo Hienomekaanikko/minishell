@@ -62,12 +62,12 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	linecount = 0;
 	while (1)
 	{
+		line = readline("> ");
 		if(g_interrupted)
 		{
 			//do we need some cleanup here? The prompt seems to work.
 			break ;
 		}
-		line = readline("> ");
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
@@ -97,7 +97,9 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		write(fd, "\n", 1);
 		free(line);
 	}
+	g_interrupted = 0;
 	close(fd);
+	setup_shell_signals();
 	*out_path = filename;
 	return (0);
 }

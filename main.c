@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		setup_signals();
+		setup_shell_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)

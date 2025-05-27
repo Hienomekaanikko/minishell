@@ -14,57 +14,37 @@
 
 volatile sig_atomic_t	g_interrupted = 0;
 
-void	handle_heredoc(int sig)
+void	shell_sigint_handler(int signo)
 {
-	(void) sig;
-	g_interrupted = 1;
+	(void)signo;
 	ft_putstr_fd("\n", 1);
 	ft_putstr_fd("minishell$:", 1);
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
+	// rl_redisplay();
 }
 
-void	handle_sigint(int sig)
+void	setup_shell_signals(void)
 {
-	(void)sig;
-	ft_putstr_fd("\n", 1);
-	//ft_putstr_fd("minishell$:", 1);
-}
-
-static void init_sigaction(struct sigaction *sa, void (*handler)(int), int sig)
-{
-	sigset_t	mask;
-
-	sigemptyset(&mask);
-	sigaddset(&mask, sig);
-	sa->sa_mask = mask;
-	sa->sa_handler = handler;
-	sa->sa_flags = 0;
-}
-
-void	setup_signals(void)
-{
-	struct	sigaction sa;
-
-	init_sigaction(&sa, SIG_DFL, SIGQUIT);
-	sigaction(SIGQUIT, &sa, NULL);
-	init_sigaction(&sa, handle_sigint, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
-	g_interrupted = 0;
+	signal(SIGINT, shell_sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_child_signals(void)
 {
-	struct	sigaction sa;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
 
-	init_sigaction(&sa, SIG_DFL, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGPIPE, &sa, NULL);
+void	handle_heredoc_sigint(int signo)
+{
+	(void)signo;
+	g_interrupted = 1;
 }
 
 void	setup_heredoc_signals(void)
 {
-	struct	sigaction sa;
-
-	init_sigaction(&sa, handle_heredoc, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, handle_heredoc_sigint);
+	signal(SIGQUIT, SIG_IGN);
 }
+
