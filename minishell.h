@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:11:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:05:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,11 +220,15 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
+
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);
+t_arena		*init_backup_env(t_data *data);
 char		*arena_getenv(t_arena *env_arena, char *key);
 int			arena_set_env(t_data *data, char *key, char *value);
 int			arena_unset_env(t_arena *env_arena, char *key);
+void		set_shell_level(t_data *data);
+
 //signals
 void		setup_shell_signals(void);
 void		setup_child_signals(void);

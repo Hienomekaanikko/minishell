@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:26:47 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:41:38 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:55:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	ast_error_check(t_data *data)
 {
 	if (data->status.msg && data->status.path)
 	{
-		if (ft_strncmp(data->status.msg, "No such file or directory", ft_strlen(data->status.msg)) == 0)
+		if (ft_strncmp(data->status.msg, "No such file or directory", 26) == 0)
 			error_handler(&data->status, data->status.path, NOFILE, 1);
-		else if (ft_strncmp(data->status.msg, "Permission denied", ft_strlen(data->status.msg)) == 0)
+		else if (ft_strncmp(data->status.msg, "Permission denied", 18) == 0)
 			error_handler(&data->status, data->status.path, NOPERM, 1);
 		data->status.path = NULL;
 		data->status.msg = NULL;

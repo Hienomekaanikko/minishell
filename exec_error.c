@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 14:41:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 15:01:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*get_error(t_error err)
 {
 	if (err == AMB)
 		return ("ambiguous redirect");
-	else if (err == MALLOC)
-		return ("Cannot allocate memory");
 	else if (err == NOT_VALID)
 		return ("not a valid identifier");
 	else if (err == TOO_MANY)
@@ -48,7 +46,10 @@ int	error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code)
 	status->signal = 0;
 	if (err)
 	{
-		status->msg = get_error(err);
+		if (err == MALLOC)
+			status->msg = "Cannot allocate memory";
+		else
+			status->msg = get_error(err);
 		status->exit_code = exit_code;
 	}
 	else

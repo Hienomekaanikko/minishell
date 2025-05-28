@@ -6,29 +6,29 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 13:42:48 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:57:19 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms, int *std_fd)
+static int	get_params(t_ast *node, int *flags, int *file_perms, int *std_fd)
 {
 	if (node->type == RE_OUT)
 	{
-		*open_flags = O_WRONLY | O_CREAT | O_TRUNC;
+		*flags = O_WRONLY | O_CREAT | O_TRUNC;
 		*file_perms = 0644;
 		*std_fd = STDOUT_FILENO;
 	}
 	else if (node->type == RE_IN || node->type == HERE_DOC)
 	{
-		*open_flags = O_RDONLY;
+		*flags = O_RDONLY;
 		*file_perms = 0;
 		*std_fd = STDIN_FILENO;
 	}
 	else if (node->type == APPEND_OUT)
 	{
-		*open_flags = O_WRONLY | O_CREAT | O_APPEND;
+		*flags = O_WRONLY | O_CREAT | O_APPEND;
 		*file_perms = 0644;
 		*std_fd = STDOUT_FILENO;
 	}
@@ -41,11 +41,12 @@ static void	assign_node_direction(t_ast *node, t_exec_status *status)
 {
 	if ((node->type == RE_IN || node->type == HERE_DOC) && status->infile == -1)
 		status->infile = status->temp_fd;
-	if ((node->type == RE_OUT || node->type == APPEND_OUT) && status->outfile == -1 && status->redir_fail == 0)
+	if ((node->type == RE_OUT || node->type == APPEND_OUT)
+		&& status->outfile == -1 && status->redir_fail == 0)
 		status->outfile = status->temp_fd;
 }
 
-static int	open_file(t_ast *node, t_data *data, int open_flags, int file_perms)
+static int	open_file(t_ast *node, t_data *data, int flags, int file_perms)
 {
 	if (node->type == HERE_DOC)
 	{
@@ -54,7 +55,7 @@ static int	open_file(t_ast *node, t_data *data, int open_flags, int file_perms)
 			free(node->file);
 			return (0);
 		}
-		data->status.temp_fd = open(node->file, open_flags, file_perms);
+		data->status.temp_fd = open(node->file, flags, file_perms);
 		free(node->file);
 		data->status.here_doc_flag = 1;
 	}
@@ -63,14 +64,14 @@ static int	open_file(t_ast *node, t_data *data, int open_flags, int file_perms)
 		if (data->status.redir_fail == 1)
 			node->access = 0;
 		if (node->right)
-			data->status.temp_fd = open(node->right->cmd, open_flags, file_perms);
+			data->status.temp_fd = open(node->right->cmd, flags, file_perms);
 	}
 	return (1);
 }
 
 int	exec_redir(t_ast *node, t_data *data)
 {
-	int	open_flags;
+	int	flags;
 	int	file_perms;
 	int	std_fd;
 
@@ -79,9 +80,9 @@ int	exec_redir(t_ast *node, t_data *data)
 		data->status.redir_fail = 1;
 		return (execute_command(node->left, data));
 	}
-	if (!get_redirection_params(node, &open_flags, &file_perms, &std_fd))
+	if (!get_params(node, &flags, &file_perms, &std_fd))
 		return (0);
-	open_file(node, data, open_flags, file_perms);
+	open_file(node, data, flags, file_perms);
 	if (data->status.temp_fd == -1)
 		return (execute_command(node->left, data));
 	else
