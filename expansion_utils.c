@@ -6,20 +6,21 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 13:44:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:40:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	refresh_value(t_lexer *current, char *expanded_value)
+void	free_exp_tools(t_data *data)
 {
-	free(current->value);
-	current->value = ft_strdup(expanded_value);
-	if (!current->value)
-		return (0);
-	current = current->next;
-	return (1);
+	if (data->tools->result)
+		free(data->tools->result);
+	if (data->tools->var)
+		free(data->tools->var);
+	if (data->tools->val)
+		free(data->tools->val);
+	ft_memset(data->tools, 0, sizeof(t_exp_tools));
 }
 
 t_lexer	*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev)

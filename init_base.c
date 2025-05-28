@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:49:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:09:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:38:58 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	allocate_structs(t_data *data)
 	data->tools = malloc(sizeof(t_exp_tools));
 	if (!data->tools)
 		return (0);
+	ft_memset(data->tools, 0, (sizeof(t_exp_tools)));
 	return (1);
 }
 

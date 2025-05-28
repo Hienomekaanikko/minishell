@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 15:05:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:37:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,19 @@ void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
 
 //expansion stuff
+char		*expand(t_data *data, t_exp_tools *tools, char *value);
 int			set_mem_error(t_data *data, char *value);
-void		clear_expander_tools(t_data *data);
 void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
-int			refresh_value(t_lexer *current, char *expanded_value);
-char		*expander(t_data *data, char *value);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
+int			after_dollar(t_data *data, t_exp_tools *tools, char *value);
+int			dollar_literal(t_exp_tools *tools, int *i);
+int			before_dollar(t_data *data, t_exp_tools *tools, char *value, int i);
+int			dollar(t_data *data, t_exp_tools *tools, char *value, int *i);
+int			variable(t_data *data, t_exp_tools *tools, char *value, int *i);
+int			exit_status(t_data *data, t_exp_tools *tools, int *i);
+void		free_exp_tools(t_data *data);
 
 //execution
 int			execute_command(t_ast *node, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:51:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:13:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 18:37:59 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	reset_exec(t_data *data)
 
 void	init_data(t_data *data)
 {
+	free_exp_tools(data);
 	reset_parser(data);
 	reset_exec(data);
 }
