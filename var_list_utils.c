@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:08:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 13:46:15 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@ int	note_quote(char *str, int i, int *has_open_quote)
 	else
 	{
 		ft_putstr_fd("ERROR: Mismatched or unclosed quote\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
+int	is_closed_quote(int has_open_quote)
+{
+	if (has_open_quote)
+	{
+		ft_putstr_fd("ERROR: Unclosed quote\n", 2);
 		return (0);
 	}
 	return (1);
@@ -50,11 +60,8 @@ int	is_var_declaration(char *str)
 		}
 		i++;
 	}
-	if (has_open_quote)
-	{
-		ft_putstr_fd("ERROR: Unclosed quote\n", 2);
+	if (!is_closed_quote(has_open_quote))
 		return (0);
-	}
 	return (1);
 }
 

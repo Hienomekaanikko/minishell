@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/28 14:00:57 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	built_ins(t_ast *node, t_data *data)
@@ -24,18 +36,18 @@ int	executables(t_ast *node, t_data *data)
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(&data->status, "fork", "failed", 1));
+		return (error_handler(&data->status, "fork", FAIL, 1));
 	if (pid == 0)
 	{
 		setup_child_signals();
 		check_path_permissions(node->cmd, &data->status);
 		path = find_executable(node, data->env_arena);
 		if (!path)
-			exit(error_handler(&data->status, node->cmd, "command not found", 127));
+			exit(error_handler(&data->status, node->cmd, NOCMD, 127));
 		close_fds(&data->status);
 		execve(path, node->args, data->env_arena->ptrs);
 		free(path);
-		exit(error_handler(&data->status, node->cmd, "command not found", 127));
+		exit(error_handler(&data->status, node->cmd, NOCMD, 127));
 	}
 	else
 	{
@@ -59,8 +71,8 @@ int	execute_command(t_ast *node, t_data *data)
 		save_orig_fd(data);
 		if (built_ins(node, data) == -1 && data->status.redir_fail == 0)
 		{
-				if (executables(node, data) == -1)
-					return (error_handler(&data->status, node->cmd, "command not found", 127));
+			if (executables(node, data) == -1)
+				return (error_handler(&data->status, node->cmd, NOCMD, 127));
 		}
 		restore_orig_fd(data);
 	}

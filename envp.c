@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/27 19:19:28 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:30:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void	set_shell_level(t_arena *env_arena, t_exec_status *status)
+void	set_shell_level(t_data *data)
 {
 	int		level;
 	char	*old_level;
 	char	*new_level;
 
-	old_level = arena_getenv(env_arena, "SHLVL");
+	old_level = arena_getenv(data->env_arena, "SHLVL");
 	level = ft_atoi(old_level);
 	level++;
 	new_level = ft_itoa(level);
-	arena_set_env(env_arena, "SHLVL", new_level, status);
+	arena_set_env(data, "SHLVL", new_level);
 	free(old_level);
 	free(new_level);
 }
@@ -32,13 +32,13 @@ static t_arena	*init_backup_env(t_data *data)
 	data->env_arena = arena_init(100 * 2, 32);
 	if (!data->env_arena)
 		return (NULL);
-	arena_set_env(data->env_arena, "SHLVL", "1", &data->status);
-	arena_set_env(data->env_arena, "OLDPWD", "", &data->status);
-	arena_set_env(data->env_arena, "PWD", getcwd(NULL, 0), &data->status);
-	arena_set_env(data->env_arena, "HOME", "/", &data->status);
-	arena_set_env(data->env_arena, "USER", "USER", &data->status);
-	arena_set_env(data->env_arena, "PATH", SECURE_PATH, &data->status);
-	arena_set_env(data->env_arena, "LOGNAME", "USER", &data->status);
+	arena_set_env(data, "SHLVL", "1");
+	arena_set_env(data, "OLDPWD", "");
+	arena_set_env(data, "PWD", getcwd(NULL, 0));
+	arena_set_env(data, "HOME", "/");
+	arena_set_env(data, "USER", "USER");
+	arena_set_env(data, "PATH", SECURE_PATH);
+	arena_set_env(data, "LOGNAME", "USER");
 	return (data->env_arena);
 }
 
@@ -64,22 +64,22 @@ t_arena	*init_env_arena(char **envp, t_data *data)
 		arena_add(data->env_arena, envp[i], &data->status);
 		i++;
 	}
-	set_shell_level(data->env_arena, &data->status);
+	set_shell_level(data);
 	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
 	return (data->env_arena);
 }
 
-int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status)
+int	arena_set_env(t_data *data, char *key, char *value)
 {
 	char	*env_var;
 
-	arena_unset_env(env_arena, key);
+	arena_unset_env(data->env_arena, key);
 //	printf("arena setenv key: %s\n", key);
-	if (!env_arena || !key)
+	if (!data->env_arena || !key)
 		return (-1);
 	if (!value)
 	{
-		if(!arena_add(env_arena, key, status))
+		if (!arena_add(data->env_arena, key, &data->status))
 			return (-1);
 		return (0);
 	}
@@ -91,7 +91,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 	if (!env_var)
 		return (-1);
 //	printf("value added: %s\n", value);
-	if (!arena_add(env_arena, env_var, status))
+	if (!arena_add(data->env_arena, env_var, &data->status))
 	{
 		free(env_var);
 		return (-1);
@@ -99,7 +99,6 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 	free(env_var);
 	return (0);
 }
-
 
 int	arena_unset_env(t_arena *env_arena, char *key)
 {
@@ -134,7 +133,7 @@ char	*arena_getenv(t_arena *env_arena, char *key)
 		return (NULL);
 	key_len = ft_strlen(key);
 	i = 0;
-	while(i < env_arena->ptrs_in_use)
+	while (i < env_arena->ptrs_in_use)
 	{
 		env_var = env_arena->ptrs[i];
 		if (ft_strncmp(env_var, key, key_len) == 0 && env_var[key_len] == '=')

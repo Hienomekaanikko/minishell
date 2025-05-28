@@ -1,13 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redir.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/28 13:42:48 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	handle_redirection_error(int fd, t_exec_status *status)
-{
-	if (fd != -1)
-		close(fd);
-	if (errno == EACCES)
-		return (error_handler(status, NULL, "Permission denied", 1));
-	return (error_handler(status, NULL, "No such file or directory", 1));
-}
+#include "minishell.h"
 
 static int	get_redirection_params(t_ast *node, int *open_flags, int *file_perms, int *std_fd)
 {

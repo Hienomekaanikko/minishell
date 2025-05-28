@@ -6,11 +6,11 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/22 10:24:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:16:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static char	*check_single_path(char *dir, char *cmd)
 {
@@ -53,13 +53,13 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 
 	if (!path_str)
 	{
-		error_handler(status, "PATH", "not set", 127);
+		error_handler(status, "PATH", NOENV, 127);
 		return (NULL);
 	}
 	paths = ft_split(path_str, ':');
 	if (!paths)
 	{
-		error_handler(status, "memory", "allocation failed", 1);
+		error_handler(status, "malloc", MALLOC, 1);
 		return (NULL);
 	}
 	executable = search_paths(paths, cmd);

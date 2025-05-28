@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_builder.h                                      :+:      :+:    :+:   */
+/*   arena_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 15:48:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 11:50:17 by msuokas          ###   ########.fr       */
+/*   Created: 2025/05/28 11:09:48 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/28 11:10:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_BUILDER_H
-# define AST_BUILDER_H
-# include "minishell.h"
+#include "minishell.h"
 
-typedef struct s_utils
+t_arena	*arena_cleanup(char **ptrs, char *memory)
 {
-	int		i;
-	int		j;
-	int		len;
-	int		quote;
-	int		argument_amount;
-	char	*cleaned_value;
-}	t_utils;
+	free(ptrs);
+	free(memory);
+	return (NULL);
+}
 
-#endif
+void	arena_free(t_arena *arena)
+{
+	free(arena->memory);
+	free(arena->ptrs);
+	free(arena);
+}

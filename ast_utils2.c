@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 16:26:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:51:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ int	count_new_len(char *value)
 	return (len);
 }
 
-//creates a node with places for childs and args etc data
 t_ast	*create_node(char *value, t_token type)
 {
 	t_ast	*new_node;
 
-	new_node = (t_ast*)malloc(sizeof(t_ast));
+	new_node = (t_ast *)malloc(sizeof(t_ast));
 	if (!new_node)
 		return (NULL);
 	if (has_quotes(value))
@@ -57,11 +56,10 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->right = NULL;
 	new_node->access = 1;
 	new_node->args = NULL;
-	new_node->file = NULL; //MB ATTENTION: infile outfile -> file
+	new_node->file = NULL;
 	return (new_node);
 }
 
-//counts the amount of arguments to allocate right amount of memory for the array of argument strings
 int	count_size(t_lexer *current)
 {
 	t_lexer	*temp;
@@ -77,7 +75,6 @@ int	count_size(t_lexer *current)
 	return (i);
 }
 
-//check if curr->value has any quotes
 int	has_quotes(char *value)
 {
 	int	i;

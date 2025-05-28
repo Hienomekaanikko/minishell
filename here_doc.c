@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 20:41:14 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:08:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	while (1)
 	{
 		line = readline("> ");
-		if(g_interrupted)
+		if (g_interrupted)
 		{
 			//do we need some cleanup here? The prompt seems to work.
 			break ;

@@ -6,25 +6,25 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:46:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 13:36:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:04:15 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void check_path_permissions(char *path, t_exec_status *exec_status)
+void	check_path_permissions(char *path, t_exec_status *exec_status)
 {
 	struct stat	path_stat;
 
 	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
 	{
 		if (stat(path, &path_stat) == -1)
-			exit(error_handler(exec_status, path, strerror(errno), 127));
+			exit(error_handler(exec_status, path, NO, 127));
 		if (S_ISDIR(path_stat.st_mode))
-			exit(error_handler(exec_status, path, "Is a directory", 126));
+			exit(error_handler(exec_status, path, ISDIR, 126));
 		if (access(path, X_OK) == -1)
-			exit(error_handler(exec_status, path, "Permission denied", 126));
-		return;
+			exit(error_handler(exec_status, path, NOPERM, 126));
+		return ;
 	}
 }
 

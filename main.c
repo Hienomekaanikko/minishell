@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 20:07:03 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:01:43 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	process_input(t_data *data)
 		make_tree(data);
 	if (data->mem_error == 1)
 	{
-		error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
+		error_handler(&data->status, "malloc", MALLOC, 1);
 		return (1);
 	}
 	return (1);
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 
 	splash_screen();
 	if (!init_base(&data, argc, argv, envp))
-		error_handler(&data.status, "malloc", "Cannot allocate memory", 1);
+		error_handler(&data.status, "malloc", MALLOC, 1);
 	while (1)
 	{
 		init_data(&data);

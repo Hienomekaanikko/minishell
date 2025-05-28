@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 10:02:53 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:02:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,36 +49,50 @@ int	add_var_to_list(t_exp_data *data, char *key, char *value)
 	return (1);
 }
 
+static int	check_input(char *input, char **key, int *i, int *start)
+{
+	*i = 0;
+	while (input[*i] && input[*i] != '=')
+		(*i)++;
+	if (input[*i] != '=')
+		return (0);
+	*key = ft_substr(input, 0, *i);
+	if (!*key)
+		return (-1);
+	(*i)++;
+	*start = *i;
+	while (input[*i])
+		(*i)++;
+	if (*start == *i)
+	{
+		free(*key);
+		*key = NULL;
+		return (0);
+	}
+	return (1);
+}
+
 void	add_var_declaration(t_data *data)
 {
 	int		i;
 	int		start;
+	int		status;
 	char	*key;
 	char	*value;
 
-	i = 0;
-	while (data->input[i] != '=')
-		i++;
-	key = ft_substr(data->input, 0, i);
-	if (set_mem_error(data, key))
+	key = NULL;
+	value = NULL;
+	status = check_input(data->input, &key, &i, &start);
+	if (status == -1)
+		set_mem_error(data, key);
+	else if (status == 0)
 		return ;
-	i++;
-	start = i;
-	while (data->input[i])
-		i++;
-	if (start == i)
+	else
 	{
-		free(key);
-		return ;
+		value = ft_substr(data->input, start, i - start);
+		if (!value || !add_var_to_list(data->exp, key, value))
+			data->mem_error = 1;
 	}
-	value = ft_substr(data->input, start, i - start);
-	if (set_mem_error(data, value))
-	{
-		free(key);
-		return ;
-	}
-	else if (!add_var_to_list(data->exp, key, value))
-		data->mem_error = 1;
 	free(key);
 	free(value);
 }

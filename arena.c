@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 11:17:35 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:57:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	arena_realloc(t_arena *arena, size_t more_space)
 	old_memory = arena->memory;
 	new_size = arena->mem_size + more_space;
 	new_memory = malloc(new_size);
-	if(!new_memory)
+	if (!new_memory)
 		return (0);
 	ft_memcpy(new_memory, old_memory, arena->mem_used);
 	free(old_memory);
@@ -43,13 +43,6 @@ static void	arena_ptrs_realloc(t_arena *arena)
 	free(old_ptrs);
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
-}
-
-static t_arena	*arena_cleanup(char **ptrs, char *memory)
-{
-	free(ptrs);
-	free(memory);
-	return (NULL);
 }
 
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
@@ -88,27 +81,16 @@ char	*arena_add(t_arena *arena, char *add, t_exec_status *status)
 
 	add_len = ft_strlen(add) + 1;
 	if (arena->mem_used + add_len > arena->mem_size)
+	{
 		if (!arena_realloc(arena, arena->mem_size))
-			error_handler(status, "malloc", "Cannot allocate memory", 1);
-				if (arena->ptrs_in_use >= arena->ptr_capacity)
-		arena_ptrs_realloc(arena);
+			error_handler(status, "malloc", MALLOC, 1);
+		if (arena->ptrs_in_use >= arena->ptr_capacity)
+			arena_ptrs_realloc(arena);
+	}
 	ptr = arena->memory + arena->mem_used;
 	ft_memcpy(ptr, add, add_len);
 	arena->ptrs[arena->ptrs_in_use] = ptr;
 	arena->ptrs_in_use++;
 	arena->mem_used += add_len;
 	return (ptr);
-}
-
-void	arena_clear(t_arena *arena) //NOT IN USE.
-{
-	arena->mem_used = 0;
-	arena->ptrs_in_use = 0;
-}
-
-void	arena_free(t_arena *arena)
-{
-	free(arena->memory);
-	free(arena->ptrs);
-	free(arena);
 }

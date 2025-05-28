@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 14:35:37 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 11:50:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 //removes all quotes and returns a new cleaned up string
 char	*remove_quotes(char *value)
 {
-	t_ast_utils	ast;
+	t_utils	ast;
 
-	ft_memset(&ast, 0, sizeof(t_ast_utils));
+	ft_memset(&ast, 0, sizeof(t_utils));
 	ast.len = count_new_len(value);
 	ast.cleaned_value = malloc(sizeof(char) * (ast.len + 1));
 	if (!ast.cleaned_value)
@@ -40,16 +40,16 @@ char	*remove_quotes(char *value)
 	return (ast.cleaned_value);
 }
 
-int	allocate_arguments(t_ast_utils *ast, t_ast *curr_node, t_lexer **current)
+int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)
 {
 	if (has_quotes((*current)->value))
-		curr_node->args[ast->i] = remove_quotes((*current)->value);
+		node->args[ast->i] = remove_quotes((*current)->value);
 	else
-		curr_node->args[ast->i] = ft_strdup((*current)->value);
-	if (!curr_node->args[ast->i])
+		node->args[ast->i] = ft_strdup((*current)->value);
+	if (!node->args[ast->i])
 	{
-		ft_free_split(curr_node->args);
-		curr_node->args = NULL;
+		ft_free_split(node->args);
+		node->args = NULL;
 		return (0);
 	}
 	ast->i++;
@@ -58,47 +58,52 @@ int	allocate_arguments(t_ast_utils *ast, t_ast *curr_node, t_lexer **current)
 }
 
 //adds arguments (including cmd) to the args variable as split string
-void	add_arguments(t_ast *curr_node, t_lexer *current, t_token type)
+void	add_arguments(t_utils *ast, t_ast *node, t_lexer *current, t_token type)
 {
 	t_lexer		*temp;
-	t_ast_utils	ast;
 
-	ft_memset(&ast, 0, sizeof(t_ast_utils));
 	temp = current;
-	ast.argument_amount = count_size(temp);
-	curr_node->args = malloc((ast.argument_amount + 1) * sizeof(char *));
-	if (!curr_node->args)
+	ast->argument_amount = count_size(temp);
+	node->args = malloc((ast->argument_amount + 1) * sizeof(char *));
+	if (!node->args)
 		return ;
 	while (temp && (temp->type == ARG || temp->type == CMD))
 	{
-		if (!allocate_arguments(&ast, curr_node, &temp))
+		if (!allocate_arguments(ast, node, &temp))
 			return ;
 	}
 	if (temp && type != RE_IN && type != RE_OUT)
 	{
-		if (temp->type == RE_IN || temp->type == RE_OUT
-			|| temp->type == APPEND_OUT || temp->type == HERE_DOC)
+		if (temp->type != PIPE)
 			temp = temp->next;
 		temp = temp->next;
 		while (temp && temp->type == ARG)
 		{
-			if (!allocate_arguments(&ast, curr_node, &temp))
+			if (!allocate_arguments(ast, node, &temp))
 				return ;
 		}
 	}
-	curr_node->args[ast.i] = NULL;
+	node->args[ast->i] = NULL;
 }
+
 //adds right child
 void	add_right_child(t_ast **position, t_lexer *current, t_token type)
 {
+	t_utils	ast;
+
+	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(current->value, current->type);
 	if (*position)
-		add_arguments(*position, current, type);
+		add_arguments(&ast, *position, current, type);
 }
+
 //adds left child
 void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
 {
+	t_utils	ast;
+
+	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(prev_cmd->value, prev_cmd->type);
 	if (*position)
-		add_arguments(*position, prev_cmd, type);
+		add_arguments(&ast, *position, prev_cmd, type);
 }

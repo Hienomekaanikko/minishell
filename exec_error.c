@@ -3,30 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 09:12:25 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:41:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code)
+char	*get_error(t_error err)
+{
+	if (err == AMB)
+		return ("ambiguous redirect");
+	else if (err == MALLOC)
+		return ("Cannot allocate memory");
+	else if (err == NOT_VALID)
+		return ("not a valid identifier");
+	else if (err == TOO_MANY)
+		return ("too many arguments");
+	else if (err == NOENV)
+		return ("env not set");
+	else if (err == ONLYNUM)
+		return ("numeric argument required");
+	else if (err == STDOUT)
+		return ("failed to redirect stdout");
+	else if (err == STDIN)
+		return ("failed to redirect stdin");
+	else if (err == FAIL)
+		return ("failed");
+	else if (err == NOPERM)
+		return ("Permission denied");
+	else if (err == NOFILE)
+		return ("No such file or directory");
+	else if (err == ISDIR)
+		return ("Is a directory");
+	else if (err == NOCMD)
+		return ("command not found");
+	return (NULL);
+}
+
+int	error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code)
 {
 	status->signal = 0;
-	if (msg)
+	if (err)
 	{
-		status->error_msg = (char *)msg;
+		status->msg = get_error(err);
 		status->exit_code = exit_code;
 	}
 	else
 	{
-		status->error_msg = strerror(errno);
+		status->msg = strerror(errno);
 		if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
 			status->exit_code = 126;
-		else if (errno == ENOENT)
-			status->exit_code = 127;
 		else
 			status->exit_code = 1;
 	}
@@ -34,7 +63,7 @@ int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int e
 	ft_putstr_fd(" ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(status->error_msg, 2);
+	ft_putendl_fd(status->msg, 2);
 	return (exit_code);
 }
 
@@ -63,14 +92,3 @@ void	handle_signal_error(t_exec_status *status, int signal)
 		ft_putstr_fd("Unknown signal", 2);
 	ft_putstr_fd("\n", 2);
 }
-
-// void	handle_exit_error(t_exec_status *exec_status, int exit_code)
-// {
-// 	exec_status->exit_code = exit_code;
-// 	if (exit_code == 127)
-// 		ft_putstr_fd("Command not found", 2);
-// 	else if (exit_code == 126)
-// 		ft_putstr_fd("Permission denied", 2);
-// 	ft_putstr_fd("\n", 2);
-// }
-

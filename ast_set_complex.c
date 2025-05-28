@@ -6,185 +6,52 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 18:01:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:38:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_permissions_only(t_data *data, char *path, int type)
+void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 {
-	if (path[0] == '$')
+	if (curr->type == PIPE && data->status.msg && data->status.path)
 	{
-		(error_handler(&data->status, path, "ambiguous redirect", 1));
-		data->mem_error = 2;
-		return (-2);
+		if (ft_strncmp(data->status.msg, "No such file or directory", ft_strlen(data->status.msg)) == 0)
+			error_handler(&data->status, data->status.path, NOFILE, 1);
+		else if (ft_strncmp(data->status.msg, "Permission denied", ft_strlen(data->status.msg)) == 0)
+			error_handler(&data->status, data->status.path, NOPERM, 1);
+		data->status.path = NULL;
+		data->status.msg = NULL;
 	}
-	else if (type == RE_IN)
-		return (access(path, R_OK));
-	else if (type == RE_OUT || type == APPEND_OUT)
-	{
-		if (access(path, F_OK) == 0)
-			return (access(path, W_OK));
-		else
-			return (0);
-	}
-	return (-1);
-}
-
-void	set_access_err(t_data *data, t_ast *new_node)
-{
-	if (new_node->type != HERE_DOC)
-	{
-		if (data->redir_err == 0)
-		{
-			data->status.error_msg = ft_strdup(strerror(errno));
-			data->status.error_path = ft_strdup(new_node->right->args[0]);
-		}
-		new_node->access = 0;
-		data->redir_err = 1;
-	}
-}
-
-void	set_followup_redir(t_data *data, t_lexer *current, t_ast *new_node)
-{
-	new_node = create_node(current->value, current->type);
-	if (!new_node)
-	{
-		data->mem_error = 1;
-		return ;
-	}
-	if (new_node->type == HERE_DOC)
-		write_heredoc(data, current->next->value, &new_node->file);
-	new_node->left = data->root;
-	current = current->next;
-	if (current && current->type == ARG)
-	{
-		add_right_child(&new_node->right, current, new_node->type);
-		if (!new_node->right->args)
-		{
-			data->mem_error = 1;
-			return ;
-		}
-	}
-	if (current && !data->mem_error && ((check_permissions_only(data, new_node->right->args[0], new_node->type) == -1)
-		|| data->redir_err == 1))
-		set_access_err(data, new_node);
-	if (current && !data->mem_error)
-		data->root = new_node;
-}
-
-//sets redirection as root if no previous roots
-void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *current)
-{
-	data->root = create_node(current->value, current->type);
-	if (!data->root)
-	{
-		data->mem_error = 1;
-		return ;
-	}
-	if (data->root->type == HERE_DOC)
-		write_heredoc(data, current->next->value, &data->root->file);
-	current = current->next;
-	if (prev_cmd != NULL)
-	{
-		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-		if (!data->root->left->args)
-			data->mem_error = 1;
-		prev_cmd = NULL;
-	}
-	if (current && current->type == ARG)
-	{
-		add_right_child(&data->root->right, current, data->root->type);
-		if (!data->root->right->args)
-			data->mem_error = 1;
-	}
-	if (current && !data->mem_error && ((check_permissions_only(data, data->root->right->args[0], data->root->type) == -1)
-		|| data->redir_err == 1))
-		set_access_err(data, data->root);
-}
-
-//sets the followup pipe as root and previous pipe as left child
-void	set_followup_pipe(t_data *data, t_lexer *current, t_ast *new_node)
-{
-	new_node = create_node(current->value, current->type);
-	if (!new_node)
-	{
-		data->mem_error = 1;
-		return ;
-	}
-	new_node->left = data->root;
-	current = current->next;
-	if (current && current->type == CMD)
-	{
-		add_right_child(&new_node->right, current, new_node->type);
-		if (!new_node->right->args)
-			data->mem_error = 1;
-	}
-	if (!data->mem_error)
-		data->root = new_node;
-}
-
-//sets the first pipe as root node if encountered
-void	set_first_pipe(t_data *data, t_lexer *current, t_lexer *prev_cmd)
-{
-	data->root = create_node(current->value, current->type);
-	if (!data->root)
-	{
-		data->mem_error = 1;
-		return ;
-	}
-	current = current->next;
-	if (current && prev_cmd != NULL)
-	{
-		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-		if (!data->root->left->args)
-			data->mem_error = 1;
-		prev_cmd = NULL;
-	}
-	if (current && current->type == CMD)
-	{
-		add_right_child(&data->root->right, current, data->root->type);
-		if (!data->root->right->args)
-			data->mem_error = 1;
-	}
-}
-
-void	place_pipe(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd)
-{
-	if (current->type == PIPE && data->status.error_msg && data->status.error_path)
-	{
-		error_handler(&data->status, data->status.error_path, data->status.error_msg, 1);
-		data->status.error_msg = NULL;
-		data->status.error_path = NULL;
-	}
-	if (current->type == PIPE && data->root == NULL)
+	if (curr->type == PIPE && data->root == NULL)
 	{
 		if (data->redir_status)
 			data->redir_err = 0;
-		set_first_pipe(data, current, prev_cmd);
+		set_first_pipe(data, curr, prev_cmd);
 	}
-	else if (current->type == PIPE && data->root != NULL)
+	else if (curr->type == PIPE && data->root != NULL)
 	{
 		if (data->redir_status)
 			data->redir_err = 0;
-		set_followup_pipe(data, current, new_node);
+		set_followup_pipe(data, curr, new);
 	}
 }
 
-void	place_redir(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_cmd)
+void	place_redir(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 {
-	if ((current->type == RE_OUT || current->type == RE_IN
-		|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root == NULL)
+	if ((curr->type == RE_OUT || curr->type == RE_IN
+			|| curr->type == APPEND_OUT
+			|| curr->type == HERE_DOC) && data->root == NULL)
 	{
-		set_redir_root(data, prev_cmd, current);
+		set_redir_root(data, prev_cmd, curr);
 		if (data->redir_err)
 			data->redir_status = 1;
 	}
-	else if ((current->type == RE_OUT || current->type == RE_IN
-		|| current->type == APPEND_OUT || current->type == HERE_DOC) && data->root != NULL)
+	else if ((curr->type == RE_OUT || curr->type == RE_IN
+			|| curr->type == APPEND_OUT
+			|| curr->type == HERE_DOC) && data->root != NULL)
 	{
-		set_followup_redir(data, current, new_node);
+		set_followup_redir(data, curr, new);
 		if (data->redir_err)
 			data->redir_status = 1;
 	}
@@ -193,32 +60,25 @@ void	place_redir(t_data *data ,t_lexer *current, t_ast *new_node, t_lexer *prev_
 //makes a tree with pipes or redirections or both
 void	set_complex_tree(t_data *data)
 {
-	t_lexer	*current;
+	t_lexer	*curr;
 	t_lexer	*prev_cmd;
-	t_ast	*new_node;
+	t_ast	*new;
 
-	current = *data->lexed_list;
+	curr = *data->lexed_list;
 	prev_cmd = NULL;
-	new_node = NULL;
-	while (current)
+	new = NULL;
+	while (curr)
 	{
-		if (current && current->type == CMD)
-			prev_cmd = current;
-		place_pipe(data, current, new_node, prev_cmd);
-		place_redir(data, current, new_node, prev_cmd);
+		if (curr && curr->type == CMD)
+			prev_cmd = curr;
+		place_pipe(data, curr, new, prev_cmd);
+		place_redir(data, curr, new, prev_cmd);
 		if (data->mem_error == 1)
 		{
-			error_handler(&data->status, "malloc", "Cannot allocate memory", 1);
+			error_handler(&data->status, "malloc", MALLOC, 1);
 			return ;
 		}
-		current = current->next;
+		curr = curr->next;
 	}
-	if (data->status.error_msg && data->status.error_path)
-	{
-		error_handler(&data->status, data->status.error_path, data->status.error_msg, 1);
-		data->status.error_msg = NULL;
-		data->status.error_path = NULL;
-	}
-	if (data->redir_status)
-		data->redir_err = 1;
+	ast_error_check(data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 20:12:25 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:11:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,24 @@
 
 extern volatile sig_atomic_t g_interrupted;
 
+typedef enum e_error
+{
+	NO,
+	AMB,
+	MALLOC,
+	NOT_VALID,
+	TOO_MANY,
+	NOENV,
+	ONLYNUM,
+	STDOUT,
+	STDIN,
+	FAIL,
+	NOPERM,
+	NOFILE,
+	ISDIR,
+	NOCMD,
+} t_error;
+
 //token types
 typedef enum e_token
 {
@@ -45,7 +63,6 @@ typedef enum e_token
 	RE_OUT,
 	HERE_DOC,
 	APPEND_OUT,
-	//näitä tarvii varmaa lisää mut täs nää perushommat
 } t_token;
 
 //for lexing part of parsing (mikon juttuja)
@@ -92,8 +109,8 @@ typedef struct	s_exec_status
 	int			outfile;
 	int			redir_fail;
 	int			final_exit_code;
-	char		*error_msg;
-	char		*error_path;
+	char		*msg;
+	char		*path;
 	pid_t		pid;
 }	t_exec_status;
 
@@ -103,6 +120,7 @@ typedef struct s_data
 	t_exp_data		*exp;
 	t_exp_tools		*tools;
 	t_exec_status	status;
+	t_error			err;
 	t_arena			*env_arena;
 	t_lexer			**lexed_list;
 	t_ast			*root;
@@ -134,7 +152,7 @@ void		free_ast(t_ast *root);
 void		close_all_fds(t_data *data);
 
 //ast tree stuff (added 22.4.)
-void		add_arguments(t_ast *curr_node, t_lexer *current, t_token type);
+void		add_arguments(t_utils *ast, t_ast *curr_node, t_lexer *current, t_token type);
 void		add_right_child(t_ast **position, t_lexer *current, t_token type);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
 void		set_complex_tree(t_data *data);
@@ -144,6 +162,13 @@ int			count_size(t_lexer *current);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
 int			write_heredoc(t_data *data, char *delimiter, char **out_path);
+int			perms(t_data *data, char *path, int type);
+void		ast_error_check(t_data *data);
+void		set_access_err(t_data *data, t_ast *new);
+void		set_followup_redir(t_data *data, t_lexer *curr, t_ast *new);
+void		set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr);
+void		set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new);
+void		set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
@@ -165,21 +190,27 @@ int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
 int			exec_pipe(t_ast *node, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
+void		wait_right_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
 int			handle_redirection_error(int fd, t_exec_status *status);
 void		check_path_permissions(char *path, t_exec_status *exec_status);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
 void		save_orig_fd(t_data *data);
+int			cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR);
 
 //error
-int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
+int			error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code);
 void		handle_signal_error(t_exec_status *status, int signal);
+void		check_syntax_error(t_lexer *checker, char **msg, t_lexer **prev);
+
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
 void		arena_free(t_arena *arena);
 char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
-void		arena_clear(t_arena *arena);
+t_arena		*arena_cleanup(char **ptrs, char *memory);
+void		arena_free(t_arena *arena);
+
 //built-ins
 int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_data *data);
@@ -192,7 +223,7 @@ int			is_valid_env_name(const char *name);
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);
 char		*arena_getenv(t_arena *env_arena, char *key);
-int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
+int			arena_set_env(t_data *data, char *key, char *value);
 int			arena_unset_env(t_arena *env_arena, char *key);
 //signals
 void		setup_shell_signals(void);

@@ -6,12 +6,12 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 13:30:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 13:10:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXPANSIONS_H
-#define EXPANSIONS_H
+# define EXPANSIONS_H
 
 # include "minishell.h"
 
@@ -44,6 +44,5 @@ typedef struct s_exp_tools
 	char	*new_value;
 	char	*expanded_value;
 }	t_exp_tools;
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 15:27:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:40:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,8 @@ static int	take_action(t_data *data, char **expanded_value, t_lexer **current, t
 	}
 	else if (data->mem_error == 0)
 	{
-		if ((*prev) && ((*prev)->type == RE_IN || (*prev)->type == RE_OUT || (*prev)->type == APPEND_OUT))
+		if ((*prev) && ((*prev)->type == RE_IN
+			|| (*prev)->type == RE_OUT || (*prev)->type == APPEND_OUT))
 			return (0);
 		*current = remove_key_not_found(data, *current, *prev);
 	}

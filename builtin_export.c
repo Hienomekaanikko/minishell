@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 11:49:47 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/28 14:02:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*extract_key(const char *arg, t_exec_status *status)
 		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 		if (!key)
 		{
-			error_handler(status, "export", strerror(errno), 1);
+			error_handler(status, "export", NO, 1);
 			return (NULL);
 		}
 	}
@@ -68,7 +68,7 @@ int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
 	{
 		if (ft_strchr(arg, '='))
 			free(key);
-		error_handler(status, "export", "not a valid identifier", 1);
+		error_handler(status, "export", NOT_VALID, 1);
 		return (1);
 	}
 	*out_key = key;
@@ -83,19 +83,19 @@ int	set_export_value(t_data *data, const char *key, const char *arg)
 	eq = ft_strchr(arg, '=');
 	if (eq)
 	{
-		if (arena_set_env(data->env_arena, (char *)key, eq + 1, &data->status) == -1)
-			return (error_handler(&data->status, "export", strerror(errno), 1));
+		if (arena_set_env(data, (char *)key, eq + 1) == -1)
+			return (error_handler(&data->status, "export", NO, 1));
 	}
 	else
 	{
 		value = is_declared(data, (char *)key);
 		if (value)
 		{
-			arena_set_env(data->env_arena, (char *)key, value, &data->status);
+			arena_set_env(data, (char *)key, value);
 			free(value);
 		}
 		else
-			arena_set_env(data->env_arena, (char *)key, NULL, &data->status);
+			arena_set_env(data, (char *)key, NULL);
 	}
 	return (0);
 }
