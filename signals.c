@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 13:52:49 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:07:51 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	reset_readline(void)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		//sl_done = 1;
 		g_interrupted = 0;
 	}
 	return (0);
@@ -56,7 +55,7 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, heredoc_sigint_handler);
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 

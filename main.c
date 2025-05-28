@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 13:48:36 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 16:33:11 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 
 	splash_screen();
-	rl_event_hook = reset_readline;
 	if (!init_base(&data, argc, argv, envp))
 		error_handler(&data.status, "malloc", "Cannot allocate memory", 1);
 	while (1)
 	{
 		init_data(&data);
+		rl_event_hook = reset_readline;
 		setup_shell_signals();
 		if (!process_handler(&data))
 			break ;

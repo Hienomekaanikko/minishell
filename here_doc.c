@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 20:41:14 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:03:27 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,24 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
+		perror("before open"); //debug
 		ft_putstr_fd("error: cannot create heredoc file\n", 2);
+		ft_putstr_fd(filename, 2); //debug
+		ft_putstr_fd("\n", 2); //debug
 		free(filename);
 		return (-1);
 	}
 	linecount = 0;
 	while (1)
 	{
-		line = readline("> ");
 		if(g_interrupted)
 		{
-			//do we need some cleanup here? The prompt seems to work.
+
+			//cleanup here
+			setup_shell_signals();
 			break ;
 		}
+		line = readline("> ");
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
