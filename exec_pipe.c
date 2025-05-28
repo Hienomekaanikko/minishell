@@ -104,6 +104,7 @@ int	exec_pipe(t_ast *node, t_data *data)
 		return (cleanup_pipe(pipe_fd, pidL, pidR));
 	if (pidR == 0)
 		handle_right_child(pipe_fd, node, data);
+	ignore_signals();
 	cleanup_pipe(pipe_fd, pidL, pidR);
 	wait_process(pidL, &data->status);
 	wait_right_process(pidR, &data->status);
