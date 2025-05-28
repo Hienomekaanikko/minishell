@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 15:10:32 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:36:56 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *s
 int			arena_unset_env(t_arena *env_arena, char *key);
 //signals
 int			reset_readline(void);
+int			reset_heredoc_readline(void);
 void		setup_shell_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);

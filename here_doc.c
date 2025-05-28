@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 17:03:27 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:02:41 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,23 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	int		linecount;
 
 	setup_heredoc_signals();
+	rl_event_hook = reset_heredoc_readline;
 	filename = make_filename(data->env_arena);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
-		perror("before open"); //debug
 		ft_putstr_fd("error: cannot create heredoc file\n", 2);
-		ft_putstr_fd(filename, 2); //debug
-		ft_putstr_fd("\n", 2); //debug
 		free(filename);
 		return (-1);
 	}
 	linecount = 0;
 	while (1)
 	{
-		if(g_interrupted)
+		if (g_interrupted)
 		{
-
-			//cleanup here
-			setup_shell_signals();
-			break ;
+			printf("g_interrupted: %d\n", g_interrupted);
 		}
 		line = readline("> ");
 		if (!line)

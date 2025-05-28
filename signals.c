@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 17:07:51 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:05:24 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ int	reset_readline(void)
 	}
 	return (0);
 }
+int	reset_heredoc_readline(void)
+{
+	if (g_interrupted)
+	{
+		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("DEBUG: heredoc\n", 1);
+		g_interrupted = 0;
+	}
+	return (0);
+}
 
 void	sigint_handler(int sig)
 {
@@ -34,11 +44,9 @@ void	sigint_handler(int sig)
 	g_interrupted = 1;
 }
 
-void	heredoc_sigint_handler(int sig)
-{
+void heredoc_sigint_handler(int sig) {
 	(void)sig;
 	g_interrupted = 1;
-	reset_readline();
 }
 
 void	setup_shell_signals(void)
@@ -55,7 +63,7 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, heredoc_sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
