@@ -16,35 +16,43 @@ volatile sig_atomic_t	g_interrupted = 0;
 
 void	reset_readline(void)
 {
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("DEBUG: This should reset the prompt\n", 1);
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
-	// rl_redisplay();
-}
-
-void	check_and_reset_prompt(void)
-{
 	if (g_interrupted)
 	{
-		reset_readline();
+		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("DEBUG: This should reset the prompt\n", 1);
+		// rl_redisplay();
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
 		g_interrupted = 0;
 	}
 }
+
+void	reset_readline_heredoc(void)
+{
+	if (g_interrupted)
+	{
+		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("DEBUG: double prompt\n", 1);
+		rl_replace_line("", 0);
+		rl_done = 1;
+		g_interrupted = 0;
+	}
+}
+
 
 void	shell_sigint_handler(int sig)
 {
 	(void)sig;
 	g_interrupted = 1;
-	check_and_reset_prompt();
-	//ft_putstr_fd("minishell$:", 1);
+	reset_readline();
 }
 
 void	heredoc_sigint_handler(int sig)
 {
 	(void)sig;
 	g_interrupted = 1;
-	check_and_reset_prompt();
+	reset_readline_heredoc();
 }
 
 void	setup_shell_signals(void)
