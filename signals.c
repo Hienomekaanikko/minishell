@@ -27,16 +27,16 @@ int	reset_readline(void)
 	}
 	return (0);
 }
-int	reset_heredoc_readline(void)
-{
-	if (g_interrupted)
-	{
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("DEBUG: heredoc\n", 1);
-		g_interrupted = 0;
-	}
-	return (0);
-}
+// int	reset_heredoc_readline(void)
+// {
+// 	if (g_interrupted)
+// 	{
+// 		ft_putstr_fd("\n", 1);
+// 		ft_putstr_fd("DEBUG: heredoc\n", 1);
+// 		g_interrupted = 0;
+// 	}
+// 	return (0);
+// }
 
 void	sigint_handler(int sig)
 {
@@ -51,6 +51,7 @@ void heredoc_sigint_handler(int sig) {
 
 void	setup_shell_signals(void)
 {
+	rl_catch_signals = 0;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
@@ -63,6 +64,7 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
+	rl_catch_signals = 0;
 	signal(SIGINT, heredoc_sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

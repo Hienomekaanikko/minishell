@@ -49,7 +49,6 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	int		linecount;
 
 	setup_heredoc_signals();
-	rl_event_hook = reset_heredoc_readline;
 	filename = make_filename(data->env_arena);
 	if (!filename)
 		return (-1);
@@ -65,7 +64,10 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	{
 		if (g_interrupted)
 		{
-			printf("g_interrupted: %d\n", g_interrupted);
+			//cleanup
+			//clear prompt ?
+			setup_shell_signals();
+			break ; //do we need to return -1? Do we need 
 		}
 		line = readline("> ");
 		if (!line)
