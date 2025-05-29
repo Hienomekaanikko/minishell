@@ -62,9 +62,9 @@ void	handle_signal_error(t_exec_status *status, int signal)
 	else if (signal == SIGQUIT)
 	{
 		if (WCOREDUMP(status->raw_status))
-			printf("Quit (core dumped)\n");
+			ft_putstr_fd("Quit (core dumped)\n", 2);
 		else
-			printf("Quit\n");
+			ft_putstr_fd("Quit\n", 2);
 	}
 	else
 		ft_putstr_fd("Unknown signal", 2);

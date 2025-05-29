@@ -60,7 +60,9 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	{
 		exec_status->signal = WTERMSIG(status);
 		exec_status->exit_code= 128 + exec_status->signal;
-		handle_signal_error(exec_status, WTERMSIG(status));
+		if(exec_status->signal == SIGQUIT)
+			handle_signal_error(exec_status, WTERMSIG(status));
+		//might need a explicit newline for SIGINT
 	}
 }
 
