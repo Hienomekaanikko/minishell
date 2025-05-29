@@ -51,7 +51,7 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	int	status;
 
 	if (pid <= 0)
-		return;
+		return ;
 	waitpid(pid, &status, 0);
 	exec_status->raw_status = status;
 	if (WIFEXITED(status))
@@ -60,9 +60,9 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	{
 		exec_status->signal = WTERMSIG(status);
 		exec_status->exit_code= 128 + exec_status->signal;
-		if(exec_status->signal == SIGQUIT)
+		if(exec_status->signal != SIGINT)
 			handle_signal_error(exec_status, WTERMSIG(status));
-		//might need a explicit newline for SIGINT
+		//might need a explicit newline for SIGINT, probably not.
 	}
 }
 
