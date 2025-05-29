@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 13:18:42 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:25:27 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct	s_exec_status
 	int			outfile;
 	int			redir_fail;
 	int			final_exit_code;
+	int			raw_status;
 	char		*error_msg;
 	char		*error_path;
 	pid_t		pid;

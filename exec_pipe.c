@@ -53,13 +53,14 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	if (pid <= 0)
 		return;
 	waitpid(pid, &status, 0);
+	exec_status->raw_status = status;
 	if (WIFEXITED(status))
 		exec_status->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 	{
-		//handle_signal_error(exec_status, WTERMSIG(status));
 		exec_status->signal = WTERMSIG(status);
 		exec_status->exit_code= 128 + exec_status->signal;
+		handle_signal_error(exec_status, WTERMSIG(status));
 	}
 }
 
@@ -80,7 +81,6 @@ static void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
 	{
 		exec_status->signal = WTERMSIG(status);
 		exec_status->exit_code= 128 + exec_status->signal;
-		//error_handler(exec_status, NULL, NULL, 0);
 	}
 }
 

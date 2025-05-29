@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/20 09:12:25 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:33:04 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,16 @@ void	handle_signal_error(t_exec_status *status, int signal)
 		ft_putstr_fd("Killed", 2);
 	else if (signal == SIGPIPE)
 		ft_putstr_fd("Broken pipe", 2);
+	else if (signal == SIGQUIT)
+	{
+		if (WCOREDUMP(status->raw_status))
+			printf("Quit (core dumped)\n");
+		else
+			printf("Quit\n");
+	}
 	else
 		ft_putstr_fd("Unknown signal", 2);
 	ft_putstr_fd("\n", 2);
 }
 
-// void	handle_exit_error(t_exec_status *exec_status, int exit_code)
-// {
-// 	exec_status->exit_code = exit_code;
-// 	if (exit_code == 127)
-// 		ft_putstr_fd("Command not found", 2);
-// 	else if (exit_code == 126)
-// 		ft_putstr_fd("Permission denied", 2);
-// 	ft_putstr_fd("\n", 2);
-// }
 

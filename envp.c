@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/27 19:19:28 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:06:47 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 	char	*env_var;
 
 	arena_unset_env(env_arena, key);
-//	printf("arena setenv key: %s\n", key);
+	printf("arena setenv key: %s\n", key);
 	if (!env_arena || !key)
 		return (-1);
 	if (!value)
@@ -84,13 +84,13 @@ int	arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *sta
 		return (0);
 	}
 	env_var = ft_strjoin(key, "=");
-//	printf("= added\n");
+	printf("= added\n");
 	if (!env_var)
 		return (-1);
 	env_var = ft_strjoin_free(env_var, value);
 	if (!env_var)
 		return (-1);
-//	printf("value added: %s\n", value);
+	printf("value added: %s\n", value);
 	if (!arena_add(env_arena, env_var, status))
 	{
 		free(env_var);
