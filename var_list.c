@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:02:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:49:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,22 @@ t_var	*create_var(char *key, char *value)
 }
 
 // Add a new node to the end of the list
-int	add_var_to_list(t_exp_data *data, char *key, char *value)
+int	add_var_to_list(t_exp_data *exp, char *key, char *value)
 {
 	t_var	*current;
 	t_var	*new_node;
 
-	if (already_declared(data->var_list, key, value))
+	if (already_declared(exp->var_list, key, value))
 		return (1);
 	new_node = create_var(key, value);
 	if (!new_node)
 		return (0);
-	if (!data->var_list)
-		data->var_list = new_node;
+
+	if (!exp->var_list)
+		exp->var_list = new_node;
 	else
 	{
-		current = data->var_list;
+		current = exp->var_list;
 		while (current->next)
 			current = current->next;
 		current->next = new_node;
@@ -76,23 +77,31 @@ void	add_var_declaration(t_data *data)
 {
 	int		i;
 	int		start;
-	int		status;
+	int		err;
 	char	*key;
 	char	*value;
 
 	key = NULL;
 	value = NULL;
-	status = check_input(data->input, &key, &i, &start);
-	if (status == -1)
+	err = check_input(data->input, &key, &i, &start);
+	if (err == -1)
 		set_mem_error(data, key);
-	else if (status == 0)
+	else if (err == 0)
 		return ;
 	else
 	{
 		value = ft_substr(data->input, start, i - start);
-		if (!value || !add_var_to_list(data->exp, key, value))
+		if (!value)
 			data->mem_error = 1;
+		else
+		{
+			if (!already_declared(data->exp->var_list, key, value))
+				add_var_to_list(data->exp, key, value);
+			if (arena_getenv(data->env_arena, key))
+				set_export_value(data, key, value);
+		}
 	}
 	free(key);
 	free(value);
 }
+

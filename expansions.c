@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:25:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,17 @@ void	check_for_expansions(t_data *data)
 				current->value = expanded_value;
 			}
 			else
-				current = remove_key_not_found(data, current, prev);
+			{
+				if (prev && (prev->type == RE_IN
+					|| prev->type == RE_OUT || prev->type == APPEND_OUT
+						|| prev->type == HERE_DOC))
+				{
+					advance_node(&current, &prev);
+					continue ;
+				}
+				else
+					current = remove_key_not_found(data, current, prev);
+			}
 			advance_node(&current, &prev);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 17:52:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 10:39:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,16 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	char	*filename;
 	char	*line;
 	char	*expanded_line;
+	int		delim_quote;
 	int		fd;
 	int		linecount;
 
+	delim_quote = 0;
+	if (delimiter[0] == '\'' || delimiter[0] == '"')
+	{
+		delim_quote = 1;
+		delimiter = remove_quotes(delimiter);
+	}
 	setup_heredoc_signals();
 	filename = make_filename(data->env_arena);
 	if (!filename)
@@ -78,7 +85,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 			break ;
 		}
 		linecount++;
-		if (ft_strchr(line, '$'))
+		if (ft_strchr(line, '$') && !delim_quote)
 		{
 			expanded_line = expand(data, data->tools, line);
 			if (expanded_line)

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 13:33:25 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:47:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	get_range(t_parser *parser_data, const char *s, char c)
 	}
 }
 
-static char	**split_the_strings(char const *s, char c, char **array_of_strings)
+static char	**split_the_strings(t_data *data, char const *s, char c, char **array_of_strings)
 {
 	t_parser	parser_data;
 
@@ -80,7 +80,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 			break ;
 		if (s[parser_data.i] == '<' || s[parser_data.i] == '>'
 			|| s[parser_data.i] == '|')
-			add_operator(&parser_data, s);
+			add_operator(data, &parser_data, s);
 		else
 		{
 			parser_data.start = parser_data.i;
@@ -88,7 +88,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 		}
 		if (parser_data.i > parser_data.start)
 		{
-			if (!make_substring(&parser_data, s, array_of_strings))
+			if (!add_substring(data, &parser_data, array_of_strings, s))
 				return (NULL);
 		}
 	}
@@ -96,7 +96,7 @@ static char	**split_the_strings(char const *s, char c, char **array_of_strings)
 	return (array_of_strings);
 }
 
-char	**parser(char const *s, char c)
+char	**parser(t_data *data, char const *s, char c)
 {
 	char		**array_of_strings;
 	int			amount_of_strings;
@@ -109,9 +109,17 @@ char	**parser(char const *s, char c)
 	amount_of_strings = ft_count_splits(s, c);
 	array_of_strings = malloc((amount_of_strings + 1) * sizeof(char *));
 	if (array_of_strings == NULL)
+	{
+		data->mem_error = 1;
 		return (NULL);
-	result = split_the_strings(s, c, array_of_strings);
-	if (!result)
+	}
+	result = split_the_strings(data, s, c, array_of_strings);
+	if (!result && !data->syntax_err)
+	{
+		data->mem_error = 1;
+		return (NULL);
+	}
+	if (data->syntax_err)
 		return (NULL);
 	return (result);
 }

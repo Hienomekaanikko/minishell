@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:01:43 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:24:02 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,17 @@ static int	process_input(t_data *data)
 		add_var_declaration(data);
 	else if (ft_lexer(data))
 		make_tree(data);
-	if (data->mem_error == 1)
+	if (data->mem_error)
 	{
 		error_handler(&data->status, "malloc", MALLOC, 1);
+		return (1);
+	}
+	else if (data->syntax_err)
+	{
+		if (data->syntax_err == 1)
+			ft_putendl_fd("minishell$: syntax : close the quotes!", 2);
+		else if (data->syntax_err == 2)
+			ft_putendl_fd("minishell$: syntax : '||' not allowed", 2);
 		return (1);
 	}
 	return (1);

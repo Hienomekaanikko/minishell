@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:17:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:30:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 11:17:54 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	dollar(t_data *data, t_exp_tools *tools, char *value, int *i)
 	start = *i + 1;
 	if (value[start] == '?')
 		return (exit_status(data, tools, i));
-	else if (!value[start] || (!ft_isalnum(value[start]) && value[start] != '_'))
+	else if (!value[start] || (!ft_isalnum(value[start])))
 		return (dollar_literal(tools, i));
 	else
 		return (variable(data, tools, value, i));

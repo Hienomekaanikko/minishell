@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:04:38 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 15:05:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:20:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_arena	*init_backup_env(t_data *data)
 	arena_set_env(data, "PWD", getcwd(NULL, 0));
 	arena_set_env(data, "HOME", "/");
 	arena_set_env(data, "USER", "USER");
-	arena_set_env(data, "PATH", SECURE_PATH);
+	arena_set_env(data, "PATH", "//bin:/usr/bin:/usr/local/bin");
 	arena_set_env(data, "LOGNAME", "USER");
 	return (data->env_arena);
 }

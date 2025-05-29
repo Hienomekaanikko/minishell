@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:37:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:04:19 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <errno.h>
-#define SECURE_PATH "//bin:/usr/bin:/usr/local/bin"
 
 extern volatile sig_atomic_t g_interrupted;
 
@@ -137,13 +136,20 @@ void		init_data(t_data *data);
 int			init_base(t_data *data, int argc, char **argv, char **envp);
 
 //lexer stuff
-char		**parser(char const *s, char c);
+char		**parser(t_data *data, char const *s, char c);
 int			ft_make_list(t_data *data);
 void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data); //env-arena added
+int			ft_lexer(t_data *data);
+int			add_substring(t_data *data, t_parser *p, char **array_of_strings, const char *s);
+
+//parsing
+void		add_operator(t_data *data, t_parser *pars, const char *s);
+int			make_substring(t_parser *data, char const *s, char **array_of_strings);
+char		**free_malloc(char **array_of_strings, int y);
+void		skip_word(t_counter *data, const char *s);
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
@@ -192,12 +198,11 @@ void		free_exp_tools(t_data *data);
 
 //execution
 int			execute_command(t_ast *node, t_data *data);
-char		*find_executable(t_ast *node, t_arena *env_arena);
+char		*find_executable(t_ast *node, t_data *data);
 int			exec_pipe(t_ast *node, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
 void		wait_right_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
-int			handle_redirection_error(int fd, t_exec_status *status);
 void		check_path_permissions(char *path, t_exec_status *exec_status);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
@@ -225,6 +230,7 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
+int			set_export_value(t_data *data, const char *key, const char *arg);
 
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);

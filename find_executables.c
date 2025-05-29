@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 14:16:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:13:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 
 	if (!path_str)
 	{
-		error_handler(status, "PATH", NOENV, 127);
+		error_handler(status, cmd, NOFILE, 127);
 		return (NULL);
 	}
 	paths = ft_split(path_str, ':');
@@ -67,16 +67,26 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 	return (executable);
 }
 
-char	*find_executable(t_ast *node, t_arena *env_arena)
+char	*find_executable(t_ast *node, t_data *data)
 {
 	char	*executable;
 	char	*path_env;
 
-	executable = try_path(node->cmd, SECURE_PATH, NULL);
-	if (executable)
-		return (executable);
-	path_env = arena_getenv(env_arena, "PATH");
-	executable = try_path(node->cmd, path_env, NULL);
+	if (ft_strchr(node->cmd, '/'))
+	{
+		if (access(node->cmd, X_OK) == 0)
+			return (ft_strdup(node->cmd));
+		else
+		{
+			error_handler(&data->status, node->cmd, NOFILE, 126);
+			return (NULL);
+		}
+	}
+	path_env = arena_getenv(data->env_arena, "PATH");
+	executable = try_path(node->cmd, path_env, &data->status);
 	free(path_env);
+	if (!executable && data->status.exit_code == 0)
+		error_handler(&data->status, node->cmd, NOCMD, 127);
 	return (executable);
 }
+

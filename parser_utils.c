@@ -6,22 +6,24 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:11:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 12:48:19 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_operator(t_parser *data, const char *s)
+void	add_operator(t_data *data, t_parser *pars, const char *s)
 {
-	data->op = s[data->i];
-	data->start = data->i;
-	while (s[data->i] && data->in < 2 && s[data->i] == data->op)
+	pars->op = s[pars->i];
+	pars->start = pars->i;
+	while (s[pars->i] && pars->in < 2 && s[pars->i] == pars->op)
 	{
-		data->i++;
-		data->in++;
+		pars->i++;
+		pars->in++;
 	}
-	data->in = 0;
+	if (pars->op == '|' && pars->in == 2)
+		data->syntax_err = 2;
+	pars->in = 0;
 }
 
 int	make_substring(t_parser *data, char const *s, char **array_of_strings)

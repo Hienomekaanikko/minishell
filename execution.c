@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:57 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:10:34 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	executables(t_ast *node, t_data *data)
 	{
 		setup_child_signals();
 		check_path_permissions(node->cmd, &data->status);
-		path = find_executable(node, data->env_arena);
+		path = find_executable(node, data);
 		if (!path)
-			exit(error_handler(&data->status, node->cmd, NOCMD, 127));
+			exit(data->status.exit_code);
 		close_fds(&data->status);
 		execve(path, node->args, data->env_arena->ptrs);
 		free(path);

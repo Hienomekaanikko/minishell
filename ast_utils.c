@@ -6,13 +6,12 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 11:50:44 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 13:20:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//removes all quotes and returns a new cleaned up string
 char	*remove_quotes(char *value)
 {
 	t_utils	ast;
@@ -57,7 +56,6 @@ int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)
 	return (1);
 }
 
-//adds arguments (including cmd) to the args variable as split string
 void	add_arguments(t_utils *ast, t_ast *node, t_lexer *current, t_token type)
 {
 	t_lexer		*temp;
@@ -86,7 +84,6 @@ void	add_arguments(t_utils *ast, t_ast *node, t_lexer *current, t_token type)
 	node->args[ast->i] = NULL;
 }
 
-//adds right child
 void	add_right_child(t_ast **position, t_lexer *current, t_token type)
 {
 	t_utils	ast;
@@ -97,7 +94,6 @@ void	add_right_child(t_ast **position, t_lexer *current, t_token type)
 		add_arguments(&ast, *position, current, type);
 }
 
-//adds left child
 void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
 {
 	t_utils	ast;

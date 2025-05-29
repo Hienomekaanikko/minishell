@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:18 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 15:04:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:44:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,28 @@ int	arena_set_env(t_data *data, char *key, char *value)
 	return (0);
 }
 
-int	arena_unset_env(t_arena *env_arena, char *key)
+int	arena_unset_env(t_arena *arena, char *key)
 {
 	size_t	i;
 	size_t	key_len;
 
-	if (!env_arena || !key)
+	if (!arena || !key)
 		return (-1);
 	key_len = ft_strlen(key);
 	i = 0;
-	while (i < env_arena->ptrs_in_use)
+	while (i < arena->ptrs_in_use)
 	{
-		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0
-			&& env_arena->ptrs[i][key_len] == '=')
+		if (ft_strncmp(arena->ptrs[i], key, key_len) == 0 &&
+			(arena->ptrs[i][key_len] == '=' || arena->ptrs[i][key_len] == '\0'))
 		{
-			env_arena->ptrs[i] = env_arena->ptrs[env_arena->ptrs_in_use - 1];
-			env_arena->ptrs_in_use--;
-			return (0);
+			while (i < arena->ptrs_in_use - 1)
+			{
+				arena->ptrs[i] = arena->ptrs[i + 1];
+				i++;
+			}
+			arena->ptrs_in_use--;
+			arena->ptrs[arena->ptrs_in_use] = NULL;
+			continue;
 		}
 		i++;
 	}

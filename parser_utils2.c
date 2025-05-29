@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 16:19:25 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 12:44:59 by msuokas          ###   ########.fr       */
+/*   Created: 2025/05/29 11:24:04 by msuokas           #+#    #+#             */
+/*   Updated: 2025/05/29 11:24:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
-# include "minishell.h"
+#include "minishell.h"
 
-typedef struct s_parser
+int	add_substring(t_data *data, t_parser *p, char **array_of_strings, const char *s)
 {
-	int		i;
-	int		y;
-	int		start;
-	int		in_quote;
-	int		in;
-	char	quote;
-	char	op;
-}	t_parser;
-
-typedef struct s_counter
-{
-	int		count;
-	int		in_word;
-	char	op;
-	char	op_len;
-}	t_counter;
-
-#endif
+	if (p->in_quote)
+	{
+		data->syntax_err = 1;
+		return (0);
+	}
+	if (!make_substring(p, s, array_of_strings))
+		return (0);
+	return (1);
+}
