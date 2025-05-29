@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 11:42:27 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:09:30 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		line = readline("> ");
 		if (g_interrupted)
 		{
-			//cleanup
 			g_interrupted = 0;
-			break ; //do we need to return -1?
+			break ;
 		}
 		if (!line)
 		{

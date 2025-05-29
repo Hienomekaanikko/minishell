@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:36:56 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 13:18:42 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
-//envp
+//env
 t_arena		*init_env_arena(char **envp, t_data *data);
 char		*arena_getenv(t_arena *env_arena, char *key);
 int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
@@ -201,6 +201,9 @@ void		setup_shell_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
 void		ignore_signals(void);
+// readline hook
+int			reset_readline(void);
+int			reset_heredoc_readline(void);
 //graphics
 void		splash_screen(void);
 
