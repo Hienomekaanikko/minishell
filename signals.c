@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 19:05:24 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:45:00 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	reset_readline(void)
 	if (g_interrupted)
 	{
 		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("DEBUG: This should reset the prompt\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -27,16 +26,18 @@ int	reset_readline(void)
 	}
 	return (0);
 }
-// int	reset_heredoc_readline(void)
-// {
-// 	if (g_interrupted)
-// 	{
-// 		ft_putstr_fd("\n", 1);
-// 		ft_putstr_fd("DEBUG: heredoc\n", 1);
-// 		g_interrupted = 0;
-// 	}
-// 	return (0);
-// }
+
+int	reset_heredoc_readline(void)
+{
+	if (g_interrupted)
+	{
+	//rl_replace_line("", 0);
+	rl_redisplay();
+	rl_done = 1;
+	//rl_pending_input = '\n';
+	}
+	return (0);
+}
 
 void	sigint_handler(int sig)
 {
@@ -51,9 +52,10 @@ void heredoc_sigint_handler(int sig) {
 
 void	setup_shell_signals(void)
 {
-	rl_catch_signals = 0;
+	rl_event_hook = reset_readline;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	g_interrupted = 0;
 }
 
 void	setup_child_signals(void)
@@ -64,9 +66,10 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	rl_catch_signals = 0;
+	rl_event_hook = reset_heredoc_readline;
 	signal(SIGINT, heredoc_sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	g_interrupted = 0;
 }
 
 void	ignore_signals(void)

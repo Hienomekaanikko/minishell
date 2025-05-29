@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 19:02:41 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:42:27 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,13 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	linecount = 0;
 	while (1)
 	{
+		line = readline("> ");
 		if (g_interrupted)
 		{
 			//cleanup
-			//clear prompt ?
-			setup_shell_signals();
-			break ; //do we need to return -1? Do we need 
+			g_interrupted = 0;
+			break ; //do we need to return -1?
 		}
-		line = readline("> ");
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document at line ", 2);
@@ -99,7 +98,6 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	g_interrupted = 0;
 	close(fd);
 	setup_shell_signals();
 	*out_path = filename;
