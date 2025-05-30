@@ -188,6 +188,7 @@ void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
 char		*is_declared(t_data *data, char *extracted_key);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
+void		unset_local(t_var **head, char *key);
 int			after_dollar(t_data *data, t_exp_tools *tools, char *value);
 int			dollar_literal(t_exp_tools *tools, int *i);
 int			before_dollar(t_data *data, t_exp_tools *tools, char *value, int i);
@@ -220,6 +221,7 @@ void		arena_free(t_arena *arena);
 char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
 t_arena		*arena_cleanup(char **ptrs, char *memory);
 void		arena_free(t_arena *arena);
+int			arena_has_key(t_arena *env_arena, char *key);
 
 //built-ins
 int			builtin_echo(char **args, t_exec_status *status);

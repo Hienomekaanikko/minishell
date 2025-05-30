@@ -34,8 +34,8 @@ void	reset_readline_heredoc(void)
 	{
 		ft_putstr_fd("\n", 1);
 		ft_putstr_fd("DEBUG: double prompt\n", 1);
-		rl_replace_line("", 0);
-		rl_done = 1;
+		//rl_replace_line("", 0);
+		//rl_done = 1;
 		g_interrupted = 0;
 	}
 }

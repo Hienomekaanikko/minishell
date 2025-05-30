@@ -41,3 +41,22 @@ t_arena	*init_backup_env(t_data *data)
 	arena_set_env(data, "LOGNAME", "USER");
 	return (data->env_arena);
 }
+
+int arena_has_key(t_arena *env_arena, char *key)
+{
+	size_t i;
+	size_t key_len;
+
+	if (!env_arena || !key)
+		return (0);
+	key_len = ft_strlen(key);
+	i = 0;
+	while (i < env_arena->ptrs_in_use)
+	{
+		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0 &&
+			(env_arena->ptrs[i][key_len] == '=' || env_arena->ptrs[i][key_len] == '\0'))
+			return (1);
+		i++;
+	}
+	return (0);
+}

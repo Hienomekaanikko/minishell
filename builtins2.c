@@ -40,6 +40,7 @@ int	builtin_unset(t_data *data, char **args)
 		arena_unset_env(data->env_arena, args[i]);
 		i++;
 	}
+	unset_local(&data->exp->var_list, args[1]);
 	return (0);
 }
 

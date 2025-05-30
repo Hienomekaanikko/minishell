@@ -28,6 +28,8 @@ t_lexer	*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev)
 	t_lexer	*temp;
 	t_lexer	*next;
 
+	if (!current)
+		return (NULL);
 	temp = current;
 	next = current->next;
 	if (prev)

@@ -95,10 +95,10 @@ void	add_var_declaration(t_data *data)
 			data->mem_error = 1;
 		else
 		{
+			if (arena_has_key(data->env_arena, key))
+				arena_set_env(data, key, value);
 			if (!already_declared(data->exp->var_list, key, value))
 				add_var_to_list(data->exp, key, value);
-			if (arena_getenv(data->env_arena, key))
-				set_export_value(data, key, value);
 		}
 	}
 	free(key);
