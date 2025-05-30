@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/29 16:33:04 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:08:13 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,32 @@ int	error_handler(t_exec_status *status, const char *cmd, const char *msg, int e
 	return (exit_code);
 }
 
-void	handle_signal_error(t_exec_status *status)
+void	handle_signal_error(t_exec_status *exec_status)
 {
-	status->exit_code = 128 + status->signal;
+	int	status;
+
+	status = WTERMSIG(exec_status->raw_status);
+	exec_status->exit_code = 128 + status;
 	ft_putstr_fd("minishell: ", 2);
-	if (status->signal == SIGINT)
+	if (status == SIGINT)
 		ft_putstr_fd("\n", 2);
-	else if (status->signal == SIGSEGV)
+	else if (status == SIGSEGV)
 		ft_putstr_fd("Segmentation fault", 2);
-	else if (status->signal == SIGBUS)
+	else if (status == SIGBUS)
 		ft_putstr_fd("Bus error", 2);
-	else if (status->signal == SIGFPE)
+	else if (status == SIGFPE)
 		ft_putstr_fd("Floating point exception", 2);
-	else if (status->signal == SIGILL)
+	else if (status == SIGILL)
 		ft_putstr_fd("Illegal instruction", 2);
-	else if (status->signal == SIGTERM)
+	else if (status == SIGTERM)
 		ft_putstr_fd("Terminated", 2);
-	else if (status->signal == SIGKILL)
+	else if (status == SIGKILL)
 		ft_putstr_fd("Killed", 2);
-	else if (status->signal == SIGPIPE)
+	else if (status == SIGPIPE)
 		ft_putstr_fd("Broken pipe", 2);
-	else if (status->signal == SIGQUIT)
+	else if (status == SIGQUIT)
 	{
-		if (WCOREDUMP(status->raw_status))
+		if (WCOREDUMP(exec_status->raw_status))
 			ft_putstr_fd("Quit (core dumped)\n", 2);
 		else
 			ft_putstr_fd("Quit\n", 2);

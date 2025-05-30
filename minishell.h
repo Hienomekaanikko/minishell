@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 16:25:27 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:02:14 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void		save_orig_fd(t_data *data);
 
 //error
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
-void		handle_signal_error(t_exec_status *status, int signal);
+void		handle_signal_error(t_exec_status *status);
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
 void		arena_free(t_arena *arena);
