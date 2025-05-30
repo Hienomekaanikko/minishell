@@ -46,7 +46,7 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_data *data)
 	exit(data->status.exit_code);
 }
 
-void	wait_process(pid_t pid, t_exec_status *exec_status)
+void	wait_process(pid_t pid, t_exec_status *exec_status, int print_signal_error)
 {
 	int	status;
 
@@ -60,9 +60,8 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	{
 		exec_status->signal = WTERMSIG(status);
 		exec_status->exit_code= 128 + exec_status->signal;
-		if(exec_status->signal != SIGINT)
+		if (print_signal_error && exec_status->signal != SIGINT)
 			handle_signal_error(exec_status);
-		//might need a explicit newline for SIGINT, probably not.
 	}
 }
 
@@ -108,7 +107,7 @@ int	exec_pipe(t_ast *node, t_data *data)
 		handle_right_child(pipe_fd, node, data);
 	ignore_signals();
 	cleanup_pipe(pipe_fd, pidL, pidR);
-	wait_process(pidL, &data->status);
+	wait_process(pidL, &data->status, 0);
 	wait_right_process(pidR, &data->status);
 	return (0);
 }
