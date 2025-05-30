@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/30 22:02:14 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/05/30 22:31:19 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
 int			exec_pipe(t_ast *node, t_data *data);
-void		wait_process(pid_t pid, t_exec_status *exec_status);
+void		wait_process(pid_t pid, t_exec_status *exec_status, int print_error);
 int			exec_redir(t_ast *node, t_data *data);
 int			handle_redirection_error(int fd, t_exec_status *status);
 void		check_path_permissions(char *path, t_exec_status *exec_status);

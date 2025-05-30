@@ -41,7 +41,7 @@ int	executables(t_ast *node, t_data *data)
 	{
 		data->status.pid = pid;
 		ignore_signals();
-		wait_process(pid, &data->status);
+		wait_process(pid, &data->status, 1);
 		setup_shell_signals();
 	}
 	return (0);
