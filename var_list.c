@@ -17,11 +17,20 @@ t_var	*create_var(char *key, char *value)
 {
 	t_var	*new_node;
 
+	(void)value;
 	new_node = malloc(sizeof(t_var));
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(key);
+	if (!new_node->key)
+		return (NULL);
 	new_node->value = ft_strdup(value);
+	if (!new_node->value)
+	{
+		free(new_node->key);
+		new_node->key = NULL;
+		return (NULL);
+	}
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -37,7 +46,6 @@ int	add_var_to_list(t_exp_data *exp, char *key, char *value)
 	new_node = create_var(key, value);
 	if (!new_node)
 		return (0);
-
 	if (!exp->var_list)
 		exp->var_list = new_node;
 	else
@@ -91,15 +99,10 @@ void	add_var_declaration(t_data *data)
 	else
 	{
 		value = ft_substr(data->input, start, i - start);
-		if (!value)
-			data->mem_error = 1;
+		if (set_mem_error(data, value))
+			return ;
 		else
-		{
-			if (arena_has_key(data->env_arena, key))
-				arena_set_env(data, key, value);
-			if (!already_declared(data->exp->var_list, key, value))
-				add_var_to_list(data->exp, key, value);
-		}
+			set_variable(data, key, value);
 	}
 	free(key);
 	free(value);

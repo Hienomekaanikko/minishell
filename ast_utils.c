@@ -47,41 +47,12 @@ int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)
 		node->args[ast->i] = ft_strdup((*current)->value);
 	if (!node->args[ast->i])
 	{
-		ft_free_split(node->args);
 		node->args = NULL;
 		return (0);
 	}
 	ast->i++;
 	(*current) = (*current)->next;
 	return (1);
-}
-
-void	add_arguments(t_utils *ast, t_ast *node, t_lexer *current, t_token type)
-{
-	t_lexer		*temp;
-
-	temp = current;
-	ast->argument_amount = count_size(temp);
-	node->args = malloc((ast->argument_amount + 1) * sizeof(char *));
-	if (!node->args)
-		return ;
-	while (temp && (temp->type == ARG || temp->type == CMD))
-	{
-		if (!allocate_arguments(ast, node, &temp))
-			return ;
-	}
-	if (temp && type != RE_IN && type != RE_OUT)
-	{
-		if (temp->type != PIPE)
-			temp = temp->next;
-		temp = temp->next;
-		while (temp && temp->type == ARG)
-		{
-			if (!allocate_arguments(ast, node, &temp))
-				return ;
-		}
-	}
-	node->args[ast->i] = NULL;
 }
 
 void	add_right_child(t_ast **position, t_lexer *current, t_token type)

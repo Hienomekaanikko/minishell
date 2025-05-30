@@ -23,6 +23,7 @@ int	ft_lexer(t_data *data)
 		return (0);
 	if (count_dollars(*data->lexed_list))
 		check_for_expansions(data);
+	data->status.exit_code = 0;
 	if (data->mem_error)
 		return (0);
 	return (1);

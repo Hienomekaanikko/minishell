@@ -16,8 +16,6 @@
 # include "expansions.h"
 # include "parser.h"
 # include "ast_builder.h"
-# include "parser.h"
-# include "ast_builder.h"
 # include <string.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -136,32 +134,41 @@ void		init_data(t_data *data);
 int			init_base(t_data *data, int argc, char **argv, char **envp);
 
 //lexer stuff
-char		**parser(t_data *data, char const *s, char c);
 int			ft_make_list(t_data *data);
-void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
 int			ft_lexer(t_data *data);
-int			add_substring(t_data *data, t_parser *p, char **array_of_strings, const char *s);
 
 //parsing
+char		**parser(t_data *data, char const *s, char c);
 void		add_operator(t_data *data, t_parser *pars, const char *s);
 int			make_substring(t_parser *data, char const *s, char **array_of_strings);
 char		**free_malloc(char **array_of_strings, int y);
 void		skip_word(t_counter *data, const char *s);
+int			add_substring(t_data *data, t_parser *p, char **array_of_strings, const char *s);
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
 void		free_lexed_list(t_lexer *start);
 void		free_ast(t_ast *root);
 void		close_all_fds(t_data *data);
+void		free_exp_tools(t_data *data);
+int			cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR);
+
+//error stuff
+int			set_mem_error(t_data *data, char *value);
+void		ast_error_check(t_data *data);
+int			error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code);
+void		handle_signal_error(t_exec_status *status, int signal);
+void		check_syntax_error(t_lexer *checker, char **msg, t_lexer **prev);
 
 //ast tree stuff (added 22.4.)
+void		make_tree(t_data *data);
+void		set_complex_tree(t_data *data);
 void		add_arguments(t_utils *ast, t_ast *curr_node, t_lexer *current, t_token type);
 void		add_right_child(t_ast **position, t_lexer *current, t_token type);
 void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
-void		set_complex_tree(t_data *data);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *current);
@@ -169,23 +176,24 @@ t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
 int			write_heredoc(t_data *data, char *delimiter, char **out_path);
 int			perms(t_data *data, char *path, int type);
-void		ast_error_check(t_data *data);
 void		set_access_err(t_data *data, t_ast *new);
 void		set_followup_redir(t_data *data, t_lexer *curr, t_ast *new);
 void		set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr);
 void		set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new);
 void		set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd);
+int			allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
 void		add_var_declaration(t_data *data);
 int			already_declared(t_var *start, char *key, char *value);
+void		set_variable(t_data *data, char *key, char *value);
+int			add_var_to_list(t_exp_data *exp, char *key, char *value);
 
 //expansion stuff
-char		*expand(t_data *data, t_exp_tools *tools, char *value);
-int			set_mem_error(t_data *data, char *value);
-void		check_for_expansions(t_data *data);
 int			count_dollars(t_lexer *curr);
+void		check_for_expansions(t_data *data);
+char		*expand(t_data *data, t_exp_tools *tools, char *value);
 char		*is_declared(t_data *data, char *extracted_key);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 void		unset_local(t_var **head, char *key);
@@ -195,7 +203,9 @@ int			before_dollar(t_data *data, t_exp_tools *tools, char *value, int i);
 int			dollar(t_data *data, t_exp_tools *tools, char *value, int *i);
 int			variable(t_data *data, t_exp_tools *tools, char *value, int *i);
 int			exit_status(t_data *data, t_exp_tools *tools, int *i);
-void		free_exp_tools(t_data *data);
+void		advance_node(t_lexer **current, t_lexer **prev);
+int			is_single_quote(t_lexer **current, t_lexer **prev);
+int			prev_is_redir(t_lexer **curr, t_lexer **prev);
 
 //execution
 int			execute_command(t_ast *node, t_data *data);
@@ -208,17 +218,10 @@ void		check_path_permissions(char *path, t_exec_status *exec_status);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
 void		save_orig_fd(t_data *data);
-int			cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR);
-
-//error
-int			error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code);
-void		handle_signal_error(t_exec_status *status, int signal);
-void		check_syntax_error(t_lexer *checker, char **msg, t_lexer **prev);
 
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
-void		arena_free(t_arena *arena);
-char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
+char		*arena_add(t_data *data, char *add);
 t_arena		*arena_cleanup(char **ptrs, char *memory);
 void		arena_free(t_arena *arena);
 int			arena_has_key(t_arena *env_arena, char *key);
@@ -232,7 +235,6 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
-int			set_export_value(t_data *data, const char *key, const char *arg);
 
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);

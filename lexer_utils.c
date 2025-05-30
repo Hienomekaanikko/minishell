@@ -81,25 +81,3 @@ void	add_starting_token(t_lexer *curr)
 	else
 		curr->type = CMD;
 }
-
-//add tokens that are not the first ones
-void	add_token(t_lexer *curr, t_lexer *prev)
-{
-	if (curr->value[0] == '|')
-		curr->type = PIPE;
-	else if (curr->value[0] == '<' && curr->value[1] == '<')
-		curr->type = HERE_DOC;
-	else if (curr->value[0] == '<')
-		curr->type = RE_IN;
-	else if (curr->value[0] == '>' && curr->value[1] == '>')
-		curr->type = APPEND_OUT;
-	else if (curr->value[0] == '>')
-		curr->type = RE_OUT;
-	else if (prev->type == PIPE)
-		curr->type = CMD;
-	else if (prev->type == RE_IN || prev->type == RE_OUT
-		|| prev->type == HERE_DOC || prev->type == APPEND_OUT)
-		curr->type = ARG;
-	else if (prev->type == CMD || prev->type == ARG)
-		curr->type = ARG;
-}

@@ -24,14 +24,11 @@ t_arena	*init_env_arena(char **envp, t_data *data)
 		env_count++;
 	data->env_arena = arena_init(env_count * 100 * 2, env_count + 32);
 	if (!data->env_arena)
-	{
-		free(data->env_arena);
 		return (NULL);
-	}
 	i = 0;
 	while (i < env_count)
 	{
-		arena_add(data->env_arena, envp[i], &data->status);
+		arena_add(data, envp[i]);
 		i++;
 	}
 	set_shell_level(data);
@@ -48,7 +45,7 @@ int	arena_set_env(t_data *data, char *key, char *value)
 		return (-1);
 	if (!value)
 	{
-		if (!arena_add(data->env_arena, key, &data->status))
+		if (!arena_add(data, key))
 			return (-1);
 		return (0);
 	}
@@ -58,7 +55,7 @@ int	arena_set_env(t_data *data, char *key, char *value)
 	env_var = ft_strjoin_free(env_var, value);
 	if (!env_var)
 		return (-1);
-	if (!arena_add(data->env_arena, env_var, &data->status))
+	if (!arena_add(data, env_var))
 	{
 		free(env_var);
 		return (-1);

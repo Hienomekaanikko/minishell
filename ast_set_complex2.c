@@ -27,7 +27,7 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 	if (curr && curr->type == ARG)
 	{
 		add_right_child(&new->right, curr, new->type);
-		if (!new->right->args)
+		if (!new->right)
 		{
 			data->mem_error = 1;
 			return ;
@@ -45,8 +45,11 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 {
 	data->root = create_node(curr->value, curr->type);
-	if (set_mem_error(data, data->root->cmd))
+	if (!data->root)
+	{
+		data->mem_error = 1;
 		return ;
+	}
 	if (data->root->type == HERE_DOC)
 		write_heredoc(data, curr->next->value, &data->root->file);
 	curr = curr->next;
@@ -60,7 +63,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 	if (curr && curr->type == ARG)
 	{
 		add_right_child(&data->root->right, curr, data->root->type);
-		if (!data->root->right->args)
+		if (!data->root->right)
 			data->mem_error = 1;
 	}
 	if (curr && !data->mem_error

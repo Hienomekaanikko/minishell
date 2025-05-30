@@ -12,33 +12,40 @@
 
 #include "minishell.h"
 
-char	*expand(t_data *data, t_exp_tools *tools, char *value)
+static int expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
 {
-	int	i;
+	int		i;
+	char	*value;
 
 	i = 0;
-	tools->result = ft_strdup("");
-	if (set_mem_error(data, tools->result))
-		return (NULL);
+	value = *value_ptr;
 	while (value[i])
 	{
 		if (value[i] == '$')
 		{
 			if (!before_dollar(data, tools, value, i))
-				return (NULL);
+				return (0);
 			if (!dollar(data, tools, value, &i))
-				return (NULL);
+				return (0);
 			value += i;
 			i = 0;
 		}
 		else
 			i++;
 	}
-	if (*value)
-	{
-		if (!after_dollar(data, tools, value))
-			return (NULL);
-	}
+	*value_ptr = value;
+	return (1);
+}
+
+char *expand(t_data *data, t_exp_tools *tools, char *value)
+{
+	tools->result = ft_strdup("");
+	if (set_mem_error(data, tools->result))
+		return (NULL);
+	if (!expand_loop(data, tools, &value))
+		return (NULL);
+	if (!after_dollar(data, tools, value))
+		return (NULL);
 	if (ft_strlen(tools->result) == 0)
 		return (NULL);
 	return (tools->result);

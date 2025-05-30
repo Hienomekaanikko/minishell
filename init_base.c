@@ -52,6 +52,7 @@ int	init_base(t_data *data, int argc, char **argv, char **envp)
 	if (!allocate_structs(data))
 		return (0);
 	init_exec_status(data);
-	init_env_arena(envp, data);
+	if (!init_env_arena(envp, data))
+		return (0);
 	return (1);
 }

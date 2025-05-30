@@ -12,33 +12,20 @@
 
 #include "minishell.h"
 
-int	set_mem_error(t_data *data, char *value)
+void	replace_value(t_data *data, t_lexer **current, char *exp)
 {
-	if (!value)
-	{
-		data->mem_error = 1;
-		return (1);
-	}
-	return (0);
+	data->tools->result = NULL;
+	free((*current)->value);
+	(*current)->value = exp;
 }
 
-void	advance_node(t_lexer **current, t_lexer **prev)
+int	handle_non_found(t_data *data, t_lexer **current, t_lexer **prev)
 {
-	if (current && *current)
-	{
-		*prev = *current;
-		*current = (*current)->next;
-	}
-}
-
-int	is_single_quote(t_lexer **current, t_lexer **prev)
-{
-	if ((*current)->value[0] == '\'')
-	{
-		advance_node(current, prev);
-		return (1);
-	}
-	return (0);
+	if (prev_is_redir(current, prev))
+		return (0);
+	else
+		*current = remove_key_not_found(data, *current, *prev);
+	return (1);
 }
 
 void	check_for_expansions(t_data *data)
@@ -51,6 +38,7 @@ void	check_for_expansions(t_data *data)
 	prev = NULL;
 	while (current)
 	{
+		expanded_value = NULL;
 		if (is_single_quote(&current, &prev))
 			continue ;
 		if (ft_strchr(current->value, '$'))
@@ -59,27 +47,11 @@ void	check_for_expansions(t_data *data)
 			if (data->mem_error)
 				return ;
 			if (expanded_value)
-			{
-				data->tools->result = NULL;
-				free(current->value);
-				current->value = expanded_value;
-			}
-			else
-			{
-				if (prev && (prev->type == RE_IN
-					|| prev->type == RE_OUT || prev->type == APPEND_OUT
-						|| prev->type == HERE_DOC))
-				{
-					advance_node(&current, &prev);
-					continue ;
-				}
-				else
-					current = remove_key_not_found(data, current, prev);
-			}
-			advance_node(&current, &prev);
+				replace_value(data, &current, expanded_value);
+			else if (!expanded_value && handle_non_found(data, &current, &prev))
+				continue;
 		}
-		else
-			advance_node(&current, &prev);
+		advance_node(&current, &prev);
 	}
 	free_exp_tools(data);
 }

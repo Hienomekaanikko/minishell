@@ -23,7 +23,7 @@ static int	process_input(t_data *data)
 		add_var_declaration(data);
 	else if (ft_lexer(data))
 		make_tree(data);
-	if (data->mem_error)
+	if (data->mem_error == 1)
 	{
 		error_handler(&data->status, "malloc", MALLOC, 1);
 		return (1);
@@ -60,7 +60,10 @@ int	main(int argc, char **argv, char **envp)
 
 	splash_screen();
 	if (!init_base(&data, argc, argv, envp))
+	{
 		error_handler(&data.status, "malloc", MALLOC, 1);
+		return (1);
+	}
 	while (1)
 	{
 		init_data(&data);

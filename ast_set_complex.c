@@ -74,10 +74,7 @@ void	set_complex_tree(t_data *data)
 		place_pipe(data, curr, new, prev_cmd);
 		place_redir(data, curr, new, prev_cmd);
 		if (data->mem_error == 1)
-		{
-			error_handler(&data->status, "malloc", MALLOC, 1);
 			return ;
-		}
 		curr = curr->next;
 	}
 	ast_error_check(data);

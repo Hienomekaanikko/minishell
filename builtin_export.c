@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	export_no_args(t_arena *env_arena)
+static int	export_no_args(t_arena *env_arena)
 {
 	size_t	i;
 	char	*eq;
@@ -39,7 +39,7 @@ int	export_no_args(t_arena *env_arena)
 	return (0);
 }
 
-char	*extract_key(const char *arg, t_exec_status *status)
+static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
 
@@ -57,7 +57,7 @@ char	*extract_key(const char *arg, t_exec_status *status)
 	return (key);
 }
 
-int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
+static int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
 {
 	char	*key;
 
@@ -75,7 +75,7 @@ int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
 	return (0);
 }
 
-int	set_export_value(t_data *data, const char *key, const char *arg)
+static int	set_export_value(t_data *data, const char *key, const char *arg)
 {
 	char	*eq;
 	char	*value;

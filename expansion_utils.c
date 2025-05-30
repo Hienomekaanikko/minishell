@@ -78,7 +78,7 @@ char	*is_declared(t_data *data, char *extracted_key)
 	temp = data->exp->var_list;
 	while (temp)
 	{
-		if (ft_strncmp(extracted_key, temp->key, ft_strlen(temp->key)) == 0)
+		if (ft_strncmp(extracted_key, temp->key, ft_strlen(extracted_key)) == 0)
 		{
 			fetched_value = ft_strdup(temp->value);
 			if (set_mem_error(data, fetched_value))
