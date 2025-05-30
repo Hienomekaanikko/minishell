@@ -12,17 +12,30 @@
 
 #include "minishell.h"
 
+int	count_args(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+		i++;
+
+	return (i);
+}
+
 int	builtin_cd(char **args, t_data *data)
 {
 	char	*new_pwd;
 	char	*path;
 
-	if (args [2])
+	if (count_args(args) > 2)
 		return (error_handler(&data->status, "cd", TOO_MANY, 1));
 	path = args[1];
 	if (!path)
 	{
-		path = arena_getenv(data->env_arena, "HOME");
+		path = arena_getenv(data, data->env_arena, "HOME");
+		if (data->mem_error)
+			return (0);
 		if (!path)
 			return (error_handler(&data->status, "env", NOENV, 1));
 	}
@@ -41,7 +54,9 @@ int	builtin_pwd(t_data *data)
 {
 	char	*pwd;
 
-	pwd = arena_getenv(data->env_arena, "PWD");
+	pwd = arena_getenv(data, data->env_arena, "PWD");
+	if (data->mem_error)
+		return (0);
 	if (pwd)
 	{
 		ft_putstr_fd(pwd, 1);

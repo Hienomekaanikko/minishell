@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // Helper function to create a new node
-t_var	*create_var(char *key, char *value)
+t_var	*create_var(t_data *data, char *key, char *value)
 {
 	t_var	*new_node;
 
@@ -22,10 +22,10 @@ t_var	*create_var(char *key, char *value)
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(key);
-	if (!new_node->key)
+	if (set_mem_error(data, new_node->key))
 		return (NULL);
 	new_node->value = ft_strdup(value);
-	if (!new_node->value)
+	if (set_mem_error(data, new_node->value))
 	{
 		free(new_node->key);
 		new_node->key = NULL;
@@ -36,14 +36,16 @@ t_var	*create_var(char *key, char *value)
 }
 
 // Add a new node to the end of the list
-int	add_var_to_list(t_exp_data *exp, char *key, char *value)
+int	add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value)
 {
 	t_var	*current;
 	t_var	*new_node;
 
-	if (already_declared(exp->var_list, key, value))
+	if (already_declared(d, exp->var_list, key, value))
 		return (1);
-	new_node = create_var(key, value);
+	if (d->mem_error == 1)
+		return (0);
+	new_node = create_var(d, key, value);
 	if (!new_node)
 		return (0);
 	if (!exp->var_list)
@@ -104,7 +106,9 @@ void	add_var_declaration(t_data *data)
 		else
 			set_variable(data, key, value);
 	}
-	free(key);
-	free(value);
+	if (key)
+		free(key);
+	if (value)
+		free(value);
 }
 

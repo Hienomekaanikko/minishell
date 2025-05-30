@@ -26,6 +26,11 @@ void	set_basic_tree(t_data *data)
 			data->mem_error = 1;
 			return ;
 		}
+		if (!data->root->args)
+		{
+			data->mem_error = 1;
+			return ;
+		}
 	}
 }
 

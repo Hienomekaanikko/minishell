@@ -186,9 +186,9 @@ int			allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current);
 //var declaration stuff
 int			is_var_declaration(char	*str);
 void		add_var_declaration(t_data *data);
-int			already_declared(t_var *start, char *key, char *value);
+int			already_declared(t_data *data, t_var *start, char *key, char *value);
 void		set_variable(t_data *data, char *key, char *value);
-int			add_var_to_list(t_exp_data *exp, char *key, char *value);
+int			add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value);
 
 //expansion stuff
 int			count_dollars(t_lexer *curr);
@@ -239,7 +239,7 @@ int			is_valid_env_name(const char *name);
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);
 t_arena		*init_backup_env(t_data *data);
-char		*arena_getenv(t_arena *env_arena, char *key);
+char		*arena_getenv(t_data *data, t_arena *env_arena, char *key);
 int			arena_set_env(t_data *data, char *key, char *value);
 int			arena_unset_env(t_arena *env_arena, char *key);
 void		set_shell_level(t_data *data);

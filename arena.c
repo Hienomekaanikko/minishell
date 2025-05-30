@@ -30,7 +30,7 @@ static int	arena_realloc(t_arena *arena, size_t more_space)
 	return (1);
 }
 
-static void	arena_ptrs_realloc(t_arena *arena)
+static int	arena_ptrs_realloc(t_arena *arena)
 {
 	char	**old_ptrs;
 	char	**new_ptrs;
@@ -39,10 +39,13 @@ static void	arena_ptrs_realloc(t_arena *arena)
 	old_ptrs = arena->ptrs;
 	new_capacity = arena->ptr_capacity * 2;
 	new_ptrs = malloc(sizeof(char *) * (new_capacity + 1));
+	if (!new_ptrs)
+		return (0);
 	ft_memcpy(new_ptrs, old_ptrs, sizeof(char *) * arena->ptrs_in_use);
 	free(old_ptrs);
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
+	return (1);
 }
 
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
@@ -88,7 +91,11 @@ char	*arena_add(t_data *data, char *add)
 			return (NULL);
 		}
 		if (data->env_arena->ptrs_in_use >= data->env_arena->ptr_capacity)
-			arena_ptrs_realloc(data->env_arena);
+		{
+			if (!arena_ptrs_realloc(data->env_arena))
+			data->mem_error = 1;
+			return (NULL);
+		}
 	}
 	ptr = data->env_arena->memory + data->env_arena->mem_used;
 	ft_memcpy(ptr, add, add_len);

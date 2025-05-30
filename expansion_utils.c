@@ -72,7 +72,7 @@ char	*is_declared(t_data *data, char *extracted_key)
 	if (data->mem_error || !extracted_key)
 		return (NULL);
 	fetched_value = NULL;
-	fetched_value = arena_getenv(data->env_arena, extracted_key);
+	fetched_value = arena_getenv(data, data->env_arena, extracted_key);
 	if (fetched_value)
 		return (fetched_value);
 	temp = data->exp->var_list;

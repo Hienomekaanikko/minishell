@@ -66,11 +66,12 @@ int	is_var_declaration(char *str)
 }
 
 //check if key is already declared and replace the value
-int	already_declared(t_var *start, char *key, char *value)
+int	already_declared(t_data *data, t_var *start, char *key, char *value)
 {
 	t_var	*temp;
 	int		key_len;
 
+	(void)value;
 	temp = start;
 	key_len = ft_strlen(key);
 	if (key_len == 0)
@@ -81,6 +82,8 @@ int	already_declared(t_var *start, char *key, char *value)
 		{
 			free(temp->value);
 			temp->value = ft_strdup(value);
+			if (set_mem_error(data, temp->value))
+				return (0);
 			return (1);
 		}
 		temp = temp->next;

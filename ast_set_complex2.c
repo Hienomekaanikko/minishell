@@ -32,6 +32,11 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 			data->mem_error = 1;
 			return ;
 		}
+		if (!new->right->args)
+		{
+			data->mem_error = 1;
+			return ;
+		}
 	}
 	if (curr && !data->mem_error
 		&& ((perms(data, new->right->args[0], new->type) == -1)
@@ -64,7 +69,15 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 	{
 		add_right_child(&data->root->right, curr, data->root->type);
 		if (!data->root->right)
+		{
 			data->mem_error = 1;
+			return ;
+		}
+		if (!data->root->right->args)
+		{
+			data->mem_error = 1;
+			return ;
+		}
 	}
 	if (curr && !data->mem_error
 		&& ((perms(data, data->root->right->args[0], data->root->type) == -1)

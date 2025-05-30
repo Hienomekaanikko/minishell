@@ -41,10 +41,10 @@ int	executables(t_ast *node, t_data *data)
 	{
 		setup_child_signals();
 		check_path_permissions(node->cmd, &data->status);
+		close_fds(&data->status);
 		path = find_executable(node, data);
 		if (!path)
 			exit(data->status.exit_code);
-		close_fds(&data->status);
 		execve(path, node->args, data->env_arena->ptrs);
 		free(path);
 		exit(error_handler(&data->status, node->cmd, NOCMD, 127));

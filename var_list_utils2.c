@@ -4,10 +4,13 @@ void	set_variable(t_data *data, char *key, char *value)
 {
 	if (arena_has_key(data->env_arena, key))
 		arena_set_env(data, key, value);
-	if (!already_declared(data->exp->var_list, key, value))
+	if (!already_declared(data, data->exp->var_list, key, value))
 	{
-		if (!add_var_to_list(data->exp, key, value))
-			data->mem_error = 1;
+		if (!data->mem_error)
+		{
+			if (!add_var_to_list(data, data->exp, key, value))
+				data->mem_error = 1;
+		}
 	}
 }
 
@@ -26,8 +29,10 @@ void	unset_local(t_var **head, char *key)
 				prev->next = current->next;
 			else
 				*head = current->next;
-			free(current->key);
-			free(current->value);
+			if (current->key)
+				free(current->key);
+			if (current->value)
+				free(current->value);
 			free(current);
 			return ;
 		}

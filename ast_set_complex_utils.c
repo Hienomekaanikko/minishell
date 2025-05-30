@@ -54,7 +54,11 @@ void	set_access_err(t_data *data, t_ast *new)
 		if (data->redir_err == 0)
 		{
 			data->status.msg = ft_strdup(strerror(errno));
+			if (set_mem_error(data, data->status.msg))
+				return ;
 			data->status.path = ft_strdup(new->right->args[0]);
+			if (set_mem_error(data, data->status.path))
+				return ;
 		}
 		new->access = 0;
 		data->redir_err = 1;

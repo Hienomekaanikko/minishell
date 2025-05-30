@@ -12,29 +12,40 @@
 
 #include "minishell.h"
 
-char	*get_temp_dir(t_arena *env_arena)
+char	*get_temp_dir(t_data *data, t_arena *env_arena)
 {
 	char	*tmpdir;
 
-	tmpdir = arena_getenv(env_arena, "TMPDIR");
+	tmpdir = arena_getenv(data, env_arena, "TMPDIR");
+	if (data->mem_error)
+		return (NULL);
 	if (!tmpdir)
 		return ("/tmp");
 	return (tmpdir);
 }
 
-char	*make_filename(t_arena *env_arena)
+char	*make_filename(t_data *data, t_arena *env_arena)
 {
 	static int	counter = 0;
 	char		*temp_dir;
 	char		*num;
 	char		*filename;
 
-	temp_dir = get_temp_dir(env_arena);
+	temp_dir = get_temp_dir(data, env_arena);
+	if (data->mem_error)
+		return (NULL);
 	num = ft_itoa(counter++);
-	if (!num)
+	if (set_mem_error(data, num))
 		return (NULL);
 	filename = ft_strjoin(temp_dir, "/heredoc_");
+	if (set_mem_error(data, filename))
+		return (NULL);
 	filename = ft_strjoin_free(filename, num);
+	if (set_mem_error(data,filename))
+	{
+		free(num);
+		return (NULL);
+	}
 	free(num);
 	return (filename);
 }
@@ -56,7 +67,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		delimiter = remove_quotes(delimiter);
 	}
 	setup_heredoc_signals();
-	filename = make_filename(data->env_arena);
+	filename = make_filename(data, data->env_arena);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -92,6 +103,8 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 			{
 				free(line);
 				line = ft_strdup(expanded_line);
+				if (set_mem_error(data, line))
+					break;
 			}
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)

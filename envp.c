@@ -32,6 +32,8 @@ t_arena	*init_env_arena(char **envp, t_data *data)
 		i++;
 	}
 	set_shell_level(data);
+	if (data->mem_error)
+		return (NULL);
 	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
 	return (data->env_arena);
 }
@@ -92,11 +94,12 @@ int	arena_unset_env(t_arena *arena, char *key)
 	return (0);
 }
 
-char	*arena_getenv(t_arena *env_arena, char *key)
+char	*arena_getenv(t_data *data, t_arena *env_arena, char *key)
 {
 	size_t	i;
 	size_t	key_len;
 	char	*env_var;
+	char	*result;
 
 	if (!env_arena || !key)
 		return (NULL);
@@ -106,7 +109,12 @@ char	*arena_getenv(t_arena *env_arena, char *key)
 	{
 		env_var = env_arena->ptrs[i];
 		if (ft_strncmp(env_var, key, key_len) == 0 && env_var[key_len] == '=')
-			return (ft_strdup(env_var + key_len + 1));
+		{
+			result = ft_strdup(env_var + key_len + 1);
+			if (set_mem_error(data, result))
+				return (NULL);
+			return (result);
+		}
 		i++;
 	}
 	return (NULL);

@@ -82,13 +82,12 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 
 	eq = ft_strchr(arg, '=');
 	if (eq)
-	{
-		if (arena_set_env(data, (char *)key, eq + 1) == -1)
-			return (error_handler(&data->status, "export", NO, 1));
-	}
+		arena_set_env(data, (char *)key, eq + 1);
 	else
 	{
 		value = is_declared(data, (char *)key);
+		if (data->mem_error == 1)
+			return (0);
 		if (value)
 		{
 			arena_set_env(data, (char *)key, value);
@@ -96,6 +95,8 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 		}
 		else
 			arena_set_env(data, (char *)key, NULL);
+		if (data->mem_error == 1)
+			return (0);
 	}
 	return (0);
 }

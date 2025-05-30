@@ -18,10 +18,14 @@ void	set_shell_level(t_data *data)
 	char	*old_level;
 	char	*new_level;
 
-	old_level = arena_getenv(data->env_arena, "SHLVL");
+	old_level = arena_getenv(data, data->env_arena, "SHLVL");
+	if (data->mem_error)
+		return ;
 	level = ft_atoi(old_level);
 	level++;
 	new_level = ft_itoa(level);
+	if (set_mem_error(data, new_level))
+		return ;
 	arena_set_env(data, "SHLVL", new_level);
 	free(old_level);
 	free(new_level);
