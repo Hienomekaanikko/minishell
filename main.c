@@ -62,6 +62,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (data.root)
 			execute_command(data.root, &data);
+		if (data.status.signal != SIGINT)
+			handle_signal_error(&data.status);
 	}
 	arena_free(data.env_arena);
 	destroy_memory(&data);

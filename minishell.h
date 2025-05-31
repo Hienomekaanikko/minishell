@@ -126,7 +126,7 @@ void		make_tree(t_data *data);
 int			ft_add_node(t_lexer **list, char *input_list);
 void		add_starting_token(t_lexer *curr);
 void		add_token(t_lexer *curr, t_lexer *prev);
-int			ft_lexer(t_data *data); //env-arena added
+int			ft_lexer(t_data *data);
 
 //mikko memory stuff
 void		destroy_memory(t_data *data);
@@ -165,7 +165,7 @@ t_lexer		*remove_key_not_found(t_data *data, t_lexer *current, t_lexer *prev);
 int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_arena *env_arena);
 int			exec_pipe(t_ast *node, t_data *data);
-void		wait_process(pid_t pid, t_exec_status *exec_status, int print_error);
+void		wait_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
 int			handle_redirection_error(int fd, t_exec_status *status);
 void		check_path_permissions(char *path, t_exec_status *exec_status);
@@ -176,11 +176,13 @@ void		save_orig_fd(t_data *data);
 //error
 int			error_handler(t_exec_status *status, const char *cmd, const char *msg, int exit_code);
 void		handle_signal_error(t_exec_status *status);
+
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);
 void		arena_free(t_arena *arena);
 char		*arena_add(t_arena *arena, char *add, t_exec_status *status);
 void		arena_clear(t_arena *arena);
+
 //built-ins
 int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_data *data);
@@ -190,11 +192,13 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
+
 //env
 t_arena		*init_env_arena(char **envp, t_data *data);
 char		*arena_getenv(t_arena *env_arena, char *key);
 int			arena_set_env(t_arena *env_arena, char *key, char *value, t_exec_status *status);
 int			arena_unset_env(t_arena *env_arena, char *key);
+
 //signals
 int			reset_readline(void);
 int			reset_heredoc_readline(void);
@@ -202,11 +206,12 @@ void		setup_shell_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
 void		ignore_signals(void);
+
 // readline hook
 int			reset_readline(void);
 int			reset_heredoc_readline(void);
+
 //graphics
 void		splash_screen(void);
-
 
 #endif

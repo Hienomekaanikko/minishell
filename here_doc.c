@@ -65,6 +65,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		line = readline("> ");
 		if (g_interrupted)
 		{
+			//cleanup here
 			g_interrupted = 0;
 			break ;
 		}
