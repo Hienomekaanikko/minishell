@@ -72,6 +72,8 @@ void	set_complex_tree(t_data *data)
 		if (curr && curr->type == CMD)
 			prev_cmd = curr;
 		place_pipe(data, curr, new, prev_cmd);
+		if (data->mem_error == 1)
+			return ;
 		place_redir(data, curr, new, prev_cmd);
 		if (data->mem_error == 1)
 			return ;

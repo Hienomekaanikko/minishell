@@ -17,13 +17,20 @@ static int	allocate_structs(t_data *data)
 	data->exp = malloc(sizeof(t_exp_data));
 	if (!data->exp)
 		return (0);
-	data->exp->var_list = NULL;
+	ft_memset(data->exp, 0, sizeof(t_exp_data));
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
+	{
+		free(data->exp);
 		return (0);
+	}
 	data->tools = malloc(sizeof(t_exp_tools));
 	if (!data->tools)
+	{
+		free(data->exp);
+		free_lexed_list(*data->lexed_list);
 		return (0);
+	}
 	ft_memset(data->tools, 0, (sizeof(t_exp_tools)));
 	return (1);
 }

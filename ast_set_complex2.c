@@ -61,8 +61,16 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 	if (prev_cmd != NULL)
 	{
 		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-		if (!data->root->left->args)
+		if (!data->root->left)
+		{
 			data->mem_error = 1;
+			return ;
+		}
+		if (!data->root->left->args)
+		{
+			data->mem_error = 1;
+			return ;
+		}
 		prev_cmd = NULL;
 	}
 	if (curr && curr->type == ARG)

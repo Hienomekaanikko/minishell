@@ -43,10 +43,11 @@ static int	process_handler(t_data *data)
 {
 	if (process_input(data) == 0)
 	{
+		clear_history();
 		builtin_exit(data->root, &data->status);
 		return (0);
 	}
-	if (ft_strncmp(data->input, "exit", 4) == 0)
+	if (ft_strncmp(data->input, "exit", ft_strlen(data->input)) == 0)
 	{
 		builtin_exit(data->root, &data->status);
 		return (0);
