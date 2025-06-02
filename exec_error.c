@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 15:01:22 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:50:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,28 +68,36 @@ int	error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code)
 	return (exit_code);
 }
 
-void	handle_signal_error(t_exec_status *status, int signal)
+void	handle_signal_error(t_exec_status *exec_status)
 {
-	status->signal = signal;
-	status->exit_code = 128 + signal;
-	ft_putstr_fd("minishell: ", 2);
-	if (signal == SIGINT)
+	int	status;
+
+	// if (!WIFSIGNALED(exec_status->raw_status))
+	// 	return;
+	status = exec_status->exit_code - 128;//WTERMSIG(exec_status->raw_status);
+	//exec_status->exit_code = 128 + status;
+	//ft_putstr_fd("minishell: ", 2);
+	if (status == SIGINT)
 		ft_putstr_fd("\n", 2);
-	else if (signal == SIGSEGV)
+	else if (status == SIGSEGV)
 		ft_putstr_fd("Segmentation fault", 2);
-	else if (signal == SIGBUS)
+	else if (status == SIGBUS)
 		ft_putstr_fd("Bus error", 2);
-	else if (signal == SIGFPE)
+	else if (status == SIGFPE)
 		ft_putstr_fd("Floating point exception", 2);
-	else if (signal == SIGILL)
+	else if (status == SIGILL)
 		ft_putstr_fd("Illegal instruction", 2);
-	else if (signal == SIGTERM)
+	else if (status == SIGTERM)
 		ft_putstr_fd("Terminated", 2);
-	else if (signal == SIGKILL)
+	else if (status == SIGKILL)
 		ft_putstr_fd("Killed", 2);
-	else if (signal == SIGPIPE)
+	else if (status == SIGPIPE)
 		ft_putstr_fd("Broken pipe", 2);
-	else
-		ft_putstr_fd("Unknown signal", 2);
-	ft_putstr_fd("\n", 2);
+	else if (status == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+	// else
+	// 	ft_putstr_fd("Unknown signal", 2);
+	//ft_putstr_fd("\n", 2);
 }
+
+

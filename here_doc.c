@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 10:39:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:00:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*make_filename(t_data *data, t_arena *env_arena)
 	return (filename);
 }
 
-// Write heredoc input into a temp file
 int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 {
 	char	*filename;
@@ -81,9 +80,10 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_interrupted)
+		if  (g_interrupted)
 		{
-			//do we need some cleanup here? The prompt seems to work.
+			//cleanup here
+			g_interrupted = 0;
 			break ;
 		}
 		if (!line)
@@ -116,7 +116,6 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	g_interrupted = 0;
 	close(fd);
 	setup_shell_signals();
 	*out_path = filename;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/27 20:56:47 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:01:09 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,18 @@
 
 volatile sig_atomic_t	g_interrupted = 0;
 
-void	reset_readline(void)
-{
-	if (g_interrupted)
-	{
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("DEBUG: This should reset the prompt\n", 1);
-		// rl_redisplay();
-		// rl_replace_line("", 0);
-		// rl_on_new_line();
-		// rl_redisplay();
-		g_interrupted = 0;
-	}
-}
-
-void	reset_readline_heredoc(void)
-{
-	if (g_interrupted)
-	{
-		ft_putstr_fd("\n", 1);
-		ft_putstr_fd("DEBUG: double prompt\n", 1);
-		//rl_replace_line("", 0);
-		//rl_done = 1;
-		g_interrupted = 0;
-	}
-}
-
-
-void	shell_sigint_handler(int sig)
+void	sigint_handler(int sig)
 {
 	(void)sig;
 	g_interrupted = 1;
-	reset_readline();
-}
-
-void	heredoc_sigint_handler(int sig)
-{
-	(void)sig;
-	g_interrupted = 1;
-	reset_readline_heredoc();
 }
 
 void	setup_shell_signals(void)
 {
-	signal(SIGINT, shell_sigint_handler);
+	rl_event_hook = reset_readline;
+	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	g_interrupted = 0;
 }
 
 void	setup_child_signals(void)
@@ -69,7 +36,15 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, heredoc_sigint_handler);
+	rl_event_hook = reset_heredoc_readline;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+	g_interrupted = 0;
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
 

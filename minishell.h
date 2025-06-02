@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 17:04:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:05:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct	s_exec_status
 	int			outfile;
 	int			redir_fail;
 	int			final_exit_code;
+	int			raw_status;
 	char		*msg;
 	char		*path;
 	pid_t		pid;
@@ -154,13 +155,12 @@ void		free_lexed_list(t_lexer *start);
 void		free_ast(t_ast *root);
 void		close_all_fds(t_data *data);
 void		free_exp_tools(t_data *data);
-int			cleanup_pipe(int pipe_fd[2], pid_t pidL, pid_t pidR);
 
 //error stuff
 int			set_mem_error(t_data *data, char *value);
 void		ast_error_check(t_data *data);
 int			error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code);
-void		handle_signal_error(t_exec_status *status, int signal);
+void		handle_signal_error(t_exec_status *status);
 void		check_syntax_error(t_lexer *checker, char **msg, t_lexer **prev);
 
 //ast tree stuff (added 22.4.)
@@ -214,6 +214,7 @@ int			exec_pipe(t_ast *node, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
 void		wait_right_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
+int			cleanup_pipe(int pipe_fd[2], pid_t pidl, pid_t pidr);
 void		check_path_permissions(char *path, t_exec_status *exec_status);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
@@ -245,11 +246,18 @@ int			arena_unset_env(t_arena *env_arena, char *key);
 void		set_shell_level(t_data *data);
 
 //signals
+int			reset_readline(void);
+int			reset_heredoc_readline(void);
 void		setup_shell_signals(void);
 void		setup_child_signals(void);
 void		setup_heredoc_signals(void);
+void		ignore_signals(void);
+
+// readline hook
+int			reset_readline(void);
+int			reset_heredoc_readline(void);
+
 //graphics
 void		splash_screen(void);
-
 
 #endif

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exec_pipe.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 11:58:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:13 by msuokas          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
@@ -68,6 +56,7 @@ int	exec_pipe(t_ast *node, t_data *data)
 		return (cleanup_pipe(pipe_fd, pidl, pidr));
 	if (pidr == 0)
 		handle_right_child(pipe_fd, node, data);
+	ignore_signals();
 	cleanup_pipe(pipe_fd, pidl, pidr);
 	wait_process(pidl, &data->status);
 	wait_right_process(pidr, &data->status);
