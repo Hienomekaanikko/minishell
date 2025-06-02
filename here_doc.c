@@ -39,7 +39,6 @@ char	*make_filename(t_arena *env_arena)
 	return (filename);
 }
 
-// Write heredoc input into a temp file
 int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 {
 	char	*filename;
