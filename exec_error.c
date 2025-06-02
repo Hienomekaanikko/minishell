@@ -73,8 +73,8 @@ void	handle_signal_error(t_exec_status *exec_status)
 	int	status;
 
 	status = exec_status->exit_code - 128;
-	if (status == SIGINT)
-		ft_putstr_fd("\n", 2);
+	//if (status == SIGINT)
+	//	ft_putstr_fd("\n", 2);
 	else if (status == SIGSEGV)
 		ft_putstr_fd("Segmentation fault", 2);
 	else if (status == SIGBUS)
@@ -91,4 +91,5 @@ void	handle_signal_error(t_exec_status *exec_status)
 		ft_putstr_fd("Broken pipe", 2);
 	else if (status == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", 2);
+	ft_putchar_fd("\n", 2);
 }
