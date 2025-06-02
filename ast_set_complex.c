@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:55:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:30:58 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 	if (curr->type == PIPE && data->status.msg && data->status.path)
 	{
 		if (ft_strncmp(data->status.msg, "No such file or directory", 26) == 0)
-			error_handler(&data->status, data->status.path, NOFILE, 1);
+			error_handler(&data->status, data->status.path, NOFILE, 0);
 		else if (ft_strncmp(data->status.msg, "Permission denied", 18) == 0)
-			error_handler(&data->status, data->status.path, NOPERM, 1);
+			error_handler(&data->status, data->status.path, NOPERM, 0);
 		data->status.path = NULL;
 		data->status.msg = NULL;
 	}

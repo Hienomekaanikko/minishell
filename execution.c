@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 17:10:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:33:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,13 @@ int	execute_command(t_ast *node, t_data *data)
 	else
 	{
 		save_orig_fd(data);
-		if (built_ins(node, data) == -1 && data->status.redir_fail == 0)
+		if (data->status.redir_fail == 0)
 		{
-			if (executables(node, data) == -1)
-				return (error_handler(&data->status, node->cmd, NOCMD, 127));
+			if (built_ins(node, data) == -1 && data->status.redir_fail == 0)
+			{
+				if (executables(node, data) == -1)
+					return (error_handler(&data->status, node->cmd, NOCMD, 127));
+			}
 		}
 		restore_orig_fd(data);
 	}

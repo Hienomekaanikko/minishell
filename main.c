@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 14:24:02 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:37:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	process_handler(t_data *data)
 		builtin_exit(data->root, &data->status);
 		return (0);
 	}
-	if (ft_strncmp(data->input, "exit", ft_strlen(data->input)) == 0)
+	if (ft_strncmp(data->input, "exit", 4) == 0)
 	{
 		builtin_exit(data->root, &data->status);
 		return (0);
