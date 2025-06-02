@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 12:47:00 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:02:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	get_range(t_parser *parser_data, const char *s, char c)
 	}
 }
 
-static char	**split_the_strings(t_data *data, char const *s, char c, char **array_of_strings)
+static char	**split_the_strings(t_data *data, char const *s, char c, char **arr)
 {
 	t_parser	parser_data;
 
@@ -88,17 +88,17 @@ static char	**split_the_strings(t_data *data, char const *s, char c, char **arra
 		}
 		if (parser_data.i > parser_data.start)
 		{
-			if (!add_substring(data, &parser_data, array_of_strings, s))
+			if (!add_substring(data, &parser_data, arr, s))
 				return (NULL);
 		}
 	}
-	array_of_strings[parser_data.y] = NULL;
-	return (array_of_strings);
+	arr[parser_data.y] = NULL;
+	return (arr);
 }
 
 char	**parser(t_data *data, char const *s, char c)
 {
-	char		**array_of_strings;
+	char		**arr;
 	int			amount_of_strings;
 	char		**result;
 
@@ -107,13 +107,13 @@ char	**parser(t_data *data, char const *s, char c)
 	if (ft_is_only_space(s))
 		return (NULL);
 	amount_of_strings = ft_count_splits(s, c);
-	array_of_strings = malloc((amount_of_strings + 1) * sizeof(char *));
-	if (array_of_strings == NULL)
+	arr = malloc((amount_of_strings + 1) * sizeof(char *));
+	if (arr == NULL)
 	{
 		data->mem_error = 1;
 		return (NULL);
 	}
-	result = split_the_strings(data, s, c, array_of_strings);
+	result = split_the_strings(data, s, c, arr);
 	if (!result && !data->syntax_err)
 	{
 		data->mem_error = 1;

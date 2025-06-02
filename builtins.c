@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 14:39:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:59:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	builtin_cd(char **args, t_data *data)
 	char	*path;
 
 	if (count_args(args) > 2)
-		return (error_handler(&data->status, "cd", TOO_MANY, 1));
+		return (error(&data->status, "cd", TOO_MANY, 1));
 	path = args[1];
 	if (!path)
 	{
@@ -37,13 +37,13 @@ int	builtin_cd(char **args, t_data *data)
 		if (data->mem_error)
 			return (0);
 		if (!path)
-			return (error_handler(&data->status, "env", NOENV, 1));
+			return (error(&data->status, "env", NOENV, 1));
 	}
 	if (chdir(path) == -1)
-		return (error_handler(&data->status, "cd", NO, 1));
+		return (error(&data->status, "cd", NO, 1));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (error_handler(&data->status, "cd", NO, 1));
+		return (error(&data->status, "cd", NO, 1));
 	arena_set_env(data, "PWD", new_pwd);
 	free(new_pwd);
 	return (0);
@@ -65,7 +65,7 @@ int	builtin_pwd(t_data *data)
 	}
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (error_handler(&data->status, "PWD", NO, 1));
+		return (error(&data->status, "PWD", NO, 1));
 	ft_putstr_fd(pwd, 1);
 	ft_putstr_fd("\n", 1);
 	free(pwd);
@@ -97,9 +97,9 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 		return (1);
 	}
 	if (node->args[2])
-		return (error_handler(status, node->cmd, TOO_MANY, 1));
+		return (error(status, node->cmd, TOO_MANY, 1));
 	if (!is_valid_exit_arg(node->args[1]))
-		return (error_handler(status, node->cmd, ONLYNUM, 2));
+		return (error(status, node->cmd, ONLYNUM, 2));
 	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
 	ft_putstr_fd("exit\n", 1);
 	return (1);

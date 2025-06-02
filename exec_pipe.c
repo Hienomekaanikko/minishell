@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 15:42:08 by msuokas           #+#    #+#             */
+/*   Updated: 2025/06/02 16:00:06 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
@@ -12,7 +24,7 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
 	if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipe_fd[1]);
-		exit(error_handler(&data->status, "pipe", STDOUT, 1));
+		exit(error(&data->status, "pipe", STDOUT, 1));
 	}
 	close(pipe_fd[1]);
 	if (node->left->type == PIPE)
@@ -29,7 +41,7 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_data *data)
 	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
 	{
 		close(pipe_fd[0]);
-		exit(error_handler(&data->status, "pipe", STDIN, 1));
+		exit(error(&data->status, "pipe", STDIN, 1));
 	}
 	close(pipe_fd[0]);
 	execute_command(node->right, data);
@@ -45,7 +57,7 @@ int	exec_pipe(t_ast *node, t_data *data)
 	pidl = -1;
 	pidr = -1;
 	if (pipe(pipe_fd) == -1)
-		return (error_handler(&data->status, "pipe", FAIL, 1));
+		return (error(&data->status, "pipe", FAIL, 1));
 	pidl = fork();
 	if (pidl == -1)
 		return (cleanup_pipe(pipe_fd, pidl, pidr));

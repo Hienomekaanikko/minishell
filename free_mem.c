@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:25:12 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/27 13:19:53 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:46:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	free_ast(t_ast *root)
 		ft_free_split(root->args);
 	if (root->cmd)
 		free(root->cmd);
+	if (root->path)
+		free(root->path);
 	free(root);
 }
 
@@ -79,4 +81,5 @@ void	destroy_memory(t_data *data)
 		free(data->lexed_list);
 	if (data->input)
 		free(data->input);
+	clear_history();
 }

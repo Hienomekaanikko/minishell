@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:02:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 17:10:38 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:10:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	builtin_unset(t_data *data, char **args)
 	{
 		if (!is_valid_env_name(args[i]))
 		{
-			error_handler(&data->status, "unset", NOT_VALID, 1);
+			error(&data->status, "unset", NOT_VALID, 1);
 			return (1);
 		}
 		arena_unset_env(data->env_arena, args[i]);
@@ -50,7 +50,7 @@ int	builtin_env(t_data *data)
 	char	*value;
 
 	if (!data->env_arena || !data->env_arena->ptrs)
-		return (error_handler(&data->status, NULL, NOENV, 1));
+		return (error(&data->status, NULL, NOENV, 1));
 	i = 0;
 	while (i < data->env_arena->ptrs_in_use)
 	{

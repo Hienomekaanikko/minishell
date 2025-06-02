@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 13:01:09 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:06:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ void	ignore_signals(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 }
-

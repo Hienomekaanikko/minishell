@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_list_utils2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 15:51:14 by msuokas           #+#    #+#             */
+/*   Updated: 2025/06/02 15:57:27 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	set_variable(t_data *data, char *key, char *value)
 {
 	if (arena_has_key(data->env_arena, key))
 		arena_set_env(data, key, value);
-	if (!already_declared(data, data->exp->var_list, key, value))
+	if (!declared(data, data->exp->var_list, key, value))
 	{
 		if (!data->mem_error)
 		{

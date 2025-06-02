@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 15:08:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:59:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static char	*extract_key(const char *arg, t_exec_status *status)
 		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 		if (!key)
 		{
-			error_handler(status, "export", NO, 1);
+			error(status, "export", NO, 1);
 			return (NULL);
 		}
 	}
@@ -68,7 +68,7 @@ static int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key
 	{
 		if (ft_strchr(arg, '='))
 			free(key);
-		error_handler(status, "export", NOT_VALID, 1);
+		error(status, "export", NOT_VALID, 1);
 		return (1);
 	}
 	*out_key = key;

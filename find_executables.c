@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/29 16:13:37 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:19:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static char	*check_single_path(char *dir, char *cmd, t_exec_status *status)
 	path = ft_strjoin(dir, "/");
 	if (!path)
 	{
-		error_handler(status, "malloc", MALLOC, 1);
+		error(status, "malloc", MALLOC, 1);
 		return (NULL);
 	}
 	full_path = ft_strjoin(path, cmd);
 	free(path);
 	if (!full_path)
 	{
-		error_handler(status, "malloc", MALLOC, 1);
+		error(status, "malloc", MALLOC, 1);
 		return (NULL);
 	}
 	if (access(full_path, X_OK) == 0)
@@ -61,13 +61,13 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 
 	if (!path_str)
 	{
-		error_handler(status, cmd, NOFILE, 127);
+		error(status, cmd, NOFILE, 127);
 		return (NULL);
 	}
 	paths = ft_split(path_str, ':');
 	if (!paths)
 	{
-		error_handler(status, "malloc", MALLOC, 1);
+		error(status, "malloc", MALLOC, 1);
 		return (NULL);
 	}
 	executable = search_paths(status, paths, cmd);
@@ -84,23 +84,14 @@ char	*find_executable(t_ast *node, t_data *data)
 {
 	char	*executable;
 	char	*path_env;
-	char	*new;
 
 	if (ft_strchr(node->cmd, '/'))
 	{
 		if (access(node->cmd, X_OK) == 0)
-		{
-			new = ft_strdup(node->cmd);
-			if (!new)
-			{
-				error_handler(&data->status, "malloc", MALLOC, 1);
-				return (NULL);
-			}
-			return (new);
-		}
+			return (node->cmd);
 		else
 		{
-			error_handler(&data->status, node->cmd, NOFILE, 126);
+			error(&data->status, node->cmd, NOFILE, 126);
 			return (NULL);
 		}
 	}
@@ -110,7 +101,7 @@ char	*find_executable(t_ast *node, t_data *data)
 	executable = try_path(node->cmd, path_env, &data->status);
 	free(path_env);
 	if (!executable && data->status.exit_code == 0)
-		error_handler(&data->status, node->cmd, NOCMD, 127);
+		error(&data->status, node->cmd, NOCMD, 127);
 	if (data->status.exit_code == 1)
 		data->mem_error = 1;
 	return (executable);

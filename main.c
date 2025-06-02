@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 12:44:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:40:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ static int	process_input(t_data *data)
 		add_var_declaration(data);
 	else if (ft_lexer(data))
 		make_tree(data);
-	if (data->mem_error == 1)
+	if (data->mem_error == 1 || data->redir_err == 2)
 	{
-		error_handler(&data->status, "malloc", MALLOC, 1);
+		if (data->mem_error == 1)
+			error(&data->status, "malloc", MALLOC, 1);
 		return (1);
 	}
 	else if (data->syntax_err)
@@ -62,7 +63,8 @@ int	main(int argc, char **argv, char **envp)
 	splash_screen();
 	if (!init_base(&data, argc, argv, envp))
 	{
-		error_handler(&data.status, "malloc", MALLOC, 1);
+		error(&data.status, "malloc", MALLOC, 1);
+		destroy_memory(&data);
 		return (1);
 	}
 	while (1)

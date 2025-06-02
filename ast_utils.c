@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 13:20:53 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:01:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)
 		node->args[ast->i] = ft_strdup((*current)->value);
 	if (!node->args[ast->i])
 	{
+		ft_free_split(node->args);
 		node->args = NULL;
 		return (0);
 	}
@@ -62,7 +63,7 @@ void	add_right_child(t_ast **position, t_lexer *current, t_token type)
 	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(current->value, current->type);
 	if (*position)
-		add_arguments(&ast, *position, current, type);
+		add_args(&ast, *position, current, type);
 }
 
 void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
@@ -72,5 +73,5 @@ void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
 	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(prev_cmd->value, prev_cmd->type);
 	if (*position)
-		add_arguments(&ast, *position, prev_cmd, type);
+		add_args(&ast, *position, prev_cmd, type);
 }

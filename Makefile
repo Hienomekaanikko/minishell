@@ -48,7 +48,8 @@ SRC = main.c \
 		expansions2.c \
 		lexer_utils2.c \
 		var_list_utils2.c \
-		rl_handler.c
+		rl_handler.c \
+		ast_errors.c \
 
 OBJS = $(SRC:.c=.o)
 

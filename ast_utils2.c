@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 11:51:38 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:44:33 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ t_ast	*create_node(char *value, t_token type)
 	if (has_quotes(value))
 	{
 		new_node->cmd = remove_quotes(value);
-		if (!new_node->cmd)
+		if (node_error(new_node))
 			return (NULL);
 	}
 	else
 	{
 		new_node->cmd = ft_strdup(value);
-		if (!new_node->cmd)
+		if (node_error(new_node))
 			return (NULL);
 	}
 	new_node->type = type;
@@ -56,6 +56,7 @@ t_ast	*create_node(char *value, t_token type)
 	new_node->right = NULL;
 	new_node->access = 1;
 	new_node->args = NULL;
+	new_node->path = NULL;
 	new_node->file = NULL;
 	return (new_node);
 }

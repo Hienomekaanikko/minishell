@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 13:00:21 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:10:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*make_filename(t_data *data, t_arena *env_arena)
 	if (set_mem_error(data, filename))
 		return (NULL);
 	filename = ft_strjoin_free(filename, num);
-	if (set_mem_error(data,filename))
+	if (set_mem_error(data, filename))
 	{
 		free(num);
 		return (NULL);

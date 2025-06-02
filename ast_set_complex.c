@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 12:30:58 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:39:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 	if (curr->type == PIPE && data->status.msg && data->status.path)
 	{
 		if (ft_strncmp(data->status.msg, "No such file or directory", 26) == 0)
-			error_handler(&data->status, data->status.path, NOFILE, 0);
+			error(&data->status, data->status.path, NOFILE, 0);
 		else if (ft_strncmp(data->status.msg, "Permission denied", 18) == 0)
-			error_handler(&data->status, data->status.path, NOPERM, 0);
-		data->status.path = NULL;
+			error(&data->status, data->status.path, NOPERM, 0);
 		data->status.msg = NULL;
+		data->status.path = NULL;
 	}
 	if (curr->type == PIPE && data->root == NULL)
 	{
@@ -75,7 +75,7 @@ void	set_complex_tree(t_data *data)
 		if (data->mem_error == 1)
 			return ;
 		place_redir(data, curr, new, prev_cmd);
-		if (data->mem_error == 1)
+		if (data->mem_error == 1 || data->redir_err == 2)
 			return ;
 		curr = curr->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 12:50:27 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:59:56 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_error(t_error err)
 	return (NULL);
 }
 
-int	error_handler(t_exec_status *status, char *cmd, t_error err, int exit_code)
+int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 {
 	status->signal = 0;
 	if (err)
@@ -72,11 +72,7 @@ void	handle_signal_error(t_exec_status *exec_status)
 {
 	int	status;
 
-	// if (!WIFSIGNALED(exec_status->raw_status))
-	// 	return;
-	status = exec_status->exit_code - 128;//WTERMSIG(exec_status->raw_status);
-	//exec_status->exit_code = 128 + status;
-	//ft_putstr_fd("minishell: ", 2);
+	status = exec_status->exit_code - 128;
 	if (status == SIGINT)
 		ft_putstr_fd("\n", 2);
 	else if (status == SIGSEGV)
@@ -95,9 +91,4 @@ void	handle_signal_error(t_exec_status *exec_status)
 		ft_putstr_fd("Broken pipe", 2);
 	else if (status == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", 2);
-	// else
-	// 	ft_putstr_fd("Unknown signal", 2);
-	//ft_putstr_fd("\n", 2);
 }
-
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rl_handler.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:32:36 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/29 13:32:37 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:22:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	reset_heredoc_readline(void)
 {
 	if (g_interrupted)
 	{
-	rl_redisplay();
-	rl_done = 1;
+		rl_redisplay();
+		rl_done = 1;
 	}
 	return (0);
 }

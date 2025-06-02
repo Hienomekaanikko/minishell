@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 12:33:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:00:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,20 @@ int	built_ins(t_ast *node, t_data *data)
 int	executables(t_ast *node, t_data *data)
 {
 	pid_t	pid;
-	char	*path;
 
 	pid = fork();
 	if (pid == -1)
-		return (error_handler(&data->status, "fork", FAIL, 1));
+		return (error(&data->status, "fork", FAIL, 1));
 	if (pid == 0)
 	{
 		setup_child_signals();
 		check_path_permissions(node->cmd, &data->status);
 		close_fds(&data->status);
-		path = find_executable(node, data);
-		if (!path)
+		node->path = find_executable(node, data);
+		if (!node->path)
 			exit(data->status.exit_code);
-		execve(path, node->args, data->env_arena->ptrs);
-		free(path);
-		exit(error_handler(&data->status, node->cmd, NOCMD, 127));
+		execve(node->path, node->args, data->env_arena->ptrs);
+		exit(error(&data->status, node->cmd, NOCMD, 127));
 	}
 	else
 	{
@@ -73,10 +71,10 @@ int	execute_command(t_ast *node, t_data *data)
 		save_orig_fd(data);
 		if (data->status.redir_fail == 0)
 		{
-			if (built_ins(node, data) == -1 && data->status.redir_fail == 0)
+			if (built_ins(node, data) == -1)
 			{
 				if (executables(node, data) == -1)
-					return (error_handler(&data->status, node->cmd, NOCMD, 127));
+					return (error(&data->status, node->cmd, NOCMD, 127));
 			}
 		}
 		restore_orig_fd(data);

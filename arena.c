@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/05/28 13:57:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:25:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	arena_realloc(t_arena *arena, size_t more_space)
+static int	arena_realloc(t_data *data, t_arena *arena, size_t more_space)
 {
 	char	*old_memory;
 	char	*new_memory;
@@ -22,7 +22,10 @@ static int	arena_realloc(t_arena *arena, size_t more_space)
 	new_size = arena->mem_size + more_space;
 	new_memory = malloc(new_size);
 	if (!new_memory)
+	{
+		data->mem_error = 1;
 		return (0);
+	}
 	ft_memcpy(new_memory, old_memory, arena->mem_used);
 	free(old_memory);
 	arena->memory = new_memory;
@@ -30,7 +33,7 @@ static int	arena_realloc(t_arena *arena, size_t more_space)
 	return (1);
 }
 
-static int	arena_ptrs_realloc(t_arena *arena)
+static int	arena_ptrs_realloc(t_data *data, t_arena *arena)
 {
 	char	**old_ptrs;
 	char	**new_ptrs;
@@ -40,7 +43,10 @@ static int	arena_ptrs_realloc(t_arena *arena)
 	new_capacity = arena->ptr_capacity * 2;
 	new_ptrs = malloc(sizeof(char *) * (new_capacity + 1));
 	if (!new_ptrs)
+	{
+		data->mem_error = 1;
 		return (0);
+	}
 	ft_memcpy(new_ptrs, old_ptrs, sizeof(char *) * arena->ptrs_in_use);
 	free(old_ptrs);
 	arena->ptrs = new_ptrs;
@@ -85,16 +91,12 @@ char	*arena_add(t_data *data, char *add)
 	add_len = ft_strlen(add) + 1;
 	if (data->env_arena->mem_used + add_len > data->env_arena->mem_size)
 	{
-		if (!arena_realloc(data->env_arena, data->env_arena->mem_size))
-		{
-			data->mem_error = 1;
+		if (!arena_realloc(data, data->env_arena, data->env_arena->mem_size))
 			return (NULL);
-		}
 		if (data->env_arena->ptrs_in_use >= data->env_arena->ptr_capacity)
 		{
-			if (!arena_ptrs_realloc(data->env_arena))
-			data->mem_error = 1;
-			return (NULL);
+			if (!arena_ptrs_realloc(data, data->env_arena))
+				return (NULL);
 		}
 	}
 	ptr = data->env_arena->memory + data->env_arena->mem_used;

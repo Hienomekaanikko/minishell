@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 13:46:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:57:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_var_declaration(char *str)
 }
 
 //check if key is already declared and replace the value
-int	already_declared(t_data *data, t_var *start, char *key, char *value)
+int	declared(t_data *data, t_var *start, char *key, char *value)
 {
 	t_var	*temp;
 	int		key_len;

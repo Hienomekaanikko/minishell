@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:49:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:38:58 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:15:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static void	init_exec_status(t_data *data)
 	data->status.saved_stdin = -1;
 	data->status.saved_stdout = -1;
 	data->status.path = NULL;
+	data->status.msg = NULL;
 }
 
 int	init_base(t_data *data, int argc, char **argv, char **envp)
@@ -53,6 +54,7 @@ int	init_base(t_data *data, int argc, char **argv, char **envp)
 	data->root = NULL;
 	data->input = NULL;
 	data->tools = NULL;
+	data->root = NULL;
 	data->temp_array = NULL;
 	data->mem_error = 0;
 	data->redir_err = 0;

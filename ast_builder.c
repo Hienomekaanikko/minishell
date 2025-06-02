@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 13:19:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:39:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	make_tree(t_data *data)
 		set_basic_tree(data);
 	else if (tree_type(data) == 2)
 		set_complex_tree(data);
-	if (data->mem_error)
+	if (data->mem_error || data->redir_err == 2)
 	{
 		if (data->root)
 			free_ast(data->root);

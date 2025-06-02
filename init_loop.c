@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:51:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 18:37:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:45:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,10 @@ static void	reset_exec(t_data *data)
 	data->redir_status = 0;
 	data->status.redir_fail = 0;
 	data->status.here_doc_flag = 0;
+	if (data->status.path)
+		data->status.path = NULL;
+	if (data->status.msg)
+		data->status.msg = NULL;
 }
 
 void	init_data(t_data *data)
