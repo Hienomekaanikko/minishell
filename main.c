@@ -56,16 +56,13 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		if (isatty(STDIN_FILENO))
-			rl_event_hook = NULL;
-		else
-			rl_event_hook = reset_readline;
+		rl_event_hook = reset_readline;
 		setup_shell_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)
 			execute_command(data.root, &data);
-		if (data.status.signal != SIGINT)
+		if (data.status.exit_code != 0 && data.status.signal != SIGINT)
 			handle_signal_error(&data.status);
 	}
 	arena_free(data.env_arena);
