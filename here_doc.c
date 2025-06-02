@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 17:10:49 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:20:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		if  (g_interrupted)
 		{
 			//cleanup here
+			data->redir_err = 2;
 			g_interrupted = 0;
 			break ;
 		}
@@ -119,5 +120,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	close(fd);
 	setup_shell_signals();
 	*out_path = filename;
+	if (data->redir_err == 2)
+		return (-1);
 	return (0);
 }
