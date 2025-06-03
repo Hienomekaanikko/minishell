@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 10:46:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:15:40 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ int	executables(t_ast *node, t_data *data)
 		close_fds(&data->status);
 		node->path = find_executable(node, data);
 		if (!node->path)
+		{
+			arena_free(data->env_arena);
+			destroy_memory(data);
 			exit(data->status.exit_code);
+		}
 		execve(node->path, node->args, data->env_arena->ptrs);
 		exit(error(&data->status, node->cmd, NOCMD, 127));
 	}
@@ -72,10 +76,7 @@ int	execute_command(t_ast *node, t_data *data)
 		if (data->status.redir_fail == 0)
 		{
 			if (built_ins(node, data) == -1)
-			{
-				if (executables(node, data) == -1)
-					return (error(&data->status, node->cmd, NOCMD, 127));
-			}
+				executables(node, data);
 		}
 		restore_orig_fd(data);
 	}
