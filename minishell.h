@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:01:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:57:34 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void		add_token(t_lexer *curr, t_lexer *prev);
 int			ft_lexer(t_data *data);
 
 //parsing
-char		**parser(t_data *data, char const *s, char c);
+char		**parser(t_data *data, char const *s);
 void		add_operator(t_data *data, t_parser *pars, const char *s);
 int			make_substring(t_parser *data, char const *s, char **arr);
 char		**free_malloc(char **array_of_strings, int y);

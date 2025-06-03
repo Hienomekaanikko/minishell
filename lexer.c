@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 10:59:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:00:09 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_lexer(t_data *data)
 {
 	if (!data->input || ft_strlen(data->input) == 0)
 		return (0);
-	data->temp_array = parser(data, data->input, ' ');
+	data->temp_array = parser(data, data->input);
 	if (!data->temp_array)
 		return (0);
 	if (!ft_make_list(data))

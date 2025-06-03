@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:02:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:56:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_count_splits(const char *s, char c)
+static int	ft_count_splits(const char *s)
 {
 	t_counter	parser_data;
 
@@ -25,7 +25,7 @@ static int	ft_count_splits(const char *s, char c)
 			s += parser_data.op_len;
 			continue ;
 		}
-		if (*s == c)
+		if (ft_isspace(*s))
 		{
 			parser_data.in_word = 0;
 			s++;
@@ -41,10 +41,10 @@ static int	ft_count_splits(const char *s, char c)
 	return (parser_data.count);
 }
 
-static void	get_range(t_parser *parser_data, const char *s, char c)
+static void	get_range(t_parser *parser_data, const char *s)
 {
 	while (s[parser_data->i] && (parser_data->in_quote
-			|| s[parser_data->i] != c))
+			|| !(ft_isspace(s[parser_data->i]))))
 	{
 		if (!parser_data->in_quote && (s[parser_data->i] == '<'
 				|| s[parser_data->i] == '>' || s[parser_data->i] == '|'))
@@ -67,14 +67,14 @@ static void	get_range(t_parser *parser_data, const char *s, char c)
 	}
 }
 
-static char	**split_the_strings(t_data *data, char const *s, char c, char **arr)
+static char	**split_the_strings(t_data *data, char const *s, char **arr)
 {
 	t_parser	parser_data;
 
 	ft_memset(&parser_data, 0, sizeof(t_parser));
 	while (s[parser_data.i])
 	{
-		while (s[parser_data.i] == c)
+		while (ft_isspace(s[parser_data.i]))
 			parser_data.i++;
 		if (!s[parser_data.i])
 			break ;
@@ -84,7 +84,7 @@ static char	**split_the_strings(t_data *data, char const *s, char c, char **arr)
 		else
 		{
 			parser_data.start = parser_data.i;
-			get_range(&parser_data, s, c);
+			get_range(&parser_data, s);
 		}
 		if (parser_data.i > parser_data.start)
 		{
@@ -96,7 +96,7 @@ static char	**split_the_strings(t_data *data, char const *s, char c, char **arr)
 	return (arr);
 }
 
-char	**parser(t_data *data, char const *s, char c)
+char	**parser(t_data *data, char const *s)
 {
 	char		**arr;
 	int			amount_of_strings;
@@ -106,14 +106,14 @@ char	**parser(t_data *data, char const *s, char c)
 		return (NULL);
 	if (ft_is_only_space(s))
 		return (NULL);
-	amount_of_strings = ft_count_splits(s, c);
+	amount_of_strings = ft_count_splits(s);
 	arr = malloc((amount_of_strings + 1) * sizeof(char *));
 	if (arr == NULL)
 	{
 		data->mem_error = 1;
 		return (NULL);
 	}
-	result = split_the_strings(data, s, c, arr);
+	result = split_the_strings(data, s, arr);
 	if (!result && !data->syntax_err)
 	{
 		data->mem_error = 1;

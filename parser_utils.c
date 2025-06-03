@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 12:48:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:00:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,4 @@ void	skip_word(t_counter *data, const char *s)
 	data->count++;
 	data->in_word = 0;
 }
+
