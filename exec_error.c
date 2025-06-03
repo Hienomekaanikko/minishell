@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 15:59:56 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:17:02 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	handle_signal_error(t_exec_status *exec_status)
 	int	status;
 
 	status = exec_status->exit_code - 128;
-	//if (status == SIGINT)
-	//	ft_putstr_fd("\n", 2);
-	else if (status == SIGSEGV)
+	// if (status == SIGINT)
+	// 	ft_putstr_fd("DEBUG: SIGINT\n", 2);
+	if (status == SIGSEGV)
 		ft_putstr_fd("Segmentation fault", 2);
 	else if (status == SIGBUS)
 		ft_putstr_fd("Bus error", 2);
@@ -90,6 +90,6 @@ void	handle_signal_error(t_exec_status *exec_status)
 	else if (status == SIGPIPE)
 		ft_putstr_fd("Broken pipe", 2);
 	else if (status == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", 2);
-	ft_putchar_fd("\n", 2);
+		ft_putstr_fd("Quit (core dumped)", 2);
+	ft_putstr_fd("\n", 2);
 }
