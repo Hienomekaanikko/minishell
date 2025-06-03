@@ -35,6 +35,59 @@ char	*make_filename(t_data *data)
 	return (filename);
 }
 
+int	hd_handle_eof(char *line, int linecount, char *delimiter)
+{
+	if(!line)
+	{
+		ft_putstr_fd("minishell: warning: here-document at line ", 2);
+		ft_putnbr_fd(linecount, 2);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(delimiter, 2);
+		ft_putstr_fd("')\n", 2);
+		return (1);
+	}
+	return (0);
+}
+
+int	hd_handle_interrupt(t_data *data, char *line)
+{
+	if(g_interrupted)
+	{
+		data->redir_err = 2;
+		g_interrupted = 0;
+		free(line);
+		return(1);
+	}
+	return (0);
+}
+
+char	*hd_expand_line(t_data *data, char **line, int delim_quote)
+{
+	char	*expanded_line;
+
+	if (ft_strchr(*line, '$') && !delim_quote)
+	{
+		expanded_line = expand(data, data->tools, *line);
+		if (expanded_line)
+		{
+			free(*line);
+			*line = ft_strdup(expanded_line);
+			free(expanded_line);
+		}
+	}
+	return (*line);
+}
+
+int	hd_handle_delimiter(char *line, char *delimiter)
+{
+	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+	{
+		free(line);
+		return (1);
+	}
+	return (0);
+}
+
 int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 {
 	char	*filename;
@@ -65,39 +118,14 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	while (1)
 	{
 		line = readline("> ");
-		if  (g_interrupted)
-		{
-			//cleanup here
-			data->redir_err = 2;
-			g_interrupted = 0;
-			free(line);
+		if  (hd_handle_interrupt(data, line))
 			break ;
-		}
-		if (!line)
-		{
-			ft_putstr_fd("minishell: warning: here-document at line ", 2);
-			ft_putnbr_fd(linecount, 2);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(delimiter, 2);
-			ft_putstr_fd("')\n", 2);
+		if (hd_handle_eof(line, linecount, delimiter))
 			break ;
-		}
 		linecount++;
-		if (ft_strchr(line, '$') && !delim_quote)
-		{
-			expanded_line = expand(data, data->tools, line);
-			if (expanded_line)
-			{
-				free(line);
-				line = ft_strdup(expanded_line);
-				free(expanded_line);
-			}
-		}
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-		{
-			free(line);
+		line = hd_expand_line(data, &line, delim_quote);
+		if (hd_handle_delimiter(line, delimiter))
 			break ;
-		}
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
