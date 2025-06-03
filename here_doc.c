@@ -13,26 +13,26 @@
 #include "minishell.h"
 #include "minishell.h"
 
-char	*make_filename(t_data *data)
+char	*make_temp_file_name(t_data *data)
 {
 	static int	counter = 0;
 	char		*num;
-	char		*filename;
+	char		*temp_file_name;
 
 	num = ft_itoa(counter++);
 	if (set_mem_error(data, num))
 		return (NULL);
-	filename = ft_strdup("./heredoc_");
-	if (set_mem_error(data, filename))
+	temp_file_name = ft_strdup("./heredoc_");
+	if (set_mem_error(data, temp_file_name))
 		return (NULL);
-	filename = ft_strjoin_free(filename, num);
-	if (set_mem_error(data, filename))
+	temp_file_name = ft_strjoin_free(temp_file_name, num);
+	if (set_mem_error(data, temp_file_name))
 	{
 		free(num);
 		return (NULL);
 	}
 	free(num);
-	return (filename);
+	return (temp_file_name);
 }
 
 int	hd_handle_eof(char *line, int linecount, char *delimiter)
@@ -61,11 +61,11 @@ int	hd_handle_interrupt(t_data *data, char *line)
 	return (0);
 }
 
-char	*hd_expand_line(t_data *data, char **line, int delim_quote)
+char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 {
 	char	*expanded_line;
 
-	if (ft_strchr(*line, '$') && !delim_quote)
+	if (ft_strchr(*line, '$') && !is_delim_quote)
 	{
 		expanded_line = expand(data, data->tools, *line);
 		if (expanded_line)
@@ -87,33 +87,44 @@ int	hd_handle_delimiter(char *line, char *delimiter)
 	}
 	return (0);
 }
-
-int	write_heredoc(t_data *data, char *delimiter, char **out_path)
+int	hd_file_setup(t_data *data, char **out_path)
 {
-	char	*filename;
-	char	*line;
-	char	*expanded_line;
-	int		delim_quote;
 	int		fd;
-	int		linecount;
+	char	*temp_file_name;
 
-	delim_quote = 0;
-	if (delimiter[0] == '\'' || delimiter[0] == '"')
-	{
-		delim_quote = 1;
-		delimiter = remove_quotes(delimiter);
-	}
-	setup_heredoc_signals();
-	filename = make_filename(data);
-	if (!filename)
+	temp_file_name = make_temp_file_name(data);
+	if (!temp_file_name)
 		return (-1);
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	fd = open(temp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
 		ft_putstr_fd("error: cannot create heredoc file\n", 2);
-		free(filename);
+		free(temp_file_name);
 		return (-1);
 	}
+	*out_path = temp_file_name;
+	return (fd);
+}
+
+int	write_heredoc(t_data *data, char *delimiter, char **out_path)
+{
+	char	*temp_file_name;
+	char	*line;
+	//char	*expanded_line;
+	int		is_delim_quote;
+	int		fd;
+	int		linecount;
+
+	is_delim_quote = 0;
+	if (delimiter[0] == '\'' || delimiter[0] == '"')
+	{
+		is_delim_quote = 1;
+		delimiter = remove_quotes(delimiter);
+	}
+	setup_heredoc_signals();
+	fd = hd_file_setup(data, &temp_file_name);
+	if (fd < 0)
+		return (-1); //what should i return here?
 	linecount = 0;
 	while (1)
 	{
@@ -123,7 +134,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		if (hd_handle_eof(line, linecount, delimiter))
 			break ;
 		linecount++;
-		line = hd_expand_line(data, &line, delim_quote);
+		line = hd_expand_line(data, &line, is_delim_quote);
 		if (hd_handle_delimiter(line, delimiter))
 			break ;
 		write(fd, line, ft_strlen(line));
@@ -132,7 +143,6 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	}
 	close(fd);
 	setup_shell_signals();
-	*out_path = filename;
 	if (data->redir_err == 2)
 		return (-1);
 	return (0);
