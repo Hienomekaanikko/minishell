@@ -6,38 +6,22 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 17:20:37 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:41:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_temp_dir(t_data *data, t_arena *env_arena)
-{
-	char	*tmpdir;
-
-	tmpdir = arena_getenv(data, env_arena, "TMPDIR");
-	if (data->mem_error)
-		return (NULL);
-	if (!tmpdir)
-		return ("/tmp");
-	return (tmpdir);
-}
-
-char	*make_filename(t_data *data, t_arena *env_arena)
+char	*make_filename(t_data *data)
 {
 	static int	counter = 0;
-	char		*temp_dir;
 	char		*num;
 	char		*filename;
 
-	temp_dir = get_temp_dir(data, env_arena);
-	if (data->mem_error)
-		return (NULL);
 	num = ft_itoa(counter++);
 	if (set_mem_error(data, num))
 		return (NULL);
-	filename = ft_strjoin(temp_dir, "/heredoc_");
+	filename = ft_strdup("./heredoc_");
 	if (set_mem_error(data, filename))
 		return (NULL);
 	filename = ft_strjoin_free(filename, num);
@@ -66,7 +50,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		delimiter = remove_quotes(delimiter);
 	}
 	setup_heredoc_signals();
-	filename = make_filename(data, data->env_arena);
+	filename = make_filename(data);
 	if (!filename)
 		return (-1);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0600);
@@ -85,6 +69,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 			//cleanup here
 			data->redir_err = 2;
 			g_interrupted = 0;
+			free(line);
 			break ;
 		}
 		if (!line)

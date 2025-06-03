@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 14:57:19 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:38:56 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,8 @@ static int	open_file(t_ast *node, t_data *data, int flags, int file_perms)
 	if (node->type == HERE_DOC)
 	{
 		if (data->status.here_doc_flag == 1)
-		{
-			free(node->file);
 			return (0);
-		}
 		data->status.temp_fd = open(node->file, flags, file_perms);
-		free(node->file);
 		data->status.here_doc_flag = 1;
 	}
 	else

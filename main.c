@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 17:16:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:48:57 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (data.root)
 			execute_command(data.root, &data);
-		if (data.status.exit_code != 0 && data.status.signal != SIGINT)
+		if (data.status.exit_code > 128)
 			handle_signal_error(&data.status);
 	}
 	arena_free(data.env_arena);

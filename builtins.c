@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 15:59:45 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 10:44:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	builtin_pwd(t_data *data)
 	{
 		ft_putstr_fd(pwd, 1);
 		ft_putstr_fd("\n", 1);
+		free(pwd);
 		return (0);
 	}
 	pwd = getcwd(NULL, 0);

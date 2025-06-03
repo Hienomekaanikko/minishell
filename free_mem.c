@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:25:12 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 15:46:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 09:31:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ void	free_ast(t_ast *root)
 		free(root->cmd);
 	if (root->path)
 		free(root->path);
+	if (root->file)
+	{
+		unlink(root->file);
+		free(root->file);
+	}
 	free(root);
 }
 
