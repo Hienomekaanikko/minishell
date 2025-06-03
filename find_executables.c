@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:05 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 16:19:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:18:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,3 @@ char	*find_executable(t_ast *node, t_data *data)
 		data->mem_error = 1;
 	return (executable);
 }
-

@@ -6,20 +6,27 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 10:37:31 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:22:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	node_fail(t_data *data, t_ast *node)
+{
+	if (!node)
+	{
+		data->mem_error = 1;
+		return (1);
+	}
+	return (0);
+}
+
 void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
-	if (!new)
-	{
-		data->mem_error = 1;
+	if (node_fail(data, new))
 		return ;
-	}
 	if (new->type == HERE_DOC)
 	{
 		if (write_heredoc(data, curr->next->value, &new->file) == -1)
@@ -45,11 +52,8 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 {
 	data->root = create_node(curr->value, curr->type);
-	if (!data->root)
-	{
-		data->mem_error = 1;
+	if (node_fail(data, data->root))
 		return ;
-	}
 	if (data->root->type == HERE_DOC)
 	{
 		if (write_heredoc(data, curr->next->value, &data->root->file) == -1)
@@ -59,11 +63,10 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 	if (prev_cmd != NULL)
 	{
 		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-		if (is_child_failure(data, data->root->left))
-			return ;
+		is_child_failure(data, data->root->left);
 		prev_cmd = NULL;
 	}
-	if (curr && curr->type == ARG)
+	if (curr && !data->mem_error && curr->type == ARG)
 	{
 		add_right_child(&data->root->right, curr, data->root->type);
 		if (is_child_failure(data, data->root->right))

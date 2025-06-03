@@ -6,11 +6,17 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 13:01:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 17:53:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_all(t_data *data)
+{
+	arena_free(data->env_arena);
+	destroy_memory(data);
+}
 
 int	built_ins(t_ast *node, t_data *data)
 {
@@ -39,13 +45,16 @@ int	executables(t_ast *node, t_data *data)
 	if (pid == 0)
 	{
 		setup_child_signals();
-		check_path_permissions(node->cmd, &data->status);
+		if (check_path_permissions(data, node->cmd) > 0)
+		{
+			free_all(data);
+			exit(data->status.exit_code);
+		}
 		close_fds(&data->status);
 		node->path = find_executable(node, data);
 		if (!node->path)
 		{
-			arena_free(data->env_arena);
-			destroy_memory(data);
+			free_all(data);
 			exit(data->status.exit_code);
 		}
 		execve(node->path, node->args, data->env_arena->ptrs);

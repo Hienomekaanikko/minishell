@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 14:44:23 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 17:40:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,6 @@ char	**parser(t_data *data, char const *s)
 		return (NULL);
 	}
 	if (data->syntax_err)
-	{
-		ft_free_split(arr);
 		return (NULL);
-	}
 	return (result);
 }

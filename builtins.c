@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/03 10:44:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:01:58 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	count_args(char **args)
 	i = 0;
 	while (args[i])
 		i++;
-
 	return (i);
 }
 

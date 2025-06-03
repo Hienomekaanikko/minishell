@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:11:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 14:20:29 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:26:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
+static int	expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
 {
 	int		i;
 	char	*value;
@@ -37,7 +37,7 @@ static int expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
 	return (1);
 }
 
-char *expand(t_data *data, t_exp_tools *tools, char *value)
+char	*expand(t_data *data, t_exp_tools *tools, char *value)
 {
 	tools->result = ft_strdup("");
 	if (set_mem_error(data, tools->result))
@@ -72,7 +72,8 @@ int	variable(t_data *data, t_exp_tools *tools, char *value, int *i)
 
 	var_start = *i + 1;
 	var_end = var_start;
-	while (value[var_end] && (ft_isalnum(value[var_end]) || value[var_end] == '_'))
+	while (value[var_end]
+		&& (ft_isalnum(value[var_end]) || value[var_end] == '_'))
 		var_end++;
 	tools->var = ft_substr(value, var_start, var_end - var_start);
 	if (set_mem_error(data, tools->var))

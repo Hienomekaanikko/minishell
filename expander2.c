@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:17:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 14:24:57 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:02:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 int	after_dollar(t_data *data, t_exp_tools *tools, char *value)
 {
-	tools->temp = ft_strjoin_free(tools->result, value);
-	if (set_mem_error(data, tools->temp))
+	tools->result = ft_strjoin_free(tools->result, value);
+	if (set_mem_error(data, tools->result))
 		return (0);
-	tools->result = tools->temp;
 	return (1);
+
 }
 
 int	dollar_literal(t_data *data, t_exp_tools *tools, int *i)

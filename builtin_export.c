@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 14:59:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:03:08 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	export_no_args(t_arena *env_arena)
 static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
-	(void)	status;
+
 	if (ft_strchr(arg, '='))
 	{
 		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
@@ -57,7 +57,7 @@ static char	*extract_key(const char *arg, t_exec_status *status)
 	return (key);
 }
 
-static int	get_and_validate_key(char *arg, t_exec_status *status, char **out_key)
+static int	get_key(char *arg, t_exec_status *status, char **out_key)
 {
 	char	*key;
 
@@ -111,7 +111,7 @@ int	builtin_export(t_data *data, char **args)
 	i = 1;
 	while (args[i])
 	{
-		if (get_and_validate_key(args[i], &data->status, &key))
+		if (get_key(args[i], &data->status, &key))
 			return (1);
 		if (set_export_value(data, key, args[i]))
 		{

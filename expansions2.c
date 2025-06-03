@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions2.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/03 15:06:02 by msuokas           #+#    #+#             */
+/*   Updated: 2025/06/03 16:21:22 by msuokas          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	set_mem_error(t_data *data, char *value)
@@ -32,8 +44,8 @@ int	is_single_quote(t_lexer **current, t_lexer **prev)
 int	prev_is_redir(t_lexer **curr, t_lexer **prev)
 {
 	if (prev && *prev && ((*prev)->type == RE_IN
-		|| (*prev)->type == RE_OUT || (*prev)->type == APPEND_OUT
-		|| (*prev)->type == HERE_DOC))
+			|| (*prev)->type == RE_OUT || (*prev)->type == APPEND_OUT
+			|| (*prev)->type == HERE_DOC))
 	{
 		advance_node(curr, prev);
 		return (1);

@@ -6,26 +6,35 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:46:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:00:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 17:53:59 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_path_permissions(char *path, t_exec_status *exec_status)
+int	check_path_permissions(t_data *data, char *path)
 {
 	struct stat	path_stat;
 
 	if ((path[0] == '.' && path[1] == '/') || path[0] == '/')
 	{
 		if (stat(path, &path_stat) == -1)
-			exit(error(exec_status, path, NO, 127));
+		{
+			error(&data->status, path, NO, 127);
+			return (127);
+		}
 		if (S_ISDIR(path_stat.st_mode))
-			exit(error(exec_status, path, ISDIR, 126));
+		{
+			error(&data->status, path, ISDIR, 126);
+			return (126);
+		}
 		if (access(path, X_OK) == -1)
-			exit(error(exec_status, path, NOPERM, 126));
-		return ;
+		{
+			error(&data->status, path, NOPERM, 126);
+			return (126);
+		}
 	}
+	return (0);
 }
 
 void	close_fds(t_exec_status *exec_status)

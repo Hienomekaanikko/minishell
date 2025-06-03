@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:04:38 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/29 16:20:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 15:04:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ t_arena	*init_backup_env(t_data *data)
 	return (data->env_arena);
 }
 
-int arena_has_key(t_arena *env_arena, char *key)
+int	arena_has_key(t_arena *env_arena, char *key)
 {
-	size_t i;
-	size_t key_len;
+	size_t	i;
+	size_t	key_len;
 
 	if (!env_arena || !key)
 		return (0);
@@ -57,8 +57,9 @@ int arena_has_key(t_arena *env_arena, char *key)
 	i = 0;
 	while (i < env_arena->ptrs_in_use)
 	{
-		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0 &&
-			(env_arena->ptrs[i][key_len] == '=' || env_arena->ptrs[i][key_len] == '\0'))
+		if (ft_strncmp(env_arena->ptrs[i], key, key_len) == 0
+			&& (env_arena->ptrs[i][key_len] == '='
+			|| env_arena->ptrs[i][key_len] == '\0'))
 			return (1);
 		i++;
 	}

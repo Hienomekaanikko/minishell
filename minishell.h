@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 14:21:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 17:53:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef enum e_token
 	APPEND_OUT,
 }	t_token;
 
-//for lexing part of parsing (mikon juttuja)
 typedef struct s_lexer
 {
 	t_token			type;
@@ -70,7 +69,6 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }	t_lexer;
 
-//ast nodes
 typedef struct s_ast
 {
 	t_token			type;
@@ -83,7 +81,6 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-//arena
 typedef struct s_arena
 {
 	char		*memory;
@@ -94,7 +91,6 @@ typedef struct s_arena
 	size_t		ptr_capacity;
 }	t_arena;
 
-//structure for the execution status
 typedef struct s_exec_status
 {
 	int			exit_code;
@@ -114,7 +110,6 @@ typedef struct s_exec_status
 	pid_t		pid;
 }	t_exec_status;
 
-//structure for the main data stuff
 typedef struct s_data
 {
 	t_exp_data		*exp;
@@ -219,10 +214,11 @@ void		wait_process(pid_t pid, t_exec_status *exec_status);
 void		wait_right_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
 int			cleanup_pipe(int pipe_fd[2], pid_t pidl, pid_t pidr);
-void		check_path_permissions(char *path, t_exec_status *exec_status);
+int			check_path_permissions(t_data *data, char *path);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
 void		save_orig_fd(t_data *data);
+void		free_all(t_data *data);
 
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);

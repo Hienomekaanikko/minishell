@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 15:57:22 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 17:39:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,15 @@ int	is_var_declaration(char *str)
 	if (str[i] != '=')
 		return (0);
 	i++;
-	while (str[i])
+	while ((str[i]))
 	{
 		if ((str[i] == '\'' || str[i] == '"'))
 		{
 			if (!note_quote(str, i, &has_open_quote))
 				return (0);
 		}
+		if (ft_isspace(str[i]))
+			return (0);
 		i++;
 	}
 	if (!is_closed_quote(has_open_quote))
@@ -71,7 +73,6 @@ int	declared(t_data *data, t_var *start, char *key, char *value)
 	t_var	*temp;
 	int		key_len;
 
-	(void)value;
 	temp = start;
 	key_len = ft_strlen(key);
 	if (key_len == 0)
