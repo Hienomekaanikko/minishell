@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:41:30 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:21:38 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:22:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*is_declared(t_data *data, char *extracted_key)
 			fetched_value = ft_strdup(temp->value);
 			if (set_mem_error(data, fetched_value))
 				return (NULL);
+			free(temp->value);
+			temp->value = NULL;
 			return (fetched_value);
 		}
 		temp = temp->next;

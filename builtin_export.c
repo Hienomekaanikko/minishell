@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 15:59:25 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:59:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ static int	export_no_args(t_arena *env_arena)
 static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
-
+	(void)	status;
 	if (ft_strchr(arg, '='))
 	{
 		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 		if (!key)
 		{
-			error(status, "export", NO, 1);
+			error(status, "export", MALLOC, 1);
 			return (NULL);
 		}
 	}

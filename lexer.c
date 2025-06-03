@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:10:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 13:00:09 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:29:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	ft_lexer(t_data *data)
 		check_for_expansions(data);
 	data->status.exit_code = 0;
 	if (data->mem_error)
+	{
+		free_lexed_list(*data->lexed_list);
 		return (0);
+	}
 	return (1);
 }
 

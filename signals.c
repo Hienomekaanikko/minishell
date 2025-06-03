@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:13:33 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/02 17:06:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:58:35 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	setup_shell_signals(void)
 	rl_event_hook = reset_readline;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	g_interrupted = 0;
 }
 

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/03 10:49:32 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:59:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 		else
 			status->msg = get_error(err);
 		status->exit_code = exit_code;
+		ft_putstr_fd("minishell:", 2);
+		ft_putstr_fd(" ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putendl_fd(status->msg, 2);
 	}
 	else
 	{
@@ -60,11 +65,6 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 		else
 			status->exit_code = 1;
 	}
-	ft_putstr_fd("minishell:", 2);
-	ft_putstr_fd(" ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(status->msg, 2);
 	return (exit_code);
 }
 

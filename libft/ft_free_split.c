@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 12:54:35 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/20 17:15:08 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:37:39 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	ft_free_split(char **args)
 	int	i;
 
 	i = 0;
+	if (!args)
+		return ;
 	while (args[i])
 	{
 		free(args[i]);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 12:57:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 14:21:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ char		*is_declared(t_data *data, char *extracted_key);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *curr, t_lexer *prev);
 void		unset_local(t_var **head, char *key);
 int			after_dollar(t_data *data, t_exp_tools *tools, char *value);
-int			dollar_literal(t_exp_tools *tools, int *i);
+int			dollar_literal(t_data *data, t_exp_tools *tools, int *i);
 int			before_dollar(t_data *data, t_exp_tools *tools, char *value, int i);
 int			dollar(t_data *data, t_exp_tools *tools, char *value, int *i);
 int			variable(t_data *data, t_exp_tools *tools, char *value, int *i);
