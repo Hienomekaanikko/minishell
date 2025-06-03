@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:42:08 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:00:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/03 12:26:24 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
 		exec_pipe(node->left, data);
 	else
 		execute_command(node->left, data);
+	arena_free(data->env_arena);
+	destroy_memory(data);
 	exit(data->status.exit_code);
 }
 
@@ -45,6 +47,8 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_data *data)
 	}
 	close(pipe_fd[0]);
 	execute_command(node->right, data);
+	arena_free(data->env_arena);
+	destroy_memory(data);
 	exit(data->status.exit_code);
 }
 
