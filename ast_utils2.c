@@ -6,13 +6,19 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 13:36:22 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:39:44 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int count_new_len(char *value)
+void	increment_pointers(int *i, int *len)
+{
+	(*i)++;
+	(*len)++;
+}
+
+int	count_new_len(char *value)
 {
 	int		i;
 	int		len;
@@ -28,22 +34,18 @@ int count_new_len(char *value)
 		else if (quote)
 		{
 			if (value[i] == quote)
-				quote = 0, i++;
-			else
 			{
-				len++;
+				quote = 0;
 				i++;
 			}
+			else
+				increment_pointers(&i, &len);
 		}
 		else
-		{
-			len++;
-			i++;
-		}
+			increment_pointers(&i, &len);
 	}
 	return (len);
 }
-
 
 t_ast	*create_node(char *value, t_token type)
 {

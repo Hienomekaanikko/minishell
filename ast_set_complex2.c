@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 18:22:23 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:43:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	node_fail(t_data *data, t_ast *node)
 	return (0);
 }
 
+//sets the followup redir as root
 void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
@@ -60,12 +61,11 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 			return ;
 	}
 	curr = curr->next;
-	if (prev_cmd != NULL)
-	{
-		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-		is_child_failure(data, data->root->left);
-		prev_cmd = NULL;
-	}
+	if (prev_cmd == NULL)
+		prev_cmd = curr->next;
+	add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
+	is_child_failure(data, data->root->left);
+	prev_cmd = NULL;
 	if (curr && !data->mem_error && curr->type == ARG)
 	{
 		add_right_child(&data->root->right, curr, data->root->type);
