@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 13:13:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:30:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*remove_quotes(char *value)
 			ast.cleaned_value[ast.j++] = value[ast.i++];
 		ast.cleaned_value[ast.j] = '\0';
 	}
+	ast.cleaned_value[ast.j] = '\0';
 	return (ast.cleaned_value);
 }
 

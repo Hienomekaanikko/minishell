@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 13:14:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:53:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,13 @@ static void	free_all(t_data *data)
 	destroy_memory(data);
 }
 
-static void	child_exit(t_data *data, int status, char *cmd)
+static void	child_exit(t_data *data, int status)
 {
 	free_all(data);
 	if (status == 1)
 		exit(data->status.exit_code);
 	else if (status == 2)
-	{
-		if (!cmd)
-			exit(error(&data->status, "''", NOCMD, 127));
-		else
-			exit(error(&data->status, cmd, NOCMD, 127));
-	}
+		exit(error(&data->status, "''", NOCMD, 127));
 }
 
 int	built_ins(t_ast *node, t_data *data)
@@ -60,20 +55,20 @@ int	executables(t_ast *node, t_data *data)
 	{
 		setup_child_signals();
 		if (check_path_permissions(data, node->cmd) > 0)
-			child_exit(data, 1, NULL);
+			child_exit(data, 1);
 		close_fds(&data->status);
 		node->path = find_executable(node, data);
 		if (!node->path)
-			child_exit(data, 1, NULL);
+			child_exit(data, 1);
 		execve(node->path, node->args, data->env_arena->ptrs);
-		child_exit(data, 2, node->cmd);
+		child_exit(data, 2);
 	}
 	else
 	{
 		data->status.pid = pid;
-		ignore_signals();
+		//ignore_signals();
 		wait_process(pid, &data->status);
-		setup_shell_signals();
+		//setup_shell_signals();
 	}
 	return (0);
 }

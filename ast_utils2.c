@@ -6,23 +6,35 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:34:40 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 15:44:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:36:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_new_len(char *value)
+int count_new_len(char *value)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	quote;
 
 	i = 0;
 	len = 0;
+	quote = 0;
 	while (value[i])
 	{
-		if (value[i] == '\'' || value[i] == '"')
-			i++;
+		if (!quote && (value[i] == '\'' || value[i] == '"'))
+			quote = value[i++];
+		else if (quote)
+		{
+			if (value[i] == quote)
+				quote = 0, i++;
+			else
+			{
+				len++;
+				i++;
+			}
+		}
 		else
 		{
 			len++;
@@ -31,6 +43,7 @@ int	count_new_len(char *value)
 	}
 	return (len);
 }
+
 
 t_ast	*create_node(char *value, t_token type)
 {
