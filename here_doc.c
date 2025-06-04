@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 18:23:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 09:47:51 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 			{
 				free(line);
 				line = ft_strdup(expanded_line);
-				free(expanded_line);
+				free_exp_tools(data);
 			}
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:11:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 18:26:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 09:42:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,7 @@ int	variable(t_data *data, t_exp_tools *tools, char *value, int *i)
 		if (set_mem_error(data, tools->result))
 			return (0);
 	}
+	free(tools->val);
+	tools->val = NULL;
 	return (1);
 }

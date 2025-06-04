@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/03 15:01:58 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 10:00:07 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	builtin_cd(char **args, t_data *data)
 			return (error(&data->status, "env", NOENV, 1));
 	}
 	if (chdir(path) == -1)
-		return (error(&data->status, "cd", NO, 1));
+		return (error(&data->status, "cd", NOFILE, 1));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (error(&data->status, "cd", NO, 1));
+		return (error(&data->status, "cd", NOFILE, 1));
 	arena_set_env(data, "PWD", new_pwd);
 	free(new_pwd);
 	return (0);
