@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 11:16:17 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:55:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 			free(*line);
 			*line = ft_strdup(expanded_line);
 			free_exp_tools(data);
-			free(expanded_line);
 		}
 	}
 	return (*line);
@@ -76,10 +75,7 @@ char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 int	hd_handle_delimiter(char *line, char *delimiter)
 {
 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-	{
-		free(line);
 		return (1);
-	}
 	return (0);
 }
 
@@ -137,7 +133,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	setup_heredoc_signals();
 	fd = hd_file_setup(data, out_path);
 	if (fd < 0)
-		return (-1); //what should i return here?
+		return (-1);
 	linecount = 0;
 	while (1)
 	{
@@ -147,7 +143,10 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		linecount++;
 		line = hd_expand_line(data, &line, is_delim_quote);
 		if (hd_handle_delimiter(line, delimiter))
+		{
+			free(line);
 			break ;
+		}
 		hd_write_line(fd, line);
 	}
 	close(fd);
