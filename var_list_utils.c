@@ -6,34 +6,52 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 17:39:27 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:37:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	note_quote(char *str, int i, int *has_open_quote)
+void	set_variable(t_data *data, char *key, char *value)
 {
-	if (!*has_open_quote)
-		*has_open_quote = str[i];
-	else if (str[i] == *has_open_quote)
-		*has_open_quote = 0;
-	else
+	if (arena_has_key(data->env_arena, key))
+		arena_set_env(data, key, value);
+	if (!declared(data, data->exp->var_list, key, value))
 	{
-		ft_putstr_fd("ERROR: Mismatched or unclosed quote\n", 2);
-		return (0);
+		if (!data->mem_error)
+		{
+			if (!add_var_to_list(data, data->exp, key, value))
+				data->mem_error = 1;
+		}
 	}
-	return (1);
 }
 
-int	is_closed_quote(int has_open_quote)
+void	unset_local(t_var **head, char *key)
 {
-	if (has_open_quote)
+	t_var	*current;
+	t_var	*prev;
+
+	current = *head;
+	prev = NULL;
+	while (current)
 	{
-		ft_putstr_fd("ERROR: Unclosed quote\n", 2);
-		return (0);
+		if (strcmp(current->key, key) == 0)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*head = current->next;
+			if (current->key)
+				free(current->key);
+			if (current->value)
+				free(current->value);
+			free(current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
 	}
-	return (1);
+	return ;
 }
 
 //check if var declaration
@@ -51,19 +69,12 @@ int	is_var_declaration(char *str)
 	if (str[i] != '=')
 		return (0);
 	i++;
-	while ((str[i]))
+	while (str[i])
 	{
-		if ((str[i] == '\'' || str[i] == '"'))
-		{
-			if (!note_quote(str, i, &has_open_quote))
-				return (0);
-		}
 		if (ft_isspace(str[i]))
 			return (0);
 		i++;
 	}
-	if (!is_closed_quote(has_open_quote))
-		return (0);
 	return (1);
 }
 

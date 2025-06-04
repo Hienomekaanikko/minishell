@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:46:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 11:09:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:11:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	check_path_permissions(t_data *data, char *path)
 	}
 	return (0);
 }
-
 
 void	close_fds(t_exec_status *exec_status)
 {

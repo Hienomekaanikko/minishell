@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 17:53:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:16:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,14 @@ void		advance_node(t_lexer **curr, t_lexer **prev);
 int			is_single_quote(t_lexer **curr, t_lexer **prev);
 int			prev_is_redir(t_lexer **curr, t_lexer **prev);
 
+//heredoc
+int			hd_handle_delimiter(char *line, char *delimiter);
+int			hd_file_setup(t_data *data, char **out_path);
+int			handle_delim_quote(char *delimiter);
+void		hd_write_line(int fd, char *line);
+int			redir_error_check(t_data *data);
+char		*make_temp_file_name(t_data *data);
+
 //execution
 int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_data *data);
@@ -218,7 +226,6 @@ int			check_path_permissions(t_data *data, char *path);
 void		close_fds(t_exec_status *exec_status);
 void		restore_orig_fd(t_data *data);
 void		save_orig_fd(t_data *data);
-void		free_all(t_data *data);
 
 //arena
 t_arena		*arena_init(size_t arena_size, size_t initial_ptrs);

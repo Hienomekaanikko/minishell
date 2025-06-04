@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 11:55:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:08:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 char	*make_temp_file_name(t_data *data)
 {
-	static int	counter = 0;
+	static int	counter;
 	char		*num;
 	char		*temp_file_name;
 
+	counter = 0;
 	num = ft_itoa(counter++);
 	if (set_mem_error(data, num))
 		return (NULL);
@@ -66,60 +67,14 @@ char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 		{
 			free(*line);
 			*line = ft_strdup(expanded_line);
+			if (set_mem_error(data, *line))
+				return (NULL);
 			free_exp_tools(data);
 		}
+		if (data->mem_error)
+			return (NULL);
 	}
 	return (*line);
-}
-
-int	hd_handle_delimiter(char *line, char *delimiter)
-{
-	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-		return (1);
-	return (0);
-}
-
-int	hd_file_setup(t_data *data, char **out_path)
-{
-	int		fd;
-	char	*temp_file_name;
-
-	temp_file_name = make_temp_file_name(data);
-	if (!temp_file_name)
-		return (-1);
-	fd = open(temp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd < 0)
-	{
-		ft_putstr_fd("error: cannot create heredoc file\n", 2);
-		free(temp_file_name);
-		return (-1);
-	}
-	*out_path = temp_file_name;
-	return (fd);
-}
-
-int	handle_delim_quote(char *delimiter)
-{
-	if (delimiter[0] == '\'' || delimiter[0] == '"')
-	{
-		delimiter = remove_quotes(delimiter);
-		return (1);
-	}
-	return (0);
-}
-
-void	hd_write_line(int fd, char *line)
-{
-	write(fd, line, ft_strlen(line));
-	write(fd, "\n", 1);
-	free(line);
-}
-
-int	redir_error_check(t_data *data)
-{
-	if (data->redir_err == 2)
-		return (-1);
-	return (0);
 }
 
 int	write_heredoc(t_data *data, char *delimiter, char **out_path)
@@ -143,10 +98,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		linecount++;
 		line = hd_expand_line(data, &line, is_delim_quote);
 		if (hd_handle_delimiter(line, delimiter))
-		{
-			free(line);
 			break ;
-		}
 		hd_write_line(fd, line);
 	}
 	close(fd);

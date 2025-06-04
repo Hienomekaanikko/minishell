@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:17:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 18:02:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:11:34 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	after_dollar(t_data *data, t_exp_tools *tools, char *value)
 	if (set_mem_error(data, tools->result))
 		return (0);
 	return (1);
-
 }
 
 int	dollar_literal(t_data *data, t_exp_tools *tools, int *i)

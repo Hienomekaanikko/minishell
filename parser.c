@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:16:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 17:40:17 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:36:06 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,10 @@ char	**parser(t_data *data, char const *s)
 	int			amount_of_strings;
 	char		**result;
 
-	if (!s)
-		return (NULL);
 	if (ft_is_only_space(s))
 		return (NULL);
 	amount_of_strings = ft_count_splits(s);
-	arr = malloc((amount_of_strings + 1) * sizeof(char *));
+	arr = ft_calloc(amount_of_strings + 1, sizeof(char *));
 	if (arr == NULL)
 	{
 		data->mem_error = 1;
@@ -120,6 +118,9 @@ char	**parser(t_data *data, char const *s)
 		return (NULL);
 	}
 	if (data->syntax_err)
+	{
+		ft_free_split(arr);
 		return (NULL);
+	}
 	return (result);
 }

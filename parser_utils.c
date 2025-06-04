@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 17:13:06 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 15:07:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 12:44:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ void	add_operator(t_data *data, t_parser *pars, const char *s)
 
 int	make_substring(t_parser *data, char const *s, char **array_of_strings)
 {
-	int	i;
-	int	start;
+	int	i = data->i;
+	int	start = data->start;
 
-	i = data->i;
-	start = data->start;
 	array_of_strings[data->y] = ft_substr(s, start, i - start);
 	if (!array_of_strings[data->y])
 	{
-		free_malloc(array_of_strings, data->y);
+		array_of_strings[data->y] = NULL;
+		ft_free_split(array_of_strings);
 		return (0);
 	}
 	data->y++;
+	array_of_strings[data->y] = NULL;
 	return (1);
 }
 

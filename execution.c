@@ -6,16 +6,30 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 11:09:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:14:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_all(t_data *data)
+static void	free_all(t_data *data)
 {
 	arena_free(data->env_arena);
 	destroy_memory(data);
+}
+
+static void	child_exit(t_data *data, int status, char *cmd)
+{
+	free_all(data);
+	if (status == 1)
+		exit(data->status.exit_code);
+	else if (status == 2)
+	{
+		if (!cmd)
+			exit(error(&data->status, "''", NOCMD, 127));
+		else
+			exit(error(&data->status, cmd, NOCMD, 127));
+	}
 }
 
 int	built_ins(t_ast *node, t_data *data)
@@ -46,19 +60,13 @@ int	executables(t_ast *node, t_data *data)
 	{
 		setup_child_signals();
 		if (check_path_permissions(data, node->cmd) > 0)
-		{
-			free_all(data);
-			exit(data->status.exit_code);
-		}
+			child_exit(data, 1, NULL);
 		close_fds(&data->status);
 		node->path = find_executable(node, data);
 		if (!node->path)
-		{
-			free_all(data);
-			exit(data->status.exit_code);
-		}
+			child_exit(data, 1, NULL);
 		execve(node->path, node->args, data->env_arena->ptrs);
-		exit(error(&data->status, node->cmd, NOCMD, 127));
+		child_exit(data, 2, node->cmd);
 	}
 	else
 	{
