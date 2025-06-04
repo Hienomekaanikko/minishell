@@ -43,7 +43,8 @@ SRC = ft_calloc.c \
 			ft_free_substrings.c \
 			ft_strjoin_free.c \
 			ft_is_space.c \
-			ft_is_only_space.c
+			ft_is_only_space.c \
+			ft_strlcat.c
 
 OBJS = $(SRC:.c=.o)
 

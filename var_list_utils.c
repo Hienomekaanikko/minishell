@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 12:37:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:42:33 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	unset_local(t_var **head, char *key)
 	return ;
 }
 
-//check if var declaration
 int	is_var_declaration(char *str)
 {
 	int		i;
@@ -78,7 +77,6 @@ int	is_var_declaration(char *str)
 	return (1);
 }
 
-//check if key is already declared and replace the value
 int	declared(t_data *data, t_var *start, char *key, char *value)
 {
 	t_var	*temp;

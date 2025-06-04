@@ -6,13 +6,12 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 17:10:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:42:55 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Helper function to create a new node
 t_var	*create_var(t_data *data, char *key, char *value)
 {
 	t_var	*new_node;
@@ -34,7 +33,6 @@ t_var	*create_var(t_data *data, char *key, char *value)
 	return (new_node);
 }
 
-// Add a new node to the end of the list
 int	add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value)
 {
 	t_var	*current;

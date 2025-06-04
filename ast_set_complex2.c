@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 14:43:48 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 18:01:46 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	node_fail(t_data *data, t_ast *node)
 	return (0);
 }
 
-//sets the followup redir as root
 void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
@@ -49,7 +48,6 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 		data->root = new;
 }
 
-//sets redirection as root if no previous roots
 void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 {
 	data->root = create_node(curr->value, curr->type);
@@ -78,7 +76,6 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 		set_access_err(data, data->root);
 }
 
-//sets the followup pipe as root and previous pipe as left child
 void	set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
@@ -99,7 +96,6 @@ void	set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new)
 		data->root = new;
 }
 
-//sets the first pipe as root node if encountered
 void	set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd)
 {
 	data->root = create_node(curr->value, curr->type);

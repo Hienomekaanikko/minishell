@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:27:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/26 14:28:27 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:39:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_add_node(t_lexer **list, char *input_list)
 	return (1);
 }
 
-//add the starting token if there are no previous tokens
 void	add_starting_token(t_lexer *curr)
 {
 	if (curr->value[0] == '|')

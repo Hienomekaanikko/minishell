@@ -6,13 +6,12 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 14:26:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 18:28:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//makes a tree without pipes or redirections
 void	set_basic_tree(t_data *data)
 {
 	t_lexer	*current;
@@ -34,7 +33,6 @@ void	set_basic_tree(t_data *data)
 	}
 }
 
-//determines what kind of tree is needed
 int	tree_type(t_data *data)
 {
 	t_lexer	*temp;
@@ -50,7 +48,6 @@ int	tree_type(t_data *data)
 	return (1);
 }
 
-//launches the tree creation process
 void	make_tree(t_data *data)
 {
 	data->root = NULL;

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/04 09:54:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:36:03 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,21 @@ char	*get_error(t_error err)
 	return (NULL);
 }
 
+static void	set_other_status(t_exec_status *status)
+{
+	status->msg = strerror(errno);
+	if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
+		status->exit_code = 126;
+	else
+		status->exit_code = 1;
+}
+
 int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 {
+	char	buf[512];
+	size_t	pos;
+
+	pos = 0;
 	status->signal = 0;
 	if (err)
 	{
@@ -51,20 +64,15 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 		else
 			status->msg = get_error(err);
 		status->exit_code = exit_code;
-		ft_putstr_fd("minishell:", 2);
-		ft_putstr_fd(" ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putendl_fd(status->msg, 2);
+		pos += ft_strlcat(buf + pos, "minishell: ", sizeof(buf) - pos);
+		pos += ft_strlcat(buf + pos, cmd, sizeof(buf) - pos);
+		pos += ft_strlcat(buf + pos, ": ", sizeof(buf) - pos);
+		pos += ft_strlcat(buf + pos, status->msg, sizeof(buf) - pos);
+		pos += ft_strlcat(buf + pos, "\n", sizeof(buf) - pos);
+		write(2, buf, pos);
 	}
 	else
-	{
-		status->msg = strerror(errno);
-		if (errno == EACCES || errno == EISDIR || errno == ENOEXEC)
-			status->exit_code = 126;
-		else
-			status->exit_code = 1;
-	}
+		set_other_status(status);
 	return (exit_code);
 }
 

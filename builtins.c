@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/04 10:00:07 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:38:08 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	builtin_cd(char **args, t_data *data)
 	return (0);
 }
 
-//Do we need to implement the oldpwd thing? cd -
 int	builtin_pwd(t_data *data)
 {
 	char	*pwd;

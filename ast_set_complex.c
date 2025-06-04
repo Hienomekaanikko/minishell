@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 12:39:02 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/04 18:26:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	place_redir(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 	}
 }
 
-//makes a tree with pipes or redirections or both
 void	set_complex_tree(t_data *data)
 {
 	t_lexer	*curr;
