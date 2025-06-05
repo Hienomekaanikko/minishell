@@ -17,7 +17,7 @@ void	find_next_command(t_lexer **prev_cmd, t_lexer *curr)
 	t_lexer	*temp;
 
 	temp = curr;
-	while (temp)
+	while (temp && temp->type != PIPE)
 	{
 		if (temp->type == RE_IN || temp->type == RE_OUT || temp->type == APPEND_OUT || temp->type == HERE_DOC)
 		{
