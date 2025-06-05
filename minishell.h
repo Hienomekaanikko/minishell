@@ -181,6 +181,7 @@ void		set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr);
 void		set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new);
 void		set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd);
 int			allocate_arguments(t_utils *ast, t_ast *node, t_lexer **curr);
+void		find_next_command(t_lexer **prev_cmd, t_lexer *curr);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);

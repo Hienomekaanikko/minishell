@@ -12,6 +12,33 @@
 
 #include "minishell.h"
 
+void	find_next_command(t_lexer **prev_cmd, t_lexer *curr)
+{
+	t_lexer	*temp;
+
+	temp = curr;
+	while (temp)
+	{
+		if (temp->type == RE_IN || temp->type == RE_OUT || temp->type == APPEND_OUT || temp->type == HERE_DOC)
+		{
+			if (temp->next)
+			{
+				if (temp->next->next)
+				{
+					if (temp->next->next->type == ARG)
+						*prev_cmd = temp->next->next;
+				}
+			}
+		}
+		else
+		{
+			if (temp->next && temp->next->type == ARG)
+				*prev_cmd = temp->next;
+		}
+		temp = temp->next;
+	}
+}
+
 char	*remove_quotes(char *value)
 {
 	t_utils	ast;

@@ -59,11 +59,13 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 			return ;
 	}
 	curr = curr->next;
-	if (prev_cmd == NULL)
-		prev_cmd = curr->next;
-	add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
-	is_child_failure(data, data->root->left);
-	prev_cmd = NULL;
+	if (prev_cmd == NULL && curr->type)
+		find_next_command(&prev_cmd, curr);
+	if (prev_cmd)
+	{
+		add_left_child(&data->root->left, prev_cmd, prev_cmd->type);
+		is_child_failure(data, data->root->left);
+	}
 	if (curr && !data->mem_error && curr->type == ARG)
 	{
 		add_right_child(&data->root->right, curr, data->root->type);

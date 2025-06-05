@@ -57,10 +57,8 @@ void	unset_local(t_var **head, char *key)
 int	is_var_declaration(char *str)
 {
 	int		i;
-	int		has_open_quote;
 
 	i = 0;
-	has_open_quote = 0;
 	if (!str || ft_strlen(str) == 0)
 		return (0);
 	while (str[i] && ft_isalnum(str[i]))

@@ -26,6 +26,8 @@ static void	check_outfiles(t_lexer *checker, char **msg, t_lexer **prev)
 		else if (!(*msg) && checker->type == APPEND_OUT
 			&& checker->next->type == RE_OUT)
 			*msg = "minishell: syntax error near unexpected token `>'";
+		else if (!(*msg) && checker->type == RE_OUT && checker->next->type == RE_IN)
+			*msg = "minishell: syntax error near unexpected token `<'";
 	}
 }
 
@@ -43,6 +45,8 @@ static void	check_infiles(t_lexer *checker, char **msg)
 		else if ((!*msg) && checker->type == HERE_DOC
 			&& checker->next->type != ARG)
 			*msg = "minishell: syntax error near unexpected token `<<'";
+		else if (!(*msg) && checker->type == RE_IN && checker->next->type == RE_OUT)
+	 		*msg = "minishell: syntax error near unexpected token `>'";
 	}
 }
 
