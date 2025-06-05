@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 17:21:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/05 13:38:35 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,36 @@ static int	get_key(char *arg, t_exec_status *status, char **out_key)
 	return (0);
 }
 
+int	env_val_join(t_data *data, const char *key, const char* arg)
+{
+
+	char	*value;
+
+	value = is_declared(data, (char *)key);
+
+		if (!value)
+		{
+			arena_set_env(data, (char *)key, NULL);
+			if (data->mem_error == 1)
+				return (0);
+		}
+		else
+		{
+			char *temp_value = value;
+			value = ft_strjoin_free(temp_value, (char *) arg);
+		}
+	return (1);
+}
+
 static int	set_export_value(t_data *data, const char *key, const char *arg)
 {
 	char	*eq;
 	char	*value;
 
 	eq = ft_strchr(arg, '=');
+	env_val_join(data, key, arg);
+	if(eq && eq > arg && *(eq -1) == '+')
+		env_val_join()
 	if (eq)
 		arena_set_env(data, (char *)key, eq + 1);
 	else
