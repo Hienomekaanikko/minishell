@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/05 13:38:35 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/06 11:09:16 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,26 @@ static int	get_key(char *arg, t_exec_status *status, char **out_key)
 	return (0);
 }
 
-int	env_val_join(t_data *data, const char *key, const char* arg)
+static int	env_val_join(t_data *data, const char *key, char *value)
 {
-
-	char	*value;
-
-	value = is_declared(data, (char *)key);
-
-		if (!value)
-		{
-			arena_set_env(data, (char *)key, NULL);
-			if (data->mem_error == 1)
-				return (0);
+	(void) data;
+	printf("Key in valjoin %s\n", key);
+	printf("Is value declared? %s\n", value);
+	if (!value)
+	{
+		printf("no_value? %s\n", value);
+		// arena_set_env(data, (char *)key, NULL);
+			// if (data->mem_error == 1)
+			// 	return (0);
 		}
 		else
 		{
-			char *temp_value = value;
-			value = ft_strjoin_free(temp_value, (char *) arg);
+			printf("value found. Joining. Value: %s\n", value);
+			// char *temp_value = value;
+			// value = ft_strjoin_free(temp_value, (char *) arg);
 		}
-	return (1);
-}
+		return (1);
+	}
 
 static int	set_export_value(t_data *data, const char *key, const char *arg)
 {
@@ -102,9 +102,9 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 	char	*value;
 
 	eq = ft_strchr(arg, '=');
-	env_val_join(data, key, arg);
+	printf("key %s, arg %s \n", key, arg);
 	if(eq && eq > arg && *(eq -1) == '+')
-		env_val_join()
+		env_val_join(data, key, eq + 1);
 	if (eq)
 		arena_set_env(data, (char *)key, eq + 1);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:06:07 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 16:42:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/06 10:19:47 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	unset_local(t_var **head, char *key)
 int	is_var_declaration(char *str)
 {
 	int		i;
-	int		has_open_quote;
+//	int		has_open_quote;
 
 	i = 0;
-	has_open_quote = 0;
+//	has_open_quote = 0;
 	if (!str || ft_strlen(str) == 0)
 		return (0);
 	while (str[i] && ft_isalnum(str[i]))
