@@ -42,10 +42,19 @@ static int	export_no_args(t_arena *env_arena)
 static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
+	char	*eq;
+	char	*plus;
 
-	if (ft_strchr(arg, '='))
+	eq = ft_strchr(arg, '=');
+	if (eq)
 	{
-		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		plus = NULL;
+		if (eq > arg && *(eq - 1) == '+')
+			plus = (char *)(eq - 1);
+		if (plus)
+			key = ft_strndup(arg, plus - arg);
+		else
+			key = ft_strndup(arg, eq - arg);
 		if (!key)
 		{
 			error(status, "export", MALLOC, 1);
@@ -77,24 +86,28 @@ static int	get_key(char *arg, t_exec_status *status, char **out_key)
 
 static int	env_val_join(t_data *data, const char *key, char *value)
 {
-	(void) data;
-	printf("Key in valjoin %s\n", key);
-	printf("Is value declared? %s\n", value);
-	if (!value)
+	char	*old_value;
+	char	*new_value;
+
+	old_value = is_declared(data, (char *)key);
+	if (data->mem_error == 1)
+		return (0);
+	if (!old_value)
+		new_value = ft_strdup(value);
+	else
 	{
-		printf("no_value? %s\n", value);
-		// arena_set_env(data, (char *)key, NULL);
-			// if (data->mem_error == 1)
-			// 	return (0);
-		}
-		else
-		{
-			printf("value found. Joining. Value: %s\n", value);
-			// char *temp_value = value;
-			// value = ft_strjoin_free(temp_value, (char *) arg);
-		}
-		return (1);
+		new_value = ft_strjoin(old_value, value);
+		free(old_value);
 	}
+	if (!new_value)
+	{
+		data->mem_error = 1;
+		return (0);
+	}
+	arena_set_env(data, (char *)key, new_value);
+	free(new_value);
+	return (1);
+}
 
 static int	set_export_value(t_data *data, const char *key, const char *arg)
 {
@@ -102,10 +115,13 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 	char	*value;
 
 	eq = ft_strchr(arg, '=');
-	printf("key %s, arg %s \n", key, arg);
+	//printf("key %s, arg %s \n", key, arg);
 	if(eq && eq > arg && *(eq -1) == '+')
+	{
 		env_val_join(data, key, eq + 1);
-	if (eq)
+		return (0);
+	}
+	else if (eq)
 		arena_set_env(data, (char *)key, eq + 1);
 	else
 	{
