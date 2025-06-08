@@ -239,6 +239,7 @@ int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_data *data);
 int			builtin_pwd(t_data *data);
 int			builtin_export(t_data *data, char **args);
+int			builtin_export_append(t_data *data, char **args);
 int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
