@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 12:16:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 14:05:10 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ int			builtin_echo(char **args, t_exec_status *status);
 int			builtin_cd(char **args, t_data *data);
 int			builtin_pwd(t_data *data);
 int			builtin_export(t_data *data, char **args);
-int			builtin_export_append(t_data *data, char **args);
+int			export_append(t_data *data, const char *key, char *value);
 int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
