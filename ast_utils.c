@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 13:30:31 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:28:11 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,18 @@ void	find_next_command(t_lexer **prev_cmd, t_lexer *curr)
 	temp = curr;
 	while (temp && temp->type != PIPE)
 	{
-		if (temp->type == RE_IN || temp->type == RE_OUT || temp->type == APPEND_OUT || temp->type == HERE_DOC)
+		if ((temp->type == RE_IN || temp->type == RE_OUT
+				|| temp->type == APPEND_OUT || temp->type == HERE_DOC)
+			&& temp->next && temp->next->next
+			&& temp->next->next->type == ARG)
 		{
-			if (temp->next)
-			{
-				if (temp->next->next)
-				{
-					if (temp->next->next->type == ARG)
-						*prev_cmd = temp->next->next;
-				}
-			}
+			*prev_cmd = temp->next->next;
+			return ;
 		}
-		else
+		else if (temp->next && temp->next->type == ARG)
 		{
-			if (temp->next && temp->next->type == ARG)
-				*prev_cmd = temp->next;
+			*prev_cmd = temp->next;
+			return ;
 		}
 		temp = temp->next;
 	}
@@ -84,22 +81,22 @@ int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)
 	return (1);
 }
 
-void	add_right_child(t_ast **position, t_lexer *current, t_token type)
+void	add_right_child(t_ast **position, t_lexer *current)
 {
 	t_utils	ast;
 
 	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(current->value, current->type);
 	if (*position)
-		add_args(&ast, *position, current, type);
+		add_args(&ast, *position, current);
 }
 
-void	add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type)
+void	add_left_child(t_ast **position, t_lexer *prev_cmd)
 {
 	t_utils	ast;
 
 	ft_memset(&ast, 0, sizeof(t_utils));
 	*position = create_node(prev_cmd->value, prev_cmd->type);
 	if (*position)
-		add_args(&ast, *position, prev_cmd, type);
+		add_args(&ast, *position, prev_cmd);
 }

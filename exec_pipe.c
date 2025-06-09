@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:42:08 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 09:48:35 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:12:13 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ int	exec_pipe(t_ast *node, t_data *data)
 	ignore_signals();
 	cleanup_pipe(pipe_fd, pidl, pidr);
 	wait_process(pidl, &data->status);
-	wait_right_process(pidr, &data->status);
+	wait_process(pidr, &data->status);
 	return (0);
 }

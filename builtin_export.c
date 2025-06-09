@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 13:58:42 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 17:21:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:25:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,19 @@ static int	export_no_args(t_arena *env_arena)
 static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
+	char	*eq;
+	char	*plus;
 
-	if (ft_strchr(arg, '='))
+	eq = ft_strchr(arg, '=');
+	if (eq)
 	{
-		key = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		plus = NULL;
+		if (eq > arg && *(eq - 1) == '+')
+			plus = (char *)(eq - 1);
+		if (plus)
+			key = ft_strndup(arg, plus - arg);
+		else
+			key = ft_strndup(arg, eq - arg);
 		if (!key)
 		{
 			error(status, "export", MALLOC, 1);
@@ -81,7 +90,9 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 	char	*value;
 
 	eq = ft_strchr(arg, '=');
-	if (eq)
+	if (eq && eq > arg && *(eq - 1) == '+')
+		return (export_append(data, key, eq + 1));
+	else if (eq)
 		arena_set_env(data, (char *)key, eq + 1);
 	else
 	{

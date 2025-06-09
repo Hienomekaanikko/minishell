@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:26:47 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 17:45:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:26:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,46 @@ int	perms(t_data *data, char *path, int type)
 	return (-1);
 }
 
-void	add_args(t_utils *ast, t_ast *node, t_lexer *current, t_token type)
+int	process_token(t_utils *ast, t_ast *node, t_lexer **temp, int *skip_next)
 {
-	t_lexer		*temp;
+	if (*skip_next)
+	{
+		*skip_next = 0;
+		*temp = (*temp)->next;
+		return (1);
+	}
+	if ((*temp)->type == RE_IN || (*temp)->type == RE_OUT
+		|| (*temp)->type == APPEND_OUT || (*temp)->type == HERE_DOC)
+	{
+		*skip_next = 1;
+		*temp = (*temp)->next;
+		return (1);
+	}
+	if ((*temp)->type == ARG || (*temp)->type == CMD)
+	{
+		if (!allocate_arguments(ast, node, temp))
+			return (0);
+		return (1);
+	}
+	*temp = (*temp)->next;
+	return (1);
+}
+
+void	add_args(t_utils *ast, t_ast *node, t_lexer *current)
+{
+	t_lexer	*temp;
+	int		skip_next;
 
 	temp = current;
+	skip_next = 0;
 	ast->argument_amount = count_size(temp);
 	node->args = malloc((ast->argument_amount + 1) * sizeof(char *));
 	if (!node->args)
 		return ;
-	while (temp && (temp->type == ARG || temp->type == CMD))
+	while (temp && temp->type != PIPE)
 	{
-		if (!allocate_arguments(ast, node, &temp))
+		if (!process_token(ast, node, &temp, &skip_next))
 			return ;
-	}
-	if (temp && type != RE_IN && type != RE_OUT)
-	{
-		if (temp->type != PIPE)
-			temp = temp->next;
-		temp = temp->next;
-		while (temp && temp->type == ARG)
-		{
-			if (!allocate_arguments(ast, node, &temp))
-				return ;
-		}
 	}
 	node->args[ast->i] = NULL;
 }

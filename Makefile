@@ -49,7 +49,8 @@ SRC = main.c \
 		lexer_utils2.c \
 		rl_handler.c \
 		ast_errors.c \
-		here_doc_utils.c
+		here_doc_utils.c \
+		builtin_export_append.c
 
 OBJS = $(SRC:.c=.o)
 

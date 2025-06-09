@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 12:16:01 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:20:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ typedef struct s_exec_status
 	int			infile;
 	int			outfile;
 	int			redir_fail;
-	int			final_exit_code;
-	int			raw_status;
 	char		*msg;
 	char		*path;
 	char		*exec_path;
@@ -165,9 +163,9 @@ int			is_child_failure(t_data *data, t_ast *child);
 //ast tree stuff (added 22.4.)
 void		make_tree(t_data *data);
 void		set_complex_tree(t_data *data);
-void		add_args(t_utils *ast, t_ast *node, t_lexer *curr, t_token type);
-void		add_right_child(t_ast **position, t_lexer *curr, t_token type);
-void		add_left_child(t_ast **position, t_lexer *prev_cmd, t_token type);
+void		add_args(t_utils *ast, t_ast *node, t_lexer *curr);
+void		add_right_child(t_ast **position, t_lexer *curr);
+void		add_left_child(t_ast **position, t_lexer *prev_cmd);
 char		*remove_quotes(char *value);
 int			count_new_len(char *value);
 int			count_size(t_lexer *curr);
@@ -220,7 +218,6 @@ int			execute_command(t_ast *node, t_data *data);
 char		*find_executable(t_ast *node, t_data *data);
 int			exec_pipe(t_ast *node, t_data *data);
 void		wait_process(pid_t pid, t_exec_status *exec_status);
-void		wait_right_process(pid_t pid, t_exec_status *exec_status);
 int			exec_redir(t_ast *node, t_data *data);
 int			cleanup_pipe(int pipe_fd[2], pid_t pidl, pid_t pidr);
 int			check_path_permissions(t_data *data, char *path);
@@ -244,6 +241,7 @@ int			builtin_unset(t_data *data, char **args);
 int			builtin_env(t_data *data);
 int			builtin_exit(t_ast *node, t_exec_status *status);
 int			is_valid_env_name(const char *name);
+int			export_append(t_data *data, const char *key, char *value);
 
 //envp
 t_arena		*init_env_arena(char **envp, t_data *data);

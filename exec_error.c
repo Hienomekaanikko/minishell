@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/04 16:36:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:51:54 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 	char	buf[512];
 	size_t	pos;
 
+	memset(buf, 0, sizeof(buf));
 	pos = 0;
 	status->signal = 0;
 	if (err)

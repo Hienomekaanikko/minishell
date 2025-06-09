@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 08:53:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 18:28:28 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:41:43 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_basic_tree(t_data *data)
 	current = *data->lexed_list;
 	if (current)
 	{
-		add_right_child(&data->root, current, current->type);
+		add_right_child(&data->root, current);
 		if (!data->root)
 		{
 			data->mem_error = 1;

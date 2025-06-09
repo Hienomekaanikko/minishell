@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:17:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/03 15:05:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:12:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,8 @@ void	wait_process(pid_t pid, t_exec_status *exec_status)
 	if (pid <= 0)
 		return ;
 	waitpid(pid, &status, 0);
-	exec_status->raw_status = status;
 	if (WIFEXITED(status))
-	{
 		exec_status->exit_code = WEXITSTATUS(status);
-	}
-	else if (WIFSIGNALED(status))
-	{
-		exec_status->signal = WTERMSIG(status);
-		exec_status->exit_code = 128 + exec_status->signal;
-	}
-}
-
-void	wait_right_process(pid_t pidR, t_exec_status *exec_status)
-{
-	int	status;
-
-	if (pidR <= 0)
-		return ;
-	waitpid(pidR, &status, 0);
-	exec_status->raw_status = status;
-	if (WIFEXITED(status))
-	{
-		exec_status->exit_code = WEXITSTATUS(status);
-		if (exec_status->exit_code == 0)
-			exec_status->exit_code = exec_status->final_exit_code;
-	}
 	else if (WIFSIGNALED(status))
 	{
 		exec_status->signal = WTERMSIG(status);
