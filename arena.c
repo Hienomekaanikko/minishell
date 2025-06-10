@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/10 12:56:27 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:29:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*arena_add(t_data *data, char *add)
 	ft_memcpy(ptr, add, add_len);
 	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = ptr;
 	data->env_arena->ptrs_in_use++;
+	data->env_arena->ptrs[data->env_arena->ptrs_in_use] = NULL;
 	data->env_arena->mem_used += add_len;
 	return (ptr);
 }

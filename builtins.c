@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/10 14:34:16 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:53:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int	builtin_cd(char **args, t_data *data)
 	char	*new_pwd;
 	char	*path;
 
+	path = NULL;
 	if (count_args(args) > 2)
 		return (error(&data->status, "cd", TOO_MANY, 1));
-	path = args[1];
+	if (args[1])
+		path = ft_strdup(args[1]);
 	if (!path)
 	{
 		path = arena_getenv(data, data->env_arena, "HOME");
@@ -45,6 +47,7 @@ int	builtin_cd(char **args, t_data *data)
 		return (error(&data->status, "cd", NOFILE, 1));
 	arena_set_env(data, "PWD", new_pwd);
 	free(new_pwd);
+	free(path);
 	return (0);
 }
 

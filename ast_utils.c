@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/09 17:28:11 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:56:45 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ void	find_next_command(t_lexer **prev_cmd, t_lexer *curr)
 			*prev_cmd = temp->next->next;
 			return ;
 		}
-		else if (temp->next && temp->next->type == ARG)
-		{
-			*prev_cmd = temp->next;
-			return ;
-		}
 		temp = temp->next;
 	}
+	*prev_cmd = NULL;
 }
 
 char	*remove_quotes(char *value)

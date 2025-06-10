@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/10 14:17:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:41:17 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		//rl_event_hook = reset_readline;
-		//setup_shell_signals();
+		rl_event_hook = reset_readline;
+		setup_shell_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)
 			execute_command(data.root, &data);
-		// if (data.status.exit_code > 128)
-		// 	handle_signal_error(&data.status);
+		if (data.status.exit_code > 128)
+			handle_signal_error(&data.status);
 	}
 	arena_free(data.env_arena);
 	destroy_memory(&data);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 12:08:25 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:40:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ char	*make_temp_file_name(t_data *data)
 		return (NULL);
 	temp_file_name = ft_strdup("./heredoc_");
 	if (set_mem_error(data, temp_file_name))
+	{
+		free(num);
 		return (NULL);
+	}
 	temp_file_name = ft_strjoin_free(temp_file_name, num);
 	if (set_mem_error(data, temp_file_name))
 	{

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 16:36:33 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:14:10 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,14 @@ static void	assign_node_direction(t_ast *node, t_exec_status *status)
 {
 	if ((node->type == RE_IN || node->type == HERE_DOC) && status->infile == -1)
 		status->infile = status->temp_fd;
-	if ((node->type == RE_OUT || node->type == APPEND_OUT)
+	else if ((node->type == RE_OUT || node->type == APPEND_OUT)
 		&& status->outfile == -1 && status->redir_fail == 0)
 		status->outfile = status->temp_fd;
+	else
+	{
+		close(status->temp_fd);
+		status->temp_fd = -1;
+	}
 }
 
 static int	open_file(t_ast *node, t_data *data, int flags, int file_perms)

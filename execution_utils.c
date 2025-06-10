@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:46:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 15:05:20 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 15:34:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,30 @@ int	check_path_permissions(t_data *data, char *path)
 void	close_fds(t_exec_status *exec_status)
 {
 	if (exec_status->outfile != -1)
+	{
 		close(exec_status->outfile);
+		exec_status->outfile = -1;
+	}
+	if (exec_status->infile != -1)
+	{
+		close(exec_status->infile);
+		exec_status->infile = -1;
+	}
 	if (exec_status->saved_stdin != -1)
+	{
 		close(exec_status->saved_stdin);
+		exec_status->saved_stdin = -1;
+	}
 	if (exec_status->saved_stdout != -1)
+	{
 		close(exec_status->saved_stdout);
+		exec_status->saved_stdout = -1;
+	}
 	if (exec_status->temp_fd != -1)
+	{
 		close(exec_status->temp_fd);
+		exec_status->temp_fd = -1;
+	}
 }
 
 void	restore_orig_fd(t_data *data)
