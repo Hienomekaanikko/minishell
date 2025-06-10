@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/04 16:36:03 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 10:56:13 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	set_other_status(t_exec_status *status)
 
 int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 {
-	char	buf[512];
+	char	buf[512] = {0};
 	size_t	pos;
 
 	pos = 0;
