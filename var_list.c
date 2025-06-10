@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 17:03:22 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/04 16:42:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:40:39 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,21 @@ t_var	*create_var(t_data *data, char *key, char *value)
 {
 	t_var	*new_node;
 
+	(void)value;
 	new_node = malloc(sizeof(t_var));
 	if (!new_node)
 		return (NULL);
 	new_node->key = ft_strdup(key);
 	if (set_mem_error(data, new_node->key))
+	{
+		free(new_node);
 		return (NULL);
+	}
 	new_node->value = ft_strdup(value);
 	if (set_mem_error(data, new_node->value))
 	{
 		free(new_node->key);
-		new_node->key = NULL;
+		free(new_node);
 		return (NULL);
 	}
 	new_node->next = NULL;
@@ -98,9 +102,7 @@ void	add_var_declaration(t_data *data)
 	else
 	{
 		value = ft_substr(data->input, start, i - start);
-		if (set_mem_error(data, value))
-			return ;
-		else
+		if (!set_mem_error(data, value))
 			set_variable(data, key, value);
 	}
 	if (key)
