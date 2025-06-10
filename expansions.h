@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:20:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/05/28 17:39:34 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:02:54 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define EXPANSIONS_H
 
 # include "minishell.h"
-
-typedef struct s_keys
-{
-	char			*key;
-	struct s_keys	*next;
-}	t_keys;
 
 typedef struct s_var
 {

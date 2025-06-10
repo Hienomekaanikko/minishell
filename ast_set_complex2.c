@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/09 17:04:20 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:16:28 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,11 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 			return ;
 	}
 	curr = curr->next;
-	if (prev_cmd == NULL && curr->type)
+	if (prev_cmd == NULL)
 		find_next_command(&prev_cmd, curr);
-	if (prev_cmd)
-	{
-		add_left_child(&data->root->left, prev_cmd);
-		if (is_child_failure(data, data->root->left))
-			return ;
-	}
+	add_left_child(&data->root->left, prev_cmd);
+	if (is_child_failure(data, data->root->left))
+		return ;
 	if (curr && !data->mem_error && curr->type == ARG)
 	{
 		add_right_child(&data->root->right, curr);

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:10:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/09 17:32:13 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:17:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	executables(t_ast *node, t_data *data)
 	else
 	{
 		data->status.pid = pid;
-		ignore_signals();
+		//ignore_signals();
 		wait_process(pid, &data->status);
-		setup_shell_signals();
+		//setup_shell_signals();
 	}
 	return (0);
 }

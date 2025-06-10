@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:02:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/02 16:10:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 12:59:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	builtin_env(t_data *data)
 	while (i < data->env_arena->ptrs_in_use)
 	{
 		value = ft_strchr(data->env_arena->ptrs[i], '=');
-		if (value && value[1])
+		if (value)
 		{
 			ft_putstr_fd(data->env_arena->ptrs[i], 1);
 			ft_putstr_fd("\n", 1);
