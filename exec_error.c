@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:24 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/10 10:56:13 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:06:47 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,29 @@
 char	*get_error(t_error err)
 {
 	if (err == AMB)
-		return ("ambiguous redirect");
+		return (": ambiguous redirect");
 	else if (err == NOT_VALID)
-		return ("not a valid identifier");
+		return (": not a valid identifier");
 	else if (err == TOO_MANY)
-		return ("too many arguments");
+		return (": too many arguments");
 	else if (err == NOENV)
-		return ("env not set");
+		return (": env not set");
 	else if (err == ONLYNUM)
-		return ("numeric argument required");
+		return (": numeric argument required");
 	else if (err == STDOUT)
-		return ("failed to redirect stdout");
+		return (": failed to redirect stdout");
 	else if (err == STDIN)
-		return ("failed to redirect stdin");
+		return (": failed to redirect stdin");
 	else if (err == FAIL)
-		return ("failed");
+		return (": failed");
 	else if (err == NOPERM)
-		return ("Permission denied");
+		return (": Permission denied");
 	else if (err == NOFILE)
-		return ("No such file or directory");
+		return (": No such file or directory");
 	else if (err == ISDIR)
-		return ("Is a directory");
+		return (": Is a directory");
 	else if (err == NOCMD)
-		return ("command not found");
+		return (": command not found");
 	return (NULL);
 }
 
@@ -60,13 +60,14 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 	if (err)
 	{
 		if (err == MALLOC)
-			status->msg = "Cannot allocate memory";
+			status->msg = ": Cannot allocate memory";
+		else if(err == NOTSET)
+			status->msg = " not set";
 		else
 			status->msg = get_error(err);
 		status->exit_code = exit_code;
 		pos += ft_strlcat(buf + pos, "minishell: ", sizeof(buf) - pos);
 		pos += ft_strlcat(buf + pos, cmd, sizeof(buf) - pos);
-		pos += ft_strlcat(buf + pos, ": ", sizeof(buf) - pos);
 		pos += ft_strlcat(buf + pos, status->msg, sizeof(buf) - pos);
 		pos += ft_strlcat(buf + pos, "\n", sizeof(buf) - pos);
 		write(2, buf, pos);

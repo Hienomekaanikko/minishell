@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/04 16:38:08 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/10 13:51:51 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	builtin_cd(char **args, t_data *data)
 		if (data->mem_error)
 			return (0);
 		if (!path)
-			return (error(&data->status, "env", NOENV, 1));
+			return (error(&data->status, "cd: HOME", NOTSET, 1));
 	}
-	if (chdir(path) == -1)
+		if (chdir(path) == -1)
 		return (error(&data->status, "cd", NOFILE, 1));
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)

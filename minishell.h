@@ -6,7 +6,7 @@
 /*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/10 10:38:38 by mbonsdor         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:49:11 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef enum e_error
 	NOFILE,
 	ISDIR,
 	NOCMD,
+	NOTSET,
 }	t_error;
 
 //token types
