@@ -24,6 +24,7 @@ SRC = main.c \
 		arena_utils.c \
 		exec_redir.c \
 		builtin_export.c \
+		builtin_export_append.c \
 		builtin_echo.c \
 		expansions.c \
 		expander2.c \
