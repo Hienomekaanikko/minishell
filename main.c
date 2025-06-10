@@ -73,8 +73,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		//rl_event_hook = reset_readline;
-		//setup_shell_signals();
+		rl_event_hook = reset_readline;
+		setup_shell_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)
