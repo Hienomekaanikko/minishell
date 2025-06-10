@@ -19,6 +19,7 @@ static int	process_input(t_data *data)
 		return (0);
 	if (ft_strlen(data->input) > 0)
 		add_history(data->input);
+	data->rl_linecount++;
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	else if (ft_lexer(data))
@@ -72,8 +73,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_data(&data);
-		rl_event_hook = reset_readline;
-		setup_shell_signals();
+		//rl_event_hook = reset_readline;
+		//setup_shell_signals();
 		if (!process_handler(&data))
 			break ;
 		if (data.root)

@@ -18,7 +18,7 @@ int	reset_readline(void)
 	{
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 		g_interrupted = 0;
 	}
@@ -30,7 +30,7 @@ int	reset_heredoc_readline(void)
 	if (g_interrupted)
 	{
 		rl_redisplay();
-		rl_done = 1;
+	//rl_done = 1;
 	}
 	return (0);
 }

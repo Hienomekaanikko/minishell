@@ -123,6 +123,7 @@ typedef struct s_data
 	int				syntax_err;
 	int				redir_err;
 	int				mem_error;
+	int				rl_linecount;
 }	t_data;
 
 //init stuff

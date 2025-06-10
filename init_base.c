@@ -58,6 +58,7 @@ int	init_base(t_data *data, int argc, char **argv, char **envp)
 	data->temp_array = NULL;
 	data->mem_error = 0;
 	data->redir_err = 0;
+	data->rl_linecount = 0;
 	if (!allocate_structs(data))
 		return (0);
 	init_exec_status(data);
