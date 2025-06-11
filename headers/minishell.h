@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:16:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:41:43 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,16 +191,16 @@ int			add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value);
 //expansion stuff
 int			count_dollars(t_lexer *curr);
 void		check_for_expansions(t_data *data);
-char		*expand(t_data *data, t_exp_tools *tools, char *value);
+char		*expand(t_data *data, t_exp_tools *tls, char *value);
 char		*is_declared(t_data *data, char *extracted_key);
 t_lexer		*remove_key_not_found(t_data *data, t_lexer *curr, t_lexer *prev);
 void		unset_local(t_var **head, char *key);
-int			after_dollar(t_data *data, t_exp_tools *tools, char *value);
-int			dollar_literal(t_data *data, t_exp_tools *tools, int *i);
-int			before_dollar(t_data *data, t_exp_tools *tools, char *value, int i);
-int			dollar(t_data *data, t_exp_tools *tools, char *value, int *i);
-int			variable(t_data *data, t_exp_tools *tools, char *value, int *i);
-int			exit_status(t_data *data, t_exp_tools *tools, int *i);
+int			append_post_dollar(t_data *data, t_exp_tools *tls, char *value);
+int			dollar_literal(t_data *data, t_exp_tools *tls, int *i);
+int			append_pre_dollar(t_data *data, t_exp_tools *tls, char *val, int i);
+int			dollar_expansion(t_data *data, t_exp_tools *tls, char *val, int *i);
+int			expand_var_name(t_data *data, t_exp_tools *tls, char *val, int *i);
+int			expand_exit_status(t_data *data, t_exp_tools *tls, int *i);
 void		advance_node(t_lexer **curr, t_lexer **prev);
 int			is_single_quote(t_lexer **curr, t_lexer **prev);
 int			prev_is_redir(t_lexer **curr, t_lexer **prev);

@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:17:33 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:45:54 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:38:38 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	after_dollar(t_data *data, t_exp_tools *tools, char *value)
+int	append_post_dollar(t_data *data, t_exp_tools *tools, char *value)
 {
 	tools->result = ft_strjoin_free(tools->result, value);
 	if (set_mem_error(data, tools->result))
@@ -29,7 +29,7 @@ int	dollar_literal(t_data *data, t_exp_tools *tools, int *i)
 	return (tools->result != NULL);
 }
 
-int	before_dollar(t_data *data, t_exp_tools *tools, char *value, int i)
+int	append_pre_dollar(t_data *data, t_exp_tools *tools, char *value, int i)
 {
 	tools->temp = ft_substr(value, 0, i);
 	if (set_mem_error(data, tools->temp))
@@ -42,15 +42,15 @@ int	before_dollar(t_data *data, t_exp_tools *tools, char *value, int i)
 	return (1);
 }
 
-int	dollar(t_data *data, t_exp_tools *tools, char *value, int *i)
+int	dollar_expansion(t_data *data, t_exp_tools *tools, char *value, int *i)
 {
 	int	start;
 
 	start = *i + 1;
 	if (value[start] == '?')
-		return (exit_status(data, tools, i));
+		return (expand_exit_status(data, tools, i));
 	else if (!value[start] || (!ft_isalnum(value[start])))
 		return (dollar_literal(data, tools, i));
 	else
-		return (variable(data, tools, value, i));
+		return (expand_var_name(data, tools, value, i));
 }

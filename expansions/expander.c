@@ -6,13 +6,13 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:11:48 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:45:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:40:27 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
+static int	expand_variables(t_data *data, t_exp_tools *tools, char **value_ptr)
 {
 	int		i;
 	char	*value;
@@ -23,9 +23,9 @@ static int	expand_loop(t_data *data, t_exp_tools *tools, char **value_ptr)
 	{
 		if (value[i] == '$')
 		{
-			if (!before_dollar(data, tools, value, i))
+			if (!append_pre_dollar(data, tools, value, i))
 				return (0);
-			if (!dollar(data, tools, value, &i))
+			if (!dollar_expansion(data, tools, value, &i))
 				return (0);
 			value += i;
 			i = 0;
@@ -42,16 +42,16 @@ char	*expand(t_data *data, t_exp_tools *tools, char *value)
 	tools->result = ft_strdup("");
 	if (set_mem_error(data, tools->result))
 		return (NULL);
-	if (!expand_loop(data, tools, &value))
+	if (!expand_variables(data, tools, &value))
 		return (NULL);
-	if (!after_dollar(data, tools, value))
+	if (!append_post_dollar(data, tools, value))
 		return (NULL);
 	if (ft_strlen(tools->result) == 0)
 		return (NULL);
 	return (tools->result);
 }
 
-int	exit_status(t_data *data, t_exp_tools *tools, int *i)
+int	expand_exit_status(t_data *data, t_exp_tools *tools, int *i)
 {
 	tools->val = ft_itoa(data->status.exit_code);
 	if (set_mem_error(data, tools->val))
@@ -65,7 +65,7 @@ int	exit_status(t_data *data, t_exp_tools *tools, int *i)
 	return (1);
 }
 
-int	variable(t_data *data, t_exp_tools *tools, char *value, int *i)
+int	expand_var_name(t_data *data, t_exp_tools *tools, char *value, int *i)
 {
 	int	var_start;
 	int	var_end;

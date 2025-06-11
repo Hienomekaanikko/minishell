@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:26:47 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:47:06 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:18:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	perms(t_data *data, char *path, int type)
 {
-	if (path[0] == '$' && type != HERE_DOC)
+	if (path[0] == '$' && path[1] && type != HERE_DOC)
 	{
 		(error(&data->status, path, AMB, 1));
 		data->mem_error = 2;
