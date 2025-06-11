@@ -1,77 +1,82 @@
-NAME	= minishell
-LIBFT	= ./libft
-HEADERS	= -I ./includes -I ${LIBFT}
-LIBS	= ${LIBFT}/libft.a
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+NAME = minishell
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+RLFLAGS = -lreadline
+OBJDIR = object_files
+HEADERDIR = headers
+LIBFTDIR = libft
+LIBFT = $(LIBFTDIR)/libft.a
+HEADERS = -I $(HEADERDIR) -I $(LIBFTDIR)
 
-SRC = main.c \
-		init_base.c \
-		init_loop.c \
-		lexer.c \
-		lexer_utils.c \
-		syntax_err.c \
-		ast_builder.c \
-		execution.c \
-		exec_pipe2.c \
-		execution_utils.c \
-		builtins.c \
-		builtins2.c \
-		exec_pipe.c \
-		envp.c \
-		envp_utils.c \
-		arena.c \
-		arena_utils.c \
-		exec_redir.c \
-		builtin_export.c \
-		builtin_echo.c \
-		expansions.c \
-		expander2.c \
-		ast_set_complex.c \
-		ast_set_complex_utils.c \
-		ast_set_complex2.c \
-		ast_utils.c \
-		ast_utils2.c \
-		var_list.c \
-		var_list_utils.c \
-		expander.c \
-		expansion_utils.c \
-		free_mem.c \
-		signals.c \
-		exec_error.c \
-		graphics.c \
-		find_executables.c \
-		here_doc.c \
-		parser.c \
-		parser_utils.c \
-		parser_utils2.c \
-		expansions2.c \
-		lexer_utils2.c \
-		rl_handler.c \
-		ast_errors.c \
-		here_doc_utils.c \
-		builtin_export_append.c
+SRCS = \
+	main_inits_cleanup/main.c \
+	main_inits_cleanup/init_base.c \
+	main_inits_cleanup/init_loop.c \
+	main_inits_cleanup/free_mem.c \
+	parsing/parser.c \
+	parsing/parser_utils.c \
+	parsing/parser_utils2.c \
+	parsing/lexer.c \
+	parsing/lexer_utils.c \
+	parsing/lexer_utils2.c \
+	parsing/syntax_err.c \
+	ast_tree/ast_builder.c \
+	ast_tree/ast_set_complex.c \
+	ast_tree/ast_set_complex_utils.c \
+	ast_tree/ast_set_complex2.c \
+	ast_tree/ast_utils.c \
+	ast_tree/ast_utils2.c \
+	ast_tree/here_doc.c \
+	ast_tree/ast_errors.c \
+	ast_tree/here_doc_utils.c \
+	execution/execution.c \
+	execution/exec_pipe2.c \
+	execution/execution_utils.c \
+	execution/builtins.c \
+	execution/builtins2.c \
+	execution/exec_pipe.c \
+	execution/exec_redir.c \
+	execution/builtin_export.c \
+	execution/builtin_echo.c \
+	execution/find_executables.c \
+	execution/exec_error.c \
+	execution/builtin_export_append.c \
+	data_handling/envp.c \
+	data_handling/envp_utils.c \
+	data_handling/arena.c \
+	data_handling/arena_utils.c \
+	data_handling/var_list.c \
+	data_handling/var_list_utils.c \
+	expansions/expansions.c \
+	expansions/expansions2.c \
+	expansions/expander2.c \
+	expansions/expander.c \
+	expansions/expansion_utils.c \
+	utils_and_signals/signals.c \
+	utils_and_signals/graphics.c \
+	utils_and_signals/rl_handler.c \
 
-OBJS = $(SRC:.c=.o)
+OBJS = $(SRCS:%.c=$(OBJDIR)/%.o)
 
 all: $(NAME)
 
-$(LIBS):
-	$(MAKE) -C $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME) $(RLFLAGS)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(HEADERS) -o $@ -c $<
+$(LIBFT):
+	@$(MAKE) -C $(LIBFTDIR)
 
-$(NAME): $(OBJS) $(LIBS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -lreadline -o $(NAME)
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
-	$(MAKE) -C $(LIBFT) clean
+	$(MAKE) -C $(LIBFTDIR) clean
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C $(LIBFT) fclean
+	$(MAKE) -C $(LIBFTDIR) fclean
 
 re: fclean all
 
