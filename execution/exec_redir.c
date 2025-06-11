@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 11:55:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:02:15 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,11 @@ static void	assign_node_direction(t_ast *node, t_exec_status *status)
 		status->outfile = status->temp_fd;
 	else
 	{
-		close(status->temp_fd);
-		status->temp_fd = -1;
+		if (node->type != HERE_DOC)
+		{
+			close(status->temp_fd);
+			status->temp_fd = -1;
+		}
 	}
 }
 

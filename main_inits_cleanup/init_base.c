@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:49:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:45:36 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 13:22:25 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	init_base(t_data *data, int argc, char **argv, char **envp)
 	data->temp_array = NULL;
 	data->mem_error = 0;
 	data->redir_err = 0;
+	data->rl_linecount = 0;
 	if (!allocate_structs(data))
 		return (0);
 	init_exec_status(data);

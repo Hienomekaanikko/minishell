@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:47:10 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 15:50:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 		return ;
 	if (new->type == HERE_DOC)
 	{
-		if (write_heredoc(data, curr->next->value, &new->file) == -1)
+		if (write_heredoc(data, &curr->next->value, &new->file) == -1)
 			return ;
 	}
 	new->left = data->root;
@@ -55,7 +55,7 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 		return ;
 	if (data->root->type == HERE_DOC)
 	{
-		if (write_heredoc(data, curr->next->value, &data->root->file) == -1)
+		if (write_heredoc(data, &curr->next->value, &data->root->file) == -1)
 			return ;
 	}
 	add_left_child(&data->root->left, prev_cmd, curr);

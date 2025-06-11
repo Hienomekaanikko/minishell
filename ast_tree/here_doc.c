@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:48:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 15:51:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*make_temp_file_name(t_data *data)
 	return (temp_file_name);
 }
 
-int	hd_interrupt_eof(t_data *data, char *line, int linecount, char *delimiter)
+int	hd_interrupt_eof(t_data *data, char *line, char *delimiter)
 {
 	if (g_interrupted)
 	{
@@ -50,7 +50,7 @@ int	hd_interrupt_eof(t_data *data, char *line, int linecount, char *delimiter)
 	else if (!line)
 	{
 		ft_putstr_fd("minishell: warning: here-document at line ", 2);
-		ft_putnbr_fd(linecount, 2);
+		ft_putnbr_fd(data->rl_linecount, 2);
 		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
 		ft_putstr_fd(delimiter, 2);
 		ft_putstr_fd("')\n", 2);
@@ -80,31 +80,31 @@ char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 	return (*line);
 }
 
-int	write_heredoc(t_data *data, char *delimiter, char **out_path)
+int	write_heredoc(t_data *data, char **delimiter, char **out_path)
 {
 	char	*line;
 	int		is_delim_quote;
 	int		fd;
-	int		linecount;
 
+	data->hd_linecount = 0;
 	is_delim_quote = handle_delim_quote(delimiter);
 	setup_heredoc_signals();
 	fd = hd_file_setup(data, out_path);
 	if (fd < 0)
 		return (-1);
-	linecount = 0;
 	while (1)
 	{
 		line = readline("> ");
-		if (hd_interrupt_eof(data, line, linecount, delimiter))
+		if (hd_interrupt_eof(data, line, *delimiter))
 			break ;
-		linecount++;
+		data->hd_linecount++;
 		line = hd_expand_line(data, &line, is_delim_quote);
-		if (hd_handle_delimiter(line, delimiter))
+		if (hd_handle_delimiter(line, *delimiter))
 			break ;
 		hd_write_line(fd, line);
 	}
 	close(fd);
+	data->rl_linecount = data->rl_linecount + data->hd_linecount;
 	setup_shell_signals();
 	return (redir_error_check(data));
 }

@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 11:41:43 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 15:50:15 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ typedef struct s_data
 	int				syntax_err;
 	int				redir_err;
 	int				mem_error;
+	int				rl_linecount;
+	int				hd_linecount;
 }	t_data;
 
 //init stuff
@@ -171,7 +173,7 @@ int			count_new_len(char *value);
 int			count_size(t_lexer *curr);
 t_ast		*create_node(char *value, t_token type);
 int			has_quotes(char *value);
-int			write_heredoc(t_data *data, char *delimiter, char **out_path);
+int			write_heredoc(t_data *data, char **delimiter, char **out_path);
 int			perms(t_data *data, char *path, int type);
 void		set_access_err(t_data *data, t_ast *new);
 void		set_followup_redir(t_data *data, t_lexer *curr, t_ast *new);
@@ -208,7 +210,7 @@ int			prev_is_redir(t_lexer **curr, t_lexer **prev);
 //heredoc
 int			hd_handle_delimiter(char *line, char *delimiter);
 int			hd_file_setup(t_data *data, char **out_path);
-int			handle_delim_quote(char *delimiter);
+int			handle_delim_quote(char **delimiter);
 void		hd_write_line(int fd, char *line);
 int			redir_error_check(t_data *data);
 char		*make_temp_file_name(t_data *data);

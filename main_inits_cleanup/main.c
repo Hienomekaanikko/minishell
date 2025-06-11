@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 12:01:39 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 16:00:04 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	process_input(t_data *data)
 		return (0);
 	if (ft_strlen(data->input) > 0)
 		add_history(data->input);
+	data->rl_linecount++;
 	if (is_var_declaration(data->input))
 		add_var_declaration(data);
 	else if (ft_lexer(data))
