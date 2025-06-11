@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/10 16:40:00 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/11 11:36:12 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 	int		is_delim_quote;
 	int		fd;
 
+	data->hd_linecount = 0;
 	is_delim_quote = handle_delim_quote(delimiter);
 	setup_heredoc_signals();
 	fd = hd_file_setup(data, out_path);
@@ -96,12 +97,13 @@ int	write_heredoc(t_data *data, char *delimiter, char **out_path)
 		line = readline("> ");
 		if (hd_interrupt_eof(data, line, delimiter))
 			break ;
-		data->rl_linecount++;
+		data->hd_linecount++;
 		line = hd_expand_line(data, &line, is_delim_quote);
 		if (hd_handle_delimiter(line, delimiter))
 			break ;
 		hd_write_line(fd, line);
 	}
+	data->rl_linecount = data->rl_linecount + data->hd_linecount;
 	close(fd);
 	setup_shell_signals();
 	return (redir_error_check(data));
