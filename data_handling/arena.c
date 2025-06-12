@@ -48,6 +48,7 @@ static int	arena_ptrs_realloc(t_data *data, t_arena *arena)
 		return (0);
 	}
 	ft_memcpy(new_ptrs, old_ptrs, sizeof(char *) * arena->ptrs_in_use);
+	new_ptrs[arena->ptrs_in_use] = NULL;
 	free(old_ptrs);
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
