@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 10:49:17 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 13:22:25 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:19:36 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,10 @@ static int	allocate_structs(t_data *data)
 	ft_memset(data->exp, 0, sizeof(t_exp_data));
 	data->lexed_list = malloc(sizeof(t_lexer *));
 	if (!data->lexed_list)
-	{
-		free(data->exp);
 		return (0);
-	}
 	data->tools = malloc(sizeof(t_exp_tools));
 	if (!data->tools)
-	{
-		free(data->exp);
-		free_lexed_list(*data->lexed_list);
 		return (0);
-	}
 	ft_memset(data->tools, 0, (sizeof(t_exp_tools)));
 	return (1);
 }
@@ -58,10 +51,12 @@ int	init_base(t_data *data, int argc, char **argv, char **envp)
 	data->temp_array = NULL;
 	data->mem_error = 0;
 	data->redir_err = 0;
+	data->exp = NULL;
+	data->lexed_list = NULL;
 	data->rl_linecount = 0;
+	init_exec_status(data);
 	if (!allocate_structs(data))
 		return (0);
-	init_exec_status(data);
 	if (!init_env_arena(envp, data))
 		return (0);
 	return (1);

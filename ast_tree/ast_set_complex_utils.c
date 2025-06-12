@@ -6,11 +6,20 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:26:47 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 11:18:00 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:46:02 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_directory(const char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) != 0)
+		return (0);
+	return (S_ISDIR(path_stat.st_mode));
+}
 
 int	perms(t_data *data, char *path, int type)
 {
@@ -18,6 +27,12 @@ int	perms(t_data *data, char *path, int type)
 	{
 		(error(&data->status, path, AMB, 1));
 		data->mem_error = 2;
+		return (-2);
+	}
+	if (is_directory(path))
+	{
+		error(&data->status, path, ISDIR, 1);
+		data->redir_err = 1;
 		return (-2);
 	}
 	else if (type == RE_IN)

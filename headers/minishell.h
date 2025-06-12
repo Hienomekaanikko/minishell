@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 15:50:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:47:48 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef enum e_error
 	NOTSET,
 }	t_error;
 
-//token types
 typedef enum e_token
 {
 	EMPTY,

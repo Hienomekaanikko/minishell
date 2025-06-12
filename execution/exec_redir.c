@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:59:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 14:02:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:40:21 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	open_file(t_ast *node, t_data *data, int flags, int file_perms)
 			return (0);
 		data->status.temp_fd = open(node->file, flags, file_perms);
 		if (data->status.temp_fd < 0)
-			error(&data->status, node->right->value, ISDIR, 1);
+			ft_putstr_fd("open failed for heredoc\n", 2);
 		data->status.here_doc_flag = 1;
 	}
 	else
@@ -73,7 +73,7 @@ static int	open_file(t_ast *node, t_data *data, int flags, int file_perms)
 		{
 			data->status.temp_fd = open(node->right->value, flags, file_perms);
 			if (data->status.temp_fd < 0)
-				error(&data->status, node->right->value, ISDIR, 1);
+				ft_putstr_fd("open failed for redirection file\n", 2);
 		}
 	}
 	return (1);

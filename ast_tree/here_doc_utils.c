@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:08:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 16:00:42 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 10:38:26 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	hd_file_setup(t_data *data, char **out_path)
 	fd = open(temp_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0600);
 	if (fd < 0)
 	{
-		ft_putstr_fd("error: cannot create heredoc file\n", 2);
+		ft_putstr_fd("open failed at heredoc\n", 2);
 		free(temp_file_name);
 		return (-1);
 	}
