@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:11:41 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/12 10:22:24 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:07:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	arena_ptrs_realloc(t_data *data, t_arena *arena)
 		return (0);
 	}
 	ft_memcpy(new_ptrs, old_ptrs, sizeof(char *) * arena->ptrs_in_use);
+	new_ptrs[arena->ptrs_in_use] = NULL;
 	free(old_ptrs);
 	arena->ptrs = new_ptrs;
 	arena->ptr_capacity = new_capacity;
