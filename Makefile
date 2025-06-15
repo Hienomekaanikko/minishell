@@ -38,6 +38,7 @@ SRCS = \
 	execution/exec_redir.c \
 	execution/builtin_export.c \
 	execution/builtin_echo.c \
+	execution/builtin_cd.c \
 	execution/find_executables.c \
 	execution/exec_error.c \
 	execution/builtin_export_append.c \

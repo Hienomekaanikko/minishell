@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	is_valid_env_name(const char *name)
+static int	is_valid_env_name(const char *name)
 {
 	if (!name || !*name || ft_isdigit(*name))
 		return (0);
