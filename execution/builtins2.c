@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 13:02:44 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:46:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 09:16:10 by mbonsdor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_valid_env_name(const char *name)
+int	is_valid_env_name(const char *name)
 {
 	if (!name || !*name || ft_isdigit(*name))
 		return (0);
