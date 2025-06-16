@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbonsdor <mbonsdor@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/16 11:03:54 by mbonsdor          #+#    #+#             */
+/*   Updated: 2025/06/16 11:05:22 by mbonsdor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	update_pwd(t_data *data)
@@ -44,7 +56,7 @@ int	builtin_cd(char **args, t_data *data)
 		free(path);
 		return (error(&data->status, "cd", NOFILE, 1));
 	}
-	if(update_pwd(data))
+	if (update_pwd(data))
 		return (1);
 	free(path);
 	return (0);
