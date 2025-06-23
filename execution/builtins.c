@@ -6,50 +6,11 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:12:03 by mbonsdor          #+#    #+#             */
-/*   Updated: 2025/06/11 10:46:15 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:21:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	count_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
-}
-
-int	builtin_cd(char **args, t_data *data)
-{
-	char	*new_pwd;
-	char	*path;
-
-	path = NULL;
-	if (count_args(args) > 2)
-		return (error(&data->status, "cd", TOO_MANY, 1));
-	if (args[1])
-		path = ft_strdup(args[1]);
-	if (!path)
-	{
-		path = arena_getenv(data, data->env_arena, "HOME");
-		if (data->mem_error)
-			return (0);
-		if (!path)
-			return (error(&data->status, "cd: HOME", NOTSET, 1));
-	}
-	if (chdir(path) == -1)
-		return (error(&data->status, "cd", NOFILE, 1));
-	new_pwd = getcwd(NULL, 0);
-	if (!new_pwd)
-		return (error(&data->status, "cd", NOFILE, 1));
-	arena_set_env(data, "PWD", new_pwd);
-	free(new_pwd);
-	free(path);
-	return (0);
-}
 
 int	builtin_pwd(t_data *data)
 {

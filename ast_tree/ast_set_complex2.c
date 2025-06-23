@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:31:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 15:50:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:05:42 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 	if (new->type == HERE_DOC)
 	{
 		if (write_heredoc(data, &curr->next->value, &new->file) == -1)
+		{
+			free_ast(new);
 			return ;
+		}
 	}
 	new->left = data->root;
 	curr = curr->next;

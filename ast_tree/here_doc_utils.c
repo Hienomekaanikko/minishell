@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:08:04 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/12 10:38:26 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:32:00 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ int	hd_file_setup(t_data *data, char **out_path)
 	return (fd);
 }
 
-int	handle_delim_quote(char **delimiter)
+int	handle_delim_quote(t_data *data, char **delimiter)
 {
 	char	*new_str;
 
-	if ((*delimiter)[0] == '\'' || (*delimiter)[0] == '"')
+	if (has_quotes(*delimiter))
 	{
 		new_str = remove_quotes(*delimiter);
+		if (set_mem_error(data, new_str))
+			return (-1);
 		free(*delimiter);
 		*delimiter = new_str;
 		return (1);

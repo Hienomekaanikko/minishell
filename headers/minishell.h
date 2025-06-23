@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 11:49:14 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/12 10:47:48 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/18 11:51:32 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,7 @@ void		set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new);
 void		set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd);
 int			allocate_arguments(t_utils *ast, t_ast *node, t_lexer **curr);
 void		find_next_command(t_lexer **prev_cmd, t_lexer *curr);
+void		handle_quote(t_utils *ast, char *value);
 
 //var declaration stuff
 int			is_var_declaration(char	*str);
@@ -209,7 +210,7 @@ int			prev_is_redir(t_lexer **curr, t_lexer **prev);
 //heredoc
 int			hd_handle_delimiter(char *line, char *delimiter);
 int			hd_file_setup(t_data *data, char **out_path);
-int			handle_delim_quote(char **delimiter);
+int			handle_delim_quote(t_data *data, char **delimiter);
 void		hd_write_line(int fd, char *line);
 int			redir_error_check(t_data *data);
 char		*make_temp_file_name(t_data *data);

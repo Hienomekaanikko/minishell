@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:23:23 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 15:45:52 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:44:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,34 +30,6 @@ void	find_next_command(t_lexer **prev_cmd, t_lexer *curr)
 		temp = temp->next;
 	}
 	*prev_cmd = NULL;
-}
-
-char	*remove_quotes(char *value)
-{
-	t_utils	ast;
-
-	ft_memset(&ast, 0, sizeof(t_utils));
-	ast.len = count_new_len(value);
-	ast.cleaned_value = malloc(sizeof(char) * (ast.len + 1));
-	if (!ast.cleaned_value)
-		return (NULL);
-	while (value[ast.i])
-	{
-		if (!ast.quote && (value[ast.i] == '\'' || value[ast.i] == '"'))
-			ast.quote = value[ast.i++];
-		else if (ast.quote)
-		{
-			if (ast.quote == value[ast.i])
-				ast.i++;
-			else
-				ast.cleaned_value[ast.j++] = value[ast.i++];
-		}
-		else
-			ast.cleaned_value[ast.j++] = value[ast.i++];
-		ast.cleaned_value[ast.j] = '\0';
-	}
-	ast.cleaned_value[ast.j] = '\0';
-	return (ast.cleaned_value);
 }
 
 int	allocate_arguments(t_utils *ast, t_ast *node, t_lexer **current)

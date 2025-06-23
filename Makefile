@@ -38,6 +38,7 @@ SRCS = \
 	execution/exec_redir.c \
 	execution/builtin_export.c \
 	execution/builtin_echo.c \
+	execution/builtin_cd.c \
 	execution/find_executables.c \
 	execution/exec_error.c \
 	execution/builtin_export_append.c \
@@ -79,8 +80,5 @@ fclean: clean
 	$(MAKE) -C $(LIBFTDIR) fclean
 
 re: fclean all
-
-debug: CFLAGS += -g -fsanitize=address -fsanitize=undefined -Wunused -Wunreachable-code
-debug: all
 
 .PHONY: all clean fclean re debug

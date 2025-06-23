@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 10:18:54 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 15:51:16 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:31:22 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ char	*make_temp_file_name(t_data *data)
 	}
 	temp_file_name = ft_strjoin_free(temp_file_name, num);
 	if (set_mem_error(data, temp_file_name))
-	{
-		free(num);
 		return (NULL);
-	}
 	free(num);
 	return (temp_file_name);
 }
@@ -87,12 +84,12 @@ int	write_heredoc(t_data *data, char **delimiter, char **out_path)
 	int		fd;
 
 	data->hd_linecount = 0;
-	is_delim_quote = handle_delim_quote(delimiter);
+	is_delim_quote = handle_delim_quote(data, delimiter);
 	setup_heredoc_signals();
 	fd = hd_file_setup(data, out_path);
 	if (fd < 0)
 		return (-1);
-	while (1)
+	while (1 && is_delim_quote != -1)
 	{
 		line = readline("> ");
 		if (hd_interrupt_eof(data, line, *delimiter))

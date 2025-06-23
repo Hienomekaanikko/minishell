@@ -6,11 +6,47 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:14:20 by msuokas           #+#    #+#             */
-/*   Updated: 2025/06/11 10:47:08 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/06/16 13:44:12 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_quote(t_utils *ast, char *value)
+{
+	if (value[(*ast).i] == (*ast).quote)
+	{
+		(*ast).i++;
+		(*ast).quote = 0;
+	}
+	else
+		(*ast).cleaned_value[(*ast).j++] = value[(*ast).i++];
+}
+
+char	*remove_quotes(char *value)
+{
+	t_utils	ast;
+
+	ft_memset(&ast, 0, sizeof(t_utils));
+	ast.len = count_new_len(value);
+	ast.cleaned_value = malloc(sizeof(char) * (ast.len + 1));
+	if (!ast.cleaned_value)
+		return (NULL);
+	while (value[ast.i])
+	{
+		if (!ast.quote && (value[ast.i] == '\'' || value[ast.i] == '"'))
+		{
+			ast.quote = value[ast.i];
+			ast.i++;
+		}
+		else if (ast.quote)
+			handle_quote(&ast, value);
+		else
+			ast.cleaned_value[ast.j++] = value[ast.i++];
+	}
+	ast.cleaned_value[ast.j] = '\0';
+	return (ast.cleaned_value);
+}
 
 void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 {
