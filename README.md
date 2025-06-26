@@ -1,4 +1,4 @@
-# Minishell (42-Network Project)
+# Minishell
 
 > **Minishell** is a project from the 42-Network school. The goal is to create a minimal shell replicating bash-like behavior, able to process and execute user inputs just like bash.
 
