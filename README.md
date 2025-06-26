@@ -1,7 +1,4 @@
-<p align="center"> <img src="https://img.shields.io/badge/42--Network-blue?style=for-the-badge" alt="42 Network"/> <img src="https://img.shields.io/badge/Project-inishell-green?style=for-the-badge" alt="inishell"/> <img src="https://img.shields.io/badge/Language-C-blue?style=for-the-badge" alt="C"/> </p>
-inishell
-<p align="center"> <img src="https://img.icons8.com/ios-filled/50/terminal.png" width="40"/> </p>
-inishell is project in 42-Network school. The subject requires creating a replicate of bash, where by running the program, it is possible to run any kind of inputs with the same outcome as bash. The project is done in teams of 2 persons, and we decided to split the workload so that one does parsing and one does execution. Towards the end, the responsibilities got more blended together as the issues we faced became fewer and fewer and we wanted to use the time as wisely as possible.
+Minishell is project in 42-Network school. The subject requires creating a replicate of bash, where by running the program, it is possible to run any kind of inputs with the same outcome as bash. The project is done in teams of 2 persons, and we decided to split the workload so that one does parsing and one does execution. Towards the end, the responsibilities got more blended together as the issues we faced became fewer and fewer and we wanted to use the time as wisely as possible.
 
 We were allowed to use libft, (our selfmade library of functions), and the following functions outside of it:
 
