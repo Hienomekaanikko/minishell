@@ -1,132 +1,20 @@
-# Minishell
+So, Minishell. The notorious 42-network project. This surely was a hard one, as it really put to test everything we had learned so far in Hive. 
+The project is first one that was done in pairs, so it was important to understand the basics of git and it's functionalities fast. It was nice 
+to have daily repetition on making branches and adding features, combined with communication with the team mate of what had been done and what 
+we're working on etc. Felt a bit like what work life could possible be. How we approached the team work was that we set goals and areas that each
+of us were working on for a week or so, and then when we had something to add for the main, we did a merge to put things together. From that we 
+took new branches with new set of tasks to complete.
 
-> **Minishell** is a project from the 42-Network school. The goal is to create a minimal shell replicating bash-like behavior, able to process and execute user inputs just like bash.
+The project itself is to make a program that runs like bash. It includes a lot of functionalities, including basic commands, expansions, redirections, pipes, 
+here_doc, builtin functions etc. The list felt endless. So, we split the work into two categories: one of us started with working on parsing (me), and my team-mate
+started to work on execution. We decided on the basic structure of the project really fast, which was basically that I parse the input (which has insane little details, i don't know what the bash-makers were thinking...), and then I send the parsed input into lexer, which decides what is the role of each part in the input. Lexer outputs a linked list
+with value (the actual part of the line) and type of the input (CMD, ARG, RE_IN, RE_OUT, APPEND_OUT, HERE_DOC), which then goes in to ast-builder (abstract syntax tree). Ast-builder creates a binary tree which can be then recursively read by the executioner. So I send the root-node of the AST-tree to my team-mate, and his side then executes everything. 
 
-## 🧑‍💻 Teamwork & Workflow
+The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
+stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
+handling, so that if even one malloc would fail, that if would safely inform about the failure and return to the mainloop without crashing and leaks. So all mallocs had to be 
+intricately checked. 
 
-- **Team of 2:**  
-  - One focused on **parsing**
-  - One focused on **execution**
-- **Workload blended** towards the end for efficiency and bug-fixing.
-
-## 📚 Allowed Functions
-
-You may use your own **libft** and the following system functions:
-
-```
-readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history, printf, malloc, free, write, access, open, read, close, fork, wait, waitpid, wait3, wait4, signal, sigaction, sigemptyset, sigaddset, kill, exit, getcwd, chdir, stat, lstat, fstat, unlink, execve, dup, dup2, pipe, opendir, readdir, closedir, strerror, perror, isatty, ttyname, ttyslot, ioctl, getenv, tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
-```
-
-## 📝 Parsing & Input Handling
-
-- **Main function:** `readline()`  
-  - Reads user input and displays prompt.
-- **Parsing:**  
-  - Cleans up input to mimic bash behavior.
-  - Example:
-    - Input: `echo he'llo'` → Output: `echo hello`
-    - Input: `'echo "echo he'llo'"'` → Output: `echo hello`
-
-```
-# Example 1
-Input:  echo he'llo'
-Output: hello
-
-# Example 2
-Input:  'echo "echo he'llo'"'
-Output: echo hello
-```
-
-## 🧩 Lexing & AST Construction
-
-- **Lexing:**  
-  - Assigns roles to each token (CMD, ARG, RE_IN, RE_OUT, APPEND_OUT, HERE_DOC, PIPE).
-- **AST (Abstract Syntax Tree):**  
-  - Built from the lexed tokens for recursive execution.
-  - Redirections and pipes are represented as tree nodes.
-
-### 📊 AST Visualization
-
-#### Example 1:  
-`echo <"./test_files/infile" <missing <"./test_files/infile"`
-
-```
-        RE_IN
-       /     \
-    RE_IN     ./test_files/infile
-   /     \
-RE_IN    missing
-/    \
-echo  ./test_files/infile
-```
-
-#### Example 2:  
-`grep hi <./test_files/infile_big <./test_files/infile`
-
-```
-      RE_IN
-     /     \
-  RE_IN     ./test_files/infile
- /     \
-grep   ./test_files/infile_big
-```
-
-## 🔄 Execution Phase
-
-- **Tree traversal:**  
-  - Start from the root (last redirection).
-  - Set up redirections using `dup2()`.
-  - Only the last redirection of each type is effective.
-- **Redirection example:**
-  - `cat >missing1 >missing2 >outfile <Makefile`
-    - Only `outfile` receives the output.
-    - `missing1` and `missing2` are created but remain empty.
-
-## 💡 Expansions
-
-- **Environment variables:**  
-  - `$USER`, `$PWD`, etc. are expanded from the environment.
-  - Expansion is disabled with single quotes.
-- **Here-documents:**  
-  - Expansion can be controlled with quoting the delimiter:  
-    - `<<"EOF"` or `<<'EOF'`
-- **Invalid variables:**  
-  - `$INVALID` → empty line
-  - `> $INVALID` → error: `Unambiguous input`
-
-## 🧪 Edge Cases & Details
-
-- **No memory leaks** allowed.
-- **No open file descriptors** in parent or child processes.
-- **Here-doc** creates a temp file during AST creation.
-
-## 🎉 Reflections
-
-> This was by far the hardest project so far but also the most rewarding.  
-> We passed on the second try (first attempt failed due to a memory leak).
-
-## 📈 Project Diagram
-
-```
-graph TD
-    A[Input (readline)] --> B[Parsing]
-    B --> C[Lexing]
-    C --> D[AST Construction]
-    D --> E[Execution (Recursive)]
-    E --> F[Redirections & Expansions]
-    F --> G[Output]
-```
-
-## 🚀 Example Usage
-
-```
-$ ./minishell
-minishell$ echo 'Hello, $USER!'
-Hello, $USER!
-minishell$ echo "Hello, $USER!"
-Hello, johndoe
-minishell$ cat < Makefile > output.txt
-```
-
-**Feel free to copy-paste this directly into your GitHub README.md!**
-```
+And one more thing, the program had to give exactly the same exit-code and error-message as bash in every situation. No permissions for a file would be 126, and non existant 
+file 127. Syntax errors 2, signal interruptions 130, basic malloc error for example 1. There were so many of those. Signals had to be handled the same way as bash, which proved
+to be hard around the here_doc creation. Mostly for the cleanup also. But we made it through all 3 evaluations by the peers (second try. We forgot to clean up memory on the first try if "cd non_existant_path" was inputted which resulted in instant failure) which was a huge relief, finally we can move on to next ones. If you have any questions of the project let me know!
