@@ -148,6 +148,8 @@ Oh and this is where we check file permissions. If there are any trouble with th
 
 But here is the basic idea of the execution:
 
+`cat >>EOF > outfile2 > outfile1`
+
 ![Flowchart-20](https://github.com/user-attachments/assets/4b949f5d-2d7a-499a-9bb8-fbcf8dea5e46)
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
