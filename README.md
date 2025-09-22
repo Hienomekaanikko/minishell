@@ -86,7 +86,69 @@ Oh and this too! So much fun (not):
 
 So, what can be clearly seen here, is that bash is super agile with making sense of the weirdest orders of commands.
 
+**EXPANSIONS**
 
+During tokenization, in case there are ANY `$`-signs inside the input, the stuff that follows it until next whitespace or \0, goes to expansion.
+For example `echo $ANIMAL > outfile`. If in environment (can be seen with cmd `env`), there is ANIMAL = 'vinnie the pooh' The tokenized command becomes `echo 'vinnie the pooh' > outfile`.
+
+To add stuff into the environment you can simply do `export ANIMAL='vinnie the pooh'`.'
+
+**AST MADNESS**
+
+Ok, now when we have cleaned and tokenized the input, we now have it as a linked list. Each node contains the value (for example "hello" or "|"), and it's **TYPE** (ARG, CMD, RE_IN, RE_OUT, APPEND_OUT, HERE_DOC or PIPE).
+
+We must build a binary tree. 
+
+How I approached it was to look for first redirection or a pipe, and make it the root node. If there were no such things, then the first word become she root node and it's right child becomes the arguments for the command.
+
+`echo "hello"`
+
+![Flowchart-16](https://github.com/user-attachments/assets/802eafae-79a9-415f-928f-77b6f9152123)
+
+`echo "hello" > outfile`
+
+![Flowchart-15](https://github.com/user-attachments/assets/d92bef75-b632-437d-ba9d-939812d83524)
+
+`echo <"./files/infile" | cat <"./files/infile"`
+
+![Flowchart-17](https://github.com/user-attachments/assets/80c3afca-d39c-4e99-abbb-72ee8e99f445)
+
+**SPECIAL HANLDING REQUIRED: HERE_DOC**
+
+In a case of here_doc, we create it during the creation of AST. When facing `<<`, it becomes a root node, and the right child will be the delimiter. (whatever comes after `<<`).
+Then we go into here_doc creation. Whatever is inputted in this stage will get saved in a **temp** file, and it's path will replace the delimiter at the right child of the `<<` node.
+
+For example: `cat <<EOF >> file.txt`
+
+So this:
+
+![Flowchart-18](https://github.com/user-attachments/assets/7e2ce94a-94c3-4ebf-8312-2028686f83d2)
+
+Becomes:
+
+![Flowchart-19](https://github.com/user-attachments/assets/03725bda-dfd3-49ed-b1e2-21facc142316)
+
+Little fun details about the here_doc behavior:
+
+If the delimiter is closed by quotes like this (which is pretty broad idea in bash... :D):
+
+`<<'EOF'` or `<<'E'OF` or `<<"EOF"` or `<<EO"F"` or any such kind of invention that really isnt closed quotes but bash thinks it is, 
+
+any attempts to expand stuff ($) will not happen inside the here_doc. Otherwise expansions work just normally. You can actually have the delimiter as an expandable too:
+
+`<<$USER`
+
+**EXECUTION**
+
+Now we have the AST, so lets execute. It basically goes through the tree starting from the root node. The tree is in reverse, meaning that the first outfiles and first infiles
+will really be the last ones, so we can save those and redirect the output and input streams accordingly, and skip all the following infiles and outfiles. With outfiles,
+there is a fun nyance: even if the outfile has already been chosen, all the others will still be created and left empty. With infiles there's no such silly thing. If there is a pipe anywhere, the output situations are separated between the processes.
+
+Oh and this is where we check file permissions. If there are any trouble with the files, we will send exact same error message as bash, clean up, and return to the main prompt.
+
+But here is the basic idea of the execution:
+
+![Flowchart-20](https://github.com/user-attachments/assets/4b949f5d-2d7a-499a-9bb8-fbcf8dea5e46)
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
@@ -94,5 +156,4 @@ handling, so that if even one malloc would fail, that if would safely inform abo
 intricately checked. 
 
 And one more thing, the program had to give exactly the same exit-code and error-message as bash in every situation. No permissions for a file would be 126, and non existant 
-file 127. Syntax errors 2, signal interruptions 130, basic malloc error for example 1. There were so many of those. Signals had to be handled the same way as bash, which proved
-to be hard around the here_doc creation. Mostly for the cleanup also. But we made it through all 3 evaluations by the peers (second try. We forgot to clean up memory on the first try if "cd non_existant_path" was inputted which resulted in instant failure) which was a huge relief, finally we can move on to next ones. If you have any questions of the project let me know!
+file 127. Syntax errors 2, signal interruptions 130, basic malloc error for example 1. There were so many of those. Signals (ctrl+D etc.) had to be handled the same way as bash, which proved to be hard around the here_doc creation. Mostly for the cleanup also. But we made it through all 3 evaluations by the peers (second try. We forgot to clean up memory on the first try if "cd non_existant_path" was given which resulted in instant failure) which was a huge relief, finally we can move on to next projects. If you have any questions of the project let me know!
