@@ -27,8 +27,25 @@ So first we have to see what is inside the prompt:
 
 ![Flowchart-4](https://github.com/user-attachments/assets/8d1e14cc-1392-423c-8d07-2211746a6c79)
 
-Now as it can be seen, the first step is to take the input and separate portions that have their own purpose. I made this functionality that can be found from parsing.c, parsing_utils.c and parsing_utils2.c file. It has been perfected in a way that it knows to correctly slice crazy inputs like `echo <<<<<<<<< infile >>>>>>>>>> outfile >>>> outfile2` or something more regular but a bit different like `echo 'So this is how bash parses things "hahaha not really" but it really really does' | grep "i" > outfile`.
-Also this `echo        \n\n\n      "So this is how bash parses things 'hahaha not really' but it really really does' | | grep 'i'         >            outfile` must be properly split and cleaned up. 
+Now as it can be seen, the first step is to take the input and separate portions that have their own purpose. I made this functionality that can be found from parsing.c, parsing_utils.c and parsing_utils2.c file. It has been perfected in a way that it knows to correctly slice crazy inputs like
+
+`echo <<<<<<<<< infile >>>>>>>>>> outfile >>>> outfile2` 
+
+![Flowchart-5](https://github.com/user-attachments/assets/3f70c563-5d18-447f-8101-7551ac087905)
+
+or something more regular but a bit different like:
+
+`echo 'So this is how bash parses things "hahaha not really" but it really really does' | grep "i" > outfile`.
+
+![Flowchart-6](https://github.com/user-attachments/assets/483cbc49-82dd-4add-9680-58ded657a859)
+
+`echo        \n\n\n      "So this is how bash parses things 'hahaha not really' but it really really does' | | grep 'i'         >            outfile`
+
+![Flowchart-7](https://github.com/user-attachments/assets/ef241044-700f-4938-81a0-33a95542946a)
+
+Both must be always properly split and cleaned up. 
+
+Now when we have 
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
