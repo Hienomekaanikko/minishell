@@ -1,5 +1,3 @@
-cat Makefile | grep ".c" > file1 > file2 > file3
-
 So, Minishell. This surely was a hard one, as it really put to test everything I had learned so far in Hive. 
 The project is first one that was done in teams of two persons, so it was important to understand the basics of git and it's functionalities fast. It was nice 
 to have daily repetition on making branches and adding features, combined with communication with the team mate of what had been done and what 
@@ -43,9 +41,46 @@ or something more regular but a bit different like:
 
 ![Flowchart-7](https://github.com/user-attachments/assets/ef241044-700f-4938-81a0-33a95542946a)
 
-Both must be always properly split and cleaned up. 
+The input must always be properly split and cleaned up.
 
-Now when we have 
+So now, we go into lexing and tokenizing. First we have to know what kind of information we are looking for. Here are the "operations" that are in my opinion (you may have a different opinion) pretty much the core of bash.
+
+`|` = `PIPE`
+
+`<` = `RE_IN`
+
+`>` = `RE_OUT`
+
+`<<` = `HERE_DOC`
+
+`>>` = `APPEND_OUT`
+
+`word` = `CMD`
+
+`word` = `ARG`
+
+
+For claritys sake, lets have the same example as before:
+
+`echo "hello" > outfile `
+
+We must give each word of this array of strings (remember, it has been split now!), a name and make it a token. The name will describe the purpose of the word.
+
+![Flowchart-10](https://github.com/user-attachments/assets/a21365e9-a458-4bce-b1b5-8a43e27e1f4b)
+
+By the way, this must behave exactly the same way as the previous when executed:
+
+`echo > oufile "hello"`
+
+![Flowchart-11](https://github.com/user-attachments/assets/e15a25ef-b70b-4fb6-a2f4-c1eb704eacca)
+
+Oh and this too! So much fun (not):
+
+`> outfile "hello" echo`
+
+![Flowchart-12](https://github.com/user-attachments/assets/5023627e-778f-4d76-9cad-742edb44aaff)
+
+So, what can be clearly seen here, is that bash is super agile with making sense of the weirdest orders of commands.
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
