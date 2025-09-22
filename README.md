@@ -148,9 +148,14 @@ Oh and this is where we check file permissions. If there are any trouble with th
 
 But here is the basic idea of the execution:
 
-`cat >>EOF > outfile2 > outfile1`
+`cat >>EOF > outfile2 > outfile1` if there would be any arguments for the command, they would be places with the command during step4.
 
 ![Flowchart-20](https://github.com/user-attachments/assets/4b949f5d-2d7a-499a-9bb8-fbcf8dea5e46)
+
+The input and output streams are controlled with dup() and dup2(), 
+The execution is done with execve(). It is called like, execve(cmd_path, cmd+arguments as array of strings, envp).
+
+So first we setup the input and output streams as the AST guides, and then execute.
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
