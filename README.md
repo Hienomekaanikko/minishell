@@ -15,6 +15,8 @@ The main goal of the assignment was to make a program that runs like bash. It in
 here_doc, builtin functions etc. The list felt endless. So initially, we split the work in half: one of us started with working on parsing (me), and my team-mate
 started to work on execution. We decided on the basic structure of the project really fast, which was basically that I parse the input, make an AST of it, and hand over the root node of that for the excecution.
 
+**PARSING! :)**
+
 So, lets say we have an input
 
 `echo "hello" > outfile `
@@ -43,6 +45,8 @@ or something more regular but a bit different like:
 
 The input must always be properly split and cleaned up.
 
+**TOKENIZATION :O**
+
 So now, we go into lexing and tokenizing. First we have to know what kind of information we are looking for. Here are the "operations" that are in my opinion (you may have a different opinion) pretty much the core of bash.
 
 `|` = `PIPE`
@@ -68,7 +72,7 @@ We must give each word of this array of strings (remember, it has been split now
 
 ![Flowchart-10](https://github.com/user-attachments/assets/a21365e9-a458-4bce-b1b5-8a43e27e1f4b)
 
-By the way, this must behave exactly the same way as the previous when executed:
+By the way, this must behave exactly the same way:
 
 `echo > oufile "hello"`
 
@@ -81,6 +85,8 @@ Oh and this too! So much fun (not):
 ![Flowchart-12](https://github.com/user-attachments/assets/5023627e-778f-4d76-9cad-742edb44aaff)
 
 So, what can be clearly seen here, is that bash is super agile with making sense of the weirdest orders of commands.
+
+
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
