@@ -1,3 +1,6 @@
+cat Makefile | grep ".c" > file1 > file2 > file3
+![Flowchart](https://github.com/user-attachments/assets/3fb39e3d-8d27-4f0a-b689-13f017ed6cab)
+
 So, Minishell. The notorious 42-network project. This surely was a hard one, as it really put to test everything we had learned so far in Hive. 
 The project is first one that was done in pairs, so it was important to understand the basics of git and it's functionalities fast. It was nice 
 to have daily repetition on making branches and adding features, combined with communication with the team mate of what had been done and what 
