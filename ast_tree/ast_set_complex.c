@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_set_complex.c
+ * @brief Makes the complex AST
+ */
+
+/**
+ * @brief Checks if the iterator is inside quotes
+ * @param ast Contains important values for token value processing (like a toolkit)
+ * @param value Value that is being handled
+ */
 void	handle_quote(t_utils *ast, char *value)
 {
 	if (value[(*ast).i] == (*ast).quote)
@@ -23,6 +33,10 @@ void	handle_quote(t_utils *ast, char *value)
 		(*ast).cleaned_value[(*ast).j++] = value[(*ast).i++];
 }
 
+/**
+ * @brief Removes all quotes of a value
+ * @param value Value that is being handled
+ */
 char	*remove_quotes(char *value)
 {
 	t_utils	ast;
@@ -48,6 +62,13 @@ char	*remove_quotes(char *value)
 	return (ast.cleaned_value);
 }
 
+/**
+ * @brief Places pipe as the root node
+ * @param data The entire main data structure
+ * @param curr Current node in the lexed linked list
+ * @param new Current node of the AST
+ * @param prev_cmd The previous command that has been encountered
+ */
 void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 {
 	if (curr->type == PIPE && data->status.msg && data->status.path)
@@ -73,6 +94,13 @@ void	place_pipe(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 	}
 }
 
+/**
+ * @brief Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node (either first root node or in the place of an existing one)
+ * @param data The entire main data structure
+ * @param curr Current node in the lexed linked list
+ * @param new Current node of the AST
+ * @param prev_cmd The previous command that has been encountered
+ */
 void	place_redir(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 {
 	if ((curr->type == RE_OUT || curr->type == RE_IN
@@ -93,6 +121,10 @@ void	place_redir(t_data *data, t_lexer *curr, t_ast *new, t_lexer *prev_cmd)
 	}
 }
 
+/**
+ * @brief Creates the complex AST
+ * @param data The entire main data structure
+ */
 void	set_complex_tree(t_data *data)
 {
 	t_lexer	*curr;

@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_set_complex2.c
+ * @brief Makes the complex AST (part 2)
+ */
+
+/**
+ * @brief Checks if a malloc error has been encountered
+ * @param data The entire data structure
+ * @param node The current node being handled
+ */
 int	node_fail(t_data *data, t_ast *node)
 {
 	if (!node)
@@ -22,6 +32,12 @@ int	node_fail(t_data *data, t_ast *node)
 	return (0);
 }
 
+/**
+ * @brief Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if a previous root node already exists
+ * @param data The entire data structure
+ * @param curr The current node of the lexed linked list being handled
+ * @param new The current node being handled
+ */
 void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
@@ -51,6 +67,12 @@ void	set_followup_redir(t_data *data, t_lexer *curr, t_ast *new)
 		data->root = new;
 }
 
+/**
+ * @brief Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if previous root node does not exist
+ * @param data The entire data structure
+ * @param prev_cmd The current lexed linked list node being handled
+ * @param curr The current node of the lexed linked list being handled
+ */
 void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 {
 	data->root = create_node(curr->value, curr->type);
@@ -77,6 +99,12 @@ void	set_redir_root(t_data *data, t_lexer *prev_cmd, t_lexer *curr)
 		set_access_err(data, data->root);
 }
 
+/**
+ * @brief Places PIPE as the root node if previous root node already exists
+ * @param data The entire data structure
+ * @param curr The current node of the lexed linked list being handled
+ * @param new The current AST-node being handled
+ */
 void	set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new)
 {
 	new = create_node(curr->value, curr->type);
@@ -97,6 +125,12 @@ void	set_followup_pipe(t_data *data, t_lexer *curr, t_ast *new)
 		data->root = new;
 }
 
+/**
+ * @brief Places PIPE as the root node if previous root node does not exist
+ * @param data The entire data structure
+ * @param curr The current node of the lexed linked list being handled
+ * @param prev_cmd The current lexed linked list node being handled
+ */
 void	set_first_pipe(t_data *data, t_lexer *curr, t_lexer *prev_cmd)
 {
 	data->root = create_node(curr->value, curr->type);
