@@ -1,12 +1,17 @@
 cat Makefile | grep ".c" > file1 > file2 > file3
-![Flowchart](https://github.com/user-attachments/assets/3fb39e3d-8d27-4f0a-b689-13f017ed6cab)
 
 So, Minishell. The notorious 42-network project. This surely was a hard one, as it really put to test everything we had learned so far in Hive. 
 The project is first one that was done in pairs, so it was important to understand the basics of git and it's functionalities fast. It was nice 
 to have daily repetition on making branches and adding features, combined with communication with the team mate of what had been done and what 
 we're working on etc. Felt a bit like what work life could possible be. How we approached the team work was that we set goals and areas that each
-of us were working on for a week or so, and then when we had something to add for the main, we did a merge to put things together. From that we 
-took new branches with new set of tasks to complete.
+of us were working on for a week or so, and after we had something that compiled, we merged the project. From there we 
+took new branches with new set of tasks to complete. (We ended up with A LOT of commits as we were still pretty new to git :D ).
+
+So we sketched the basic idea like this:
+
+![Flowchart](https://github.com/user-attachments/assets/3fb39e3d-8d27-4f0a-b689-13f017ed6cab)
+
+There are two main features: parsing and excecution, and each of them hold a lot of putting things in right order to replicate what bash does.
 
 The project itself is to make a program that runs like bash. It includes a lot of functionalities, including basic commands, expansions, redirections, pipes, 
 here_doc, builtin functions etc. The list felt endless. So, we split the work into two categories: one of us started with working on parsing (me), and my team-mate
