@@ -9,7 +9,7 @@ took new branches with new set of tasks to complete. (We ended up with A LOT of 
 
 So we sketched the basic idea like this:
 
-![Flowchart-2](https://github.com/user-attachments/assets/d33ba3e0-1028-4c42-89f2-275cfcfc8b2a)
+![Flowchart-3](https://github.com/user-attachments/assets/5b9732e4-aa8a-4c5a-a668-6e4aa2ef95ec)
 
 There are two main features: parsing and excecution.
 
