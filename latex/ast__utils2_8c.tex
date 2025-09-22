@@ -1,0 +1,115 @@
+\doxysection{ast\+\_\+tree/ast\+\_\+utils2.c File Reference}
+\hypertarget{ast__utils2_8c}{}\label{ast__utils2_8c}\index{ast\_tree/ast\_utils2.c@{ast\_tree/ast\_utils2.c}}
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for ast\+\_\+utils2.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{ast__utils2_8c_abf8e672a890622c83f4597bb3cff665d}{increment\+\_\+pointers}} (int \texorpdfstring{$\ast$}{*}i, int \texorpdfstring{$\ast$}{*}len)
+\item 
+int \mbox{\hyperlink{ast__utils2_8c_a8c90cad94cb111d980724ca080843068}{count\+\_\+new\+\_\+len}} (char \texorpdfstring{$\ast$}{*}value)
+\item 
+\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{ast__utils2_8c_ad1bea0de1a9b93ab69128eb861005a14}{create\+\_\+node}} (char \texorpdfstring{$\ast$}{*}value, \mbox{\hyperlink{minishell_8h_abde4b7a269940855bc7d4a85cd83eaf2}{t\+\_\+token}} type)
+\item 
+int \mbox{\hyperlink{ast__utils2_8c_a8fbe86f3358d14f6034ee9f2fa0d2126}{count\+\_\+size}} (\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}current)
+\item 
+int \mbox{\hyperlink{ast__utils2_8c_a4d57021ae4ad7b535687429fdf2af7cb}{has\+\_\+quotes}} (char \texorpdfstring{$\ast$}{*}value)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{ast__utils2_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{ast__utils2_8c_a8c90cad94cb111d980724ca080843068}\index{ast\_utils2.c@{ast\_utils2.c}!count\_new\_len@{count\_new\_len}}
+\index{count\_new\_len@{count\_new\_len}!ast\_utils2.c@{ast\_utils2.c}}
+\doxysubsubsection{\texorpdfstring{count\_new\_len()}{count\_new\_len()}}
+{\footnotesize\ttfamily \label{ast__utils2_8c_a8c90cad94cb111d980724ca080843068} 
+int count\+\_\+new\+\_\+len (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{ast__utils2_8c_a8c90cad94cb111d980724ca080843068_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_a8c90cad94cb111d980724ca080843068_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{ast__utils2_8c_a8fbe86f3358d14f6034ee9f2fa0d2126}\index{ast\_utils2.c@{ast\_utils2.c}!count\_size@{count\_size}}
+\index{count\_size@{count\_size}!ast\_utils2.c@{ast\_utils2.c}}
+\doxysubsubsection{\texorpdfstring{count\_size()}{count\_size()}}
+{\footnotesize\ttfamily \label{ast__utils2_8c_a8fbe86f3358d14f6034ee9f2fa0d2126} 
+int count\+\_\+size (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}}]{current}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_a8fbe86f3358d14f6034ee9f2fa0d2126_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{ast__utils2_8c_ad1bea0de1a9b93ab69128eb861005a14}\index{ast\_utils2.c@{ast\_utils2.c}!create\_node@{create\_node}}
+\index{create\_node@{create\_node}!ast\_utils2.c@{ast\_utils2.c}}
+\doxysubsubsection{\texorpdfstring{create\_node()}{create\_node()}}
+{\footnotesize\ttfamily \label{ast__utils2_8c_ad1bea0de1a9b93ab69128eb861005a14} 
+\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*} create\+\_\+node (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{value}{, }\item[{\mbox{\hyperlink{minishell_8h_abde4b7a269940855bc7d4a85cd83eaf2}{t\+\_\+token}}}]{type}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_ad1bea0de1a9b93ab69128eb861005a14_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_ad1bea0de1a9b93ab69128eb861005a14_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{ast__utils2_8c_a4d57021ae4ad7b535687429fdf2af7cb}\index{ast\_utils2.c@{ast\_utils2.c}!has\_quotes@{has\_quotes}}
+\index{has\_quotes@{has\_quotes}!ast\_utils2.c@{ast\_utils2.c}}
+\doxysubsubsection{\texorpdfstring{has\_quotes()}{has\_quotes()}}
+{\footnotesize\ttfamily \label{ast__utils2_8c_a4d57021ae4ad7b535687429fdf2af7cb} 
+int has\+\_\+quotes (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_a4d57021ae4ad7b535687429fdf2af7cb_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{ast__utils2_8c_abf8e672a890622c83f4597bb3cff665d}\index{ast\_utils2.c@{ast\_utils2.c}!increment\_pointers@{increment\_pointers}}
+\index{increment\_pointers@{increment\_pointers}!ast\_utils2.c@{ast\_utils2.c}}
+\doxysubsubsection{\texorpdfstring{increment\_pointers()}{increment\_pointers()}}
+{\footnotesize\ttfamily \label{ast__utils2_8c_abf8e672a890622c83f4597bb3cff665d} 
+void increment\+\_\+pointers (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{i}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{len}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ast__utils2_8c_abf8e672a890622c83f4597bb3cff665d_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,131 @@
+\doxysection{utils\+\_\+and\+\_\+signals/signals.c File Reference}
+\hypertarget{signals_8c}{}\label{signals_8c}\index{utils\_and\_signals/signals.c@{utils\_and\_signals/signals.c}}
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for signals.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{signals_8c_a258e3b580e688a0cf46e4258525aeaf1}{sigint\+\_\+handler}} (int sig)
+\item 
+void \mbox{\hyperlink{signals_8c_a00e0517deba4e0e2cebc989cb8712c87}{setup\+\_\+shell\+\_\+signals}} (void)
+\item 
+void \mbox{\hyperlink{signals_8c_a757731475a43841696410b4fb2e1a9c5}{setup\+\_\+child\+\_\+signals}} (void)
+\item 
+void \mbox{\hyperlink{signals_8c_a3c1644b13fd2b97226108a277cad68b6}{setup\+\_\+heredoc\+\_\+signals}} (void)
+\item 
+void \mbox{\hyperlink{signals_8c_ad92ca209093e8a9511f5764786080e34}{ignore\+\_\+signals}} (void)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile sig\+\_\+atomic\+\_\+t \mbox{\hyperlink{signals_8c_a1557df1d0322ef908daba68411e7581c}{g\+\_\+interrupted}} = 0
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{signals_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{signals_8c_ad92ca209093e8a9511f5764786080e34}\index{signals.c@{signals.c}!ignore\_signals@{ignore\_signals}}
+\index{ignore\_signals@{ignore\_signals}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{ignore\_signals()}{ignore\_signals()}}
+{\footnotesize\ttfamily \label{signals_8c_ad92ca209093e8a9511f5764786080e34} 
+void ignore\+\_\+signals (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_ad92ca209093e8a9511f5764786080e34_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{signals_8c_a757731475a43841696410b4fb2e1a9c5}\index{signals.c@{signals.c}!setup\_child\_signals@{setup\_child\_signals}}
+\index{setup\_child\_signals@{setup\_child\_signals}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{setup\_child\_signals()}{setup\_child\_signals()}}
+{\footnotesize\ttfamily \label{signals_8c_a757731475a43841696410b4fb2e1a9c5} 
+void setup\+\_\+child\+\_\+signals (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_a757731475a43841696410b4fb2e1a9c5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{signals_8c_a3c1644b13fd2b97226108a277cad68b6}\index{signals.c@{signals.c}!setup\_heredoc\_signals@{setup\_heredoc\_signals}}
+\index{setup\_heredoc\_signals@{setup\_heredoc\_signals}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{setup\_heredoc\_signals()}{setup\_heredoc\_signals()}}
+{\footnotesize\ttfamily \label{signals_8c_a3c1644b13fd2b97226108a277cad68b6} 
+void setup\+\_\+heredoc\+\_\+signals (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{signals_8c_a3c1644b13fd2b97226108a277cad68b6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_a3c1644b13fd2b97226108a277cad68b6_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{signals_8c_a00e0517deba4e0e2cebc989cb8712c87}\index{signals.c@{signals.c}!setup\_shell\_signals@{setup\_shell\_signals}}
+\index{setup\_shell\_signals@{setup\_shell\_signals}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{setup\_shell\_signals()}{setup\_shell\_signals()}}
+{\footnotesize\ttfamily \label{signals_8c_a00e0517deba4e0e2cebc989cb8712c87} 
+void setup\+\_\+shell\+\_\+signals (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_a00e0517deba4e0e2cebc989cb8712c87_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_a00e0517deba4e0e2cebc989cb8712c87_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{signals_8c_a258e3b580e688a0cf46e4258525aeaf1}\index{signals.c@{signals.c}!sigint\_handler@{sigint\_handler}}
+\index{sigint\_handler@{sigint\_handler}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{sigint\_handler()}{sigint\_handler()}}
+{\footnotesize\ttfamily \label{signals_8c_a258e3b580e688a0cf46e4258525aeaf1} 
+void sigint\+\_\+handler (\begin{DoxyParamCaption}\item[{int}]{sig}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{signals_8c_a258e3b580e688a0cf46e4258525aeaf1_icgraph}
+\end{center}
+\end{figure}
+
+
+\label{doc-var-members}
+\Hypertarget{signals_8c_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{signals_8c_a1557df1d0322ef908daba68411e7581c}\index{signals.c@{signals.c}!g\_interrupted@{g\_interrupted}}
+\index{g\_interrupted@{g\_interrupted}!signals.c@{signals.c}}
+\doxysubsubsection{\texorpdfstring{g\_interrupted}{g\_interrupted}}
+{\footnotesize\ttfamily \label{signals_8c_a1557df1d0322ef908daba68411e7581c} 
+volatile sig\+\_\+atomic\+\_\+t g\+\_\+interrupted = 0}
+

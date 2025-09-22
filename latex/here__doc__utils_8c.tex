@@ -1,0 +1,131 @@
+\doxysection{ast\+\_\+tree/here\+\_\+doc\+\_\+utils.c File Reference}
+\hypertarget{here__doc__utils_8c}{}\label{here__doc__utils_8c}\index{ast\_tree/here\_doc\_utils.c@{ast\_tree/here\_doc\_utils.c}}
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for here\+\_\+doc\+\_\+utils.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{here__doc__utils_8c_ae632b4d636428a056bd1903161f5a725}{hd\+\_\+handle\+\_\+delimiter}} (char \texorpdfstring{$\ast$}{*}line, char \texorpdfstring{$\ast$}{*}delimiter)
+\item 
+int \mbox{\hyperlink{here__doc__utils_8c_ae243b0631c05072095ac102cc4119e95}{hd\+\_\+file\+\_\+setup}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}out\+\_\+path)
+\item 
+int \mbox{\hyperlink{here__doc__utils_8c_a75625d892ffb71588c30184c6e1ee10c}{handle\+\_\+delim\+\_\+quote}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}delimiter)
+\item 
+void \mbox{\hyperlink{here__doc__utils_8c_a633a82bc9ab909a2eae04314f17145b9}{hd\+\_\+write\+\_\+line}} (int fd, char \texorpdfstring{$\ast$}{*}line)
+\item 
+int \mbox{\hyperlink{here__doc__utils_8c_a8d0f7c480199cae4a167f8cf088691c2}{redir\+\_\+error\+\_\+check}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{here__doc__utils_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{here__doc__utils_8c_a75625d892ffb71588c30184c6e1ee10c}\index{here\_doc\_utils.c@{here\_doc\_utils.c}!handle\_delim\_quote@{handle\_delim\_quote}}
+\index{handle\_delim\_quote@{handle\_delim\_quote}!here\_doc\_utils.c@{here\_doc\_utils.c}}
+\doxysubsubsection{\texorpdfstring{handle\_delim\_quote()}{handle\_delim\_quote()}}
+{\footnotesize\ttfamily \label{here__doc__utils_8c_a75625d892ffb71588c30184c6e1ee10c} 
+int handle\+\_\+delim\+\_\+quote (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{delimiter}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_a75625d892ffb71588c30184c6e1ee10c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_a75625d892ffb71588c30184c6e1ee10c_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc__utils_8c_ae243b0631c05072095ac102cc4119e95}\index{here\_doc\_utils.c@{here\_doc\_utils.c}!hd\_file\_setup@{hd\_file\_setup}}
+\index{hd\_file\_setup@{hd\_file\_setup}!here\_doc\_utils.c@{here\_doc\_utils.c}}
+\doxysubsubsection{\texorpdfstring{hd\_file\_setup()}{hd\_file\_setup()}}
+{\footnotesize\ttfamily \label{here__doc__utils_8c_ae243b0631c05072095ac102cc4119e95} 
+int hd\+\_\+file\+\_\+setup (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{out\+\_\+path}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_ae243b0631c05072095ac102cc4119e95_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_ae243b0631c05072095ac102cc4119e95_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc__utils_8c_ae632b4d636428a056bd1903161f5a725}\index{here\_doc\_utils.c@{here\_doc\_utils.c}!hd\_handle\_delimiter@{hd\_handle\_delimiter}}
+\index{hd\_handle\_delimiter@{hd\_handle\_delimiter}!here\_doc\_utils.c@{here\_doc\_utils.c}}
+\doxysubsubsection{\texorpdfstring{hd\_handle\_delimiter()}{hd\_handle\_delimiter()}}
+{\footnotesize\ttfamily \label{here__doc__utils_8c_ae632b4d636428a056bd1903161f5a725} 
+int hd\+\_\+handle\+\_\+delimiter (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{line}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{delimiter}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=281pt]{here__doc__utils_8c_ae632b4d636428a056bd1903161f5a725_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_ae632b4d636428a056bd1903161f5a725_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc__utils_8c_a633a82bc9ab909a2eae04314f17145b9}\index{here\_doc\_utils.c@{here\_doc\_utils.c}!hd\_write\_line@{hd\_write\_line}}
+\index{hd\_write\_line@{hd\_write\_line}!here\_doc\_utils.c@{here\_doc\_utils.c}}
+\doxysubsubsection{\texorpdfstring{hd\_write\_line()}{hd\_write\_line()}}
+{\footnotesize\ttfamily \label{here__doc__utils_8c_a633a82bc9ab909a2eae04314f17145b9} 
+void hd\+\_\+write\+\_\+line (\begin{DoxyParamCaption}\item[{int}]{fd}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{line}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{here__doc__utils_8c_a633a82bc9ab909a2eae04314f17145b9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_a633a82bc9ab909a2eae04314f17145b9_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc__utils_8c_a8d0f7c480199cae4a167f8cf088691c2}\index{here\_doc\_utils.c@{here\_doc\_utils.c}!redir\_error\_check@{redir\_error\_check}}
+\index{redir\_error\_check@{redir\_error\_check}!here\_doc\_utils.c@{here\_doc\_utils.c}}
+\doxysubsubsection{\texorpdfstring{redir\_error\_check()}{redir\_error\_check()}}
+{\footnotesize\ttfamily \label{here__doc__utils_8c_a8d0f7c480199cae4a167f8cf088691c2} 
+int redir\+\_\+error\+\_\+check (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc__utils_8c_a8d0f7c480199cae4a167f8cf088691c2_icgraph}
+\end{center}
+\end{figure}

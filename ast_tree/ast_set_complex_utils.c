@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_set_complex.c
+ * @brief Makes the complex AST
+ */
+
+/**
+ * @brief Checks if file is a directory
+ * @param path Path of the file
+ * @retval 0 (Is not directory)
+ * @retval 1 (Is a directory)
+ */
 int	is_directory(const char *path)
 {
 	struct stat	path_stat;
@@ -21,6 +32,14 @@ int	is_directory(const char *path)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
+/**
+ * @brief Checks permissions/problems in a file
+ * @param data The main data structure
+ * @param path Path to the file
+ * @param type Type of the node to make correct checks
+ * @retval < 0 (Problem with a file)
+ * @retval 0 (No problem with the file)
+ */
 int	perms(t_data *data, char *path, int type)
 {
 	if (path[0] == '$' && path[1] && type != HERE_DOC)

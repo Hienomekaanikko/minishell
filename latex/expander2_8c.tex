@@ -1,0 +1,99 @@
+\doxysection{expansions/expander2.c File Reference}
+\hypertarget{expander2_8c}{}\label{expander2_8c}\index{expansions/expander2.c@{expansions/expander2.c}}
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for expander2.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{expander2_8c_a11e2007e4bde4569897e37f4593e134f}{append\+\_\+post\+\_\+dollar}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}tools, char \texorpdfstring{$\ast$}{*}value)
+\item 
+int \mbox{\hyperlink{expander2_8c_a553acb4ae5475ada1d55ff08633dc1f8}{dollar\+\_\+literal}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}tools, int \texorpdfstring{$\ast$}{*}i)
+\item 
+int \mbox{\hyperlink{expander2_8c_ac0629b352e17088c1ab692c7f754bec2}{append\+\_\+pre\+\_\+dollar}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}tools, char \texorpdfstring{$\ast$}{*}value, int i)
+\item 
+int \mbox{\hyperlink{expander2_8c_aabfe716ae828d070382a3fa3b460765d}{dollar\+\_\+expansion}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}tools, char \texorpdfstring{$\ast$}{*}value, int \texorpdfstring{$\ast$}{*}i)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{expander2_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{expander2_8c_a11e2007e4bde4569897e37f4593e134f}\index{expander2.c@{expander2.c}!append\_post\_dollar@{append\_post\_dollar}}
+\index{append\_post\_dollar@{append\_post\_dollar}!expander2.c@{expander2.c}}
+\doxysubsubsection{\texorpdfstring{append\_post\_dollar()}{append\_post\_dollar()}}
+{\footnotesize\ttfamily \label{expander2_8c_a11e2007e4bde4569897e37f4593e134f} 
+int append\+\_\+post\+\_\+dollar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}}]{tools}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c_a11e2007e4bde4569897e37f4593e134f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c_a11e2007e4bde4569897e37f4593e134f_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expander2_8c_ac0629b352e17088c1ab692c7f754bec2}\index{expander2.c@{expander2.c}!append\_pre\_dollar@{append\_pre\_dollar}}
+\index{append\_pre\_dollar@{append\_pre\_dollar}!expander2.c@{expander2.c}}
+\doxysubsubsection{\texorpdfstring{append\_pre\_dollar()}{append\_pre\_dollar()}}
+{\footnotesize\ttfamily \label{expander2_8c_ac0629b352e17088c1ab692c7f754bec2} 
+int append\+\_\+pre\+\_\+dollar (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}}]{tools}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{, }\item[{int}]{i}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c_ac0629b352e17088c1ab692c7f754bec2_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expander2_8c_aabfe716ae828d070382a3fa3b460765d}\index{expander2.c@{expander2.c}!dollar\_expansion@{dollar\_expansion}}
+\index{dollar\_expansion@{dollar\_expansion}!expander2.c@{expander2.c}}
+\doxysubsubsection{\texorpdfstring{dollar\_expansion()}{dollar\_expansion()}}
+{\footnotesize\ttfamily \label{expander2_8c_aabfe716ae828d070382a3fa3b460765d} 
+int dollar\+\_\+expansion (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}}]{tools}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{i}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c_aabfe716ae828d070382a3fa3b460765d_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expander2_8c_a553acb4ae5475ada1d55ff08633dc1f8}\index{expander2.c@{expander2.c}!dollar\_literal@{dollar\_literal}}
+\index{dollar\_literal@{dollar\_literal}!expander2.c@{expander2.c}}
+\doxysubsubsection{\texorpdfstring{dollar\_literal()}{dollar\_literal()}}
+{\footnotesize\ttfamily \label{expander2_8c_a553acb4ae5475ada1d55ff08633dc1f8} 
+int dollar\+\_\+literal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{expansions_8h_a6f52c1cf2be794163ff1a3507884ecd3}{t\+\_\+exp\+\_\+tools}} \texorpdfstring{$\ast$}{*}}]{tools}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{i}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expander2_8c_a553acb4ae5475ada1d55ff08633dc1f8_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{expander2_8c_a553acb4ae5475ada1d55ff08633dc1f8_icgraph}
+\end{center}
+\end{figure}

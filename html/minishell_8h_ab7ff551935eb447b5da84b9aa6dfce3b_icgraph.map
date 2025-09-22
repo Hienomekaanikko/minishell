@@ -1,0 +1,15 @@
+<map id="wait_process" name="wait_process">
+<area shape="rect" id="Node000001" title=" " alt="" coords="453,31,552,56"/>
+<area shape="rect" id="Node000002" href="$exec__pipe_8c.html#ab48c40320280944bf52fdb565ad554e1" title=" " alt="" coords="320,5,400,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="438,35,400,28,401,23,439,29"/>
+<area shape="rect" id="Node000006" href="$execution_8c.html#ac726be83259b115f144e6ce30ffe00bf" title=" " alt="" coords="314,55,405,80"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="438,57,406,62,405,57,437,52"/>
+<area shape="rect" id="Node000003" href="$execution_8c.html#a8d75ae4c41bd2b466e6696379875ca9a" title=" " alt="" coords="135,31,266,56"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="305,30,267,36,266,30,304,24"/>
+<area shape="rect" id="Node000004" href="$exec__redir_8c.html#aa5b30076fe1868739482eb008cd78960" title=" " alt="" coords="5,31,87,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="119,55,87,54,87,49,119,50"/>
+<area shape="rect" id="Node000005" href="$main_8c.html#a647f21a28344e1d9c643f4115516d7c9" title=" " alt="" coords="21,80,71,106"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="144,64,72,88,70,83,142,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="102,32,134,32,134,37,102,37"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="298,61,266,56,267,51,299,56"/>
+</map>

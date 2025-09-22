@@ -1,0 +1,9 @@
+<map id="is_var_declaration" name="is_var_declaration">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,132,80"/>
+<area shape="rect" id="Node000002" href="$ft__isalnum_8c.html#a9c2c3821ea43ebdf97de07b123503f8b" title=" " alt="" coords="180,5,261,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,51,164,34,166,39,111,57"/>
+<area shape="rect" id="Node000003" href="$ft__isspace_8c.html#a76cd21d0fd288012f02809cba504f650" title=" " alt="" coords="180,55,261,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,65,164,65,164,70,132,70"/>
+<area shape="rect" id="Node000004" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="186,104,254,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="111,78,172,99,171,104,110,84"/>
+</map>

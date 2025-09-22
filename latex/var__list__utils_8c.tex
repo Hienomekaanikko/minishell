@@ -1,0 +1,99 @@
+\doxysection{data\+\_\+handling/var\+\_\+list\+\_\+utils.c File Reference}
+\hypertarget{var__list__utils_8c}{}\label{var__list__utils_8c}\index{data\_handling/var\_list\_utils.c@{data\_handling/var\_list\_utils.c}}
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for var\+\_\+list\+\_\+utils.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{var__list__utils_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{var__list__utils_8c_a10a9b6f3612ed34625d78048090467e4}{set\+\_\+variable}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}value)
+\item 
+void \mbox{\hyperlink{var__list__utils_8c_adb4e3eca2a1e083c00b5f13806797eed}{unset\+\_\+local}} (\mbox{\hyperlink{expansions_8h_a104001c2db50fbcf0f47a3d10fbb78a4}{t\+\_\+var}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}head, char \texorpdfstring{$\ast$}{*}key)
+\item 
+int \mbox{\hyperlink{var__list__utils_8c_abbc6e986aafd366032ed395b1ced8923}{is\+\_\+var\+\_\+declaration}} (char \texorpdfstring{$\ast$}{*}str)
+\item 
+int \mbox{\hyperlink{var__list__utils_8c_a5d67dffbba610f4dbae358662d340eb2}{declared}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{expansions_8h_a104001c2db50fbcf0f47a3d10fbb78a4}{t\+\_\+var}} \texorpdfstring{$\ast$}{*}start, char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}value)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{var__list__utils_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{var__list__utils_8c_a5d67dffbba610f4dbae358662d340eb2}\index{var\_list\_utils.c@{var\_list\_utils.c}!declared@{declared}}
+\index{declared@{declared}!var\_list\_utils.c@{var\_list\_utils.c}}
+\doxysubsubsection{\texorpdfstring{declared()}{declared()}}
+{\footnotesize\ttfamily \label{var__list__utils_8c_a5d67dffbba610f4dbae358662d340eb2} 
+int declared (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{expansions_8h_a104001c2db50fbcf0f47a3d10fbb78a4}{t\+\_\+var}} \texorpdfstring{$\ast$}{*}}]{start}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=337pt]{var__list__utils_8c_a5d67dffbba610f4dbae358662d340eb2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{var__list__utils_8c_a5d67dffbba610f4dbae358662d340eb2_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{var__list__utils_8c_abbc6e986aafd366032ed395b1ced8923}\index{var\_list\_utils.c@{var\_list\_utils.c}!is\_var\_declaration@{is\_var\_declaration}}
+\index{is\_var\_declaration@{is\_var\_declaration}!var\_list\_utils.c@{var\_list\_utils.c}}
+\doxysubsubsection{\texorpdfstring{is\_var\_declaration()}{is\_var\_declaration()}}
+{\footnotesize\ttfamily \label{var__list__utils_8c_abbc6e986aafd366032ed395b1ced8923} 
+int is\+\_\+var\+\_\+declaration (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{str}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{var__list__utils_8c_abbc6e986aafd366032ed395b1ced8923_cgraph}
+\end{center}
+\end{figure}
+\Hypertarget{var__list__utils_8c_a10a9b6f3612ed34625d78048090467e4}\index{var\_list\_utils.c@{var\_list\_utils.c}!set\_variable@{set\_variable}}
+\index{set\_variable@{set\_variable}!var\_list\_utils.c@{var\_list\_utils.c}}
+\doxysubsubsection{\texorpdfstring{set\_variable()}{set\_variable()}}
+{\footnotesize\ttfamily \label{var__list__utils_8c_a10a9b6f3612ed34625d78048090467e4} 
+void set\+\_\+variable (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{var__list__utils_8c_a10a9b6f3612ed34625d78048090467e4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{var__list__utils_8c_a10a9b6f3612ed34625d78048090467e4_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{var__list__utils_8c_adb4e3eca2a1e083c00b5f13806797eed}\index{var\_list\_utils.c@{var\_list\_utils.c}!unset\_local@{unset\_local}}
+\index{unset\_local@{unset\_local}!var\_list\_utils.c@{var\_list\_utils.c}}
+\doxysubsubsection{\texorpdfstring{unset\_local()}{unset\_local()}}
+{\footnotesize\ttfamily \label{var__list__utils_8c_adb4e3eca2a1e083c00b5f13806797eed} 
+void unset\+\_\+local (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{expansions_8h_a104001c2db50fbcf0f47a3d10fbb78a4}{t\+\_\+var}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{head}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{key}{}\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{var__list__utils_8c_adb4e3eca2a1e083c00b5f13806797eed_icgraph}
+\end{center}
+\end{figure}
