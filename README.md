@@ -1,6 +1,6 @@
 cat Makefile | grep ".c" > file1 > file2 > file3
 
-So, Minishell. The notorious 42-network project. This surely was a hard one, as it really put to test everything I had learned so far in Hive. 
+So, Minishell. This surely was a hard one, as it really put to test everything I had learned so far in Hive. 
 The project is first one that was done in teams of two persons, so it was important to understand the basics of git and it's functionalities fast. It was nice 
 to have daily repetition on making branches and adding features, combined with communication with the team mate of what had been done and what 
 we're working on etc. Felt a bit like what work life could possible be. How we approached the team work was that we set goals and areas that each
@@ -16,6 +16,19 @@ There are two main features: parsing and excecution.
 The main goal of the assignment was to make a program that runs like bash. It includes a lot of functionalities, including basic commands, expansions, redirections, pipes, 
 here_doc, builtin functions etc. The list felt endless. So initially, we split the work in half: one of us started with working on parsing (me), and my team-mate
 started to work on execution. We decided on the basic structure of the project really fast, which was basically that I parse the input, make an AST of it, and hand over the root node of that for the excecution.
+
+So, lets say we have an input
+
+`echo "hello" > outfile `
+
+It needs to execute the command `echo`, taking `"hello"` as an argument, and handle `> outfile` as directing the output of the command into the outfile.
+
+So first we have to see what is inside the prompt:
+
+![Flowchart-4](https://github.com/user-attachments/assets/8d1e14cc-1392-423c-8d07-2211746a6c79)
+
+Now as it can be seen, the first step is to take the input and separate portions that have their own purpose. I made this functionality that can be found from parsing.c, parsing_utils.c and parsing_utils2.c file. It has been perfected in a way that it knows to correctly slice crazy inputs like `echo <<<<<<<<< infile >>>>>>>>>> outfile >>>> outfile2` or something more regular but a bit different like `echo 'So this is how bash parses things "hahaha not really" but it really really does' | grep "i" > outfile`.
+Also this `echo        \n\n\n      "So this is how bash parses things 'hahaha not really' but it really really does' | | grep 'i'         >            outfile` must be properly split and cleaned up. 
 
 The program does clean-up after every "input-loop", but it leaves the background processes untouched. Meaning that if local or environment variables have been created, they
 stay until the minishell have been exited. During the program the variables can be removed by doing "unset" + removable variable. The cleanup was probably hardest to get right, because no file descriptors were allowed to be left open (except for std fds), and no memory leaks or still reachable/unreachables were allowed. It got really hard with error
