@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+/**
+ * @file here_doc_utils.c
+ * @brief here_doc handler helper functions
+ */
+
+/**
+ * @brief Checks if delimiter has been inputted, to know if the program needs to finish here_doc creation
+ * @param line Current input
+ * @param delimiter The set delimiter (for example: cat <<EOF ) <- here the EOF is the delimiter that quits here_doc.
+ * @retval 1 (delimiter encountered)
+ * @retval 0 (no delimiter encountered)
+ */
 int	hd_handle_delimiter(char *line, char *delimiter)
 {
 	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
@@ -22,6 +34,13 @@ int	hd_handle_delimiter(char *line, char *delimiter)
 	return (0);
 }
 
+/**
+ * @brief Creates a temp file for here_doc data
+ * @param data Main data structure of the program
+ * @param out_path Pointer to a variable that holds the path of the temp file
+ * @retval fd (file descriptor to the temp file)
+ * @retval -1 (failure during malloc or file descriptor opening)
+ */
 int	hd_file_setup(t_data *data, char **out_path)
 {
 	int		fd;
@@ -41,6 +60,14 @@ int	hd_file_setup(t_data *data, char **out_path)
 	return (fd);
 }
 
+/**
+ * @brief Removes the quotes of the delimiter if existant
+ * @param data Main data structure of the program
+ * @param delmiter Pointer to a variable that holds delimiter value
+ * @retval 1 (successful quote removal)
+ * @retval 0 (no quotes present)
+ * @retval -1 (malloc failure)
+ */
 int	handle_delim_quote(t_data *data, char **delimiter)
 {
 	char	*new_str;
@@ -57,6 +84,11 @@ int	handle_delim_quote(t_data *data, char **delimiter)
 	return (0);
 }
 
+/**
+ * @brief Writes data inside the here_doc temp file line by line
+ * @param fd File descriptor to write into
+ * @param line Line to write into the temp file
+ */
 void	hd_write_line(int fd, char *line)
 {
 	write(fd, line, ft_strlen(line));
@@ -64,6 +96,10 @@ void	hd_write_line(int fd, char *line)
 	free(line);
 }
 
+/**
+ * @brief Checks for redirection errors if present
+ * @param data The main data structure of the program
+ */
 int	redir_error_check(t_data *data)
 {
 	if (data->redir_err == 2)

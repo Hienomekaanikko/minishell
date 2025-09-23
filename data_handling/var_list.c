@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file var_list.c
+ * @brief Local variable handler
+ */
+
+/**
+ * @brief Creates a key value pair node to a linked list that holds local variables
+ * @param data The main data structure of the program
+ * @param key Key of the key-value pair being added
+ * @param value Value of the key-value pair being added
+ * @retval NULL (if failure)
+ * @retval new_node (if success)
+ */
 t_var	*create_var(t_data *data, char *key, char *value)
 {
 	t_var	*new_node;
@@ -36,6 +49,15 @@ t_var	*create_var(t_data *data, char *key, char *value)
 	return (new_node);
 }
 
+/**
+ * @brief Creates a key value pair node to a linked list that holds local variables
+ * @param d The main data structure of the program
+ * @param exp Pointer to the linked list that holds local variables
+ * @param key Key of the key-value pair being added
+ * @param value Value of the key-value pair being added
+ * @retval 0 (if failure)
+ * @retval 1 (if success)
+ */
 int	add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value)
 {
 	t_var	*current;
@@ -60,6 +82,16 @@ int	add_var_to_list(t_data *d, t_exp_data *exp, char *key, char *value)
 	return (1);
 }
 
+/**
+ * @brief Separates key and value from input string
+ * @param input String that is being checked
+ * @param key Pointer to a empty key variable
+ * @param i Iteration help
+ * @param start Iteration help
+ * @retval 0 (no '=' found or no value found)
+ * @retval -1 (malloc error)
+ * @retval 1 (success)
+ */
 static int	check_input(char *input, char **key, int *i, int *start)
 {
 	*i = 0;
@@ -83,6 +115,10 @@ static int	check_input(char *input, char **key, int *i, int *start)
 	return (1);
 }
 
+/**
+ * @brief Attempts to add a local variable declaration into local variable linked list
+ * @param data The main data structure of the program
+ */
 void	add_var_declaration(t_data *data)
 {
 	int		i;

@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file execution_utils.c
+ * @brief Handles execution helper functions
+ */
+
+/**
+ * @brief Checks cmd path permissions
+ * @param data The main data structure of the program
+ * @param path The path that is being checked
+ * @retval 0 (No need to check)
+ * @retval 127 (No file found)
+ * @retval 126 (Is directory or bad permissions)
+ */
 int	check_path_permissions(t_data *data, char *path)
 {
 	struct stat	path_stat;
@@ -37,6 +50,10 @@ int	check_path_permissions(t_data *data, char *path)
 	return (0);
 }
 
+/**
+ * @brief Closes all fd's
+ * @param exec_status Pointer to the status stucture of the program
+ */
 void	close_fds(t_exec_status *exec_status)
 {
 	if (exec_status->outfile != -1)
@@ -66,6 +83,10 @@ void	close_fds(t_exec_status *exec_status)
 	}
 }
 
+/**
+ * @brief Restores original fd's
+ * @param data The main data structure of the program
+ */
 void	restore_orig_fd(t_data *data)
 {
 	if (data->status.outfile != -1 && data->status.saved_stdout != -1)
@@ -93,6 +114,10 @@ void	restore_orig_fd(t_data *data)
 	}
 }
 
+/**
+ * @brief Saves original fd's to temps
+ * @param data The main data structure of the program
+ */
 void	save_orig_fd(t_data *data)
 {
 	if (data->status.infile != -1)

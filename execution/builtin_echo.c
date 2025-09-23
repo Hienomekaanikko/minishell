@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file builtin_echo.c
+ * @brief Command handler for "echo"
+ */
+
+/**
+ * @brief Looks for -n
+ * @param arg The character to look from
+ * @retval 0 (not n flag)
+ * @retval 1 (is n flag)
+ */
 int	is_n_flag(const char *arg)
 {
 	int	j;
@@ -28,6 +39,12 @@ int	is_n_flag(const char *arg)
 	return (1);
 }
 
+/**
+ * @brief If no arguments for echo, handle gracefully
+ * @param status Pointer to the status handler of the program
+ * @param no_newline_flag Permission to do new line or not.
+ * @retval 0 (success)
+ */
 int	echo_exit(t_exec_status *status, int no_newline_flag)
 {
 	status->exit_code = 0;
@@ -36,6 +53,12 @@ int	echo_exit(t_exec_status *status, int no_newline_flag)
 	return (0);
 }
 
+/**
+ * @brief Handle builtin echo
+ * @param args The array of strings starting with "echo"
+ * @param status Pointer to the status handler of the program
+ * @retval Exit status that resulted from echo
+ */
 int	builtin_echo(char **args, t_exec_status *status)
 {
 	int	no_newline_flag;

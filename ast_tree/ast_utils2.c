@@ -12,12 +12,27 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_utils2.c
+ * @brief Helper functions (part 2) for AST building
+ */
+
+/**
+ * @brief This is just to interate (the school has 25 line function lenght limit, which means there's some of these weird solutions)
+ * @param i Current index
+ * @param len Current length
+ */
 void	increment_pointers(int *i, int *len)
 {
 	(*i)++;
 	(*len)++;
 }
 
+/**
+ * @brief Counts new length of a value after quotes have been removed (to allocate correct amount of memory)
+ * @param value Value that is being handled
+ * @retval New length
+ */
 int	count_new_len(char *value)
 {
 	int		i;
@@ -47,6 +62,12 @@ int	count_new_len(char *value)
 	return (len);
 }
 
+/**
+ * @brief Allocates and creates new AST-node with NULL initialized data (new_node->access is 1, meaning TRUE, unless some permission issues are found later in processing)
+ * @param value Value that is being dragged into the node's value from the lexed linked list
+ * @param type Type of the value that has been set into the lexed linked list (RE_IN, RE_OUT, APPEND_OUT, HERE_DOC, PIPE, CMD, ARG)
+ * @retval Newly created t_ast node.
+ */
 t_ast	*create_node(char *value, t_token type)
 {
 	t_ast	*new_node;
@@ -76,6 +97,11 @@ t_ast	*create_node(char *value, t_token type)
 	return (new_node);
 }
 
+/**
+ * @brief Counts the size of the lexed linked list
+ * @param current Current node inside the lexed linked list
+ * @retval Size of the lexed linked list
+ */
 int	count_size(t_lexer *current)
 {
 	t_lexer	*temp;
@@ -91,6 +117,12 @@ int	count_size(t_lexer *current)
 	return (i);
 }
 
+/**
+ * @brief Checks if a value has quotes
+ * @param value Value that is being checked
+ * @retval 1 (has quotes)
+ * @retval 0 (does not have quotes)
+ */
 int	has_quotes(char *value)
 {
 	int	i;

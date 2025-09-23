@@ -1,7 +1,0 @@
-<map id="ft_strjoin" name="ft_strjoin">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,77,56"/>
-<area shape="rect" id="Node000002" href="$ft__memcpy_8c.html#a5f5c5d19b1f0355d9768c75d30ed5559" title=" " alt="" coords="125,5,211,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,34,109,27,110,32,77,39"/>
-<area shape="rect" id="Node000003" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="134,55,202,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="77,48,119,56,118,61,76,53"/>
-</map>

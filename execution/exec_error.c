@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file exec_error.c
+ * @brief Error message handler
+ */
+
+/**
+ * @brief Gets the correct error msg
+ * @param err Type of an error
+ * @retval NULL (No such type)
+ * @retval msg (Type of an error)
+ */
 char	*get_error(t_error err)
 {
 	if (err == AMB)
@@ -41,6 +52,10 @@ char	*get_error(t_error err)
 	return (NULL);
 }
 
+/**
+ * @brief Rest of the error msgs
+ * @param status The status structure of the program
+ */
 static void	set_other_status(t_exec_status *status)
 {
 	status->msg = strerror(errno);
@@ -50,6 +65,14 @@ static void	set_other_status(t_exec_status *status)
 		status->exit_code = 1;
 }
 
+/**
+ * @brief Writes the wanted error into a buffer to write it as a one chunk
+ * @param status The status structure of the program
+ * @param cmd The command that is linked to the error that happened
+ * @param err The type of error that is being handled (enum)
+ * @param exit_code The exit_code that is being proposed
+ * @retval exit_code
+ */
 int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 {
 	char	buf[512];
@@ -78,6 +101,10 @@ int	error(t_exec_status *status, char *cmd, t_error err, int exit_code)
 	return (exit_code);
 }
 
+/**
+ * @brief Handles signal error messages
+ * @param exec_status The status structure of the program
+ */
 void	handle_signal_error(t_exec_status *exec_status)
 {
 	int	status;

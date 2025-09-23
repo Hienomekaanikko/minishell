@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file exec_pipe.c
+ * @brief Pipe handler
+ */
+
+/**
+ * @brief Handles the left childs execution
+ * @param pipe_fd Pipe that is being handled
+ * @param node The AST-node that is being handled
+ * @param data The main data structure of the program
+ */
 static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
 {
 	setup_child_signals();
@@ -36,6 +47,12 @@ static void	handle_left_child(int pipe_fd[2], t_ast *node, t_data *data)
 	exit(data->status.exit_code);
 }
 
+/**
+ * @brief Handles the right childs execution
+ * @param pipe_fd Pipe that is being handled
+ * @param node The AST-node that is being handled
+ * @param data The main data structure of the program
+ */
 static void	handle_right_child(int pipe_fd[2], t_ast *node, t_data *data)
 {
 	setup_child_signals();
@@ -52,6 +69,11 @@ static void	handle_right_child(int pipe_fd[2], t_ast *node, t_data *data)
 	exit(data->status.exit_code);
 }
 
+/**
+ * @brief Pipe processing
+ * @param node The AST-node that is being handled
+ * @param data The main data structure of the program
+ */
 int	exec_pipe(t_ast *node, t_data *data)
 {
 	int		pipe_fd[2];

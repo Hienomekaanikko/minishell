@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file builtin_export.c
+ * @brief Handles export
+ */
+
+/**
+ * @brief Export handling without arguments
+ * @param env_arena Pointer to the environment
+ * @retval 0 (success)
+ */
 static int	export_no_args(t_arena *env_arena)
 {
 	size_t	i;
@@ -39,6 +49,13 @@ static int	export_no_args(t_arena *env_arena)
 	return (0);
 }
 
+/**
+ * @brief Extracts key from the string starting with export
+ * @param arg The string that is being extracted from
+ * @param status Pointer to the program status structure
+ * @retval NULL (failure)
+ * @retval key (success)
+ */
 static char	*extract_key(const char *arg, t_exec_status *status)
 {
 	char	*key;
@@ -66,6 +83,14 @@ static char	*extract_key(const char *arg, t_exec_status *status)
 	return (key);
 }
 
+/**
+ * @brief Separates key from the string that begins with export
+ * @param arg The string that is being handled
+ * @param status Pointer to the program status structure
+ * @param out_key Pointer to the location where the extracted key will be saved into
+ * @retval 1 (failure)
+ * @retval 0 (success)
+ */
 static int	get_key(char *arg, t_exec_status *status, char **out_key)
 {
 	char	*key;
@@ -84,6 +109,13 @@ static int	get_key(char *arg, t_exec_status *status, char **out_key)
 	return (0);
 }
 
+/**
+ * @brief Takes the value from export and pairs it up with the correct key
+ * @param data The main data structure of the program
+ * @param key Key that is being paired to
+ * @param arg The string from where value gets extracted from
+ * @retval 0
+ */
 static int	set_export_value(t_data *data, const char *key, const char *arg)
 {
 	char	*eq;
@@ -112,6 +144,13 @@ static int	set_export_value(t_data *data, const char *key, const char *arg)
 	return (0);
 }
 
+/**
+ * @brief Handles the builtin export function
+ * @param data The main data structure of the program
+ * @param args The array of strings that begins with export and needs to be managed
+ * @retval 1 (success)
+ * @retval 0 (failure)
+ */
 int	builtin_export(t_data *data, char **args)
 {
 	size_t	i;

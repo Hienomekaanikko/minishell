@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file builtins.c
+ * @brief Handles built-in functions
+ */
+
+/**
+ * @brief Handles pwd (current location)
+ * @param data The main data structure of the program
+ * @retval 0
+ */
 int	builtin_pwd(t_data *data)
 {
 	char	*pwd;
@@ -35,6 +45,12 @@ int	builtin_pwd(t_data *data)
 	return (0);
 }
 
+/**
+ * @brief Checks if 'exit' is used correctly
+ * @param arg The string with 'exit'
+ * @retval 0 (failure)
+ * @retval 1 (success)
+ */
 static int	is_valid_exit_arg(char *arg)
 {
 	int	i;
@@ -51,6 +67,13 @@ static int	is_valid_exit_arg(char *arg)
 	return (1);
 }
 
+/**
+ * @brief Handles 'exit'
+ * @param node The current node in the AST
+ * @param status Pointer to the program status strucutre
+ * @retval 1 success or too many values following 'exit'
+ * @retval 2 (only numbers accepted as an argument of 'exit')
+ */
 int	builtin_exit(t_ast *node, t_exec_status *status)
 {
 	if (!node || !node->args[1])

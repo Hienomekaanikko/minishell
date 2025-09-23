@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file here_doc.c
+ * @brief here_doc handler functions
+ */
+
+/**
+ * @brief Creates a filename for the here_doc temp file
+ * @param data The main data structure of the program
+ * @return temp_file_name
+ */
 char	*make_temp_file_name(t_data *data)
 {
 	static int	counter;
@@ -35,6 +45,14 @@ char	*make_temp_file_name(t_data *data)
 	return (temp_file_name);
 }
 
+/**
+ * @brief Signal handler for the EOF (ctrl+d)
+ * @param data The main data structure of the program
+ * @param line Current line to create the error message correctly
+ * @param delimiter Delimiter to create the error message correctly
+ * @retval 1 (signal handler used)
+ * @retval 0 (signal handler not used)
+ */
 int	hd_interrupt_eof(t_data *data, char *line, char *delimiter)
 {
 	if (g_interrupted)
@@ -56,6 +74,13 @@ int	hd_interrupt_eof(t_data *data, char *line, char *delimiter)
 	return (0);
 }
 
+/**
+ * @brief Handles the expansions in here_doc ($USER or whatever exists in the env)
+ * @param data The main data structure of the program
+ * @param line Pointer to the current input line
+ * @param is_delim_quote Flag to tell if the delimiter has quotes or not. If true, then expansions will not be expanded.
+ * @return Pointer to the possibly expanded line (original if not expanded and NULL if error in any point of the program)
+ */
 char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 {
 	char	*expanded_line;
@@ -77,6 +102,14 @@ char	*hd_expand_line(t_data *data, char **line, int is_delim_quote)
 	return (*line);
 }
 
+/**
+ * @brief Creates and writes the here_doc and handles everything in regarding to it
+ * @param data The main data structure of the program
+ * @param delimiter Delimiter to exit here_doc if input line gets matched with it
+ * @param out_path Path to the temp file
+ * @retval 1 (if success)
+ * @retval < 1 (if any errors during the process)
+ */
 int	write_heredoc(t_data *data, char **delimiter, char **out_path)
 {
 	char	*line;

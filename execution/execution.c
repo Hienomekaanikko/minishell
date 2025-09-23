@@ -12,12 +12,26 @@
 
 #include "minishell.h"
 
+/**
+ * @file execution.c
+ * @brief Handles execution
+ */
+
+/**
+ * @brief Frees all memory of the program
+ * @param data The main data structure of the program
+ */
 static void	free_all(t_data *data)
 {
 	arena_free(data->env_arena);
 	destroy_memory(data);
 }
 
+/**
+ * @brief Exits child process
+ * @param data The main data structure of the program
+ * @param status Exit scenario
+ */
 static void	child_exit(t_data *data, int status)
 {
 	free_all(data);
@@ -27,6 +41,11 @@ static void	child_exit(t_data *data, int status)
 		exit(error(&data->status, "''", NOCMD, 127));
 }
 
+/**
+ * @brief Built-in executioner
+ * @param node Current node of the AST
+ * @param data The main data structure of the program
+ */
 int	built_ins(t_ast *node, t_data *data)
 {
 	if (ft_strncmp(node->value, "echo", 5) == 0)
@@ -44,6 +63,11 @@ int	built_ins(t_ast *node, t_data *data)
 	return (-1);
 }
 
+/**
+ * @brief Executes a command
+ * @param node Current node of the AST
+ * @param data The main data structure of the program
+ */
 int	executables(t_ast *node, t_data *data)
 {
 	pid_t	pid;
@@ -73,6 +97,11 @@ int	executables(t_ast *node, t_data *data)
 	return (0);
 }
 
+/**
+ * @brief Handles a node according to it's type, sets file streams and goes into execution
+ * @param node Current node of the AST
+ * @param data The main data structure of the program
+ */
 int	execute_command(t_ast *node, t_data *data)
 {
 	if (!node)

@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file var_list_utils.c
+ * @brief Local variable handler helper functions
+ */
+
+/**
+ * @brief Sets a local variable as a key value pair
+ * @param data The main data structure of the program
+ * @param key Key of the key-value pair being added
+ * @param value Value of the key-value pair being added
+ */
 void	set_variable(t_data *data, char *key, char *value)
 {
 	if (arena_has_key(data->env_arena, key))
@@ -26,6 +37,11 @@ void	set_variable(t_data *data, char *key, char *value)
 	}
 }
 
+/**
+ * @brief Removes a local key-value pair
+ * @param head Pointer to linked list that holds all local key-value pairs
+ * @param key Key of the key-value pair being removed
+ */
 void	unset_local(t_var **head, char *key)
 {
 	t_var	*current;
@@ -54,6 +70,12 @@ void	unset_local(t_var **head, char *key)
 	return ;
 }
 
+/**
+ * @brief Checks if a string has been formed like a local variable declaration ("key=value")
+ * @param str The string that is being checked
+ * @retval 1 (is a local variable declaration)
+ * @retval 0 (is not a local variable declaration)
+ */
 int	is_var_declaration(char *str)
 {
 	int		i;
@@ -75,6 +97,15 @@ int	is_var_declaration(char *str)
 	return (1);
 }
 
+/**
+ * @brief Looks if key-value pair has already been declared
+ * @param data The main data structure of the program
+ * @param start The root node of the linked list that holds the local variables
+ * @param key The key which is being look for
+ * @param value The value that is connected to the key
+ * @retval 1 (Pair already exists)
+ * @retval 0 (Pair does not exist)
+ */
 int	declared(t_data *data, t_var *start, char *key, char *value)
 {
 	t_var	*temp;

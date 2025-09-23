@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file builtin_export_append.c
+ * @brief Handles append during export
+ */
+
+/**
+ * @brief Appends export when using export += something
+ * @param data The main data structure of the program
+ * @param key Key that is being appended into
+ * @param value Value that is being appended
+ * @retval 1 (failure)
+ * @retval 0 (success)
+ */
 int	export_append(t_data *data, const char *key, char *value)
 {
 	char	*old_value;

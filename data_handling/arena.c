@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file arena.c
+ * @brief Memory arena related functions
+ */
+
+/**
+ * @brief Reallocates room into arena if needed
+ * @param data The main data structure of the program
+ * @param arena Pointer to the arena
+ * @param more_space How much extra space is needed?
+ * @retval 1 (successfull realloc)
+ * @retval 0 (failure in malloc)
+ */
 static int	arena_realloc(t_data *data, t_arena *arena, size_t more_space)
 {
 	char	*old_memory;
@@ -33,6 +46,13 @@ static int	arena_realloc(t_data *data, t_arena *arena, size_t more_space)
 	return (1);
 }
 
+/**
+ * @brief Reallocates room into arena if needed (ptrs)
+ * @param data The main data structure of the program
+ * @param arena Pointer to the arena
+ * @retval 1 (successfull realloc)
+ * @retval 0 (failure in malloc)
+ */
 static int	arena_ptrs_realloc(t_data *data, t_arena *arena)
 {
 	char	**old_ptrs;
@@ -55,6 +75,12 @@ static int	arena_ptrs_realloc(t_data *data, t_arena *arena)
 	return (1);
 }
 
+/**
+ * @brief Initializes the values of the memory arena structure
+ * @param arena_size Size of the arena
+ * @param initial_ptrs Size of the initial ptrs
+ * @retval arena (type t_arena)
+ */
 t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 {
 	t_arena	*arena;
@@ -84,6 +110,12 @@ t_arena	*arena_init(size_t arena_size, size_t initial_ptrs)
 	return (arena);
 }
 
+/**
+ * @brief Adds elements into the memory arena
+ * @param data The main data structure of the program
+ * @param add What is being added into the memory arena
+ * @retval Pointer to the end of the used blocks in the arena
+ */
 char	*arena_add(t_data *data, char *add)
 {
 	size_t	add_len;
