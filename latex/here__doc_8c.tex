@@ -1,0 +1,193 @@
+\doxysection{ast\+\_\+tree/here\+\_\+doc.c File Reference}
+\hypertarget{here__doc_8c}{}\label{here__doc_8c}\index{ast\_tree/here\_doc.c@{ast\_tree/here\_doc.c}}
+
+
+here\+\_\+doc handler functions  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for here\+\_\+doc.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{here__doc_8c_a3faba25670c64f02ff7e592ab5d0c4d1}{make\+\_\+temp\+\_\+file\+\_\+name}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Creates a filename for the here\+\_\+doc temp file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{here__doc_8c_a5d30150453b95acea804614af7fb7b20}{hd\+\_\+interrupt\+\_\+eof}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}line, char \texorpdfstring{$\ast$}{*}delimiter)
+\begin{DoxyCompactList}\small\item\em Signal handler for the EOF (ctrl+d) \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{here__doc_8c_a083f7165af9a0cada9e38b505fbbd570}{hd\+\_\+expand\+\_\+line}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}line, int is\+\_\+delim\+\_\+quote)
+\begin{DoxyCompactList}\small\item\em Handles the expansions in here\+\_\+doc (\$\+USER or whatever exists in the env) \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{here__doc_8c_a24f9c716b193cc8776ff77b1c276ef39}{write\+\_\+heredoc}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}delimiter, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}out\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Creates and writes the here\+\_\+doc and handles everything in regarding to it. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+here\+\_\+doc handler functions 
+
+
+
+\label{doc-func-members}
+\Hypertarget{here__doc_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{here__doc_8c_a083f7165af9a0cada9e38b505fbbd570}\index{here\_doc.c@{here\_doc.c}!hd\_expand\_line@{hd\_expand\_line}}
+\index{hd\_expand\_line@{hd\_expand\_line}!here\_doc.c@{here\_doc.c}}
+\doxysubsubsection{\texorpdfstring{hd\_expand\_line()}{hd\_expand\_line()}}
+{\footnotesize\ttfamily \label{here__doc_8c_a083f7165af9a0cada9e38b505fbbd570} 
+char \texorpdfstring{$\ast$}{*} hd\+\_\+expand\+\_\+line (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{line}{, }\item[{int}]{is\+\_\+delim\+\_\+quote}{}\end{DoxyParamCaption})}
+
+
+
+Handles the expansions in here\+\_\+doc (\$\+USER or whatever exists in the env) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em line} & Pointer to the current input line \\
+\hline
+{\em is\+\_\+delim\+\_\+quote} & Flag to tell if the delimiter has quotes or not. If true, then expansions will not be expanded. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the possibly expanded line (original if not expanded and NULL if error in any point of the program) 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a083f7165af9a0cada9e38b505fbbd570_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a083f7165af9a0cada9e38b505fbbd570_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc_8c_a5d30150453b95acea804614af7fb7b20}\index{here\_doc.c@{here\_doc.c}!hd\_interrupt\_eof@{hd\_interrupt\_eof}}
+\index{hd\_interrupt\_eof@{hd\_interrupt\_eof}!here\_doc.c@{here\_doc.c}}
+\doxysubsubsection{\texorpdfstring{hd\_interrupt\_eof()}{hd\_interrupt\_eof()}}
+{\footnotesize\ttfamily \label{here__doc_8c_a5d30150453b95acea804614af7fb7b20} 
+int hd\+\_\+interrupt\+\_\+eof (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{line}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{delimiter}{}\end{DoxyParamCaption})}
+
+
+
+Signal handler for the EOF (ctrl+d) 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em line} & Current line to create the error message correctly \\
+\hline
+{\em delimiter} & Delimiter to create the error message correctly \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & (signal handler used) \\
+\hline
+{\em 0} & (signal handler not used) \\
+\hline
+\end{DoxyRetVals}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a5d30150453b95acea804614af7fb7b20_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a5d30150453b95acea804614af7fb7b20_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc_8c_a3faba25670c64f02ff7e592ab5d0c4d1}\index{here\_doc.c@{here\_doc.c}!make\_temp\_file\_name@{make\_temp\_file\_name}}
+\index{make\_temp\_file\_name@{make\_temp\_file\_name}!here\_doc.c@{here\_doc.c}}
+\doxysubsubsection{\texorpdfstring{make\_temp\_file\_name()}{make\_temp\_file\_name()}}
+{\footnotesize\ttfamily \label{here__doc_8c_a3faba25670c64f02ff7e592ab5d0c4d1} 
+char \texorpdfstring{$\ast$}{*} make\+\_\+temp\+\_\+file\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Creates a filename for the here\+\_\+doc temp file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+temp\+\_\+file\+\_\+name 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a3faba25670c64f02ff7e592ab5d0c4d1_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a3faba25670c64f02ff7e592ab5d0c4d1_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{here__doc_8c_a24f9c716b193cc8776ff77b1c276ef39}\index{here\_doc.c@{here\_doc.c}!write\_heredoc@{write\_heredoc}}
+\index{write\_heredoc@{write\_heredoc}!here\_doc.c@{here\_doc.c}}
+\doxysubsubsection{\texorpdfstring{write\_heredoc()}{write\_heredoc()}}
+{\footnotesize\ttfamily \label{here__doc_8c_a24f9c716b193cc8776ff77b1c276ef39} 
+int write\+\_\+heredoc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{delimiter}{, }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{out\+\_\+path}{}\end{DoxyParamCaption})}
+
+
+
+Creates and writes the here\+\_\+doc and handles everything in regarding to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em delimiter} & Delimiter to exit here\+\_\+doc if input line gets matched with it \\
+\hline
+{\em out\+\_\+path} & Path to the temp file \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & (if success) \\
+\hline
+{\em $<$} & 1 (if any errors during the process) \\
+\hline
+\end{DoxyRetVals}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a24f9c716b193cc8776ff77b1c276ef39_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{here__doc_8c_a24f9c716b193cc8776ff77b1c276ef39_icgraph}
+\end{center}
+\end{figure}

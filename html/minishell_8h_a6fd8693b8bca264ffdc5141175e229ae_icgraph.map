@@ -1,0 +1,14 @@
+<map id="arena_cleanup" name="arena_cleanup">
+<area shape="rect" id="Node000001" title="Cleans up the structure of the arena." alt="" coords="666,31,771,56"/>
+<area shape="rect" id="Node000002" href="$arena_8c.html#a883751b078c267524876464a5e182f98" title="Initializes the values of the memory arena structure." alt="" coords="541,31,618,56"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="651,46,618,46,618,41,651,41"/>
+<area shape="rect" id="Node000003" href="$envp__utils_8c.html#a4fd3177d7eece304b8e4202918c9baa4" title="Makes a backup of the essential environment data in case env gets UNSET." alt="" coords="377,5,493,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="525,37,493,31,494,26,526,31"/>
+<area shape="rect" id="Node000004" href="$envp_8c.html#ace267a4c2aa3d1697ff3297f583e4c67" title="Initializes a copy of the environment to the memory arena." alt="" coords="224,31,329,56"/>
+<area shape="poly" id="edge6_Node000002_Node000004" title=" " alt="" coords="525,46,330,46,330,41,525,41"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="363,32,330,38,329,32,362,27"/>
+<area shape="rect" id="Node000005" href="$init__base_8c.html#a9c65f16244ec180462e64d79b7cdfa80" title="Initializes the values for the base structures of the program." alt="" coords="103,31,176,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="209,46,177,46,177,41,209,41"/>
+<area shape="rect" id="Node000006" href="$main_8c.html#a647f21a28344e1d9c643f4115516d7c9" title="Main loop for the program giving the prompt for input." alt="" coords="5,31,55,56"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,46,55,46,55,41,87,41"/>
+</map>

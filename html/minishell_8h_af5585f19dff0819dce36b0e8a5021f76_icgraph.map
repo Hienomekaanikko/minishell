@@ -1,0 +1,10 @@
+<map id="free_lexed_list" name="free_lexed_list">
+<area shape="rect" id="Node000001" title="Frees the memory from the lexed linked list." alt="" coords="258,31,363,56"/>
+<area shape="rect" id="Node000002" href="$lexer_8c.html#a5e9a1664f9acb60c3ad33a6be5a2ba82" title="Wrapper for creating the lexed linked list." alt="" coords="5,5,70,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="251,29,210,21,135,17,70,19,70,13,135,11,210,16,252,24"/>
+<area shape="rect" id="Node000003" href="$lexer_8c.html#ae55958ee02db7c479168741471abcdc7" title="Wrapper to create the lexed linked list according to the array of strings that came out of parsing." alt="" coords="118,31,210,56"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,46,210,46,210,41,242,41"/>
+<area shape="rect" id="Node000004" href="$ast__builder_8c.html#a9a95f5c4cbaf054542bd780f039e1e99" title="Creates the AST." alt="" coords="123,80,205,106"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="256,64,205,82,204,77,255,59"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="102,34,70,27,71,22,103,29"/>
+</map>

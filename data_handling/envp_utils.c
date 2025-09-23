@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file envp_utils.c
+ * @brief Helper functions for environment handling
+ */
+
+/**
+ * @brief Sets the current shell level to the env
+ * @param data The main data structure of the program
+ */
 void	set_shell_level(t_data *data)
 {
 	int		level;
@@ -31,6 +40,11 @@ void	set_shell_level(t_data *data)
 	free(new_level);
 }
 
+/**
+ * @brief Makes a backup of the essential environment data in case env gets UNSET
+ * @param data The main data structure of the program
+ * @retval Pointer to the backup env
+ */
 t_arena	*init_backup_env(t_data *data)
 {
 	data->env_arena = arena_init(100 * 2, 32);
@@ -46,6 +60,13 @@ t_arena	*init_backup_env(t_data *data)
 	return (data->env_arena);
 }
 
+/**
+ * @brief Looks for a 'key' inside env
+ * @param env_arena Pointer to the beginning of the memory arena
+ * @param key The key we are looking for
+ * @retval 0 (key was not found)
+ * @retval 1 (key was found)
+ */
 int	arena_has_key(t_arena *env_arena, char *key)
 {
 	size_t	i;

@@ -1,0 +1,15 @@
+<map id="ft_isspace" name="ft_isspace">
+<area shape="rect" id="Node000001" title=" " alt="" coords="397,80,479,106"/>
+<area shape="rect" id="Node000002" href="$ft__is__only__space_8c.html#a47723a99646cbd90aee1c82f48bd4470" title=" " alt="" coords="226,5,346,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="401,74,348,45,323,34,326,29,351,40,404,69"/>
+<area shape="rect" id="Node000005" href="$ft__isnum_8c.html#a637f3b87683462db57fa0296713b4b2f" title=" " alt="" coords="250,55,322,80"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="381,86,322,76,322,71,382,81"/>
+<area shape="rect" id="Node000006" href="$ft__is__space_8c.html#abedfd0adaeb79188882ce6793f95bda1" title=" " alt="" coords="250,104,323,130"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="383,104,323,114,323,108,382,99"/>
+<area shape="rect" id="Node000007" href="$var__list__utils_8c.html#abbc6e986aafd366032ed395b1ced8923" title="Checks if a string has been formed like a local variable declaration (&quot;key=value&quot;)" alt="" coords="223,153,349,179"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="403,116,350,145,326,155,323,150,348,140,401,112"/>
+<area shape="rect" id="Node000003" href="$parser_8c.html#ae6be9a5bf26afad9b183175f6d46cc81" title="Wrapper to call all the parser operations from." alt="" coords="118,5,175,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="211,21,175,21,175,16,211,16"/>
+<area shape="rect" id="Node000004" href="$lexer_8c.html#a5e9a1664f9acb60c3ad33a6be5a2ba82" title="Wrapper for creating the lexed linked list." alt="" coords="5,5,70,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="102,21,70,21,70,16,102,16"/>
+</map>

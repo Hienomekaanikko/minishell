@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file init_loop.c
+ * @brief Cleans up after execution to be ready for next commandline
+ */
+
+/**
+ * @brief Resets the parser tools
+ * @param data The main data stucture for the program
+ */
 static void	reset_parser(t_data *data)
 {
 	if (data->temp_array)
@@ -32,6 +41,10 @@ static void	reset_parser(t_data *data)
 	*data->lexed_list = NULL;
 }
 
+/**
+ * @brief Closes and resets all extra file descriptors
+ * @param data The main data stucture for the program
+ */
 void	close_all_fds(t_data *data)
 {
 	if (data->status.infile != -1)
@@ -61,6 +74,10 @@ void	close_all_fds(t_data *data)
 	}
 }
 
+/**
+ * @brief Resets the status structure of the program back to start
+ * @param data The main data stucture for the program
+ */
 static void	reset_exec(t_data *data)
 {
 	close_all_fds(data);
@@ -76,6 +93,10 @@ static void	reset_exec(t_data *data)
 		data->status.msg = NULL;
 }
 
+/**
+ * @brief Wrapper for initilization functions
+ * @param data The main data stucture for the program
+ */
 void	init_data(t_data *data)
 {
 	free_exp_tools(data);

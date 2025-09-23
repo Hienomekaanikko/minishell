@@ -1,0 +1,7 @@
+<map id="arena_has_key" name="arena_has_key">
+<area shape="rect" id="Node000001" title="Looks for a &#39;key&#39; inside env." alt="" coords="5,31,115,56"/>
+<area shape="rect" id="Node000002" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="170,5,238,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,31,154,24,155,29,116,36"/>
+<area shape="rect" id="Node000003" href="$ft__strncmp_8c.html#af914724b96bc8d1dbeda48ecadd947f4" title=" " alt="" coords="163,55,246,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,50,148,55,147,61,115,55"/>
+</map>

@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file init_base.c
+ * @brief Initializes values for the starting position
+ */
+
+/**
+ * @brief Allocates memory for the main structures
+ * @param data The main data stucture for the program
+ */
+
 static int	allocate_structs(t_data *data)
 {
 	data->exp = malloc(sizeof(t_exp_data));
@@ -28,6 +38,11 @@ static int	allocate_structs(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Initializes the values for the program status structure
+ * @param data The main data stucture for the program
+ */
+
 static void	init_exec_status(t_data *data)
 {
 	ft_memset(&data->status, 0, sizeof(t_exec_status));
@@ -40,6 +55,15 @@ static void	init_exec_status(t_data *data)
 	data->status.msg = NULL;
 }
 
+/**
+ * @brief Initializes the values for the base structures of the program
+ * @param data The main data stucture for the program
+ * @param argc The argument count that was inputted at the program launch
+ * @param argv The arguments that were given at the program launch
+ * @param envp The environment variables
+ * @retval 0 (malloc failure during initialization)
+ * @retval 1 (success)
+ */
 int	init_base(t_data *data, int argc, char **argv, char **envp)
 {
 	(void)argc;

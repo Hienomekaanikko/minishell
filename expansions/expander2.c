@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file expander2.c
+ * @brief Expander helper functions
+ */
+
+/**
+ * @brief Appends characters after $ (for example if multi-word string)
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param value Value that is being appended
+ * @retval 0 (Failure)
+ * @retval 1 (Success, value updated into tools->result)
+ */
 int	append_post_dollar(t_data *data, t_exp_tools *tools, char *value)
 {
 	tools->result = ft_strjoin_free(tools->result, value);
@@ -20,6 +33,14 @@ int	append_post_dollar(t_data *data, t_exp_tools *tools, char *value)
 	return (1);
 }
 
+/**
+ * @brief Handles $ that is not connected to expansions (appends it to the result)
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param i Iterator
+ * @retval 0 (Failure)
+ * @retval 1 (Success, value updated into tools->result)
+ */
 int	dollar_literal(t_data *data, t_exp_tools *tools, int *i)
 {
 	tools->result = ft_strjoin_free(tools->result, "$");
@@ -29,6 +50,15 @@ int	dollar_literal(t_data *data, t_exp_tools *tools, int *i)
 	return (tools->result != NULL);
 }
 
+/**
+ * @brief Handles characters before $ and includes it into tools->result in case of a multi-word string
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param value Value that is being scanned
+ * @param i Iterator
+ * @retval 0 (Failure)
+ * @retval 1 (Success, value updated into tools->result)
+ */
 int	append_pre_dollar(t_data *data, t_exp_tools *tools, char *value, int i)
 {
 	tools->temp = ft_substr(value, 0, i);
@@ -42,6 +72,14 @@ int	append_pre_dollar(t_data *data, t_exp_tools *tools, char *value, int i)
 	return (1);
 }
 
+/**
+ * @brief Handles expansion and for example $? which gives the exit status of the last command
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param value Value that is being scanned
+ * @param i Iterator
+ * @retval (Status of expansion functions that are being called)
+ */
 int	dollar_expansion(t_data *data, t_exp_tools *tools, char *value, int *i)
 {
 	int	start;

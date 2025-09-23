@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file builtins2.c
+ * @brief Built-in handlers helper functions
+ */
+
+/**
+ * @brief Checks if valid value to look for from env
+ * @param name Value that is being looked
+ * @retval 0 (false)
+ * @retval 1 (true)
+ */
 int	is_valid_env_name(const char *name)
 {
 	if (!name || !*name || ft_isdigit(*name))
@@ -25,6 +36,13 @@ int	is_valid_env_name(const char *name)
 	return (1);
 }
 
+/**
+ * @brief Unsets a variable from the env and locals
+ * @param data The main data structure of the program
+ * @param args The array of strings that starts with UNSET
+ * @retval 1 (fail)
+ * @retval 0 (success)
+ */
 int	builtin_unset(t_data *data, char **args)
 {
 	int	i;
@@ -44,6 +62,12 @@ int	builtin_unset(t_data *data, char **args)
 	return (0);
 }
 
+/**
+ * @brief Handles the 'env' command
+ * @param data The main data structure of the program
+ * @retval 1 (fail)
+ * @retval 0 (success)
+ */
 int	builtin_env(t_data *data)
 {
 	size_t	i;

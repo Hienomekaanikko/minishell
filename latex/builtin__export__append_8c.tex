@@ -1,0 +1,65 @@
+\doxysection{execution/builtin\+\_\+export\+\_\+append.c File Reference}
+\hypertarget{builtin__export__append_8c}{}\label{builtin__export__append_8c}\index{execution/builtin\_export\_append.c@{execution/builtin\_export\_append.c}}
+
+
+Handles append during export.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for builtin\+\_\+export\+\_\+append.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{builtin__export__append_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{builtin__export__append_8c_a7940aa4e3dfd8077e0bea5bb5b0bb506}{export\+\_\+append}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, const char \texorpdfstring{$\ast$}{*}key, char \texorpdfstring{$\ast$}{*}value)
+\begin{DoxyCompactList}\small\item\em Appends export when using export += something. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles append during export. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{builtin__export__append_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{builtin__export__append_8c_a7940aa4e3dfd8077e0bea5bb5b0bb506}\index{builtin\_export\_append.c@{builtin\_export\_append.c}!export\_append@{export\_append}}
+\index{export\_append@{export\_append}!builtin\_export\_append.c@{builtin\_export\_append.c}}
+\doxysubsubsection{\texorpdfstring{export\_append()}{export\_append()}}
+{\footnotesize\ttfamily \label{builtin__export__append_8c_a7940aa4e3dfd8077e0bea5bb5b0bb506} 
+int export\+\_\+append (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{key}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Appends export when using export += something. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em key} & Key that is being appended into \\
+\hline
+{\em value} & Value that is being appended \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 1} & (failure) \\
+\hline
+{\em 0} & (success) \\
+\hline
+\end{DoxyRetVals}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{builtin__export__append_8c_a7940aa4e3dfd8077e0bea5bb5b0bb506_cgraph}
+\end{center}
+\end{figure}

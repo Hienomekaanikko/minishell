@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file lexer_utils2.c
+ * @brief More helper functions for the lexer
+ */
+
+/**
+ * @brief Adds a token type to a node
+ * @param curr Current node
+ * @param prev Previous node
+ */
+
 void	add_token(t_lexer *curr, t_lexer *prev)
 {
 	if (curr->value[0] == '|')

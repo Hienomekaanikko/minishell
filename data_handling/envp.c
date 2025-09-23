@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file envp.c
+ * @brief Environment handling
+ */
+
+/**
+ * @brief Initializes a copy of the environment to the memory arena
+ * @param envp The original environment variable
+ * @param data The main data structure of the program
+ * @retval env_arena (type t_arena)
+ */
 t_arena	*init_env_arena(char **envp, t_data *data)
 {
 	size_t	env_count;
@@ -38,6 +49,14 @@ t_arena	*init_env_arena(char **envp, t_data *data)
 	return (data->env_arena);
 }
 
+/**
+ * @brief Sets up a line inside the env
+ * @param data The main data structure of the program
+ * @param key Key that expects a value
+ * @param value Value that gets connected to the key
+ * @retval 0 (success)
+ * @retval -1 (memory allocation failure)
+ */
 int	arena_set_env(t_data *data, char *key, char *value)
 {
 	char	*env_var;
@@ -66,6 +85,13 @@ int	arena_set_env(t_data *data, char *key, char *value)
 	return (0);
 }
 
+/**
+ * @brief Clears a key-value pair from the environment
+ * @param arena Pointer to the environment
+ * @param key Key that is getting removed with it's value
+ * @retval 0 (success)
+ * @retval -1 (nonexistant arena or key)
+ */
 int	arena_unset_env(t_arena *arena, char *key)
 {
 	size_t	i;
@@ -95,6 +121,14 @@ int	arena_unset_env(t_arena *arena, char *key)
 	return (0);
 }
 
+/**
+ * @brief Gets a key-value pair from the env
+ * @param data The main data structure of the program
+ * @param env_arena Pointer to the environment
+ * @param key Key that is being looked for
+ * @retval NULL (key was not found)
+ * @retval result (key was found and here is the pointer for it)
+ */
 char	*arena_getenv(t_data *data, t_arena *env_arena, char *key)
 {
 	size_t	i;

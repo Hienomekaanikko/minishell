@@ -12,6 +12,18 @@
 
 #include "minishell.h"
 
+/**
+ * @file lexer.c
+ * @brief Lexed linked list creator
+ */
+
+/**
+ * @brief Wrapper for creating the lexed linked list
+ * @param data The main data structure for the program
+ * @retval 1 (success)
+ * @retval 0 (failure)
+ */
+
 int	ft_lexer(t_data *data)
 {
 	if (!data->input || ft_strlen(data->input) == 0)
@@ -32,6 +44,10 @@ int	ft_lexer(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Adds the token type to a value in the node
+ * @param linked_list The entire lexed linked list so far
+ */
 static void	add_token_type(t_lexer **linked_list)
 {
 	t_lexer	*curr;
@@ -51,6 +67,12 @@ static void	add_token_type(t_lexer **linked_list)
 	}
 }
 
+/**
+ * @brief Looks for syntax errors, mainly wrong kind of grammar
+ * @param data The main data strucutre for the program
+ * @retval 1 (success);
+ * @retval 0 (failure);
+ */
 static int	check_syntax(t_data *data)
 {
 	t_lexer	*checker;
@@ -73,6 +95,12 @@ static int	check_syntax(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Wrapper to create the lexed linked list according to the array of strings that came out of parsing
+ * @param data The main data strucutre for the program
+ * @retval 1 (success)
+ * @retval 0 (failure)
+ */
 int	ft_make_list(t_data *data)
 {
 	t_lexer	**linked_list;

@@ -1,0 +1,12 @@
+<map id="arena_getenv" name="arena_getenv">
+<area shape="rect" id="Node000001" title="Gets a key&#45;value pair from the env." alt="" coords="5,81,105,107"/>
+<area shape="rect" id="Node000002" href="$ft__strdup_8c.html#aebe73f27c70c56ac5053f860ef5436c9" title=" " alt="" coords="171,5,243,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,78,165,36,167,41,84,83"/>
+<area shape="rect" id="Node000003" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="309,31,377,56"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="104,83,293,49,294,55,105,88"/>
+<area shape="rect" id="Node000004" href="$ft__strncmp_8c.html#af914724b96bc8d1dbeda48ecadd947f4" title=" " alt="" coords="165,107,248,132"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="106,100,150,107,149,113,105,105"/>
+<area shape="rect" id="Node000005" href="$expansions2_8c.html#a67bc255ddccfe52273df4e76b59fa8dc" title="Sets malloc fail error flag in case of failure." alt="" coords="153,156,261,182"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="82,105,154,142,163,147,160,151,151,147,79,110"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="244,22,294,32,293,37,243,28"/>
+</map>

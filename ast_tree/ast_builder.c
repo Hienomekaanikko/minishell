@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_builder.c
+ * @brief Builds the AST
+ */
+
+/**
+ * @brief Makes AST if there's no pipes or redirections
+ * @param data The main data structure
+ */
 void	set_basic_tree(t_data *data)
 {
 	t_lexer	*current;
@@ -33,6 +42,11 @@ void	set_basic_tree(t_data *data)
 	}
 }
 
+/**
+ * @brief Checks what kind of tree is required
+ * @param data The main data structure
+ * @return Type 1 (basic tree) or type 2 (complex tree)
+ */
 int	tree_type(t_data *data)
 {
 	t_lexer	*temp;
@@ -48,6 +62,10 @@ int	tree_type(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Creates the AST
+ * @param data The main data structure
+ */
 void	make_tree(t_data *data)
 {
 	data->root = NULL;

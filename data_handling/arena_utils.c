@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file arena_utils.c
+ * @brief Helper functions for memory arena (handles only env related memory)
+ */
+
+/**
+ * @brief Cleans up the structure of the arena
+ * @param ptrs Pointer to the location of the arena structure
+ * @param memory Pointer to the location of a local area where a possible failure occured
+ * @retval NULL (element of type t_arena being set to NULL)
+ */
 t_arena	*arena_cleanup(char **ptrs, char *memory)
 {
 	if (ptrs)
@@ -21,6 +32,10 @@ t_arena	*arena_cleanup(char **ptrs, char *memory)
 	return (NULL);
 }
 
+/**
+ * @brief Cleans up the contents of memory arena
+ * @param arena the entire t_arena structure
+ */
 void	arena_free(t_arena *arena)
 {
 	if (arena->memory)

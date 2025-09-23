@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file find_executables.c
+ * @brief Finds and validates the paths for executables
+ */
+
+/**
+ * @brief Validates a single path
+ * @param dir Directory to look from
+ * @param cmd Command to look for from the directory
+ * @param status Pointer to the status structure of the program
+ * @retval NULL (no path found)
+ * @retval full_path (path was found)
+ */
 static char	*check_single_path(char *dir, char *cmd, t_exec_status *status)
 {
 	char	*path;
@@ -36,6 +49,14 @@ static char	*check_single_path(char *dir, char *cmd, t_exec_status *status)
 	return (NULL);
 }
 
+/**
+ * @brief Iterates through paths to check from
+ * @param status Pointer to the status structure of the program
+ * @param paths Paths to look from
+ * @param cmd Command to look for from the directory
+ * @retval NULL (no path found)
+ * @retval executable (path was found)
+ */
 static char	*search_paths(t_exec_status *status, char **paths, char *cmd)
 {
 	char	*executable;
@@ -54,6 +75,14 @@ static char	*search_paths(t_exec_status *status, char **paths, char *cmd)
 	return (NULL);
 }
 
+/**
+ * @brief Tries for a path if it is valid
+ * @param cmd Command to look for from the directory
+ * @param path_str Path to look for
+ * @param status Pointer to the status structure of the program
+ * @retval NULL (no path found)
+ * @retval executable (path was found)
+ */
 static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 {
 	char	**paths;
@@ -80,6 +109,13 @@ static char	*try_path(char *cmd, char *path_str, t_exec_status *status)
 	return (executable);
 }
 
+/**
+ * @brief Looks for an executable from env paths
+ * @param node Current node that is being handled
+ * @param data The entire data stucture of the program
+ * @retval NULL (no path found)
+ * @retval executable (path was found)
+ */
 char	*find_executable(t_ast *node, t_data *data)
 {
 	char	*executable;

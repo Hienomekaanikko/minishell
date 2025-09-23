@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file ast_set_complex_utils.c
+ * @brief Tools that are used for creating complext AST tree
+ */
+
+/**
+ * @brief Checks if file is a directory
+ * @param path Path of the file
+ * @retval 0 (Is not directory)
+ * @retval 1 (Is a directory)
+ */
 int	is_directory(const char *path)
 {
 	struct stat	path_stat;
@@ -21,6 +32,14 @@ int	is_directory(const char *path)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
+/**
+ * @brief Checks permissions/problems in a file
+ * @param data The main data structure
+ * @param path Path to the file
+ * @param type Type of the node to make correct checks
+ * @retval < 0 (Problem with a file)
+ * @retval 0 (No problem with the file)
+ */
 int	perms(t_data *data, char *path, int type)
 {
 	if (path[0] == '$' && path[1] && type != HERE_DOC)
@@ -47,6 +66,15 @@ int	perms(t_data *data, char *path, int type)
 	return (-1);
 }
 
+/**
+ * @brief Processes the current token of the lexed linked list
+ * @param ast Contains important values for token value processing (like a toolkit)
+ * @param node The node that is being handled
+ * @param temp The current token of the lexed linked list
+ * @param skip_next A flag that tells to skip or process a token
+ * @retval 1 (processing succeeded)
+ * @retval 0 (a failure happened when allocating arguments for a node)
+ */
 int	process_token(t_utils *ast, t_ast *node, t_lexer **temp, int *skip_next)
 {
 	if (*skip_next)
@@ -72,6 +100,12 @@ int	process_token(t_utils *ast, t_ast *node, t_lexer **temp, int *skip_next)
 	return (1);
 }
 
+/**
+ * @brief Adds arguments that are tied to a specific command
+ * @param ast Contains important values for token value processing (like a toolkit)
+ * @param node The node that is being handled
+ * @param temp The current token of the lexed linked list
+ */
 void	add_args(t_utils *ast, t_ast *node, t_lexer *current)
 {
 	t_lexer	*temp;
