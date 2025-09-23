@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file free_mem.c
+ * @brief Cleanup functions for the main loop of the program
+ */
+
+/**
+ * @brief Frees the memory from the AST
+ * @param root Root node of the AST
+ */
 void	free_ast(t_ast *root)
 {
 	if (root == NULL)
@@ -32,6 +41,10 @@ void	free_ast(t_ast *root)
 	free(root);
 }
 
+/**
+ * @brief Frees the memory from the lexed linked list
+ * @param start Root node of the lexed linked list
+ */
 void	free_lexed_list(t_lexer *start)
 {
 	t_lexer	*curr;
@@ -48,6 +61,10 @@ void	free_lexed_list(t_lexer *start)
 	}
 }
 
+/**
+ * @brief Frees the memory from the local variable list
+ * @param start Root node of the local variable list
+ */
 static void	free_var_list(t_var *start)
 {
 	t_var	*curr;
@@ -67,6 +84,10 @@ static void	free_var_list(t_var *start)
 	}
 }
 
+/**
+ * @brief Frees the memory from everywhere
+ * @param data The main data structure of the program
+ */
 void	destroy_memory(t_data *data)
 {
 	close_all_fds(data);

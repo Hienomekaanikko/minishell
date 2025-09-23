@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file syntax_err.c
+ * @brief After the parser, this looks for the syntax errors inside the lexed linked list, such as wrong grammar
+ */
+
+/**
+ * @brief Check correct >> > placements
+ * @param checker The lexed linked list
+ * @param msg Pointer to a variable that holds an error message if such is found
+ */
+
 static void	check_outfiles(t_lexer *checker, char **msg)
 {
 	if (checker->type == RE_OUT || checker->type == APPEND_OUT)
@@ -40,6 +51,12 @@ static void	check_outfiles(t_lexer *checker, char **msg)
 	}
 }
 
+/**
+ * @brief Check correct << < placements
+ * @param checker The lexed linked list
+ * @param msg Pointer to a variable that holds an error message if such is found
+ */
+
 static void	check_infiles(t_lexer *checker, char **msg)
 {
 	if (checker->type == RE_IN || checker->type == HERE_DOC)
@@ -60,6 +77,13 @@ static void	check_infiles(t_lexer *checker, char **msg)
 	}
 }
 
+/**
+ * @brief Check correct | placements
+ * @param checker The lexed linked list
+ * @param msg Pointer to a variable that holds an error message if such is found
+ * @param prev Previous node
+ */
+
 static void	check_pipes(t_lexer *checker, char **msg, t_lexer **prev)
 {
 	if (checker->type == PIPE)
@@ -70,6 +94,13 @@ static void	check_pipes(t_lexer *checker, char **msg, t_lexer **prev)
 			*msg = "minishell: syntax error near unexpected token `|'";
 	}
 }
+
+/**
+ * @brief Wrapper to call the syntax error functions from
+ * @param checker The lexed linked list
+ * @param msg Pointer to a variable that holds an error message if such is found
+ * @param prev Previous node
+ */
 
 void	check_syntax_error(t_lexer *checker, char **msg, t_lexer **prev)
 {

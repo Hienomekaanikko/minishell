@@ -12,13 +12,27 @@
 
 #include "minishell.h"
 
+/**
+ * @file signals.c
+ * @brief Signal handlers
+ */
+
 volatile sig_atomic_t	g_interrupted = 0;
+
+/**
+ * @brief Handles signal
+ * @param sig Mandatory even though set to (void) immediately
+ */
 
 void	sigint_handler(int sig)
 {
 	(void)sig;
 	g_interrupted = 1;
 }
+
+/**
+ * @brief Sets up shell signals
+ */
 
 void	setup_shell_signals(void)
 {
@@ -29,11 +43,19 @@ void	setup_shell_signals(void)
 	g_interrupted = 0;
 }
 
+/**
+ * @brief Sets up child signals
+ */
+
 void	setup_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }
+
+/**
+ * @brief Sets up here_doc signals
+ */
 
 void	setup_heredoc_signals(void)
 {
@@ -42,6 +64,10 @@ void	setup_heredoc_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 	g_interrupted = 0;
 }
+
+/**
+ * @brief Ignores signals
+ */
 
 void	ignore_signals(void)
 {

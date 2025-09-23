@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+/**
+ * @file expander.c
+ * @brief Functions that handle the expansion itself
+ */
+
+/**
+ * @brief Scans a string for $ symbols. When found, handles text before $, expands the variable after it, and rebuilds the string. Updates *value_ptr to the new expanded string.
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param value_ptr Pointer to the variable which holds the expanded value
+ * @retval 0 (Failure)
+ * @retval 1 (Success)
+ */
 static int	expand_variables(t_data *data, t_exp_tools *tools, char **value_ptr)
 {
 	int		i;
@@ -37,6 +50,14 @@ static int	expand_variables(t_data *data, t_exp_tools *tools, char **value_ptr)
 	return (1);
 }
 
+/**
+ * @brief Main entry point for expansion. Initializes result, calls expand_variables, and appends remaining text after last $. Returns the fully expanded string or NULL if expansion failed.
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteartion
+ * @param value Value that is being scanned
+ * @retval NULL (Failure)
+ * @retval tools->result (Refactored string)
+ */
 char	*expand(t_data *data, t_exp_tools *tools, char *value)
 {
 	tools->result = ft_strdup("");
@@ -51,6 +72,14 @@ char	*expand(t_data *data, t_exp_tools *tools, char *value)
 	return (tools->result);
 }
 
+/**
+ * @brief Expands $? into the shell’s last exit code. Converts exit_code to a string, appends it to the result, and moves the index past $?.
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteration
+ * @param i Iterator position
+ * @retval 0 (Failure)
+ * @retval 1 (Success)
+ */
 int	expand_exit_status(t_data *data, t_exp_tools *tools, int *i)
 {
 	tools->val = ft_itoa(data->status.exit_code);
@@ -65,6 +94,15 @@ int	expand_exit_status(t_data *data, t_exp_tools *tools, int *i)
 	return (1);
 }
 
+/**
+ * @brief Expands $something. Extracts the variable name, looks it up in the environment, and if found, appends its value to the result. Advances the index past the variable name.
+ * @param data The main data structure of the program
+ * @param tools Toolkit for the iteration
+ * @param value The value being scanned
+ * @param i Iterator position
+ * @retval 0 (Failure)
+ * @retval 1 (Success)
+ */
 int	expand_var_name(t_data *data, t_exp_tools *tools, char *value, int *i)
 {
 	int	var_start;

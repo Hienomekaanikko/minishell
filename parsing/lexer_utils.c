@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+/**
+ * @file lexer_utils.c
+ * @brief Helper functions for the lexer
+ */
+
+/**
+ * @brief Makes a new node for the linked list
+ * @param input_list Value that is being set for the node's value
+ */
+
 static t_lexer	*ft_lstnew(void *input_list)
 {
 	t_lexer	*element;
@@ -24,6 +34,11 @@ static t_lexer	*ft_lstnew(void *input_list)
 	return (element);
 }
 
+/**
+ * @brief Places the node in the correct place
+ * @param list The linked list root node
+ * @param new_node The node that will be added
+ */
 static void	set_node(t_lexer **list, t_lexer *new_node)
 {
 	t_lexer	*temp;
@@ -39,6 +54,11 @@ static void	set_node(t_lexer **list, t_lexer *new_node)
 	}
 }
 
+/**
+ * @brief Wrapper to create and add a node to the correct place
+ * @param list The linked list root node
+ * @param input_list The value that is going to be added to the node
+ */
 int	ft_add_node(t_lexer **list, char *input_list)
 {
 	t_lexer		*new_node;
@@ -65,6 +85,10 @@ int	ft_add_node(t_lexer **list, char *input_list)
 	return (1);
 }
 
+/**
+ * @brief Setting up the first token for the lexed linked list
+ * @param curr Current node in the lexed linked list
+ */
 void	add_starting_token(t_lexer *curr)
 {
 	if (curr->value[0] == '|')

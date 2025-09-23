@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file main.c
+ * @brief Entry point for the program
+ */
+
+/**
+ * @brief Processes the input string
+ * @param data The main data stucture for the program
+ */
 static int	process_input(t_data *data)
 {
 	data->input = readline("minishell$: ");
@@ -41,6 +50,12 @@ static int	process_input(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Wrapper for input handling
+ * @param data The main data stucture for the program
+ * @retval 0 (fail)
+ * @retval 1 (success)
+ */
 static int	process_handler(t_data *data)
 {
 	if (process_input(data) == 0)
@@ -59,6 +74,14 @@ static int	process_handler(t_data *data)
 	return (1);
 }
 
+/**
+ * @brief Main loop for the program giving the prompt for input
+ * @param argc Count of the arguments in the program launch
+ * @param argv Arguments in the program launch
+ * @param envp Environment variables
+ * @retval 1 (Failure)
+ * @retval data.status.exit_code (Last status code of the program)
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;

@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+/**
+ * @file parser.c
+ * @brief Parser
+ */
+
+/**
+ * @brief Counts how many times the initial string must be split
+ * @param s The string that is being handled
+ * @retval parser_data.count (count of needed splits)
+ */
+
 static int	ft_count_splits(const char *s)
 {
 	t_counter	parser_data;
@@ -41,6 +52,12 @@ static int	ft_count_splits(const char *s)
 	return (parser_data.count);
 }
 
+/**
+ * @brief Gets the range to make substring from
+ * @param parser_data Toolkit for iteration
+ * @param s The string that is being handled
+ */
+
 static void	get_range(t_parser *parser_data, const char *s)
 {
 	while (s[parser_data->i] && (parser_data->in_quote
@@ -66,6 +83,15 @@ static void	get_range(t_parser *parser_data, const char *s)
 		parser_data->i++;
 	}
 }
+
+/**
+ * @brief Makes the splits of the initial string to split operators, quotes etc properly
+ * @param data The main data structure of the program
+ * @param s The string that is being handled
+ * @param arr The array of strings that is being built
+ * @retval NULL (failure)
+ * @retval arr (success)
+ */
 
 static char	**split_the_strings(t_data *data, char const *s, char **arr)
 {
@@ -95,6 +121,14 @@ static char	**split_the_strings(t_data *data, char const *s, char **arr)
 	arr[parser_data.y] = NULL;
 	return (arr);
 }
+
+/**
+ * @brief Wrapper to call all the parser operations from
+ * @param data The main data structure of the program
+ * @param s The string that is being handled
+ * @retval NULL (failure)
+ * @retval result (success)
+ */
 
 char	**parser(t_data *data, char const *s)
 {

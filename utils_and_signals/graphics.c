@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file graphics.c
+ * @brief Cool graphics to start of the program
+ */
+
+/**
+ * @brief Some kickass art!
+ */
+
 void	splash_screen(void)
 {
 	if (isatty(STDIN_FILENO))

@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+/**
+ * @file rl_handler.c
+ * @brief Handles readline related signals
+ */
+
+/**
+ * @brief Resets readline signals to base status
+ */
+
 int	reset_readline(void)
 {
 	if (g_interrupted)
@@ -24,6 +33,11 @@ int	reset_readline(void)
 	}
 	return (0);
 }
+
+/**
+ * @brief Resets readline signals in the here_doc to base status
+ */
+
 
 int	reset_heredoc_readline(void)
 {
