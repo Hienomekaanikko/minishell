@@ -1,0 +1,47 @@
+<map id="executables" name="executables">
+<area shape="rect" id="Node000001" title="Executes a command." alt="" coords="5,231,97,256"/>
+<area shape="rect" id="Node000002" href="$execution__utils_8c.html#a268904a072b8ebda5c85e1788855ec72" title="Checks cmd path permissions." alt="" coords="145,55,310,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="55,229,86,167,111,130,143,97,162,85,165,90,146,102,116,133,91,170,60,232"/>
+<area shape="rect" id="Node000003" href="$exec__error_8c.html#a38185c2101816f3a7b7fdc7c48b2578e" title="Writes the wanted error into a buffer to write it as a one chunk." alt="" coords="386,80,433,106"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="58,229,91,185,115,161,143,141,202,116,264,101,322,93,370,90,370,96,323,98,265,106,204,121,146,146,119,165,95,189,63,232"/>
+<area shape="rect" id="Node000008" href="$execution__utils_8c.html#a72a8248ad090f9d14cb7d440767eb25d" title="Closes all fd&#39;s." alt="" coords="189,156,266,182"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="72,228,144,190,173,180,175,185,146,195,75,232"/>
+<area shape="rect" id="Node000009" href="$find__executables_8c.html#a8d9e8ab36944bfe0f119798dbe57209e" title="Looks for an executable from env paths." alt="" coords="171,205,284,231"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="97,234,156,226,156,231,97,240"/>
+<area shape="rect" id="Node000015" href="$signals_8c.html#ad92ca209093e8a9511f5764786080e34" title="Ignores signals." alt="" coords="175,255,280,280"/>
+<area shape="poly" id="edge18_Node000001_Node000015" title=" " alt="" coords="97,247,160,256,159,261,97,252"/>
+<area shape="rect" id="Node000016" href="$signals_8c.html#a757731475a43841696410b4fb2e1a9c5" title="Sets up child signals." alt="" coords="160,304,295,330"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="76,255,146,290,161,296,159,301,144,295,73,259"/>
+<area shape="rect" id="Node000017" href="$signals_8c.html#a00e0517deba4e0e2cebc989cb8712c87" title="Sets up shell signals." alt="" coords="160,353,295,379"/>
+<area shape="poly" id="edge20_Node000001_Node000017" title=" " alt="" coords="63,255,97,297,120,320,146,340,154,344,151,349,143,344,116,324,93,301,59,258"/>
+<area shape="rect" id="Node000021" href="$exec__pipe2_8c.html#ab7ff551935eb447b5da84b9aa6dfce3b" title="Waits for child processes to end in correct order." alt="" coords="178,403,276,428"/>
+<area shape="poly" id="edge24_Node000001_Node000021" title=" " alt="" coords="59,256,89,320,114,357,146,389,165,400,162,405,143,394,110,361,84,323,54,258"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="311,76,371,85,370,90,310,82"/>
+<area shape="rect" id="Node000004" href="$ft__memset_8c.html#af79e8a7006c26b2e5b123870c060026b" title=" " alt="" coords="521,5,604,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="432,78,507,40,516,36,518,40,510,45,434,83"/>
+<area shape="rect" id="Node000005" href="$ft__strlcat_8c.html#a87a42176d750415c82eb7d453abb39ee" title=" " alt="" coords="526,55,599,80"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="433,86,510,73,511,79,434,92"/>
+<area shape="rect" id="Node000007" href="$exec__error_8c.html#a748d1f8be2b50742cf939b89434e07d4" title="Gets the correct error msg." alt="" coords="526,104,599,130"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="434,94,511,106,510,111,433,99"/>
+<area shape="rect" id="Node000006" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="665,155,733,180"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="599,79,618,89,650,115,677,141,674,145,647,119,615,94,596,83"/>
+<area shape="poly" id="edge16_Node000009_Node000003" title=" " alt="" coords="283,204,309,192,353,156,387,117,391,120,357,159,311,196,285,208"/>
+<area shape="rect" id="Node000010" href="$envp_8c.html#acb358b95f39c24baee89405b13278fd2" title="Gets a key&#45;value pair from the env." alt="" coords="360,205,459,231"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="284,216,344,216,344,221,284,221"/>
+<area shape="rect" id="Node000014" href="$ft__strchr_8c.html#aa6d0c2d180f32ee585485e1a1ce3d55d" title=" " alt="" coords="374,255,444,280"/>
+<area shape="poly" id="edge17_Node000009_Node000014" title=" " alt="" coords="278,229,360,252,359,257,277,234"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="457,202,508,190,649,170,650,175,509,195,458,207"/>
+<area shape="rect" id="Node000011" href="$ft__strdup_8c.html#aebe73f27c70c56ac5053f860ef5436c9" title=" " alt="" coords="526,205,599,231"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="459,216,511,216,511,221,459,221"/>
+<area shape="rect" id="Node000012" href="$ft__strncmp_8c.html#af914724b96bc8d1dbeda48ecadd947f4" title=" " alt="" coords="521,255,604,280"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="453,229,507,247,506,252,451,234"/>
+<area shape="rect" id="Node000013" href="$expansions2_8c.html#a67bc255ddccfe52273df4e76b59fa8dc" title="Sets malloc fail error flag in case of failure." alt="" coords="508,304,617,330"/>
+<area shape="poly" id="edge15_Node000010_Node000013" title=" " alt="" coords="444,229,462,240,477,253,486,266,496,278,510,291,515,294,512,298,507,295,492,282,482,269,473,257,459,244,441,234"/>
+<area shape="poly" id="edge12_Node000011_Node000006" title=" " alt="" coords="598,202,649,183,651,188,600,207"/>
+<area shape="rect" id="Node000018" href="$rl__handler_8c.html#a25dfc47809f79e730e9a4b17bdf5e3c9" title="Resets readline signals to base status." alt="" coords="358,353,460,379"/>
+<area shape="poly" id="edge21_Node000017_Node000018" title=" " alt="" coords="295,364,343,364,343,369,295,369"/>
+<area shape="rect" id="Node000020" href="$signals_8c.html#a258e3b580e688a0cf46e4258525aeaf1" title="Handles signal." alt="" coords="358,403,460,428"/>
+<area shape="poly" id="edge23_Node000017_Node000020" title=" " alt="" coords="278,377,345,395,344,401,277,382"/>
+<area shape="rect" id="Node000019" href="$ft__putstr__fd_8c.html#a1f29b4accbf763fc4c49ec41f423e806" title=" " alt="" coords="519,353,606,379"/>
+<area shape="poly" id="edge22_Node000018_Node000019" title=" " alt="" coords="461,364,503,364,503,369,461,369"/>
+</map>

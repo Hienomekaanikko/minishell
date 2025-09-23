@@ -1,0 +1,13 @@
+<map id="close_fds" name="close_fds">
+<area shape="rect" id="Node000001" title="Closes all fd&#39;s." alt="" coords="453,31,531,56"/>
+<area shape="rect" id="Node000002" href="$execution_8c.html#ac726be83259b115f144e6ce30ffe00bf" title="Executes a command." alt="" coords="314,5,405,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="438,36,405,29,406,24,439,31"/>
+<area shape="rect" id="Node000003" href="$execution_8c.html#a8d75ae4c41bd2b466e6696379875ca9a" title="Handles a node according to it&#39;s type, sets file streams and goes into execution." alt="" coords="135,31,266,56"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="438,46,267,46,267,41,438,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="299,30,267,36,266,30,298,25"/>
+<area shape="rect" id="Node000004" href="$exec__redir_8c.html#aa5b30076fe1868739482eb008cd78960" title="Sets up the redirections and goes into execution." alt="" coords="5,31,87,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="119,55,87,54,87,49,119,50"/>
+<area shape="rect" id="Node000005" href="$main_8c.html#a647f21a28344e1d9c643f4115516d7c9" title="Main loop for the program giving the prompt for input." alt="" coords="21,80,71,106"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="144,64,72,88,70,83,142,59"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="102,32,134,32,134,37,102,37"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="reset_readline" name="reset_readline">
+<area shape="rect" id="Node000001" title="Resets readline signals to base status." alt="" coords="5,5,108,31"/>
+<area shape="rect" id="Node000002" href="$ft__putstr__fd_8c.html#a1f29b4accbf763fc4c49ec41f423e806" title=" " alt="" coords="156,5,243,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,16,140,16,140,21,108,21"/>
+</map>

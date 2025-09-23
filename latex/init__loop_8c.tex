@@ -1,0 +1,87 @@
+\doxysection{main\+\_\+inits\+\_\+cleanup/init\+\_\+loop.c File Reference}
+\hypertarget{init__loop_8c}{}\label{init__loop_8c}\index{main\_inits\_cleanup/init\_loop.c@{main\_inits\_cleanup/init\_loop.c}}
+
+
+Cleans up after execution to be ready for next commandline.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for init\+\_\+loop.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{init__loop_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{init__loop_8c_a7eff99e7f880bc9a67a94a8547324292}{close\+\_\+all\+\_\+fds}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Closes and resets all extra file descriptors. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{init__loop_8c_a5bd55ad9d098f2f2c7c637c0bb3c5bd3}{init\+\_\+data}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Wrapper for initilization functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Cleans up after execution to be ready for next commandline. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{init__loop_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{init__loop_8c_a7eff99e7f880bc9a67a94a8547324292}\index{init\_loop.c@{init\_loop.c}!close\_all\_fds@{close\_all\_fds}}
+\index{close\_all\_fds@{close\_all\_fds}!init\_loop.c@{init\_loop.c}}
+\doxysubsubsection{\texorpdfstring{close\_all\_fds()}{close\_all\_fds()}}
+{\footnotesize\ttfamily \label{init__loop_8c_a7eff99e7f880bc9a67a94a8547324292} 
+void close\+\_\+all\+\_\+fds (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Closes and resets all extra file descriptors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data stucture for the program \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{init__loop_8c_a7eff99e7f880bc9a67a94a8547324292_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{init__loop_8c_a5bd55ad9d098f2f2c7c637c0bb3c5bd3}\index{init\_loop.c@{init\_loop.c}!init\_data@{init\_data}}
+\index{init\_data@{init\_data}!init\_loop.c@{init\_loop.c}}
+\doxysubsubsection{\texorpdfstring{init\_data()}{init\_data()}}
+{\footnotesize\ttfamily \label{init__loop_8c_a5bd55ad9d098f2f2c7c637c0bb3c5bd3} 
+void init\+\_\+data (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Wrapper for initilization functions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data stucture for the program \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{init__loop_8c_a5bd55ad9d098f2f2c7c637c0bb3c5bd3_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=206pt]{init__loop_8c_a5bd55ad9d098f2f2c7c637c0bb3c5bd3_icgraph}
+\end{center}
+\end{figure}

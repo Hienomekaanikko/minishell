@@ -1,0 +1,90 @@
+\doxysection{execution/exec\+\_\+pipe2.c File Reference}
+\hypertarget{exec__pipe2_8c}{}\label{exec__pipe2_8c}\index{execution/exec\_pipe2.c@{execution/exec\_pipe2.c}}
+
+
+Pipe handler helper functions.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for exec\+\_\+pipe2.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{exec__pipe2_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{exec__pipe2_8c_ad4e633ceec086fc9838da68a497e6cf5}{cleanup\+\_\+pipe}} (int pipe\+\_\+fd\mbox{[}2\mbox{]}, pid\+\_\+t pidL, pid\+\_\+t pidR)
+\begin{DoxyCompactList}\small\item\em Clears the file descriptors of pipe ad if signals have been sent, kills the process. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{exec__pipe2_8c_ab7ff551935eb447b5da84b9aa6dfce3b}{wait\+\_\+process}} (pid\+\_\+t pid, \mbox{\hyperlink{minishell_8h_adf41725ab9c2c7d74fcf519c11a2c2f5}{t\+\_\+exec\+\_\+status}} \texorpdfstring{$\ast$}{*}exec\+\_\+status)
+\begin{DoxyCompactList}\small\item\em Waits for child processes to end in correct order. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Pipe handler helper functions. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{exec__pipe2_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{exec__pipe2_8c_ad4e633ceec086fc9838da68a497e6cf5}\index{exec\_pipe2.c@{exec\_pipe2.c}!cleanup\_pipe@{cleanup\_pipe}}
+\index{cleanup\_pipe@{cleanup\_pipe}!exec\_pipe2.c@{exec\_pipe2.c}}
+\doxysubsubsection{\texorpdfstring{cleanup\_pipe()}{cleanup\_pipe()}}
+{\footnotesize\ttfamily \label{exec__pipe2_8c_ad4e633ceec086fc9838da68a497e6cf5} 
+int cleanup\+\_\+pipe (\begin{DoxyParamCaption}\item[{int}]{pipe\+\_\+fd}{\mbox{[}2\mbox{]}, }\item[{pid\+\_\+t}]{pidL}{, }\item[{pid\+\_\+t}]{pidR}{}\end{DoxyParamCaption})}
+
+
+
+Clears the file descriptors of pipe ad if signals have been sent, kills the process. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pipe\+\_\+fd} & Pipe that is being handled \\
+\hline
+{\em pidL} & Process-\/\+ID of left process \\
+\hline
+{\em pidR} & Process-\/\+ID of right process \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em 0} & (success) \\
+\hline
+\end{DoxyRetVals}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{exec__pipe2_8c_ad4e633ceec086fc9838da68a497e6cf5_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{exec__pipe2_8c_ab7ff551935eb447b5da84b9aa6dfce3b}\index{exec\_pipe2.c@{exec\_pipe2.c}!wait\_process@{wait\_process}}
+\index{wait\_process@{wait\_process}!exec\_pipe2.c@{exec\_pipe2.c}}
+\doxysubsubsection{\texorpdfstring{wait\_process()}{wait\_process()}}
+{\footnotesize\ttfamily \label{exec__pipe2_8c_ab7ff551935eb447b5da84b9aa6dfce3b} 
+void wait\+\_\+process (\begin{DoxyParamCaption}\item[{pid\+\_\+t}]{pid}{, }\item[{\mbox{\hyperlink{minishell_8h_adf41725ab9c2c7d74fcf519c11a2c2f5}{t\+\_\+exec\+\_\+status}} \texorpdfstring{$\ast$}{*}}]{exec\+\_\+status}{}\end{DoxyParamCaption})}
+
+
+
+Waits for child processes to end in correct order. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pid} & Process-\/\+ID \\
+\hline
+{\em exec\+\_\+status} & Pointer to the program status structure \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{exec__pipe2_8c_ab7ff551935eb447b5da84b9aa6dfce3b_icgraph}
+\end{center}
+\end{figure}

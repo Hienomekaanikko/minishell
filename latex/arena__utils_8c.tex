@@ -1,0 +1,86 @@
+\doxysection{data\+\_\+handling/arena\+\_\+utils.c File Reference}
+\hypertarget{arena__utils_8c}{}\label{arena__utils_8c}\index{data\_handling/arena\_utils.c@{data\_handling/arena\_utils.c}}
+
+
+Helper functions for memory arena (handles only env related memory)  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for arena\+\_\+utils.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{arena__utils_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{arena__utils_8c_a6fd8693b8bca264ffdc5141175e229ae}{arena\+\_\+cleanup}} (char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}ptrs, char \texorpdfstring{$\ast$}{*}memory)
+\begin{DoxyCompactList}\small\item\em Cleans up the structure of the arena. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{arena__utils_8c_af0961e8b369efbab0aa309916a8a0ca5}{arena\+\_\+free}} (\mbox{\hyperlink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena}} \texorpdfstring{$\ast$}{*}arena)
+\begin{DoxyCompactList}\small\item\em Cleans up the contents of memory arena. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Helper functions for memory arena (handles only env related memory) 
+
+
+
+\label{doc-func-members}
+\Hypertarget{arena__utils_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{arena__utils_8c_a6fd8693b8bca264ffdc5141175e229ae}\index{arena\_utils.c@{arena\_utils.c}!arena\_cleanup@{arena\_cleanup}}
+\index{arena\_cleanup@{arena\_cleanup}!arena\_utils.c@{arena\_utils.c}}
+\doxysubsubsection{\texorpdfstring{arena\_cleanup()}{arena\_cleanup()}}
+{\footnotesize\ttfamily \label{arena__utils_8c_a6fd8693b8bca264ffdc5141175e229ae} 
+\mbox{\hyperlink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena}} \texorpdfstring{$\ast$}{*} arena\+\_\+cleanup (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{ptrs}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{memory}{}\end{DoxyParamCaption})}
+
+
+
+Cleans up the structure of the arena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptrs} & Pointer to the location of the arena structure \\
+\hline
+{\em memory} & Pointer to the location of a local area where a possible failure occured \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em NULL} & (element of type \doxylink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena} being set to NULL) \\
+\hline
+\end{DoxyRetVals}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{arena__utils_8c_a6fd8693b8bca264ffdc5141175e229ae_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{arena__utils_8c_af0961e8b369efbab0aa309916a8a0ca5}\index{arena\_utils.c@{arena\_utils.c}!arena\_free@{arena\_free}}
+\index{arena\_free@{arena\_free}!arena\_utils.c@{arena\_utils.c}}
+\doxysubsubsection{\texorpdfstring{arena\_free()}{arena\_free()}}
+{\footnotesize\ttfamily \label{arena__utils_8c_af0961e8b369efbab0aa309916a8a0ca5} 
+void arena\+\_\+free (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena}} \texorpdfstring{$\ast$}{*}}]{arena}{}\end{DoxyParamCaption})}
+
+
+
+Cleans up the contents of memory arena. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em arena} & the entire \doxylink{minishell_8h_a93bf5bb9921d34eac0dd0b7435fce32d}{t\+\_\+arena} structure \\
+\hline
+\end{DoxyParams}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{arena__utils_8c_af0961e8b369efbab0aa309916a8a0ca5_icgraph}
+\end{center}
+\end{figure}

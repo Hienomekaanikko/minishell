@@ -1,0 +1,13 @@
+<map id="ft_atoi" name="ft_atoi">
+<area shape="rect" id="Node000001" title=" " alt="" coords="533,31,590,56"/>
+<area shape="rect" id="Node000002" href="$builtins_8c.html#afb3280992a6f3490acf7f89b5376a560" title="Handles &#39;exit&#39;." alt="" coords="389,5,473,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="517,38,473,29,474,24,518,32"/>
+<area shape="rect" id="Node000003" href="$envp__utils_8c.html#ada3ce5dd2a314178aa0df41f425c3a97" title="Sets the current shell level to the env." alt="" coords="377,55,485,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="518,54,486,60,485,55,517,49"/>
+<area shape="rect" id="Node000004" href="$envp_8c.html#ace267a4c2aa3d1697ff3297f583e4c67" title="Initializes a copy of the environment to the memory arena." alt="" coords="224,55,329,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="362,70,330,70,330,65,362,65"/>
+<area shape="rect" id="Node000005" href="$init__base_8c.html#a9c65f16244ec180462e64d79b7cdfa80" title="Initializes the values for the base structures of the program." alt="" coords="103,55,176,80"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="209,70,177,70,177,65,209,65"/>
+<area shape="rect" id="Node000006" href="$main_8c.html#a647f21a28344e1d9c643f4115516d7c9" title="Main loop for the program giving the prompt for input." alt="" coords="5,55,55,80"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="87,70,55,70,55,65,87,65"/>
+</map>

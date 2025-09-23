@@ -1,0 +1,37 @@
+<map id="node_error" name="node_error">
+<area shape="rect" id="Node000001" title="Checks if the creation of a node failed." alt="" coords="911,107,994,133"/>
+<area shape="rect" id="Node000002" href="$ast__utils2_8c.html#ad1bea0de1a9b93ab69128eb861005a14" title="Allocates and creates new AST&#45;node with NULL initialized data (new_node&#45;&gt;access is 1,..." alt="" coords="771,107,863,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="896,123,864,123,864,117,896,117"/>
+<area shape="rect" id="Node000003" href="$ast__utils_8c.html#afbebd9a6544c0a0cca466ae01dea656a" title="Adds left child of a node (if prev_cmd exists, then that will be added)" alt="" coords="618,31,720,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="775,102,694,60,697,55,778,97"/>
+<area shape="rect" id="Node000004" href="$ast__set__complex2_8c.html#a8e8a55a9af71f3c809ce25c0d923fea6" title="Places PIPE as the root node if previous root node does not exist." alt="" coords="454,32,553,58"/>
+<area shape="poly" id="edge19_Node000002_Node000004" title=" " alt="" coords="798,95,767,54,746,35,722,21,698,13,673,9,623,11,575,21,536,34,535,29,574,16,622,6,674,4,699,8,724,16,749,31,771,51,803,92"/>
+<area shape="rect" id="Node000008" href="$ast__set__complex2_8c.html#ab8c4d14f034f4a2a951afb0637ca9628" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if previous root node does not exist." alt="" coords="453,82,554,107"/>
+<area shape="poly" id="edge22_Node000002_Node000008" title=" " alt="" coords="755,118,554,101,554,96,756,112"/>
+<area shape="rect" id="Node000010" href="$ast__utils_8c.html#ab5f67ee4cd75c08fc36d6081fc46b2fe" title="Adds right child of a node (usually the command)" alt="" coords="615,132,723,158"/>
+<area shape="poly" id="edge10_Node000002_Node000010" title=" " alt="" coords="756,133,724,139,723,133,755,128"/>
+<area shape="rect" id="Node000012" href="$ast__set__complex2_8c.html#acd2cbdb6f68b5df50a88091f3a0676f5" title="Places PIPE as the root node if previous root node already exists." alt="" coords="441,183,566,209"/>
+<area shape="poly" id="edge20_Node000002_Node000012" title=" " alt="" coords="785,144,756,160,724,173,643,191,567,198,567,192,642,185,722,168,754,155,783,139"/>
+<area shape="rect" id="Node000013" href="$ast__set__complex2_8c.html#ae14745c278e63228169df026552d947d" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if a previous root node already exists." alt="" coords="440,232,567,258"/>
+<area shape="poly" id="edge21_Node000002_Node000013" title=" " alt="" coords="795,146,763,173,724,198,685,214,644,227,568,242,567,236,643,221,683,209,722,194,760,169,791,142"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="603,47,554,48,554,42,603,42"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="611,64,548,84,547,79,609,59"/>
+<area shape="rect" id="Node000005" href="$ast__set__complex_8c.html#ae03d97762999626c218fefb64514350a" title="Places pipe as the root node." alt="" coords="308,32,392,58"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="438,48,392,48,392,43,438,43"/>
+<area shape="rect" id="Node000006" href="$ast__set__complex_8c.html#a0785ba95660d5f5d4b2ceea07a463c8e" title="Creates the complex AST." alt="" coords="136,82,260,107"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="294,66,241,84,239,79,293,61"/>
+<area shape="rect" id="Node000007" href="$ast__builder_8c.html#a9a95f5c4cbaf054542bd780f039e1e99" title="Creates the AST." alt="" coords="5,107,88,133"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="121,110,89,116,88,110,120,105"/>
+<area shape="rect" id="Node000009" href="$ast__set__complex_8c.html#a0960a207508e26d3201c1ac72968e51f" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node (either first root node or in the place..." alt="" coords="308,82,392,107"/>
+<area shape="poly" id="edge8_Node000008_Node000009" title=" " alt="" coords="438,97,393,97,393,92,438,92"/>
+<area shape="poly" id="edge9_Node000009_Node000006" title=" " alt="" coords="292,97,261,97,261,92,292,92"/>
+<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="639,124,605,97,565,72,543,61,545,56,568,67,608,93,643,120"/>
+<area shape="poly" id="edge18_Node000010_Node000008" title=" " alt="" coords="609,130,547,110,548,105,611,125"/>
+<area shape="rect" id="Node000011" href="$ast__builder_8c.html#a65ab8a83f69b80873f575166b4d187e6" title="Makes AST if there&#39;s no pipes or redirections." alt="" coords="145,131,251,157"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="599,148,251,147,251,141,599,142"/>
+<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="611,166,548,185,547,180,609,161"/>
+<area shape="poly" id="edge16_Node000010_Node000013" title=" " alt="" coords="643,170,608,197,568,224,545,234,543,229,565,219,605,193,639,166"/>
+<area shape="poly" id="edge12_Node000011_Node000007" title=" " alt="" coords="129,136,88,129,89,124,130,130"/>
+<area shape="poly" id="edge15_Node000012_Node000005" title=" " alt="" coords="480,172,433,116,391,71,375,61,379,56,394,67,437,112,484,169"/>
+<area shape="poly" id="edge17_Node000013_Node000009" title=" " alt="" coords="443,227,439,223,410,195,386,164,355,109,360,107,390,161,414,192,442,219,447,222"/>
+</map>

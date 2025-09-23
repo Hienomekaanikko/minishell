@@ -1,0 +1,9 @@
+<map id="setup_shell_signals" name="setup_shell_signals">
+<area shape="rect" id="Node000001" title="Sets up shell signals." alt="" coords="5,31,141,56"/>
+<area shape="rect" id="Node000002" href="$rl__handler_8c.html#a25dfc47809f79e730e9a4b17bdf5e3c9" title="Resets readline signals to base status." alt="" coords="189,5,291,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,31,173,26,174,31,142,36"/>
+<area shape="rect" id="Node000004" href="$signals_8c.html#a258e3b580e688a0cf46e4258525aeaf1" title="Handles signal." alt="" coords="189,55,290,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,51,174,55,174,61,141,56"/>
+<area shape="rect" id="Node000003" href="$ft__putstr__fd_8c.html#a1f29b4accbf763fc4c49ec41f423e806" title=" " alt="" coords="339,5,426,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="291,16,323,16,323,21,291,21"/>
+</map>

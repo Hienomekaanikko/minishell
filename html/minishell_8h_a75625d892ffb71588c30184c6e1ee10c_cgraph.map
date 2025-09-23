@@ -1,0 +1,17 @@
+<map id="handle_delim_quote" name="handle_delim_quote">
+<area shape="rect" id="Node000001" title="Removes the quotes of the delimiter if existant." alt="" coords="5,55,142,80"/>
+<area shape="rect" id="Node000002" href="$ast__utils2_8c.html#a4d57021ae4ad7b535687429fdf2af7cb" title="Checks if a value has quotes." alt="" coords="201,5,289,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,51,185,32,187,38,122,57"/>
+<area shape="rect" id="Node000003" href="$ast__set__complex_8c.html#a5cc946fa7f5502e00a19d819357ef76f" title="Removes all quotes of a value." alt="" coords="190,55,300,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,65,174,65,174,70,142,70"/>
+<area shape="rect" id="Node000008" href="$expansions2_8c.html#a67bc255ddccfe52273df4e76b59fa8dc" title="Sets malloc fail error flag in case of failure." alt="" coords="191,104,299,130"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="122,78,184,97,182,102,120,84"/>
+<area shape="rect" id="Node000004" href="$ast__utils2_8c.html#a8c90cad94cb111d980724ca080843068" title="Counts new length of a value after quotes have been removed (to allocate correct amount of memory)" alt="" coords="348,5,456,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="288,51,343,34,345,39,289,57"/>
+<area shape="rect" id="Node000006" href="$ft__memset_8c.html#af79e8a7006c26b2e5b123870c060026b" title=" " alt="" coords="360,55,444,80"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="300,65,345,65,345,70,300,70"/>
+<area shape="rect" id="Node000007" href="$ast__set__complex_8c.html#ac9925670b297ceb0936d458d8dd367c1" title="Checks if the iterator is inside quotes." alt="" coords="353,104,451,130"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="289,78,345,96,343,101,288,84"/>
+<area shape="rect" id="Node000005" href="$ast__utils2_8c.html#abf8e672a890622c83f4597bb3cff665d" title="This is just to interate (the school has 25 line function lenght limit, which means there&#39;s some of t..." alt="" coords="504,5,636,31"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="457,16,489,16,489,21,457,21"/>
+</map>

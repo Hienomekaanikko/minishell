@@ -1,0 +1,9 @@
+<map id="is_declared" name="is_declared">
+<area shape="rect" id="Node000001" title="Checks is a key that was extracted exists in environment or in local variables." alt="" coords="347,31,434,56"/>
+<area shape="rect" id="Node000002" href="$expander_8c.html#a9d0dc586a03adc4045cd112cad067c27" title="Expands $something. Extracts the variable name, looks it up in the environment, and if found,..." alt="" coords="172,5,299,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="331,37,299,31,300,26,332,31"/>
+<area shape="rect" id="Node000004" href="$builtin__export__append_8c.html#a7940aa4e3dfd8077e0bea5bb5b0bb506" title="Appends export when using export += something." alt="" coords="182,55,288,80"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="332,55,289,62,289,57,331,50"/>
+<area shape="rect" id="Node000003" href="$expander2_8c.html#aabfe716ae828d070382a3fa3b460765d" title="Handles expansion and for example $? which gives the exit status of the last command." alt="" coords="5,5,124,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="156,21,124,21,124,16,156,16"/>
+</map>

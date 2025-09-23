@@ -1,0 +1,21 @@
+<map id="allocate_arguments" name="allocate_arguments">
+<area shape="rect" id="Node000001" title="If arguments related to a command are found, this allocates arguments to the AST&#45;node&#39;s **args variab..." alt="" coords="5,80,140,106"/>
+<area shape="rect" id="Node000002" href="$ft__free__split_8c.html#adbdb63b7c02d79a46efe02ceb0532297" title=" " alt="" coords="198,5,288,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,77,196,35,199,40,105,82"/>
+<area shape="rect" id="Node000003" href="$ft__strdup_8c.html#aebe73f27c70c56ac5053f860ef5436c9" title=" " alt="" coords="207,55,279,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="140,80,191,72,192,78,140,85"/>
+<area shape="rect" id="Node000005" href="$ast__utils2_8c.html#a4d57021ae4ad7b535687429fdf2af7cb" title="Checks if a value has quotes." alt="" coords="199,104,287,130"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="140,100,184,106,183,111,140,105"/>
+<area shape="rect" id="Node000006" href="$ast__set__complex_8c.html#a5cc946fa7f5502e00a19d819357ef76f" title="Removes all quotes of a value." alt="" coords="188,153,298,179"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="106,104,198,144,196,149,104,109"/>
+<area shape="rect" id="Node000004" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="366,55,434,80"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="280,65,351,65,351,70,280,70"/>
+<area shape="rect" id="Node000007" href="$ast__utils2_8c.html#a8c90cad94cb111d980724ca080843068" title="Counts new length of a value after quotes have been removed (to allocate correct amount of memory)" alt="" coords="346,104,454,130"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="286,150,341,132,343,137,287,155"/>
+<area shape="rect" id="Node000009" href="$ft__memset_8c.html#af79e8a7006c26b2e5b123870c060026b" title=" " alt="" coords="358,153,442,179"/>
+<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="298,164,343,164,343,169,298,169"/>
+<area shape="rect" id="Node000010" href="$ast__set__complex_8c.html#ac9925670b297ceb0936d458d8dd367c1" title="Checks if the iterator is inside quotes." alt="" coords="351,203,449,228"/>
+<area shape="poly" id="edge9_Node000006_Node000010" title=" " alt="" coords="287,177,343,195,341,200,286,182"/>
+<area shape="rect" id="Node000008" href="$ast__utils2_8c.html#abf8e672a890622c83f4597bb3cff665d" title="This is just to interate (the school has 25 line function lenght limit, which means there&#39;s some of t..." alt="" coords="502,104,634,130"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="455,114,487,114,487,120,455,120"/>
+</map>

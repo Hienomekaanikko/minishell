@@ -1,0 +1,81 @@
+\doxysection{parsing/lexer\+\_\+utils.c File Reference}
+\hypertarget{lexer__utils_8c}{}\label{lexer__utils_8c}\index{parsing/lexer\_utils.c@{parsing/lexer\_utils.c}}
+
+
+Helper functions for the lexer.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for lexer\+\_\+utils.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{lexer__utils_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{lexer__utils_8c_aebb429da643e34f78d9db1d4e008b768}{ft\+\_\+add\+\_\+node}} (\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}list, char \texorpdfstring{$\ast$}{*}input\+\_\+list)
+\begin{DoxyCompactList}\small\item\em Wrapper to create and add a node to the correct place. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{lexer__utils_8c_a86c1614545d13aef910fb37d310e8f47}{add\+\_\+starting\+\_\+token}} (\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}curr)
+\begin{DoxyCompactList}\small\item\em Setting up the first token for the lexed linked list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Helper functions for the lexer. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{lexer__utils_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{lexer__utils_8c_a86c1614545d13aef910fb37d310e8f47}\index{lexer\_utils.c@{lexer\_utils.c}!add\_starting\_token@{add\_starting\_token}}
+\index{add\_starting\_token@{add\_starting\_token}!lexer\_utils.c@{lexer\_utils.c}}
+\doxysubsubsection{\texorpdfstring{add\_starting\_token()}{add\_starting\_token()}}
+{\footnotesize\ttfamily \label{lexer__utils_8c_a86c1614545d13aef910fb37d310e8f47} 
+void add\+\_\+starting\+\_\+token (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}}]{curr}{}\end{DoxyParamCaption})}
+
+
+
+Setting up the first token for the lexed linked list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em curr} & Current node in the lexed linked list \\
+\hline
+\end{DoxyParams}
+\Hypertarget{lexer__utils_8c_aebb429da643e34f78d9db1d4e008b768}\index{lexer\_utils.c@{lexer\_utils.c}!ft\_add\_node@{ft\_add\_node}}
+\index{ft\_add\_node@{ft\_add\_node}!lexer\_utils.c@{lexer\_utils.c}}
+\doxysubsubsection{\texorpdfstring{ft\_add\_node()}{ft\_add\_node()}}
+{\footnotesize\ttfamily \label{lexer__utils_8c_aebb429da643e34f78d9db1d4e008b768} 
+int ft\+\_\+add\+\_\+node (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{list}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{input\+\_\+list}{}\end{DoxyParamCaption})}
+
+
+
+Wrapper to create and add a node to the correct place. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em list} & The linked list root node \\
+\hline
+{\em input\+\_\+list} & The value that is going to be added to the node \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{lexer__utils_8c_aebb429da643e34f78d9db1d4e008b768_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{lexer__utils_8c_aebb429da643e34f78d9db1d4e008b768_icgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,134 @@
+\doxysection{execution/execution.c File Reference}
+\hypertarget{execution_8c}{}\label{execution_8c}\index{execution/execution.c@{execution/execution.c}}
+
+
+Handles execution.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for execution.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{execution_8c_adfbea9e4d76d3bb20ba89bcb9bce8c1e}{built\+\_\+ins}} (\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}node, \mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Built-\/in executioner. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{execution_8c_ac726be83259b115f144e6ce30ffe00bf}{executables}} (\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}node, \mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Executes a command. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{execution_8c_a8d75ae4c41bd2b466e6696379875ca9a}{execute\+\_\+command}} (\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}node, \mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Handles a node according to it\textquotesingle{}s type, sets file streams and goes into execution. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles execution. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{execution_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{execution_8c_adfbea9e4d76d3bb20ba89bcb9bce8c1e}\index{execution.c@{execution.c}!built\_ins@{built\_ins}}
+\index{built\_ins@{built\_ins}!execution.c@{execution.c}}
+\doxysubsubsection{\texorpdfstring{built\_ins()}{built\_ins()}}
+{\footnotesize\ttfamily \label{execution_8c_adfbea9e4d76d3bb20ba89bcb9bce8c1e} 
+int built\+\_\+ins (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}}]{node}{, }\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Built-\/in executioner. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & Current node of the AST \\
+\hline
+{\em data} & The main data structure of the program \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c_adfbea9e4d76d3bb20ba89bcb9bce8c1e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c_adfbea9e4d76d3bb20ba89bcb9bce8c1e_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{execution_8c_ac726be83259b115f144e6ce30ffe00bf}\index{execution.c@{execution.c}!executables@{executables}}
+\index{executables@{executables}!execution.c@{execution.c}}
+\doxysubsubsection{\texorpdfstring{executables()}{executables()}}
+{\footnotesize\ttfamily \label{execution_8c_ac726be83259b115f144e6ce30ffe00bf} 
+int executables (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}}]{node}{, }\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Executes a command. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & Current node of the AST \\
+\hline
+{\em data} & The main data structure of the program \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c_ac726be83259b115f144e6ce30ffe00bf_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c_ac726be83259b115f144e6ce30ffe00bf_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{execution_8c_a8d75ae4c41bd2b466e6696379875ca9a}\index{execution.c@{execution.c}!execute\_command@{execute\_command}}
+\index{execute\_command@{execute\_command}!execution.c@{execution.c}}
+\doxysubsubsection{\texorpdfstring{execute\_command()}{execute\_command()}}
+{\footnotesize\ttfamily \label{execution_8c_a8d75ae4c41bd2b466e6696379875ca9a} 
+int execute\+\_\+command (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a5fd329b243c6cd036f7b9ecbc86a9344}{t\+\_\+ast}} \texorpdfstring{$\ast$}{*}}]{node}{, }\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Handles a node according to it\textquotesingle{}s type, sets file streams and goes into execution. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em node} & Current node of the AST \\
+\hline
+{\em data} & The main data structure of the program \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution_8c_a8d75ae4c41bd2b466e6696379875ca9a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=276pt]{execution_8c_a8d75ae4c41bd2b466e6696379875ca9a_icgraph}
+\end{center}
+\end{figure}

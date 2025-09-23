@@ -1,0 +1,11 @@
+<map id="hd_interrupt_eof" name="hd_interrupt_eof">
+<area shape="rect" id="Node000001" title="Signal handler for the EOF (ctrl+d)" alt="" coords="5,55,120,80"/>
+<area shape="rect" id="Node000002" href="$ft__putnbr__fd_8c.html#a63cc0aec12256d125d3f85e472280972" title=" " alt="" coords="168,29,258,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,55,152,50,153,55,121,60"/>
+<area shape="rect" id="Node000004" href="$ft__putstr__fd_8c.html#a1f29b4accbf763fc4c49ec41f423e806" title=" " alt="" coords="311,79,398,104"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="120,69,296,84,295,89,120,75"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="188,30,184,21,186,11,197,5,213,3,230,5,240,12,236,16,228,10,213,8,198,10,191,14,189,20,193,28"/>
+<area shape="rect" id="Node000003" href="$ft__putchar__fd_8c.html#a8ee15a511946c1397bd2bdea4aed6aee" title=" " alt="" coords="306,29,403,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="259,40,290,40,290,45,259,45"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="253,53,302,70,300,75,251,58"/>
+</map>

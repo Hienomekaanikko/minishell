@@ -1,0 +1,140 @@
+<map id="make_tree" name="make_tree">
+<area shape="rect" id="Node000001" title="Creates the AST." alt="" coords="5,249,88,274"/>
+<area shape="rect" id="Node000002" href="$free__mem_8c.html#a6ae4f6ab56decf7f7491895dcb31b335" title="Frees the memory from the AST." alt="" coords="660,89,728,114"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,246,89,214,111,197,135,183,203,156,274,136,347,120,418,110,547,99,644,97,645,103,548,104,418,115,348,126,275,141,204,161,137,188,114,201,93,218,61,250"/>
+<area shape="rect" id="Node000004" href="$free__mem_8c.html#af5585f19dff0819dce36b0e8a5021f76" title="Frees the memory from the lexed linked list." alt="" coords="145,198,250,224"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="86,246,142,227,144,232,88,251"/>
+<area shape="rect" id="Node000005" href="$ast__builder_8c.html#a65ab8a83f69b80873f575166b4d187e6" title="Makes AST if there&#39;s no pipes or redirections." alt="" coords="308,219,414,245"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="88,255,292,236,292,241,88,260"/>
+<area shape="rect" id="Node000021" href="$ast__set__complex_8c.html#a0785ba95660d5f5d4b2ceea07a463c8e" title="Creates the complex AST." alt="" coords="136,313,260,338"/>
+<area shape="poly" id="edge25_Node000001_Node000021" title=" " alt="" coords="80,273,153,304,150,309,78,277"/>
+<area shape="rect" id="Node000066" href="$ast__builder_8c.html#a97d88ac7f804b1d84514240a4b580e82" title="Checks what kind of tree is required." alt="" coords="160,362,236,388"/>
+<area shape="poly" id="edge88_Node000001_Node000066" title=" " alt="" coords="60,273,92,310,137,349,148,355,145,359,134,353,88,314,56,277"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="665,90,660,80,663,71,675,64,694,62,714,65,725,71,722,76,713,70,694,67,676,69,667,74,665,80,670,87"/>
+<area shape="rect" id="Node000003" href="$ft__free__split_8c.html#adbdb63b7c02d79a46efe02ceb0532297" title=" " alt="" coords="1350,87,1440,113"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="728,95,892,80,1000,74,1110,75,1335,92,1335,97,1110,80,1000,80,892,85,729,100"/>
+<area shape="rect" id="Node000006" href="$ast__utils_8c.html#ab5f67ee4cd75c08fc36d6081fc46b2fe" title="Adds right child of a node (usually the command)" alt="" coords="640,190,748,216"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="415,225,624,206,624,212,415,230"/>
+<area shape="rect" id="Node000007" href="$ast__set__complex__utils_8c.html#aa952ec7dbdf94c3e3dee34c266bcbbc7" title="Adds arguments that are tied to a specific command." alt="" coords="839,239,913,265"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="745,214,824,236,823,241,744,219"/>
+<area shape="rect" id="Node000017" href="$ft__memset_8c.html#af79e8a7006c26b2e5b123870c060026b" title=" " alt="" coords="1511,415,1594,441"/>
+<area shape="poly" id="edge24_Node000006_Node000017" title=" " alt="" coords="714,187,763,157,836,118,927,75,1030,37,1084,22,1139,11,1195,4,1250,3,1304,9,1356,22,1406,43,1452,73,1474,95,1487,117,1493,140,1494,164,1493,216,1494,245,1501,277,1543,400,1538,402,1496,278,1489,246,1487,217,1489,165,1488,141,1482,119,1470,98,1449,77,1403,47,1354,27,1303,14,1250,9,1195,10,1140,16,1085,27,1031,42,929,80,838,122,766,162,717,192"/>
+<area shape="rect" id="Node000019" href="$ast__utils2_8c.html#ad1bea0de1a9b93ab69128eb861005a14" title="Allocates and creates new AST&#45;node with NULL initialized data (new_node&#45;&gt;access is 1,..." alt="" coords="830,190,922,216"/>
+<area shape="poly" id="edge19_Node000006_Node000019" title=" " alt="" coords="749,200,815,200,815,206,749,206"/>
+<area shape="rect" id="Node000008" href="$ast__utils2_8c.html#a8fbe86f3358d14f6034ee9f2fa0d2126" title="Counts the size of the lexed linked list." alt="" coords="1013,315,1098,341"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="915,260,954,274,1019,305,1017,310,952,279,913,265"/>
+<area shape="rect" id="Node000009" href="$ast__set__complex__utils_8c.html#ad2876aa25f94037ed3dd22d95a479575" title="Processes the current token of the lexed linked list." alt="" coords="1002,214,1109,240"/>
+<area shape="poly" id="edge9_Node000007_Node000009" title=" " alt="" coords="913,244,986,234,987,239,914,250"/>
+<area shape="rect" id="Node000010" href="$ast__utils_8c.html#a343db3bd98218a5578f5ee0b45537c0a" title="If arguments related to a command are found, this allocates arguments to the AST&#45;node&#39;s **args variab..." alt="" coords="1158,214,1292,240"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1109,224,1142,224,1142,230,1109,230"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="1242,212,1363,120,1366,124,1245,216"/>
+<area shape="rect" id="Node000011" href="$ft__strdup_8c.html#aebe73f27c70c56ac5053f860ef5436c9" title=" " alt="" coords="1359,390,1431,416"/>
+<area shape="poly" id="edge12_Node000010_Node000011" title=" " alt="" coords="1263,238,1294,257,1322,285,1347,317,1383,375,1378,378,1343,320,1318,289,1290,261,1261,243"/>
+<area shape="rect" id="Node000013" href="$ast__utils2_8c.html#a4d57021ae4ad7b535687429fdf2af7cb" title="Checks if a value has quotes." alt="" coords="1351,263,1439,289"/>
+<area shape="poly" id="edge14_Node000010_Node000013" title=" " alt="" coords="1273,238,1336,257,1335,262,1271,243"/>
+<area shape="rect" id="Node000014" href="$ast__set__complex_8c.html#a5cc946fa7f5502e00a19d819357ef76f" title="Removes all quotes of a value." alt="" coords="1340,214,1450,240"/>
+<area shape="poly" id="edge15_Node000010_Node000014" title=" " alt="" coords="1292,224,1324,224,1324,230,1292,230"/>
+<area shape="rect" id="Node000012" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="1518,825,1587,850"/>
+<area shape="poly" id="edge13_Node000011_Node000012" title=" " alt="" coords="1404,416,1544,809,1539,811,1399,417"/>
+<area shape="rect" id="Node000015" href="$ast__utils2_8c.html#a8c90cad94cb111d980724ca080843068" title="Counts new length of a value after quotes have been removed (to allocate correct amount of memory)" alt="" coords="1498,190,1607,216"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="1450,216,1482,211,1483,216,1451,221"/>
+<area shape="poly" id="edge17_Node000014_Node000017" title=" " alt="" coords="1436,238,1452,249,1484,285,1510,326,1544,399,1539,402,1506,328,1480,288,1449,253,1433,243"/>
+<area shape="rect" id="Node000018" href="$ast__set__complex_8c.html#ac9925670b297ceb0936d458d8dd367c1" title="Checks if the iterator is inside quotes." alt="" coords="1503,239,1602,265"/>
+<area shape="poly" id="edge18_Node000014_Node000018" title=" " alt="" coords="1451,233,1489,239,1488,245,1450,238"/>
+<area shape="poly" id="edge20_Node000019_Node000011" title=" " alt="" coords="924,213,954,224,1002,250,1191,327,1345,383,1343,388,1189,332,1000,255,952,229,922,218"/>
+<area shape="poly" id="edge21_Node000019_Node000013" title=" " alt="" coords="922,189,996,176,1090,167,1141,168,1193,172,1244,182,1293,199,1310,210,1319,223,1328,237,1342,250,1347,254,1344,258,1338,254,1324,240,1315,226,1306,214,1291,204,1243,188,1192,178,1141,173,1090,173,997,181,923,194"/>
+<area shape="poly" id="edge23_Node000019_Node000014" title=" " alt="" coords="886,188,931,141,964,116,1000,98,1030,90,1055,89,1110,98,1163,107,1205,117,1293,155,1333,178,1367,202,1364,207,1330,183,1291,160,1203,122,1162,112,1109,103,1054,94,1031,95,1002,103,967,121,935,145,890,191"/>
+<area shape="rect" id="Node000020" href="$ast__errors_8c.html#a14c46b767468445fb7b09a3c8a6c2a87" title="Checks if the creation of a node failed." alt="" coords="1014,113,1097,138"/>
+<area shape="poly" id="edge22_Node000019_Node000020" title=" " alt="" coords="907,187,1009,142,1011,147,909,192"/>
+<area shape="rect" id="Node000022" href="$ast__errors_8c.html#a34baa0526e91b8a109de64684cbc7fd1" title="Checks if an error message has been assigned to data&#45;&gt;status.msg." alt="" coords="637,990,751,1016"/>
+<area shape="poly" id="edge26_Node000021_Node000022" title=" " alt="" coords="247,337,262,348,280,372,295,402,321,477,341,568,359,664,378,761,400,849,428,921,445,948,464,969,500,991,540,1003,582,1008,621,1009,621,1014,581,1014,539,1008,497,995,461,973,441,951,423,923,395,850,373,762,354,665,336,569,315,479,290,404,275,374,258,351,244,341"/>
+<area shape="rect" id="Node000027" href="$ast__set__complex_8c.html#ae03d97762999626c218fefb64514350a" title="Places pipe as the root node." alt="" coords="320,313,403,338"/>
+<area shape="poly" id="edge33_Node000021_Node000027" title=" " alt="" coords="260,323,304,323,304,328,260,328"/>
+<area shape="rect" id="Node000033" href="$ast__set__complex_8c.html#a0960a207508e26d3201c1ac72968e51f" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node (either first root node or in the place..." alt="" coords="319,387,403,413"/>
+<area shape="poly" id="edge49_Node000021_Node000033" title=" " alt="" coords="236,337,261,347,323,378,321,382,259,352,234,341"/>
+<area shape="rect" id="Node000023" href="$exec__error_8c.html#a38185c2101816f3a7b7fdc7c48b2578e" title="Writes the wanted error into a buffer to write it as a one chunk." alt="" coords="852,1041,900,1066"/>
+<area shape="poly" id="edge27_Node000022_Node000023" title=" " alt="" coords="744,1014,838,1041,837,1046,742,1019"/>
+<area shape="rect" id="Node000026" href="$ft__strncmp_8c.html#af914724b96bc8d1dbeda48ecadd947f4" title=" " alt="" coords="1014,914,1097,940"/>
+<area shape="poly" id="edge32_Node000022_Node000026" title=" " alt="" coords="751,998,846,989,900,980,953,968,1015,944,1016,949,954,973,901,986,847,994,752,1003"/>
+<area shape="poly" id="edge28_Node000023_Node000017" title=" " alt="" coords="900,1043,993,1007,1051,980,1108,950,1206,889,1245,856,1290,810,1371,714,1441,612,1497,520,1535,454,1539,456,1502,523,1446,615,1375,717,1294,814,1248,860,1209,893,1111,955,1054,985,995,1012,901,1048"/>
+<area shape="rect" id="Node000024" href="$ft__strlcat_8c.html#a87a42176d750415c82eb7d453abb39ee" title=" " alt="" coords="1189,1002,1261,1028"/>
+<area shape="poly" id="edge29_Node000023_Node000024" title=" " alt="" coords="900,1048,1173,1018,1173,1023,900,1054"/>
+<area shape="rect" id="Node000025" href="$exec__error_8c.html#a748d1f8be2b50742cf939b89434e07d4" title="Gets the correct error msg." alt="" coords="1019,1066,1092,1092"/>
+<area shape="poly" id="edge31_Node000023_Node000025" title=" " alt="" coords="901,1054,1004,1069,1003,1074,900,1059"/>
+<area shape="poly" id="edge30_Node000024_Node000012" title=" " alt="" coords="1257,999,1345,959,1449,905,1520,857,1523,862,1452,909,1347,964,1259,1004"/>
+<area shape="poly" id="edge34_Node000027_Node000023" title=" " alt="" coords="385,337,402,353,417,374,426,400,432,430,437,504,432,679,429,768,431,850,442,920,451,947,464,969,502,1006,548,1032,599,1050,652,1060,705,1064,756,1064,837,1057,837,1063,756,1070,705,1070,652,1065,598,1055,546,1037,499,1010,460,973,446,949,436,921,426,851,423,768,426,679,432,504,427,431,421,401,412,376,398,357,381,341"/>
+<area shape="poly" id="edge35_Node000027_Node000026" title=" " alt="" coords="381,337,416,373,434,402,443,426,465,481,508,575,539,649,577,720,639,801,677,845,709,878,747,903,800,924,851,936,904,940,954,939,998,934,999,940,954,944,903,946,850,942,798,929,744,907,706,882,673,849,635,805,573,723,535,652,503,577,460,483,438,428,429,404,412,377,378,341"/>
+<area shape="rect" id="Node000028" href="$ast__set__complex2_8c.html#a8e8a55a9af71f3c809ce25c0d923fea6" title="Places PIPE as the root node if previous root node does not exist." alt="" coords="476,291,575,317"/>
+<area shape="poly" id="edge36_Node000027_Node000028" title=" " alt="" coords="403,318,460,310,461,315,404,323"/>
+<area shape="rect" id="Node000032" href="$ast__set__complex2_8c.html#acd2cbdb6f68b5df50a88091f3a0676f5" title="Places PIPE as the root node if previous root node already exists." alt="" coords="463,242,588,268"/>
+<area shape="poly" id="edge45_Node000027_Node000032" title=" " alt="" coords="389,310,461,276,474,271,476,276,463,281,391,315"/>
+<area shape="poly" id="edge42_Node000028_Node000006" title=" " alt="" coords="567,289,587,278,611,256,635,233,652,222,655,226,638,237,615,260,590,282,569,293"/>
+<area shape="poly" id="edge43_Node000028_Node000019" title=" " alt="" coords="572,288,814,218,816,223,574,293"/>
+<area shape="rect" id="Node000029" href="$ast__utils_8c.html#afbebd9a6544c0a0cca466ae01dea656a" title="Adds left child of a node (if prev_cmd exists, then that will be added)" alt="" coords="643,443,744,469"/>
+<area shape="poly" id="edge37_Node000028_Node000029" title=" " alt="" coords="543,316,669,431,665,435,540,320"/>
+<area shape="rect" id="Node000031" href="$ast__errors_8c.html#a7b4baab13d77699817354df4646da6d8" title="Checks if the creation of a child node failed." alt="" coords="640,291,748,317"/>
+<area shape="poly" id="edge44_Node000028_Node000031" title=" " alt="" coords="576,302,625,302,625,307,576,307"/>
+<area shape="poly" id="edge38_Node000029_Node000007" title=" " alt="" coords="726,441,749,422,761,403,767,385,770,348,774,312,782,293,797,274,823,259,826,263,801,278,787,296,780,313,776,349,773,386,766,406,753,426,729,445"/>
+<area shape="poly" id="edge41_Node000029_Node000017" title=" " alt="" coords="731,441,749,430,763,416,771,401,781,387,798,375,837,367,891,366,1031,383,1191,408,1340,426,1421,428,1495,428,1495,433,1421,434,1340,431,1190,413,1031,388,891,372,837,372,800,380,785,391,776,404,768,419,753,434,734,445"/>
+<area shape="poly" id="edge39_Node000029_Node000019" title=" " alt="" coords="727,441,749,423,764,397,770,372,770,323,768,299,771,275,779,250,797,225,814,213,817,217,801,229,784,253,776,276,774,299,775,323,775,373,769,399,753,426,730,445"/>
+<area shape="rect" id="Node000030" href="$ast__utils_8c.html#a552a41297832e946c1ccf71ef80200bb" title="Finds the next command from the lexed linked list." alt="" coords="807,289,945,314"/>
+<area shape="poly" id="edge40_Node000029_Node000030" title=" " alt="" coords="724,441,749,422,765,399,772,377,779,355,797,332,814,320,817,324,801,336,784,357,777,379,770,402,753,426,727,445"/>
+<area shape="poly" id="edge46_Node000032_Node000006" title=" " alt="" coords="569,239,635,218,636,223,570,244"/>
+<area shape="poly" id="edge47_Node000032_Node000019" title=" " alt="" coords="538,240,579,205,606,188,636,175,684,166,734,166,781,173,823,183,821,188,780,178,734,172,685,171,637,180,609,193,582,210,541,244"/>
+<area shape="poly" id="edge48_Node000032_Node000031" title=" " alt="" coords="573,266,634,284,632,289,571,271"/>
+<area shape="rect" id="Node000034" href="$ast__set__complex2_8c.html#ae14745c278e63228169df026552d947d" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if a previous root node already exists." alt="" coords="462,387,589,413"/>
+<area shape="poly" id="edge50_Node000033_Node000034" title=" " alt="" coords="404,398,447,398,447,403,404,403"/>
+<area shape="rect" id="Node000065" href="$ast__set__complex2_8c.html#ab8c4d14f034f4a2a951afb0637ca9628" title="Places RE_IN, RE_OUT, APPEND_OUT or HERE_DOC as the root node if previous root node does not exist." alt="" coords="475,443,576,469"/>
+<area shape="poly" id="edge79_Node000033_Node000065" title=" " alt="" coords="402,411,472,435,470,440,400,416"/>
+<area shape="poly" id="edge53_Node000034_Node000002" title=" " alt="" coords="540,385,564,360,586,328,604,288,611,254,618,219,634,176,669,125,673,128,639,179,623,220,616,255,609,289,591,331,568,363,543,389"/>
+<area shape="poly" id="edge51_Node000034_Node000006" title=" " alt="" coords="537,385,587,328,670,226,674,230,591,331,541,389"/>
+<area shape="poly" id="edge52_Node000034_Node000019" title=" " alt="" coords="589,392,628,384,671,371,712,353,749,328,760,315,767,303,772,278,778,251,785,238,797,225,814,214,817,219,801,229,790,241,783,253,778,279,772,305,765,319,753,332,715,358,672,376,629,389,590,397"/>
+<area shape="poly" id="edge54_Node000034_Node000031" title=" " alt="" coords="548,385,635,334,655,323,658,327,638,339,551,389"/>
+<area shape="rect" id="Node000035" href="$ast__set__complex2_8c.html#a77fe9b88a1050a3bdac4d68e94b85584" title="Checks if a malloc error has been encountered." alt="" coords="657,591,730,617"/>
+<area shape="poly" id="edge55_Node000034_Node000035" title=" " alt="" coords="567,411,591,429,604,449,611,469,615,506,618,542,625,560,639,578,645,584,642,588,635,582,621,562,613,543,609,506,606,470,599,452,587,433,564,416"/>
+<area shape="rect" id="Node000036" href="$ast__set__complex__utils_8c.html#aad25c643f25e5964183f05cbe638ee3e" title="Checks permissions/problems in a file." alt="" coords="665,765,722,790"/>
+<area shape="poly" id="edge56_Node000034_Node000036" title=" " alt="" coords="568,411,591,429,608,455,619,479,627,524,629,572,639,629,684,750,679,751,634,630,623,572,621,525,614,480,604,458,587,433,565,416"/>
+<area shape="rect" id="Node000038" href="$ast__errors_8c.html#a38c01b0aeed89ca4b9b1e73dc1aa6c8c" title="Sets correct access status to an unaccessable file and sets data&#45;&gt;redir_err to 1 (true)" alt="" coords="639,493,749,518"/>
+<area shape="poly" id="edge59_Node000034_Node000038" title=" " alt="" coords="560,411,590,429,605,442,615,455,624,467,638,479,644,483,641,487,635,484,620,471,610,458,601,446,587,433,558,416"/>
+<area shape="rect" id="Node000040" href="$here__doc_8c.html#a24f9c716b193cc8776ff77b1c276ef39" title="Creates and writes the here_doc and handles everything in regarding to it." alt="" coords="643,542,745,568"/>
+<area shape="poly" id="edge61_Node000034_Node000040" title=" " alt="" coords="565,411,591,429,608,455,615,481,621,505,639,529,641,531,637,535,635,533,617,507,610,482,603,458,587,433,562,416"/>
+<area shape="poly" id="edge57_Node000036_Node000023" title=" " alt="" coords="706,789,860,1026,856,1029,702,792"/>
+<area shape="rect" id="Node000037" href="$ast__set__complex__utils_8c.html#ac249fdf8ca8987f71eb6cb3c60e88ade" title="Checks if file is a directory." alt="" coords="832,889,920,914"/>
+<area shape="poly" id="edge58_Node000036_Node000037" title=" " alt="" coords="707,789,746,831,772,855,800,875,819,884,816,889,798,880,768,859,742,835,704,793"/>
+<area shape="rect" id="Node000039" href="$expansions2_8c.html#a67bc255ddccfe52273df4e76b59fa8dc" title="Sets malloc fail error flag in case of failure." alt="" coords="1001,518,1110,544"/>
+<area shape="poly" id="edge60_Node000038_Node000039" title=" " alt="" coords="737,490,799,476,877,467,911,468,954,476,983,488,1020,508,1017,513,981,493,953,481,910,474,877,472,799,482,738,495"/>
+<area shape="rect" id="Node000041" href="$here__doc__utils_8c.html#a75625d892ffb71588c30184c6e1ee10c" title="Removes the quotes of the delimiter if existant." alt="" coords="808,390,944,416"/>
+<area shape="poly" id="edge62_Node000040_Node000041" title=" " alt="" coords="731,539,749,529,775,505,797,477,848,425,852,429,801,481,778,508,753,533,734,544"/>
+<area shape="rect" id="Node000042" href="$here__doc_8c.html#a083f7165af9a0cada9e38b505fbbd570" title="Handles the expansions in here_doc ($USER or whatever exists in the env)" alt="" coords="820,639,932,665"/>
+<area shape="poly" id="edge66_Node000040_Node000042" title=" " alt="" coords="733,566,753,577,767,590,777,602,786,614,800,626,808,630,806,635,798,630,782,618,773,606,764,593,749,581,730,570"/>
+<area shape="rect" id="Node000050" href="$here__doc__utils_8c.html#ae243b0631c05072095ac102cc4119e95" title="Creates a temp file for here_doc data." alt="" coords="827,491,925,517"/>
+<area shape="poly" id="edge69_Node000040_Node000050" title=" " alt="" coords="742,539,812,519,814,524,744,544"/>
+<area shape="rect" id="Node000054" href="$here__doc__utils_8c.html#ae632b4d636428a056bd1903161f5a725" title="Checks if delimiter has been inputted, to know if the program needs to finish here_doc creation." alt="" coords="808,839,944,865"/>
+<area shape="poly" id="edge70_Node000040_Node000054" title=" " alt="" coords="740,566,753,577,772,609,780,640,781,670,778,700,774,729,775,758,782,788,801,819,812,829,809,833,797,822,777,790,769,759,769,729,772,699,776,670,775,641,768,611,749,581,737,570"/>
+<area shape="rect" id="Node000055" href="$here__doc_8c.html#a5d30150453b95acea804614af7fb7b20" title="Signal handler for the EOF (ctrl+d)" alt="" coords="819,541,933,566"/>
+<area shape="poly" id="edge73_Node000040_Node000055" title=" " alt="" coords="745,552,803,551,803,557,745,557"/>
+<area shape="rect" id="Node000058" href="$here__doc__utils_8c.html#a633a82bc9ab909a2eae04314f17145b9" title="Writes data inside the here_doc temp file line by line." alt="" coords="1176,774,1274,800"/>
+<area shape="poly" id="edge74_Node000040_Node000058" title=" " alt="" coords="740,566,753,577,769,604,776,631,773,682,771,707,773,731,781,753,801,774,827,787,864,796,961,803,1068,799,1161,792,1161,797,1068,805,961,808,863,802,825,792,797,778,777,756,767,732,766,707,768,682,771,631,764,606,749,581,737,570"/>
+<area shape="rect" id="Node000059" href="$here__doc__utils_8c.html#a8d0f7c480199cae4a167f8cf088691c2" title="Checks for redirection errors if present." alt="" coords="816,590,937,616"/>
+<area shape="poly" id="edge76_Node000040_Node000059" title=" " alt="" coords="746,566,811,583,809,588,745,571"/>
+<area shape="rect" id="Node000060" href="$signals_8c.html#a3c1644b13fd2b97226108a277cad68b6" title="Sets up here_doc signals." alt="" coords="799,689,953,714"/>
+<area shape="poly" id="edge77_Node000040_Node000060" title=" " alt="" coords="737,566,753,577,771,603,777,628,783,652,801,676,804,679,801,683,797,679,778,655,772,630,766,605,749,581,734,570"/>
+<area shape="rect" id="Node000063" href="$signals_8c.html#a00e0517deba4e0e2cebc989cb8712c87" title="Sets up shell signals." alt="" coords="808,738,944,764"/>
+<area shape="poly" id="edge78_Node000040_Node000063" title=" " alt="" coords="739,566,753,577,767,597,774,616,777,654,780,690,787,707,801,725,803,727,800,731,797,729,782,710,775,691,771,654,769,617,762,599,749,581,736,570"/>
+<area shape="poly" id="edge63_Node000041_Node000013" title=" " alt="" coords="906,414,978,443,1025,457,1077,469,1131,476,1187,476,1240,467,1290,446,1306,427,1330,388,1378,301,1382,304,1335,391,1311,430,1294,450,1242,472,1187,481,1131,482,1076,475,1023,463,976,448,904,419"/>
+<area shape="poly" id="edge64_Node000041_Node000014" title=" " alt="" coords="944,390,1024,374,1109,351,1349,244,1351,249,1111,356,1025,379,945,395"/>
+<area shape="poly" id="edge65_Node000041_Node000039" title=" " alt="" coords="922,414,955,433,971,449,980,465,989,480,1003,497,1017,507,1013,512,999,501,984,483,976,468,967,452,952,437,919,419"/>
+<area shape="poly" id="edge67_Node000042_Node000011" title=" " alt="" coords="923,636,996,613,1090,579,1192,535,1291,483,1332,454,1368,424,1371,428,1336,458,1293,488,1194,540,1092,584,998,618,925,641"/>
+<area shape="poly" id="edge68_Node000042_Node000039" title=" " alt="" coords="930,636,952,626,997,591,1032,554,1036,558,1001,595,955,631,932,641"/>
+<area shape="poly" id="edge71_Node000054_Node000012" title=" " alt="" coords="944,848,1503,836,1503,841,945,853"/>
+<area shape="poly" id="edge72_Node000054_Node000026" title=" " alt="" coords="925,863,954,874,1018,904,1016,909,952,879,923,868"/>
+<area shape="poly" id="edge75_Node000058_Node000012" title=" " alt="" coords="1275,792,1503,827,1502,833,1274,797"/>
+<area shape="poly" id="edge81_Node000065_Node000006" title=" " alt="" coords="564,441,587,424,600,406,608,389,615,355,620,320,634,278,669,226,673,229,639,280,625,321,620,356,613,390,605,408,591,427,567,445"/>
+<area shape="poly" id="edge82_Node000065_Node000019" title=" " alt="" coords="575,441,681,411,726,396,749,385,764,366,771,347,772,307,774,266,782,246,797,225,814,213,817,217,801,229,786,248,779,267,778,307,776,348,768,368,753,389,728,401,683,416,577,446"/>
+<area shape="poly" id="edge80_Node000065_Node000029" title=" " alt="" coords="576,454,627,454,627,459,576,459"/>
+<area shape="poly" id="edge83_Node000065_Node000031" title=" " alt="" coords="558,441,587,423,636,376,673,328,677,331,640,379,590,428,561,445"/>
+<area shape="poly" id="edge84_Node000065_Node000035" title=" " alt="" coords="538,468,578,520,606,551,638,578,645,583,642,587,635,582,603,555,574,524,533,471"/>
+<area shape="poly" id="edge85_Node000065_Node000036" title=" " alt="" coords="536,468,681,750,676,752,531,471"/>
+<area shape="poly" id="edge86_Node000065_Node000038" title=" " alt="" coords="573,467,634,485,632,490,571,472"/>
+<area shape="poly" id="edge87_Node000065_Node000040" title=" " alt="" coords="546,467,587,497,638,529,646,533,643,537,635,533,584,501,543,472"/>
+</map>

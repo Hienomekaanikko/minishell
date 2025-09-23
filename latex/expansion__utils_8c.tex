@@ -1,0 +1,168 @@
+\doxysection{expansions/expansion\+\_\+utils.c File Reference}
+\hypertarget{expansion__utils_8c}{}\label{expansion__utils_8c}\index{expansions/expansion\_utils.c@{expansions/expansion\_utils.c}}
+
+
+Expander helper functions.  
+
+
+{\ttfamily \#include "{}minishell.\+h"{}}\newline
+Include dependency graph for expansion\+\_\+utils.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expansion__utils_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{expansion__utils_8c_ab787b95221ed5cb6f7d86db4884b9516}{free\+\_\+exp\+\_\+tools}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data)
+\begin{DoxyCompactList}\small\item\em Frees toolkit which holds for example the expanded string as result. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{expansion__utils_8c_a06ec4ed7d13aa1686d9835eceaec10fd}{remove\+\_\+key\+\_\+not\+\_\+found}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, \mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}current, \mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}prev)
+\begin{DoxyCompactList}\small\item\em Removes a key that was not found. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{expansion__utils_8c_a27f75598bd2062593a76f6e5e37299af}{count\+\_\+dollars}} (\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}curr)
+\begin{DoxyCompactList}\small\item\em Counts the amount of \$ inside a string to see if there are expandables. \end{DoxyCompactList}\item 
+char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{expansion__utils_8c_ad7cd6f41044520b8a659831bdbb2c451}{is\+\_\+declared}} (\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}data, char \texorpdfstring{$\ast$}{*}extracted\+\_\+key)
+\begin{DoxyCompactList}\small\item\em Checks is a key that was extracted exists in environment or in local variables. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Expander helper functions. 
+
+
+
+\label{doc-func-members}
+\Hypertarget{expansion__utils_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{expansion__utils_8c_a27f75598bd2062593a76f6e5e37299af}\index{expansion\_utils.c@{expansion\_utils.c}!count\_dollars@{count\_dollars}}
+\index{count\_dollars@{count\_dollars}!expansion\_utils.c@{expansion\_utils.c}}
+\doxysubsubsection{\texorpdfstring{count\_dollars()}{count\_dollars()}}
+{\footnotesize\ttfamily \label{expansion__utils_8c_a27f75598bd2062593a76f6e5e37299af} 
+int count\+\_\+dollars (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}}]{curr}{}\end{DoxyParamCaption})}
+
+
+
+Counts the amount of \$ inside a string to see if there are expandables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em curr} & Current position in the lexed linked list \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em dollars} & (amount of dollars) \\
+\hline
+\end{DoxyRetVals}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{expansion__utils_8c_a27f75598bd2062593a76f6e5e37299af_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expansion__utils_8c_ab787b95221ed5cb6f7d86db4884b9516}\index{expansion\_utils.c@{expansion\_utils.c}!free\_exp\_tools@{free\_exp\_tools}}
+\index{free\_exp\_tools@{free\_exp\_tools}!expansion\_utils.c@{expansion\_utils.c}}
+\doxysubsubsection{\texorpdfstring{free\_exp\_tools()}{free\_exp\_tools()}}
+{\footnotesize\ttfamily \label{expansion__utils_8c_ab787b95221ed5cb6f7d86db4884b9516} 
+void free\+\_\+exp\+\_\+tools (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{}\end{DoxyParamCaption})}
+
+
+
+Frees toolkit which holds for example the expanded string as result. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{expansion__utils_8c_ab787b95221ed5cb6f7d86db4884b9516_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expansion__utils_8c_ab787b95221ed5cb6f7d86db4884b9516_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expansion__utils_8c_ad7cd6f41044520b8a659831bdbb2c451}\index{expansion\_utils.c@{expansion\_utils.c}!is\_declared@{is\_declared}}
+\index{is\_declared@{is\_declared}!expansion\_utils.c@{expansion\_utils.c}}
+\doxysubsubsection{\texorpdfstring{is\_declared()}{is\_declared()}}
+{\footnotesize\ttfamily \label{expansion__utils_8c_ad7cd6f41044520b8a659831bdbb2c451} 
+char \texorpdfstring{$\ast$}{*} is\+\_\+declared (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{extracted\+\_\+key}{}\end{DoxyParamCaption})}
+
+
+
+Checks is a key that was extracted exists in environment or in local variables. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em extracted\+\_\+key} & The key that has been extracted \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em NULL} & (Not declared) \\
+\hline
+{\em fetched\+\_\+value} & (Value was declared and here it is) \\
+\hline
+\end{DoxyRetVals}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expansion__utils_8c_ad7cd6f41044520b8a659831bdbb2c451_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expansion__utils_8c_ad7cd6f41044520b8a659831bdbb2c451_icgraph}
+\end{center}
+\end{figure}
+\Hypertarget{expansion__utils_8c_a06ec4ed7d13aa1686d9835eceaec10fd}\index{expansion\_utils.c@{expansion\_utils.c}!remove\_key\_not\_found@{remove\_key\_not\_found}}
+\index{remove\_key\_not\_found@{remove\_key\_not\_found}!expansion\_utils.c@{expansion\_utils.c}}
+\doxysubsubsection{\texorpdfstring{remove\_key\_not\_found()}{remove\_key\_not\_found()}}
+{\footnotesize\ttfamily \label{expansion__utils_8c_a06ec4ed7d13aa1686d9835eceaec10fd} 
+\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*} remove\+\_\+key\+\_\+not\+\_\+found (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{minishell_8h_a24e28e95867f9681b9d87781b1caa65b}{t\+\_\+data}} \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}}]{current}{, }\item[{\mbox{\hyperlink{minishell_8h_ad557a756816c4d6761218fc3d8af61d2}{t\+\_\+lexer}} \texorpdfstring{$\ast$}{*}}]{prev}{}\end{DoxyParamCaption})}
+
+
+
+Removes a key that was not found. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em data} & The main data structure of the program \\
+\hline
+{\em current} & Current position in the lexed linked list \\
+\hline
+{\em prev} & Previous position in the lexed linked list \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em next} & (skips onto next node in the lexed linked list) \\
+\hline
+\end{DoxyRetVals}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{expansion__utils_8c_a06ec4ed7d13aa1686d9835eceaec10fd_icgraph}
+\end{center}
+\end{figure}
