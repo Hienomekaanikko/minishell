@@ -1,5 +1,0 @@
-<map id="set_access_err" name="set_access_err">
-<area shape="rect" id="Node000001" title="Sets correct access status to an unaccessable file and sets data&#45;&gt;redir_err to 1 (true)" alt="" coords="5,5,116,31"/>
-<area shape="rect" id="Node000002" href="$expansions2_8c.html#a67bc255ddccfe52273df4e76b59fa8dc" title="Sets malloc fail error flag in case of failure." alt="" coords="164,5,272,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,16,148,16,148,21,116,21"/>
-</map>

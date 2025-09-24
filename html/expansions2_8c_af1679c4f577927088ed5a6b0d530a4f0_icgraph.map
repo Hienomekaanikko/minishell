@@ -1,7 +1,0 @@
-<map id="is_single_quote" name="is_single_quote">
-<area shape="rect" id="Node000001" title="Checks if &#39; quote." alt="" coords="317,5,428,31"/>
-<area shape="rect" id="Node000002" href="$expansions_8c.html#a09a430453f4c951e7307c0e5c7e5746b" title="The beginning for the expansion checking." alt="" coords="118,5,269,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,21,269,21,269,16,301,16"/>
-<area shape="rect" id="Node000003" href="$lexer_8c.html#a5e9a1664f9acb60c3ad33a6be5a2ba82" title="Wrapper for creating the lexed linked list." alt="" coords="5,5,70,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="102,21,70,21,70,16,102,16"/>
-</map>

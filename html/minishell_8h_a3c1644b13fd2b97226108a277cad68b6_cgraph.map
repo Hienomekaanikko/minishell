@@ -1,7 +1,0 @@
-<map id="setup_heredoc_signals" name="setup_heredoc_signals">
-<area shape="rect" id="Node000001" title="Sets up here_doc signals." alt="" coords="5,31,160,56"/>
-<area shape="rect" id="Node000002" href="$rl__handler_8c.html#a38aedd90b51e1e279ddf0729c78afb9e" title="Resets readline signals in the here_doc to base status." alt="" coords="208,5,363,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,192,27,193,32,160,36"/>
-<area shape="rect" id="Node000003" href="$signals_8c.html#a258e3b580e688a0cf46e4258525aeaf1" title="Handles signal." alt="" coords="235,55,336,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,50,220,57,219,62,160,55"/>
-</map>
