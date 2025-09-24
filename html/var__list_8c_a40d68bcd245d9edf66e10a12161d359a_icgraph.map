@@ -1,9 +1,0 @@
-<map id="create_var" name="create_var">
-<area shape="rect" id="Node000001" title="Creates a key value pair node to a linked list that holds local variables." alt="" coords="487,5,570,31"/>
-<area shape="rect" id="Node000002" href="$var__list_8c.html#a27b9ef34628dbc9b42e9c02d3ea0733a" title="Creates a key value pair node to a linked list that holds local variables." alt="" coords="330,5,439,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="472,21,440,21,440,16,472,16"/>
-<area shape="rect" id="Node000003" href="$var__list__utils_8c.html#a10a9b6f3612ed34625d78048090467e4" title="Sets a local variable as a key value pair." alt="" coords="191,5,282,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="314,21,282,21,282,16,314,16"/>
-<area shape="rect" id="Node000004" href="$var__list_8c.html#a740108a9cbf2277d66aa8434888dedc4" title="Attempts to add a local variable declaration into local variable linked list." alt="" coords="5,5,143,31"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="175,21,143,21,143,16,175,16"/>
-</map>

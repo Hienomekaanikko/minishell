@@ -1,5 +1,0 @@
-<map id="count_dollars" name="count_dollars">
-<area shape="rect" id="Node000001" title="Counts the amount of $ inside a string to see if there are expandables." alt="" coords="118,5,216,31"/>
-<area shape="rect" id="Node000002" href="$lexer_8c.html#a5e9a1664f9acb60c3ad33a6be5a2ba82" title="Wrapper for creating the lexed linked list." alt="" coords="5,5,70,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,21,70,21,70,16,102,16"/>
-</map>

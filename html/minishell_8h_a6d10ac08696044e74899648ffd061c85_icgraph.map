@@ -1,5 +1,0 @@
-<map id="make_substring" name="make_substring">
-<area shape="rect" id="Node000001" title="Creates a substring with the given data." alt="" coords="156,5,269,31"/>
-<area shape="rect" id="Node000002" href="$parser__utils2_8c.html#aacc5216d66dd1351129f54e533002fac" title="Adds a substring to the array of strings that comes out of the parser." alt="" coords="5,5,108,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,21,108,21,108,16,140,16"/>
-</map>

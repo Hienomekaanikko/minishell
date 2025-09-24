@@ -1,9 +1,0 @@
-<map id="ft_make_list" name="ft_make_list">
-<area shape="rect" id="Node000001" title="Wrapper to create the lexed linked list according to the array of strings that came out of parsing." alt="" coords="5,31,98,56"/>
-<area shape="rect" id="Node000002" href="$free__mem_8c.html#af5585f19dff0819dce36b0e8a5021f76" title="Frees the memory from the lexed linked list." alt="" coords="146,5,251,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,33,130,27,131,32,99,38"/>
-<area shape="rect" id="Node000003" href="$lexer__utils_8c.html#aebb429da643e34f78d9db1d4e008b768" title="Wrapper to create and add a node to the correct place." alt="" coords="152,55,244,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="98,48,137,55,137,60,98,54"/>
-<area shape="rect" id="Node000004" href="$ft__strlen_8c.html#a828402378653640f545a4be2e00e92f9" title=" " alt="" coords="299,55,367,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="245,65,283,65,283,70,245,70"/>
-</map>

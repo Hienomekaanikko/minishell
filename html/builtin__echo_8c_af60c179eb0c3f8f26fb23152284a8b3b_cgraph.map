@@ -1,5 +1,0 @@
-<map id="echo_exit" name="echo_exit">
-<area shape="rect" id="Node000001" title="If no arguments for echo, handle gracefully." alt="" coords="5,5,83,31"/>
-<area shape="rect" id="Node000002" href="$ft__putstr__fd_8c.html#a1f29b4accbf763fc4c49ec41f423e806" title=" " alt="" coords="131,5,218,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,16,115,16,115,21,83,21"/>
-</map>

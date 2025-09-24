@@ -1,5 +1,0 @@
-<map id="arena_init" name="arena_init">
-<area shape="rect" id="Node000001" title="Initializes the values of the memory arena structure." alt="" coords="5,5,83,31"/>
-<area shape="rect" id="Node000002" href="$arena__utils_8c.html#a6fd8693b8bca264ffdc5141175e229ae" title="Cleans up the structure of the arena." alt="" coords="131,5,236,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,16,115,16,115,21,83,21"/>
-</map>

@@ -36,7 +36,7 @@ void	sigint_handler(int sig)
 
 void	setup_shell_signals(void)
 {
-	rl_event_hook = reset_readline;
+	//rl_event_hook = reset_readline;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
@@ -59,7 +59,7 @@ void	setup_child_signals(void)
 
 void	setup_heredoc_signals(void)
 {
-	rl_event_hook = reset_heredoc_readline;
+	//rl_event_hook = reset_heredoc_readline;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	g_interrupted = 0;

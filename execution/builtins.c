@@ -79,7 +79,6 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 	if (!node || !node->args[1])
 	{
 		status->exit_code = 0;
-		ft_putstr_fd("exit\n", 1);
 		return (1);
 	}
 	if (node->args[2])
@@ -87,6 +86,6 @@ int	builtin_exit(t_ast *node, t_exec_status *status)
 	if (!is_valid_exit_arg(node->args[1]))
 		return (error(status, node->value, ONLYNUM, 2));
 	status->exit_code = (unsigned char)ft_atoi(node->args[1]);
-	ft_putstr_fd("exit\n", 1);
+
 	return (1);
 }
