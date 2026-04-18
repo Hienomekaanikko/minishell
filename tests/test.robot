@@ -55,8 +55,8 @@ Library    Collections
 Run In Both Shells
     [Arguments]    ${input}
 
-    ${mini}=    Run Process    ./minishell    input=${input}    stdout=PIPE    stderr=PIPE
-    ${bash}=    Run Process    bash    -c    ${input}    stdout=PIPE    stderr=PIPE
+    ${mini}=    Run Process    bash    -c    "printf '%s\n' \"${input}\" | ./minishell"    stdout=PIPE    stderr=PIPE
+    ${bash}=    Run Process    bash    -c    "${input}"    stdout=PIPE    stderr=PIPE
 
     ${mini_out}=    Normalize    ${mini.stdout}
     ${bash_out}=    Normalize    ${bash.stdout}
