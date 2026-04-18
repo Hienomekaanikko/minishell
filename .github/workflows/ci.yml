@@ -15,17 +15,18 @@ jobs:
               run: |
                sudo apt-get update
                sudo apt-get install -y python3 python3-pip g++ libreadline-dev
-               pip3 install --upgrade robotframework
+               pip3 install --break-system-packages --upgrade robotframework
             
             - name: Build minishell
               run: |
                make
             
             - name: Run robot tests
-              run: robot tests/test.robot
-            
+              run: robot --outputdir tests tests/test.robot
+
             - name: Upload test results
               uses: actions/upload-artifact@v4
+              if: always()
               with:
                 name: robot-results
                 path: tests/output.xml

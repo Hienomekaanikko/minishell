@@ -2,6 +2,9 @@
 Library    Process
 Library    String
 Library    Collections
+Library    OperatingSystem
+
+Suite Setup    Create Test Files
 
 *** Variables ***
 @{BASIC}
@@ -16,8 +19,8 @@ Library    Collections
 ...    echo hello | wc -c
 
 @{REDIRECTIONS}
-...    echo hi > file1; cat file1
-...    echo hi >> file1; cat file1
+...    echo hi > file1
+...    echo hi >> file1
 ...    cat < file1
 
 @{ERRORS}
@@ -26,8 +29,8 @@ Library    Collections
 ...    cat nonexistentfile
 
 @{COMBINED}
-...    echo hello | grep h > out; cat out
-...    echo hi > a; cat a | wc -c
+...    echo hello | grep h > out
+...    cat a | wc -c
 
 @{QUOTES}
 ...    echo "hello world"
@@ -39,7 +42,7 @@ Library    Collections
 @{SPACING}
 ...    echo     hello
 ...       echo hello
-...    echo hello    
+...    echo hello
 
 @{EDGE}
 ...    echo
@@ -52,11 +55,15 @@ Library    Collections
 ...    echo hi > a > b
 
 *** Keywords ***
+Create Test Files
+    Create File    file1    hi
+    Create File    a    hi
+
 Run In Both Shells
     [Arguments]    ${input}
 
-    ${mini}=    Run Process    bash    -c    "printf '%s\n' \"${input}\" | ./minishell"    stdout=PIPE    stderr=PIPE
-    ${bash}=    Run Process    bash    -c    "${input}"    stdout=PIPE    stderr=PIPE
+    ${mini}=    Run Process    ./minishell    stdin=${input}\n    stdout=PIPE    stderr=PIPE
+    ${bash}=    Run Process    bash    -c    ${input}    stdout=PIPE    stderr=PIPE
 
     ${mini_out}=    Normalize    ${mini.stdout}
     ${bash_out}=    Normalize    ${bash.stdout}
