@@ -1,0 +1,31 @@
+name: minishell robot framework CI
+on:
+    push:
+    pull_request:
+
+jobs:
+    build-and-test:
+        runs-on: ubuntu-latest
+        
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Install dependencies
+              run: |
+               sudo apt-get update
+               sudo apt-get install -y python3 python3-pip g++
+               pip3 install robotframework
+            
+            - name: Build minishell
+              run: |
+               make
+            
+            - name: Run robot tests
+              run: robot tests/test.robot
+            
+            - name: Upload test results
+              uses: actions/upload-artifact@v4
+              with:
+                name: robot-results
+                path: tests/output.xml
